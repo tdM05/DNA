@@ -1,3 +1,9 @@
+LeanEuclidPlus/scripts/proposition_signatures.json
+LeanEuclidPlus/book2.json
+experiments/
+LeanEuclidPlus/scripts/step_signatures.json
+
+
 # Lake build files
 .lake/
 
@@ -6,6 +12,12 @@ tmp/
 LeanEuclidPlus/tmp/
 LeanEuclidPlus/ground_truth_validation
 .vscode/
+
+# Experiment outputs (autoformalization --result_dir_name dirs)
+result/
+result_*/
+**/result/
+**/result_*/
 
 # ProofNetHard env and output files
 ProofNetHard/outputs/
@@ -205,3 +217,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+*.out
+*.err

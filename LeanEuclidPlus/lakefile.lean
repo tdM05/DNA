@@ -8,16 +8,24 @@ package «lib» where
 lean_lib SystemE {
 }
 
+lean_lib Helpers {
+}
+
 lean_lib Book {
 }
 
-lean_lib UniGeo {
-}
-
-lean_lib Examples {
+lean_lib Book2 {
 }
 
 lean_lib E3 {
+}
+
+/-- Reads faithfulness annotations back from a compiled module's `.olean` and dumps them as JSON
+for `scripts/check_faithful.py --olean`.  See `FaithfulExport.lean`. -/
+lean_exe faithful_export {
+  root := `FaithfulExport
+  -- needs interpreter support: it loads compiled modules via `importModules` (Lean/Init code).
+  supportInterpreter := true
 }
 
 require mathlib from git "https://github.com/leanprover-community/mathlib4"

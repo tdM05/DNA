@@ -152,7 +152,25 @@ def EuclidApply (rule : Term) (idents : Array Ident)  : TacticM Unit := do
   if (← getGoals).length != 1 then
     throwError "euclid_apply only works when there is a single goal"
   let hnm ← getUnusedUserName `h
-  let τ ← inferType (← elabTerm rule none) >>= instantiateMVars
+  let ruleExpr ← elabTerm rule none
+  let τ ← inferType ruleExpr >>= instantiateMVars
+
+  -- Faithfulness (criterion 3): record EVERY applied constant's COMPILER-RESOLVED fully-qualified
+  -- name, module, and source line into `appliedExt` (no name filter). The name is already resolved
+  -- by `elabTerm` above, so this adds no elaboration cost. We don't restrict to `proposition_*`/
+  -- `helper_*` because `faithful_export` follows each recorded constant's TRANSITIVE dependency
+  -- closure to find the `proposition_*` it (transitively) uses — so a prop cited inside ANY applied
+  -- function (a `helper_<book>_step<n>`, or a function inside that function) still satisfies the
+  -- citation. Pure-axiom constructions (`line_from_points`, `intersection_lines`) have empty
+  -- closures, so recording them is harmless.
+  if let .const declName _ := ruleExpr.getAppFn then
+    let fileMap ← getFileMap
+    let line := match (← getRef).getPos? with
+      | some p => (fileMap.toPosition p).line
+      | none   => 0
+    let modName := (← getMainModule).toString
+    modifyEnv fun env =>
+      appliedExt.addEntry env { mod := modName, name := declName.toString, line := line }
 
   match τ with
   | .forallE _ hole P _ => -- τ is an arrow
@@ -167,7 +185,14 @@ def EuclidApply (rule : Term) (idents : Array Ident)  : TacticM Unit := do
     | (``Exists, _) =>  -- τ is `∃ x, ...`
       evalTactic $ ← `(tactic| obtain ⟨$idents,*, ($(mkIdent hnm))⟩ := $rule)
     | _ =>
-      evalTactic $ ← `(tactic| obtain ⟨$(mkIdent hnm)⟩ := $rule)
+      -- Try the destructuring `obtain ⟨h⟩` FIRST — byte-for-byte the previous behavior, so every proof
+      -- where it currently succeeds is UNCHANGED. Only if it FAILS (an `Eq`/atom with nothing to take
+      -- apart — `obtain ⟨h⟩` forces dependent elimination and errors) fall back to plain `obtain h`,
+      -- which just introduces the fact. The fallback fires only for cases that crash today (fast fail,
+      -- no slow backtrack). `elimAllConjunctions` below still splits any conjunction.
+      evalTactic $ ← `(tactic| first
+        | (obtain ⟨$(mkIdent hnm)⟩ := $rule)
+        | (obtain $(mkIdent hnm) := $rule))
 
   elimAllConjunctions
 
