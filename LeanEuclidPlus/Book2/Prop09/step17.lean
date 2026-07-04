@@ -1,5 +1,8 @@
 import SystemE
 import Mathlib.Tactic.Linarith
+import Book2.Prop09.step13_befb
+import Book2.Prop09.step16_fbd
+import Book2.Prop09.step17_symm
 set_option linter.unusedVariables false
 set_option linter.unnecessarySeqFocus false
 
@@ -7,9 +10,6 @@ namespace Elements.Book2
 
 open Elements
 
-set_option systemE.solverTime 30 in
--- step17 (2.9.17): ∠FBD = ∠DFB. Reuses step16's geometry: ∠f:b:d = ∠e:b:c (= ∟/2 by
--- step11), ∠b:f:d = ∟/2 (step16), and ∠d:f:b = ∠b:f:d (symm) ⟹ equal (linarith).
 theorem helper_2_9_step17
   (a b c d e f g e0 e1 : Point) (AB CE EB DF FG : Line)
   (hab_a : a.onLine AB) (hab_b : b.onLine AB) (hab_c : c.onLine AB) (hab_d : d.onLine AB)
@@ -26,11 +26,10 @@ theorem helper_2_9_step17
   (h11 : ∠ c:e:b = ∟ / 2 ∧ ∠ e:b:c = ∟ / 2)
   (h16 : ∠ f:d:b = ∟ ∧ ∠ b:f:d = ∟ / 2) :
   ∠ f:b:d = ∠ d:f:b := by
-  have step13_befb : between e f b := by sorry
-  have step16_fbd : ∠ f:b:d = ∠ e:b:c := by sorry
-  have hdfb : d ≠ f := by euclid_finish
-  have hfb : f ≠ b := by euclid_finish
-  have hsymm : ∠ d:f:b = ∠ b:f:d := angle_symm d f b ⟨hdfb, hfb⟩
+  -- @args: b c d e e0 e1 f AB CE DF EB
+  have step13_befb : between e f b := by euclid_apply (helper_2_9_step13_befb b c d e e0 e1 f AB CE DF EB (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show c.onLine AB; assumption)) (by euclid_assumption "" (show d.onLine AB; assumption)) (by euclid_assumption "" (show between c d b; assumption)) (by euclid_assumption "" (show d.onLine DF; assumption)) (by euclid_assumption "" (show f.onLine DF; assumption)) (by euclid_assumption "" (show e.onLine EB; assumption)) (by euclid_assumption "" (show b.onLine EB; assumption)) (by euclid_assumption "" (show f.onLine EB; assumption)) (by euclid_assumption "" (show c.onLine CE; assumption)) (by euclid_assumption "" (show e0.onLine CE; assumption)) (by euclid_assumption "" (show e1.onLine CE; assumption)) (by euclid_assumption "" (show ¬e0.onLine AB; assumption)) (by euclid_assumption "" (show between c e e1; assumption)) (by euclid_assumption "" (show ¬DF.intersectsLine CE; assumption)))
+  have step16_fbd : ∠ f:b:d = ∠ e:b:c := by euclid_apply (helper_2_9_step16_fbd a b c d e f e0 e1 AB CE EB (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show c.onLine AB; assumption)) (by euclid_assumption "" (show d.onLine AB; assumption)) (by euclid_assumption "" (show between c d b; assumption)) (by euclid_assumption "" (show e.onLine EB; assumption)) (by euclid_assumption "" (show f.onLine EB; assumption)) (by euclid_assumption "" (show b.onLine EB; assumption)) (by euclid_assumption "" (show c.onLine CE; assumption)) (by euclid_assumption "" (show e0.onLine CE; assumption)) (by euclid_assumption "" (show e1.onLine CE; assumption)) (by euclid_assumption "" (show ¬e0.onLine AB; assumption)) (by euclid_assumption "" (show between c e e1; assumption)) (by euclid_assumption "" (show between e f b; assumption)))
+  have step17_symm : ∠ d:f:b = ∠ b:f:d := by euclid_apply (helper_2_9_step17_symm a b c d e f g e0 e1 AB CE EB DF FG (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show c.onLine AB; assumption)) (by euclid_assumption "" (show d.onLine AB; assumption)) (by euclid_assumption "" (show between c d b; assumption)) (by euclid_assumption "" (show d.onLine DF; assumption)) (by euclid_assumption "" (show f.onLine DF; assumption)) (by euclid_assumption "" (show e.onLine EB; assumption)) (by euclid_assumption "" (show f.onLine EB; assumption)) (by euclid_assumption "" (show b.onLine EB; assumption)) (by euclid_assumption "" (show c.onLine CE; assumption)) (by euclid_assumption "" (show e0.onLine CE; assumption)) (by euclid_assumption "" (show e1.onLine CE; assumption)) (by euclid_assumption "" (show g.onLine CE; assumption)) (by euclid_assumption "" (show ¬e0.onLine AB; assumption)) (by euclid_assumption "" (show between a c b; assumption)) (by euclid_assumption "" (show between c e e1; assumption)) (by euclid_assumption "" (show f.onLine FG; assumption)) (by euclid_assumption "" (show g.onLine FG; assumption)) (by euclid_assumption "" (show ¬DF.intersectsLine CE; assumption)) (by euclid_assumption "" (show ¬FG.intersectsLine AB; assumption)) (by euclid_assumption "" (show between e f b; assumption)))
   linarith
 
 end Elements.Book2

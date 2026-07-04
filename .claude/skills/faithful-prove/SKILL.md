@@ -5,14 +5,16 @@ description: >
   step, IN ISOLATION, using the recursive SF/SP/P atom and the `check_step.py` script. Main's sentence
   bodies stay `:= by sorry` the whole time; the SCRIPT does all wiring/trace_state transiently — you
   only ever write proof bodies and add `have`+backing-file decompositions. Use AFTER the sentence map
-  is written and human-approved (`faithful-map` / Phase A). When `check_step.py <propdir> --all` exits
+  is written and human-approved (Phase A: `faithful-split` → `faithful-translate` →
+  `faithful_map_assemble.py`). When `check_step.py <propdir> --all` exits
   0, STOP — Phase C (the human running `wire_main.py`) is mechanical, not a skill. Delegates the actual
   proving to `prove-euclid`. Invoked with a path, e.g. `/faithful-prove Book2/Prop04/Main.lean`.
 ---
 
 # Phase B — prove each step with the recursive SF/SP/P atom (the scripts own all wiring)
 
-By now (via `faithful-map` / Phase A, human-approved) `Book<N>/PropNN/Main.lean` is the proposition
+By now (via Phase A — `faithful-split` → `faithful-translate` → `faithful_map_assemble.py`,
+human-approved) `Book<N>/PropNN/Main.lean` is the proposition
 signature + `euclid_intros` + the object-producing constructions + one
 `euclid_sentence "loc" "txt" (stepN : <claim>) := by sorry` per Euclid sentence + the intro/conclude
 bookends + the trailing `exact`/`rw` chain. **Every logical body is `:= by sorry`. There are no step
@@ -36,11 +38,13 @@ all of that.
   > no parent). So you NEVER pass `Main` as a node argument. The ONLY no-node command is
   > `check_step <propdir> --provable` = "build Main, tolerate sorry" (the Phase-A skeleton check; Main
   > having no parent gets only the build, not SF/SP). `--sufficient`/`--suppliable` with no node, or
-  > with `Main`, FAIL with a message saying exactly this. To check a SENTENCE inside Main, pass that
-  > sentence's node (`step5`), whose container is Main.
+  > with `Main`, FAIL with a message saying exactly this. To check a SENTENCE (or a shared `have`, below)
+  > inside Main, pass its node name (`step5`), whose container is Main. ("`Main` is not a node" means the
+  > FILE/root; a `have` or sentence INSIDE it is a node.)
 - **Goal node** = a named `:= by sorry` body. Two forms, identical at the proof level:
   - **Main only:** `euclid_sentence "loc" "txt" (stepN : C) := by sorry`  (from Phase A — don't add these).
-  - **anywhere:** `have <name> : C := by sorry`  (you add these when decomposing).
+  - **anywhere, INCLUDING Main:** `have <name> : C := by sorry`  (you add these when decomposing; in Main
+    only for a shared figure-fact — see below). A `have`-node is handled the same wherever it lives.
 - **Backing file** = the helper that proves a node. **NAMING LAW (the script enforces it, abort-loud):**
   > node name  ≡  `<name>.lean` basename  ≡  `theorem helper_<book>_<prop>_<name>`.
   > `have step27_bigsq : … := by sorry` ↔ `step27_bigsq.lean` ↔ `theorem helper_2_4_step27_bigsq` (book 2,
@@ -91,6 +95,20 @@ error — it does NOT flag `Helpers.*` (a different prefix), so a library import
 legal. **Reach a PIPELINE sub-lemma ONLY as a `have`-node** (`have <sub> : <concl> := by sorry`; the
 script wires + imports it) — NEVER hand-write a pipeline `euclid_apply` or a pipeline import.
 
+> **✅ NEED `linarith`/`nlinarith`/`field_simp`? Just ADD the Mathlib import — it's LEGAL.** `import
+> SystemE` gives you many tactics free (`ring`, `ring_nf`, `omega`, `simp`, `positivity`, and the
+> `euclid_*` tactics), but NOT `linarith`, `nlinarith`, or `field_simp` — those live in a Mathlib
+> module SystemE doesn't pull in, so a fresh backing file reports **`unknown tactic`** for them. That is
+> NOT a dead end and NOT a reason to switch tactics: Mathlib is a project dependency, so just add the
+> module import at the top of the backing file:
+> - `linarith` / `nlinarith` → `import Mathlib.Tactic.Linarith`
+> - `field_simp` → `import Mathlib.Tactic.FieldSimp`
+>
+> This import is permanent and legal — `check_step … --check` only flags the prop's OWN-prefix
+> `Book<N>.PropNN.*` pipeline imports, never a `Mathlib.*` one (ref `Book2/Prop08/step11.lean`:
+> `import Mathlib.Tactic.Linarith` next to `import SystemE`). So when you hit `unknown tactic linarith`,
+> ADD the import and continue — never abandon the tactic thinking it's unavailable.
+
 > **THE LIBRARY EXCEPTION — `Helpers/` lemmas are applied INLINE, by you, with a PERMANENT import.**
 > `LeanEuclidPlus/Helpers/{OffLine,SameSide,Area,RightAngle,Parallel}.lean` holds pre-proved generic
 > lemmas for the recurring off-line / sameSide / area-recast / right-angle / parallel-transitivity facts
@@ -134,7 +152,8 @@ order makes a step's suppliable context unstable. Within each step, recurse the 
 backing file you create. (Run `--all` ONLY at the very end — see THE LOOP — never to drive this.)
 
 > **⛔ START WITH step1 ONLY — do NOT pre-stub the other steps.** Your literal first action is: create
-> `step1.lean`, prove its WHOLE cone, and `check_step --subtree step1`-confirm it GREEN — *before you
+> `step1.lean`, prove its WHOLE cone, and confirm it GREEN with `check_step --drive` (it certifies
+> step1's cone, then stops at step2 since you haven't written it yet) — *before you
 > create `step2.lean` or write/stub ANY other step's backing file*. The Main sentence bodies are
 > already `:= by sorry` from Phase A (leave them); what you must NOT do is lay down step2…stepN's
 > backing files up front "to see the shape." Finish step1's file and cone, then and only then create
@@ -183,9 +202,36 @@ Can I close this goal directly (real euclid_apply chain, no new node) and build 
       there. For a `have`/container, SF genuinely tests sufficiency + that the trailing tactics close.)
 
   (c) CREATE the backing file F.lean (naming law):
-        **RECOMMENDED: run `python3 scripts/scaffold_step.py Book<N>/PropNN F`** — this creates the
-        skeleton file with correct imports, namespace, theorem name (`helper_<book>_<prop>_<name>`),
-        and claim type pre-filled from Main. You then edit it to add object/hypothesis binders.
+        **RECOMMENDED: run `python3 scripts/scaffold_step.py <file> F`** — where `<file>` is the file
+        that DECLARES F (`Main.lean` for a sentence step, or the parent `stepK.lean` for a `have`
+        sub-node). (You may also pass just `Book<N>/PropNN` to auto-locate F anywhere in the tree.)
+        This creates the skeleton with correct imports, namespace, 30s cap, theorem name
+        (`helper_<book>_<prop>_<name>`), and claim type pre-filled from wherever F is declared —
+        works for BOTH `euclid_sentence` steps and `have` sub-nodes. You then edit it to add
+        object/hypothesis binders. **New node ⟹ scaffold FIRST; only fill binders + body — never
+        hand-type the imports/cap/header.**
+        **`@assumption` hyps — if the node has `-- @assumption` annotations in Main, scaffold also
+        pre-populates the backing file with those hypothesis types as `(hassump1 : T1) …` binders.**
+        The Assumption Phase has ALREADY run: assumptions are now first-class, EXPLICIT, PROVEN
+        obligations (each is materialized as a `have stepK_assumptionN` in Main), NOT a revisable guess.
+        You MAY still:
+          - rename the binders (e.g. `hassump1` → `h_angle_b_half`)
+          - reorder them (objects first, geometric context, then reasoning — standard layout)
+          - add MORE object / geometric-context binders
+        **You may NOT drop or retype an `@assumption` (this is the reversed latitude).** Every
+        `@assumption` MUST remain a hypothesis binder of its sentence's helper — `check_step --all`
+        HARD-FAILS otherwise: #1 FORCE (the type is still a helper-sig binder), #2a (type unchanged vs
+        `step_signatures.json`), #3 PARITY (the have exists). If a fact is truly derived in-cone / not
+        consumed, that's a Phase-A map error — flag it for a human, don't silently drop it.
+        **The materialized assumption haves themselves** (`stepK_assumptionN`, sitting just above their
+        sentence in Main):
+          - **`-- @assumption_valid`** → body is inline `:= by euclid_finish` — ALREADY DONE, a
+            node-invisible fact. Do NOT build a backing file for it; leave it.
+          - **`-- @assumption_gap`** → body is `:= by sorry` — a REAL node (Euclid asserted a premise he
+            didn't justify). PROVE it like any leaf: `scaffold_step.py <propdir> stepK_assumptionN`, then
+            SF→SP→P. Same species as a `step8_eb`-style sub-node.
+        **NEVER** touch the claim TYPE (frozen, human-gated) or the valid/gap tags (`check_step --all` +
+        `check_faithful` at gate C hard-fail on tag drift vs `scripts/assumption_tags.json`).
         (The skeleton approach eliminates boilerplate errors and saves ~150 tokens per file.)
         If you prefer manual creation, the structure is:
         ```
@@ -324,11 +370,35 @@ Can I close this goal directly (real euclid_apply chain, no new node) and build 
     annotation. You still NEVER write the `euclid_apply` yourself — only the `-- @args:` data line; the
     script authors the call. (The annotation is the ONLY hand-written comment the pipeline reads; it
     survives wiring untouched.)
+  - **Keep `-- @args:` OUT of `Main.lean` — put it on sub-node `have`s in backing files only. ENFORCED:
+    `integrity_scan` flags an `@args` line in Main as a problem on `--status`/`--check`/`--all`.** `@args`
+    is load-bearing (the cert manifest's `content_sha` keeps it in the hash — it drives the wire), and
+    `Main.lean` is the shared container EVERY top-level step is wired in. So editing one step's `@args`
+    in Main bumps Main's hash and re-stales EVERY top-level step at once (board-wide), not just that one;
+    a sub-node's `@args` lives in its backing file, so its blast radius is one cone. AVOID needing it in
+    Main at all: name the backing helper's OBJECT binders to MATCH the sentence's call-site point names,
+    and the wire defaults to identity with no `@args` line.
+  - **Main comments must be on their OWN line (no trailing `code -- note`). ENFORCED: `integrity_scan`
+    flags a trailing comment in Main.** `content_sha` strips ALL full-line `--` comments (everything
+    except the `-- @args:` exception) before hashing, so a full-line comment edit in Main is FREE — it
+    changes no hash and re-stales nothing. A *trailing* comment is part of a code line, so it is NOT
+    stripped; editing it would re-stale the whole board. The own-line gate makes every Main comment
+    strippable, so comment churn in Main (explanatory `-- h between a b` notes, `@assumption` lines) is
+    always free.
+- **A figure-fact used by ≥2 Main sentences → hoist it to a plain `have shared : <claim> := by sorry` IN
+  Main** (proved once, backed by `shared.lean`), so each consuming step discharges it by `assumption`
+  instead of re-deriving (the Prop08 SP-isolation fix). It's a normal node — script wires it. Use Main's
+  own point names so NO `@args` is needed (Main forbids `@args`). It's not a sentence, so it's invisible
+  to faithfulness/claim-freeze (no re-`--save`). Add it BEFORE certifying the consumers (a Main edit
+  re-stales certified steps).
 - **You never wire Main and never build an all-wired container.** Don't use `--all` as your driving
-  loop or to find failures (it re-checks EVERY node — minutes wasted); drive with per-node
-  `check_step <node>` and confirm a container/step with `check_step --subtree <node>` (scoped to that
-  cone). To pick up a proof whose state you don't know, see RESUMING below (the one case `--all` is a
-  starting snapshot). Otherwise `--all` is the END only — exactly ONCE.
+  loop or to find failures (it re-checks EVERY node — minutes wasted); prove leaves with per-node
+  `check_step <node>`, then **drive with `check_step --drive`** — the default driving command, which
+  loops the subtree audit over Main's not-done nodes in order, skipping anything already done and
+  stopping at the first not-yet-proved node. `check_step --subtree <node>` is only for surgically
+  re-confirming ONE cone (e.g. after editing a shared helper). To pick up a proof whose state you
+  don't know, see RESUMING below (the one case `--all` is a starting snapshot). Otherwise `--all` is
+  the END only — exactly ONCE.
 - **LAUNCH `--all` (and any long `--subtree` over a deep shared cone) WITH `run_in_background: true`.**
   The final `--all` re-walks every node across all call-sites and can run 2.5–7 HOURS wall-clock — a
   foreground call would block the whole turn on one tool use. Backgrounded, the harness pings you when it
@@ -346,6 +416,83 @@ Can I close this goal directly (real euclid_apply chain, no new node) and build 
     `sleep N; tail …` / `ps`/`grep` on the process: those are foreground spin-waits that block the turn
     AND are blocked by the bash-hygiene hook. If the job's
     output isn't pollable in your harness, just wait for the completion ping — do not invent a workaround.
+
+---
+
+## SUPERPOSITION BACKING FILES — the `ptImg`/`lineImg` function-type trap
+
+When a proposition uses `euclid_apply (superposition …) as (b', c', BC', DC')` and Main defines local
+`let` maps for readability in sentence claim types:
+```lean
+let ptImg  : Point → Point := fun p => if p = a then d else if p = b then b' else …
+let lineImg : Line  → Line  := fun L => if L = AB then DE else if L = AC then DC' else …
+```
+with claims like `step2 : lineImg AC = DF` or `step3 : ptImg c = f`, backing files face a known trap.
+
+**The problem**: `euclid_finish` calls the SMT translator, which fails on ANY `Point → Point` or
+`Line → Line` value in the local context with:
+```
+[Smt.Translator] Expected geometric object, got ([anonymous], #[_uniq.N])
+```
+This fires even if the GOAL itself is clean — the mere presence of a function-typed HYPOTHESIS kills it.
+
+**Why the parameters must be there anyway**: `@assumption` annotations like
+`-- @assumption ("$AB$ coinciding with $DE$", lineImg AB = DE)` require their TYPE string
+`lineImg AB = DE` to appear LITERALLY as a hypothesis binder in the backing file (the FORCE check).
+So `(lineImg : Line → Line)` MUST be an explicit parameter. The wiring still works: at the call site
+in Main, `lineImg` IS the local let, so `(by assumption)` finds it via type-match.
+
+**The pattern — rw to unfold, derive concrete facts, clear, then euclid_finish**:
+```lean
+  -- parameters include: (ptImg : Point → Point) (lineImg : Line → Line)
+  --   (hassump1 : lineImg AB = DE)   ← FORCE-required; will be cleared
+  --   (h_ptImg_b : ptImg b = b')     ← for deriving concrete b'=e; will be cleared
+  --   (h_lineImg_AC : lineImg AC = DC') ← for rw; will be cleared
+  --   (h_d_on_DE : d.onLine DE)      ← geometric anchor; keep for euclid_finish
+  --   (h_b'_on_DE : b'.onLine DE)    ← geometric anchor; used then cleared
+  --   (step1 : ptImg b = e)          ← prior sentence; will be cleared
+  : lineImg AC = DF := by
+  rw [h_lineImg_AC]                          -- goal becomes: DC' = DF
+  have hb'e : b' = e := by rw [← h_ptImg_b]; exact step1   -- derive while map hyps are alive
+  have h_e_on_DE : e.onLine DE := hb'e ▸ h_b'_on_DE        -- turn b'-anchor into e-anchor
+  clear step1 h_ptImg_b h_b'_on_DE hassump1 h_lineImg_AC   -- clear dependents FIRST
+  clear ptImg lineImg                                        -- then clear the functions
+  have h_ang : ∠ e:d:c' = ∠ e:d:f := by euclid_finish      -- intermediate from flat proof
+  euclid_finish                                              -- clean context, closes DC' = DF
+```
+
+**Step-by-step rules**:
+
+1. **`rw [h_*]` first** — `h_ptImg_b : ptImg b = b'` and `h_lineImg_AC : lineImg AC = DC'` are proved in
+   Main by `simp (config := {zetaDelta := true})` (essentially rfl after let-unfolding). Use them to
+   rewrite the goal/hypotheses from map-application form to concrete form BEFORE clearing.
+
+2. **Derive all concrete facts you need WHILE the map hyps are still alive**, then do not reference
+   `ptImg`/`lineImg` again after that.
+
+3. **`clear` order**: Lean 4's `clear` checks TYPE dependency — a hypothesis whose type mentions `lineImg`
+   must be cleared BEFORE `lineImg` itself. Clear all dependents first (in one `clear h1 h2 h3` call),
+   then `clear ptImg lineImg`.
+
+4. **Intermediate flat-proof steps**: The flat `Book/PropNN.lean` often has `euclid_assert` steps between
+   sentences that don't correspond to separate Euclid sentences. ALWAYS check the flat proof before
+   writing a backing file — any intermediate fact the flat proof establishes (e.g.
+   `euclid_assert ∠ e:d:c' = ∠ e:d:f` before `euclid_assert DC' = DF`) must become an explicit
+   `have h := by euclid_finish` in the backing file's body.
+
+5. **Missing geometric anchors**: The flat proof gets `d.onLine DE`, `e.onLine DE`, `d ≠ e`, etc. from
+   `formTriangle` via `euclid_intros`. Superposition does NOT output these. They ARE in `--context`
+   (from the triangle givens), so add them as explicit hypothesis binders — `(by assumption)` finds them
+   at the call site. Without them `euclid_finish` times out or fails on the concrete goal.
+
+6. **`open Classical`**: Only needed when the backing file's conclusion IS an inline lambda expression
+   `(fun p => if p = a then d else …) b = e` (the case where `ptImg` isn't even a parameter — the
+   lambda is spelled out literally). Files using the `(ptImg : Point → Point)` parameter approach do
+   NOT need `open Classical`.
+
+**The map is NOT logically useless** — it IS used for wiring. `step2 : lineImg AC = DF` sits in Main's
+context, and the script wires the backing file with `(by assumption)` that finds Main's local let
+`lineImg` by type-match. The `clear` is just a pre-`euclid_finish` cleanup; it does not undo the wiring.
 
 ---
 
@@ -431,7 +578,7 @@ proof arm works: a prop cited via `euclid_apply` inside your backing file counts
 ## RESUMING A PROOF (picking up a prop whose state you don't know)
 0. **Run `check_step Book<N>/PropNN --status` FIRST** — instant, read-only, no build, no lock. It walks
    Main's nodes in source order and shows each as `done`/`stale`/`todo` against the certification
-   manifest, plus the 3 whole-prop checks and the exact next `--subtree`/`--all` command. This is now the
+   manifest, plus the 3 whole-prop checks and the exact next command (`--drive`). This is now the
    normal way to find where to resume — it's free (no wall-clock) because it reads the manifest instead of
    re-auditing. Also check `Book<N>/PropNN/agent_notes.md` (per-prop scratchpad) and the repo-root
    `AGENT_NOTES.md` (cross-cutting) for breadcrumbs a previous agent left — dead ends already tried, why a
@@ -463,9 +610,25 @@ Three commands, three scopes — know exactly what each certifies:
   It does NOT touch other steps. This is how you CONFIRM a container/step is fully done.
 - **`check_step --all`** = the WHOLE prop. The FINAL gate, run exactly ONCE.
 
-(`check_step --drive` is `--subtree` looped automatically over every not-`done` Main node — same
-"stops at the first failure" contract, including stopping on a leaf that's still a bare `sorry`. Use it
-when RESUMING, not as a substitute for the decompose-and-prove loop below.)
+(`check_step --drive` is `--subtree` looped automatically over every not-`done` Main node, in order,
+skipping anything already done — same "stops at the first failure" contract, including stopping on a
+leaf that's still a bare `sorry`. **This is the DEFAULT driving command** — prefer it over hand-running
+`--subtree` node by node, both when RESUMING and as your normal advance-the-board loop below. You still
+DECOMPOSE and prove each leaf by hand; `--drive` is just how you certify + march the board forward once
+a leaf is written, so you never hand-pick which node is next. Reach for a bare `--subtree <node>` only
+to surgically re-confirm ONE specific cone.)
+
+**STALENESS IS A HARD STOP — re-certify before doing anything later.** If `--status` shows ANY Main node
+as `stale` (⚠ — it was certified, but an input file changed), STOP and re-certify it BEFORE you create or
+edit any later step's file. The systematic way is just `check_step Book<N>/PropNN --drive`: it re-runs
+`--subtree` on the first not-`done` node (a stale node counts as not-done, so it's picked up
+automatically), skips the still-`done` ones, and stops at the first real failure — so you don't have to
+read the board and hand-pick which node to re-confirm. (`--subtree <that node>` is the surgical
+single-cone alternative if you want to re-confirm exactly one.) Either way, NOT the whole `--all`. This is
+not optional politeness: the `step_order_hook` enforces it — the frontier is the first NOT-`done` node
+(stale counts as not-done), so the hook will DENY a Write/Edit to any `stepN*.lean` past a stale node
+until you've re-certified it. A stale node means its proof may no longer hold; building on top of it is
+exactly the skip-ahead the pipeline forbids.
 
 The ladder (do them in this order):
 1. (anytime, free) `check_step Book<N>/PropNN --check` — instant no-build scan: naming law, every node
@@ -478,12 +641,15 @@ The ladder (do them in this order):
    pass.** Inner container first (`check_step step27_decomp`), then once its leaves + it are green,
    `check_step --subtree step27` to CONFIRM the whole cone (SP at every in-cone call site + P every
    leaf). A bare `check_step step27` PASS does NOT mean its subtree is done — `--subtree` does.
-4. **Certify the steps IN ORDER (step1, then step2, …, then the last; never skip, never parallel).**
-   A step is not finished by one `--subtree` on its sentence. To finish a step, run `--subtree` on the
-   step's sentence AND on every `have` that belongs to that step's block (the sibling haves passed into
-   the sentence as hypotheses). When all of those pass, that step is DONE. Then move to the next step and
-   do the same — its sentence and every have in its block. `--subtree <node>` audits only that node's
-   cone, so finishing one step never re-audits the earlier steps.
+4. **Certify the steps IN ORDER (step1, then step2, …, then the last; never skip, never parallel) —
+   use `--drive`, which does exactly this march for you.** `--drive` runs the subtree audit on each
+   not-`done` Main node in source order (each sentence-node AND every top-level `have` in its block —
+   the sibling haves passed into the sentence as hypotheses), skips the already-`done` ones, and stops
+   at the first not-yet-proved node. So once a leaf is written you just re-run `--drive`; you never
+   hand-pick which node is next. (Under the hood a Main node is DONE only when its whole cone passes a
+   subtree audit — a bare `check_step <node>` PASS is not enough — which is why `--drive` re-confirms
+   the sentence and each have. A single `--subtree <node>` is the surgical alternative when you want to
+   re-confirm exactly one cone; it audits only that node's cone, so it never re-audits earlier steps.)
    Why every node and not just the sentence: a sentence is handed its sibling haves as hypotheses.
    `--subtree` on the sentence confirms those hypotheses are PRESENT, but it does not PROVE them — each
    sibling have is proven by its own `--subtree`. So a step is sound only once its sentence and all the
@@ -509,9 +675,13 @@ The ladder (do them in this order):
 >     or `check_step --subtree <node>` (one cone — what `--all` checks, restricted to that cone). A
 >     `--subtree` PASS on a cone is a COMPLETE, stand-alone certificate for that cone; it does not need
 >     an `--all` to "really confirm" it.
->   - **AFTER ANY EDIT: re-`--subtree` ONLY the cone(s) whose files you touched, then move on.** Do NOT
+>   - **AFTER ANY EDIT: re-run `--drive` — it re-certifies EXACTLY the cone(s) whose files you touched
+>     and skips every still-`done` cone, then move on.** (`--status` marks a cone `stale` only if its
+>     own inputs changed, and `--drive` re-runs precisely the not-`done` ones — so it does the
+>     touched-cones-only re-certify automatically, without you hand-picking which to re-confirm. A single
+>     `--subtree <that cone>` is the surgical alternative if you want to re-confirm exactly one.) Do NOT
 >     follow edits with an `--all`. The certainty model is COMPOSITIONAL: an unedited cone that passed
->     `--subtree` STAYS passed (its files didn't change). So once every edited cone is `--subtree`-green
+>     STAYS passed (its files didn't change). So once every edited cone is green
 >     and `--check`/`--dependency` are clean, Phase B is DONE — the final `--all` is a formality you may
 >     even hand to the human, not a gate you must personally re-clear. Never re-verify unedited cones.
 >   - **A bare-node PASS is NOT a subtree PASS** — confirm a container/step with `--subtree`.

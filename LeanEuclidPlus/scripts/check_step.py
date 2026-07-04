@@ -85,20 +85,33 @@ THE CHECKS (node X, parent container Cnt, backing file X.lean):
   this for the WHOLE prop + a no-stray-sorry scan. All green in `--all` ⟹ the Phase-C wired build cannot
   fail and is sorry-free: every SMT query in that build is one already measured ≤30s by a leaf-P or a
   combine-check, and every wire discharges by SMT-free `assumption`.
-  DRIVING ORDER: leaves first (bare `check_step`), then `--subtree` each container/step bottom-up (only
-  after its components pass), then `--all` ONCE at the very end. NEVER run `--all` to find a failure.
+  DRIVING ORDER: prove leaves first (bare `check_step`), then `--drive` (the DEFAULT driving command —
+  auto-loops the subtree audit over Main's not-`done` nodes in order, skipping done ones) to march the
+  board forward; `--subtree <node>` is only for surgically re-confirming ONE cone. `--all` ONCE at the
+  very end. NEVER run `--all` to find a failure.
 
 Every build carries a 30s SMT cap (`solverTime`, the proving BUDGET) and is wrapped in a 45s WALL timeout
 (a diagnostic/safety bound, deliberately > the SMT cap — see WALL in faithful_lib.py). A solver that gives
 up at the 30s cap, OR a >45s wall-kill, ⟹ the node is TOO BIG → DECOMPOSE into more backing files; NEVER
 raise the cap. (The 15s gap lets Lean's LOCATED "Could not prove" error surface before the wall SIGKILLs.)
 """
-import os, re, sys
+import os, re, sys, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # so `faithful_lib` resolves from any cwd
 import faithful_lib as L
 
+_BASELINE = os.path.join(L.BOOK_ROOT, "scripts", "step_signatures.json")
+
 
 # ── shared build-with-swap primitives (always revert) ───────────────────────────────────────────────
+def _wall(propdir, path, base=L.WALL):
+    """The build wall for `path`. A full Main build carries N inline (valid) assumption `euclid_finish`
+    haves that run sequentially (each ≤3s), so it needs `WALL + 3*N` (faithful_lib.main_wall) — a fixed
+    wall would SIGKILL a legitimate Main build mid-way. Any non-Main file uses `base`."""
+    if os.path.realpath(path) == os.path.realpath(L.main_file(propdir)):
+        return L.main_wall(propdir)
+    return base
+
+
 def _build_with_node_state(propdir, node, state, wall=L.WALL):
     """Put `node` into `state` (managing BOTH body and helper import), build the container, REVERT,
     return (ok, output). Atomic: the file is restored even on exception/SIGINT. When wiring, WARM the
@@ -112,7 +125,7 @@ def _build_with_node_state(propdir, node, state, wall=L.WALL):
     with L.restore_files([node.file]):
         src = open(node.file, encoding="utf-8").read()
         open(node.file, "w", encoding="utf-8").write(L.set_node_state(src, node, state, propdir, book))
-        return L.lake_build(L.target_of(node.file), wall=wall)
+        return L.lake_build(L.target_of(node.file), wall=_wall(propdir, node.file, wall))
     # restore_files has restored node.file here
 
 
@@ -180,7 +193,7 @@ def _build_isolated_sp(propdir, node, wall=L.WALL):
         nodes = L.parse_nodes_in_file(node.file, book)
         open(node.file, "w", encoding="utf-8").write(
             L.set_node_isolated_sp(csrc, node, nodes, propdir, book))
-        return L.lake_build(L.target_of(node.file), wall=wall)
+        return L.lake_build(L.target_of(node.file), wall=_wall(propdir, node.file, wall))
     # restore_files has restored node.file AND the backing file here
 
 
@@ -244,7 +257,7 @@ def check_sufficient(propdir, node):
     in the container — NOT the backing file's signature; the backing file need not even exist yet.
     Returns (ok, output). The container is built in its current on-disk state, so this is just a build
     (reverts nothing — nothing was changed)."""
-    return L.lake_build(L.target_of(node.file), wall=L.WALL)
+    return L.lake_build(L.target_of(node.file), wall=_wall(propdir, node.file))
 
 
 def _sorry_locations(output):
@@ -557,7 +570,7 @@ def _restamp_node(propdir, name, kind):
         inputs = L.node_inputs(propdir, name, occs)
         certified[name] = {"kind": kind, "inputs": inputs}
         for f in inputs:
-            sha = L.file_sha(os.path.join(L.BOOK_ROOT, f))
+            sha = L.content_sha(os.path.join(L.BOOK_ROOT, f))
             if sha is not None:
                 files[f] = sha
         manifest["files"], manifest["certified"] = files, certified
@@ -567,37 +580,134 @@ def _restamp_node(propdir, name, kind):
         pass                                          # bookkeeping must never break the actual check result
 
 
-def _audit_with_manifest(propdir, order, success_msg, source):
+def _audit_with_manifest(propdir, order, success_msg, source, subtree_roots=()):
     """Run `_audit`, recording every node that passes into the certification manifest (merged into any
     existing on-disk manifest), and persisting it on return — whether the audit PASSES or STOPS at a
     failure (so the certified bottom-up prefix is always saved). `source` labels the run ('--all' or
     '--subtree <node>'). The manifest stores, per certified node, its kind + input files, plus a sha256
-    of every input file AT THIS AUDIT'S TIME — `--whatchanged` diffs those hashes. Returns _audit's code."""
+    of every input file AT THIS AUDIT'S TIME — `--whatchanged` diffs those hashes.
+    The listed `subtree_roots` are recorded separately as whole-cone certificates as soon as their
+    entire cone is contained in the passed prefix. Thus a failing `--all` still refreshes the earlier
+    Main subtrees it really audited before the failure. `--status` uses those subtree certificates for
+    Main rows, so a plain `check_step <node>` cannot make a Main step appear done. Returns _audit's code."""
     occs = L.parse_occurrences(propdir)
     manifest = L.read_manifest(propdir)
     manifest["prop"] = os.path.relpath(propdir, L.BOOK_ROOT)
     manifest["updated"] = source
     files = dict(manifest.get("files", {}))
     certified = dict(manifest.get("certified", {}))
+    subtrees = dict(manifest.get("subtrees", {}))
+    passed = set()
 
     def on_pass(name, kind):
+        passed.add(name)
         inputs = L.node_inputs(propdir, name, occs)
         certified[name] = {"kind": kind, "inputs": inputs}
         for f in inputs:                              # re-hash each input at this audit's time
-            sha = L.file_sha(os.path.join(L.BOOK_ROOT, f))
+            sha = L.content_sha(os.path.join(L.BOOK_ROOT, f))
             if sha is not None:
                 files[f] = sha
 
     try:
-        return _audit(propdir, order, success_msg, on_pass=on_pass)
+        rc = _audit(propdir, order, success_msg, on_pass=on_pass)
+        return rc
     finally:
+        for root in subtree_roots:
+            if L.cone_names(propdir, root) <= passed:
+                subtrees[root] = L.subtree_certificate(propdir, root, occs)
         manifest["files"] = files
         manifest["certified"] = certified
+        manifest["subtrees"] = subtrees
         L.write_manifest(propdir, manifest)
         try:
             L.write_status_md(propdir, source)
         except Exception:
             pass                                      # bookkeeping must never break the audit's exit code
+
+
+def _run_assumption_persistence(propdir):
+    """#2a TYPE DRIFT — source-only, instant, HARD FAIL. Returns True iff OK. For every entry in
+    step_signatures.json belonging to this prop with 'assumptions', check each saved assumption type is
+    still a hypothesis binder of its sentence's helper. Under the assumption phase, assumptions are
+    first-class, explicit, PROVEN obligations — not a revisable Phase-A guess — so the agent may NOT
+    drop or retype one after `check_steps --save`. (Reverses the old non-blocking latitude policy.)
+    Called in mode_all; a False return aborts --all."""
+    if not os.path.exists(_BASELINE):
+        return True                         # no baseline yet — nothing to check (additive feature)
+    try:
+        base = json.load(open(_BASELINE, encoding="utf-8"))
+    except (ValueError, OSError):
+        return True                         # unreadable baseline — skip
+    book = L.book_num(propdir)
+    prop_prefix = os.path.relpath(propdir, L.BOOK_ROOT)   # e.g. "Book2/Prop09"
+    drifts = []
+    for _loc, entry in sorted(base.items()):
+        assumps = entry.get("assumptions")
+        if not assumps:
+            continue
+        # Only check entries that belong to this prop (file path starts with prop_prefix).
+        if not entry.get("file", "").startswith(prop_prefix.replace(os.sep, "/")):
+            continue
+        name = entry.get("name", "")
+        bf = L.backing_file(propdir, name)
+        if bf is None:
+            continue    # no backing file yet — integrity_scan covers the missing-file case
+        try:
+            _objs, hyp_types = L.parse_helper_objs(bf, book, name)
+        except L.FaithfulError:
+            continue    # malformed backing file — integrity_scan will report it
+        norm_binder_types = {" ".join(t.split()) for t in hyp_types}
+        for a in assumps:
+            saved_type = " ".join(a["type"].split())
+            if saved_type not in norm_binder_types:
+                drifts.append((name, a["type"], a.get("text", "")))
+    if drifts:
+        print(f"FAIL (assumption TYPE drift): {len(drifts)} @assumption type(s) frozen at Phase A are no "
+              f"longer hypothesis binders of their sentence's helper in {prop_prefix}:")
+        for name, atype, text in drifts:
+            label = f'  ("{text}")' if text else ""
+            print(f'  {name}.lean no longer takes "{atype}"{label}')
+        print("  Assumptions are first-class PROVEN obligations now — every one must stay supplied to "
+              "its sentence's claim. Restore the binder, or (if the map genuinely changed and was "
+              "re-approved) have a human re-run `check_steps.py --save`.")
+        return False
+    return True
+
+
+_TAGS_FILE = os.path.join(L.BOOK_ROOT, "scripts", "assumption_tags.json")
+
+
+def _run_tag_drift(propdir):
+    """#2b TAG DRIFT — source-only, instant, HARD FAIL. Returns True iff OK. Compare each assumption's
+    CURRENT valid/gap (from its have body: `euclid_finish`→valid, else→gap; stable through Phase-C
+    wiring) against the frozen scripts/assumption_tags.json the assumption phase wrote. The agent may not
+    silently flip a classification (turn a gap into an inline euclid_finish, or vice versa)."""
+    if not os.path.exists(_TAGS_FILE):
+        return True                                    # no tags yet — additive feature
+    try:
+        data = json.load(open(_TAGS_FILE, encoding="utf-8"))
+    except (ValueError, OSError):
+        return True
+    saved = data.get(os.path.relpath(propdir, L.BOOK_ROOT))
+    if not saved:
+        return True                                    # this prop not yet run through the phase
+    current = L.assumption_current_tags(L.main_file(propdir))
+    problems = []
+    for name, rec in sorted(saved.items()):
+        want, have = rec.get("tag"), current.get(name)
+        if have is None:
+            problems.append(f"  {name}: recorded '{want}' but its have is gone now")
+        elif have != want:
+            problems.append(f"  {name}: recorded '{want}' but is now '{have}'")
+    if problems:
+        print(f"FAIL (assumption TAG drift) in {os.path.relpath(propdir, L.BOOK_ROOT)} — valid/gap "
+              f"changed from scripts/assumption_tags.json:")
+        for p in problems:
+            print(p)
+        print("  The assumption phase owns these tags; the agent must not flip a valid↔gap. If the map "
+              "genuinely changed, a human re-runs `assumptions.py`.")
+        return False
+    return True
 
 
 def mode_all(propdir):
@@ -619,6 +729,13 @@ def mode_all(propdir):
     # violation can't slip through the agent's final gate (the step3-cited-Prop.1.31 class).
     if not _run_dependency(propdir):
         return 1
+    # assumption enforcements (source-only, instant, HARD): #2a TYPE drift (each @assumption still a
+    # helper binder vs the frozen step_signatures baseline) and #2b TAG drift (each valid/gap matches the
+    # assumption_tags.json the phase wrote). #1 FORCE + #3 PARITY already ran inside integrity_scan above.
+    if not _run_assumption_persistence(propdir):
+        return 1
+    if not _run_tag_drift(propdir):
+        return 1
     order = L.audit_order(propdir)                    # whole prop, bottom-up
     n_names = len(order)
     n_occ = sum(len(occs) for _, occs in order)
@@ -626,12 +743,13 @@ def mode_all(propdir):
           f"{f' / {n_occ} call-site(s)' if n_occ != n_names else ''} in "
           f"{os.path.relpath(propdir, L.BOOK_ROOT)} (sub-nodes before their parents):")
     rel = os.path.relpath(propdir, L.BOOK_ROOT)
+    main_roots = [nd.name for nd in L.main_nodes_in_order(propdir)]
     return _audit_with_manifest(propdir, order,
                   f"PASS: all {n_names} node(s) certified — every leaf builds ZERO-sorry, every call "
                   f"site supplies its hyps (isolated SP, no SMT), every container's combine is certified "
                   f"by its OWN combine-check, and integrity_scan found no stray sorry ⇒ the Phase-C wired "
                   f"build is GUARANTEED green AND sorry-free. Run `python3 scripts/wire_main.py {rel}`.",
-                  source="--all")
+                  source="--all", subtree_roots=main_roots)
 
 
 def mode_subtree(propdir, root):
@@ -651,11 +769,13 @@ def mode_subtree(propdir, root):
     print(f"[check_step --subtree {root}] auditing the {root} cone — {n_names} node(s)"
           f"{f' / {n_occ} in-cone call-site(s)' if n_occ != n_names else ''} in "
           f"{os.path.relpath(propdir, L.BOOK_ROOT)} (sub-nodes before {root}):")
+    main_roots = {nd.name for nd in L.main_nodes_in_order(propdir)}
+    subtree_roots = [root] if root in main_roots else []
     return _audit_with_manifest(propdir, order,
                   f"PASS: {root}'s subtree certified (SF/SP over every in-cone call site + P every leaf "
                   f"in the cone). This is NOT the whole prop — keep driving the remaining steps, then "
                   f"run `check_step {os.path.relpath(propdir, L.BOOK_ROOT)} --all` ONCE at the very end.",
-                  source=f"--subtree {root}")
+                  source=f"--subtree {root}", subtree_roots=subtree_roots)
 
 
 def mode_drive(propdir):
@@ -701,13 +821,25 @@ def mode_build_main(propdir):
     compile"), and sorry is fine because its sentence nodes are sorry. This is the all-sorry skeleton
     elaboration the agent uses in Phase A (raw safe_build is hard-denied)."""
     mf = L.main_file(propdir)
+    # STRAY-SORRY GATE (source scan, before the build). Even in the all-sorry Phase-A skeleton, the ONLY
+    # sorries allowed are declared node bodies (`have <n> := by sorry` / a `euclid_sentence` body). A
+    # `by sorry` buried in a tail term (e.g. `exact ⟨f, by sorry, step6⟩`) is a stray sorry — the build
+    # tolerates it, but it's an unaccounted gap, so reject it here at map time (same rule integrity_scan
+    # enforces at `--all`).
+    stray = L.stray_sorry_problems(mf, L.book_num(propdir))
+    if stray:
+        print(f"FAIL: stray `sorry` in {os.path.relpath(mf, L.BOOK_ROOT)} — the only sorry allowed is a "
+              f"declared node body (a `have … := by sorry` or a `euclid_sentence … := by sorry`):")
+        for p in stray:
+            print("  - " + p)
+        return 1
     print(f"[check_step --provable] building {os.path.relpath(mf, L.BOOK_ROOT)} (no parent; tolerating sorry)…")
-    ok, out = L.lake_build(L.target_of(mf), wall=L.WALL)
+    ok, out = L.lake_build(L.target_of(mf), wall=L.main_wall(propdir))
     if not ok:
         print("FAIL: Main did not elaborate (or hit the 30s cap).\n")
         print(_fail_output(out))
         return 1
-    print("OK: Main elaborates (sorry tolerated). The sentence map type-checks.")
+    print("OK: Main elaborates (sorry tolerated; no stray sorry). The sentence map type-checks.")
     return 0
 
 
@@ -771,8 +903,8 @@ def mode_whatchanged(propdir):
     files = manifest.get("files", {})
     if not certified:
         print(f"[check_step --whatchanged] no certification manifest for {rel} yet "
-              f"(or it's empty). Run `python3 scripts/check_step.py {rel} --all` (or a `--subtree "
-              f"<node>`) first — that records what's certified; then this reports what an edit invalidates.")
+              f"(or it's empty). Run `python3 scripts/check_step.py {rel} --drive` first — that proves "
+              f"and records what's certified; then this reports what an edit invalidates.")
         return 0
 
     # 1) which RECORDED input files changed on disk (content differs, or the file is now gone)?
@@ -839,14 +971,16 @@ def mode_status(propdir):
         main_nodes = L.main_nodes_in_order(propdir)
         if not main_nodes:
             print("  Main has no nodes yet (no `(stepN : …)` / top-level `have` stubs) — map the "
-                  "sentences first (faithful-map Phase A).")
+                  "sentences first (Phase A: faithful-split → faithful-translate → faithful_map_assemble.py).")
             return 0
         names = [nd.name for nd in main_nodes]
-        print("  Drive Main's nodes in order (each --subtree certifies that node's whole cone):")
-        print(f"    python3 scripts/check_step.py {rel} --subtree {names[0]}")
+        print("  Drive Main's nodes in order — use --drive (certifies each node's whole cone, in "
+              "order, skipping any already done):")
+        print(f"    python3 scripts/check_step.py {rel} --drive")
         if len(names) > 1:
-            print(f"  then {', '.join(names[1:])}.  Once a node is ✓ it's DONE — never revisit an "
-                  f"earlier one.")
+            print(f"  It runs {names[0]} then {', '.join(names[1:])}, stopping at the first not-yet-"
+                  f"proved node. Once a node is ✓ it's DONE — never revisit an earlier one. "
+                  f"(--subtree <node> is only for surgically re-confirming one cone.)")
         return 0
 
     rows, checks = L.status_rows(propdir)
@@ -860,17 +994,7 @@ def mode_status(propdir):
         print(f"  {symbol[state]} {name:<8} {detail}")
 
     not_done = [name for name, state, _ in rows if state != "done"]
-    if not_done:
-        idx_first_bad = next(i for i, (_, s, _) in enumerate(rows) if s != "done")
-        last_good = rows[idx_first_bad - 1][0] if idx_first_bad > 0 else None
-        later_good = [name for name, s, _ in rows[idx_first_bad:] if s == "done"]
-        if later_good:
-            print(f"\n  (⚠ OUT OF ORDER: {', '.join(later_good)} ✓ but earlier node(s) "
-                  f"{', '.join(not_done)} are not — drive Main's nodes in order; this is a soft hint, "
-                  f"not a hard gate.)")
-        elif last_good:
-            print(f"\n  (soft hint: {last_good} ✓ but {', '.join(not_done)} not — drive Main's nodes "
-                  f"in order; once ✓ a node is DONE.)")
+    first_not_done = not_done[0] if not_done else None
 
     print("\n  whole-prop checks (instant, source-only):")
     print(f"    {'✓' if checks['deps'] else '✗'} criterion-3 deps         every cited "
@@ -891,14 +1015,17 @@ def mode_status(propdir):
               "then Phase C.")
         return 0
 
-    blocking = [f"{name} ({state})" for name, state, _ in rows if state != "done"]
+    blocking = [f"{first_not_done} ({next(state for name, state, _ in rows if name == first_not_done)})"] \
+        if first_not_done else []
     if checks["orphans"]:
         blocking.append(f"orphan {', '.join(checks['orphans'])} (wire it or delete it)")
     print(f"  → NOT all-green — --all will NOT pass yet. Blocking: {', '.join(blocking)}.")
 
-    print("\n  NEXT (Main order — a node passing re-stamps its hashes):")
-    for name in not_done:
-        print(f"    python3 scripts/check_step.py {rel} --subtree {name}")
+    if first_not_done:
+        print(f"\n  NEXT — use --drive (default): certifies the first not-done node ({first_not_done}) "
+              f"then continues in order, skipping done nodes:")
+        print(f"    python3 scripts/check_step.py {rel} --drive")
+        print(f"    (--subtree {first_not_done} only if you want to surgically re-confirm that one cone.)")
     return 0
 
 

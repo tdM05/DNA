@@ -27,31 +27,32 @@ decision (ask/deny) and exit 0, or nothing for allow; otherwise print nothing an
 block the pipeline by erroring)."""
 import sys, json, re, shlex, os
 
-# binary basename -> what to do instead (shown to the model on deny)
+# binary basename -> what to do instead (shown to the model on deny). The Grep/Glob TOOLS do NOT exist
+# in this harness, so the old "use the Grep/Glob tool" redirects were dead ends — read-only inspection
+# binaries are now ALLOWED (see READONLY_OK). Only genuine in-place transformers stay blocked.
 BLOCKED = {
-    "cat":   "Read the file with the Read tool.",
-    "head":  "Read the file with the Read tool (use the offset/limit args for a slice).",
-    "tail":  "Read the file with the Read tool (use the offset/limit args for a slice).",
-    "sed":   "Read with the Read tool, or change a file with the Edit tool — not sed.",
-    "awk":   "Read with the Read tool / search with the Grep tool — not awk.",
+    "sed":   "Read with the Read tool, or change a file with the Edit tool — not sed (sed -i mutates).",
+    "awk":   "Read with the Read tool, or search with grep — not awk (awk can transform in place).",
     "jq":    "Read the JSON file with the Read tool (or, for the pipeline, run scripts/check_*.py).",
-    "wc":    "Read the file with the Read tool; raw line counts aren't part of the proving loop.",
-    "find":  "Find files with the Glob tool.",
-    "grep":  "Search with the Grep tool.",
-    "egrep": "Search with the Grep tool.",
-    "fgrep": "Search with the Grep tool.",
-    "rg":    "Search with the Grep tool.",
-    "ls":    "List/inspect with the Glob tool (e.g. 'DIR/*').",
 }
+
+# Read-only inspection binaries — ALLOWED to run bare. The dedicated Grep/Glob tools are NOT available
+# in this deployment, so these ARE how the agent searches/reads via bash; settings.json also allows them
+# so they never prompt. CAVEAT (accepted): shell redirection (`grep x > out`) or `find … -delete/-exec`
+# can still mutate — treated as read-only here; git is the human's safety net for those edge cases.
+READONLY_OK = {"cat", "head", "tail", "wc", "find", "grep", "egrep", "fgrep", "rg", "ls"}
 
 # The positive allowlist, echoed in every deny message so the agent learns the boundary once.
 ALLOWED_SUMMARY = ("Bash here is reserved for: read-only git (status/diff/log/show/branch/blame/"
                    "ls-files), python3 scripts/check_*.py, scripts/check_faithful.sh, "
                    "python3 scripts/wire_main.py, python3 scripts/find.py, "
-                   "python3 scripts/bake_index.py, python3 scripts/scaffold_step.py, python3 -m pytest, "
-                   "lake env/exe, and cd/pwd/mkdir. "
-                   "For everything else use the Read / Grep / Glob tools (find.py is the sanctioned "
-                   "smart-grep over the System-E declaration database).")
+                   "python3 scripts/bake_index.py, python3 scripts/scaffold_step.py, "
+                   "python3 scripts/faithful_map_assemble.py, python3 -m pytest, "
+                   "lake env/exe, cd/pwd/mkdir, and read-only inspection "
+                   "(grep/rg/find/cat/head/tail/ls/wc). "
+                   "Read files with the Read tool; find.py is the sanctioned smart-grep over the "
+                   "System-E declaration database. (The Grep/Glob TOOLS are not available in this "
+                   "harness — use bash grep/find or the Read tool.)")
 
 _CONF = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hygiene.conf")
 
@@ -87,6 +88,41 @@ GIT_READONLY = {"status", "diff", "log", "show", "branch", "ls-files", "blame"}
 # bases that are fine with any arguments (mirrors settings.json's :* allow entries).
 BARE_OK = {"realpath", "dirname", "basename", "mkdir", "echo", "pwd", "cd"}
 
+def _segments(cmd):
+    """Split a command line into sub-command token-lists at top-level shell operators (| || && ; &),
+    RESPECTING quotes — so a `|` inside `grep -E 'a|b'` (or an alternation regex `(png|txt)`) is NOT
+    treated as a separator. The old naive `re.split(r'\\|', cmd)` shredded such greps into fake commands
+    ('txt)', 'Prop14', …) and wrongly blocked them now that grep/find are allowed. Falls back to one
+    naive segment on a lex error (e.g. unbalanced quotes) — safe (won't mis-split)."""
+    try:
+        lex = shlex.shlex(cmd, posix=True, punctuation_chars="|&;")
+        lex.whitespace_split = True
+        lex.commenters = ""
+        toks = list(lex)
+    except ValueError:
+        return [cmd.split()]
+    segs, cur = [], []
+    for t in toks:
+        if t and all(c in "|&;" for c in t):        # a run of unquoted shell separators (| || && ; …)
+            if cur:
+                segs.append(cur)
+            cur = []
+        else:
+            cur.append(t)
+    if cur:
+        segs.append(cur)
+    return segs
+
+
+# Protected baselines the agent must NEVER write directly: only the pipeline scripts write them —
+# `check_steps.py`/`check_signatures.py --save` → the two *_signatures.json; `assumptions.py` →
+# assumption_tags.json. A `>`/`>>` redirect into one (any path, incl. the /u symlink + quotes) bypasses
+# the settings Write/Edit deny via an allowlisted command (`echo … > f`), so the hook blocks it here.
+_PROTECTED_JSON = ("step_signatures.json", "proposition_signatures.json", "assumption_tags.json")
+_REDIR_PROTECTED = re.compile(
+    ">>?\\s*['\"]?[^\\s'\"]*(?:" + "|".join(re.escape(f) for f in _PROTECTED_JSON) + ")")
+
+
 def main():
     try:
         data = json.load(sys.stdin)
@@ -96,18 +132,23 @@ def main():
     if not cmd.strip():
         sys.exit(0)
 
+    # Protected-baseline guard (see _REDIR_PROTECTED): block ANY shell redirect that would WRITE one of the
+    # three baselines, whatever (possibly allowlisted) command performs it. Closes the `echo … > f` bypass
+    # of the Write/Edit deny; these files are human/script-only (check_steps/check_signatures --save,
+    # assumptions.py). Reading them (no `>`) stays free.
+    if _REDIR_PROTECTED.search(cmd):
+        gate("writing a protected baseline via a shell redirect is DENIED — step_signatures.json / "
+             "proposition_signatures.json / assumption_tags.json are written ONLY by the pipeline scripts "
+             "(check_steps/check_signatures --save, assumptions.py), never edited directly by the agent. "
+             + ALLOWED_SUMMARY)
+
     # Inspect every sub-command (split on shell separators) against a POSITIVE allowlist — anything
     # that doesn't match a known-good shape is gated (ask/deny per hygiene.conf), not just the named
     # inspection binaries. This is what catches `git grep` (a git SUBcommand, not a leading `grep`),
     # `git fetch`, `npm install`, etc. — anything CLAUDE.md's allowlist doesn't name.
-    for seg in re.split(r"&&|\|\||\||;|\n", cmd):
-        seg = seg.strip()
-        if not seg:
+    for toks in _segments(cmd):
+        if not toks:
             continue
-        try:
-            toks = shlex.split(seg)
-        except ValueError:
-            toks = seg.split()
         # skip leading ENV=val assignments and a leading 'command'/'builtin' wrapper
         i = 0
         while i < len(toks) and (re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", toks[i])
@@ -119,7 +160,11 @@ def main():
         nxt = toks[i + 1] if i + 1 < len(toks) else ""
         nxt2 = toks[i + 2] if i + 2 < len(toks) else ""
 
-        # Known-bad inspection binaries get a specific "use this tool instead" message.
+        # Read-only inspection binaries run bare (Grep/Glob tools don't exist here — this is search).
+        if base in READONLY_OK:
+            continue
+
+        # Genuine in-place transformers still get a specific "use this tool instead" message.
         if base in BLOCKED:
             gate(f"`{base}` is blocked for reading/inspection. {BLOCKED[base]} {ALLOWED_SUMMARY}")
 
@@ -131,7 +176,9 @@ def main():
             arg = nxt.rsplit("/", 1)[-1]
             ok = (nxt.startswith("scripts/") or nxt.startswith("./scripts/")) and (
                 arg.startswith("check_") or arg in ("wire_main.py", "smt_probe.py",
-                                                    "find.py", "bake_index.py", "scaffold_step.py"))
+                                                    "find.py", "bake_index.py", "scaffold_step.py",
+                                                     "faithful_map_assemble.py", "assumptions.py"))
+
             # also allow running the parse-only test suite bare: `python3 -m pytest tests/…`
             if not ok and nxt == "-m" and nxt2 == "pytest":
                 ok = True
@@ -141,6 +188,23 @@ def main():
                      f"`check_signatures.py` / `wire_main.py`). Inline code (`-c`), a stdin heredoc "
                      f"(`python3 - <<EOF`), a process-substitution, or an ad-hoc script is blocked — "
                      f"read files with the Read tool, search with Grep/Glob. {ALLOWED_SUMMARY}")
+            # INTEGRITY GATE — always hard-deny, independent of hygiene.conf's ask/deny knob:
+            # `--save` rewrites the human-approved signature baselines (scripts/{step,proposition}_
+            # signatures.json). That is a HUMAN-only action at the Phase-A gate; the AI may run
+            # these scripts in check mode only. (settings.json globs can't enforce this —
+            # settings.local.json's broad `Bash(python3 *)` allow makes arg-specific denies
+            # bypassable by reformulation; this shlex'd token check is the airtight point.)
+            if arg in ("check_steps.py", "check_signatures.py") and "--save" in toks:
+                print(json.dumps({"hookSpecificOutput": {
+                    "hookEventName": "PreToolUse",
+                    "permissionDecision": "deny",
+                    "permissionDecisionReason":
+                        "`--save` rewrites the approved signature baseline "
+                        "(scripts/step_signatures.json / proposition_signatures.json) — a human-only "
+                        "action at the Phase-A gate. Run these scripts in check mode (no --save). "
+                        f"{ALLOWED_SUMMARY}",
+                }}))
+                sys.exit(0)
             continue  # ok: a sanctioned pipeline-script invocation
 
         if base in BARE_OK:
@@ -163,6 +227,29 @@ def main():
 
         if base == "check_faithful.sh":
             continue
+
+        if base == "rm":
+            # Scoped delete: agents MAY remove files inside a prop folder (Book<N>/Prop<NN>/…) — their
+            # own workspace, with git as the safety net (they can't git, the human commits). Anything
+            # else — flat originals (Book/PropNN.lean), SystemE, scripts, whole trees, an absolute path,
+            # or a `..` escape — is HARD-DENIED regardless of the ask/deny knob.
+            targets = [t for t in toks[i + 1:] if not t.startswith("-")]
+            prop_re = re.compile(r"(^|/)Book\d+/Prop\d+(/|$)")
+            safe = bool(targets) and all(
+                prop_re.search(t) and ".." not in t.split("/") and not t.startswith("/")
+                for t in targets)
+            if safe:
+                continue
+            print(json.dumps({"hookSpecificOutput": {
+                "hookEventName": "PreToolUse",
+                "permissionDecision": "deny",
+                "permissionDecisionReason":
+                    "`rm` here may ONLY target files inside a prop folder (Book<N>/Prop<NN>/…) — the "
+                    "agent's own workspace, with git as the safety net. Deleting a flat original, "
+                    "SystemE, scripts, a whole tree, or anything via an absolute path or `..` is "
+                    "blocked. " + ALLOWED_SUMMARY,
+            }}))
+            sys.exit(0)
 
         # Anything else entirely unrecognized — not a denylisted inspection binary, not python, not
         # one of the path helpers, not a read-only git/lake/pipeline-script invocation.

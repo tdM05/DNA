@@ -28,8 +28,8 @@ to import (the facts are figure-specific; you re-prove each against your figure)
 authoritative olean-mode `check_faithful.sh` + `check_steps.py` + `check_signatures.py`. Use them as
 references for **STRUCTURE ONLY**: what a finished `Main` looks like, the helper naming law, the
 `@args` line, leaf-vs-container shape, decomposition granularity. **NEVER copy a claim TYPE or a
-decomposition across props** — claims are per-sentence translations (faithful-map Rule 0: the sentence
-is the claim), so a shape that fit Prop02's sentence is unfaithful on a prop whose sentence says
+decomposition across props** — claims are per-sentence translations (the sentence is the claim —
+`faithful-map`'s core rule), so a shape that fit Prop02's sentence is unfaithful on a prop whose sentence says
 something else. Format: copy freely. Content: translate THIS prop's sentences from scratch. Every
 other Book-2 prop is at a varying/in-progress state — not a reference.)
 
@@ -39,18 +39,63 @@ other Book-2 prop is at a varying/in-progress state — not a reference.)
 [LeanEuclidPlus/FAITHFUL.md](LeanEuclidPlus/FAITHFUL.md) — read this first if you're driving the process.
 
 To make a proof FAITHFUL (annotate it with `euclid_sentence`s so it follows Euclid's sentence
-structure — e.g. "make Book2/PropNN faithful") the pipeline is **A → gate → B → gate → C** (two
-skills + one mechanical step):
-1. **`faithful-map`** ([.claude/skills/faithful-map/SKILL.md](.claude/skills/faithful-map/SKILL.md)) —
-   Phase A: TRANSLATE each sentence into a Lean claim type in `PropNN/Main.lean`. Bodies are **all
-   `:= by sorry`; NO step files; NO `euclid_apply (helper…)` wiring** (the all-sorry Main elaborates
-   cheap/SMT-free). STOPS for **human review** + `check_steps.py --save`.
-2. **`faithful-prove`** ([.claude/skills/faithful-prove/SKILL.md](.claude/skills/faithful-prove/SKILL.md)) —
+structure — e.g. "make Book2/PropNN faithful") the pipeline is **A → gate → Assumption → B → gate → C**
+(Phase A = INTERACTIVE split → map · Assumption = `scripts/assumptions.py` · Phase B = `faithful-prove`
+· Phase C = mechanical):
+1. **Phase A — the sentence map** (translation only, no proving). Run these two skills INTERACTIVELY, by
+   hand, reviewing between them — NOT headless (headless mapping stalled; interactive one-at-a-time is the
+   proven approach):
+   a. **`faithful-split`** ([.claude/skills/faithful-split/SKILL.md](.claude/skills/faithful-split/SKILL.md)) —
+      split the English proof text into atomic assertions → `PropNN/split.json` (TEXT-ONLY), then confirm
+      it tiles the canonical text byte-for-byte: `python3 scripts/check_faithful.py --split PropNN`.
+   b. **`faithful-map`** ([.claude/skills/faithful-map/SKILL.md](.claude/skills/faithful-map/SKILL.md)) —
+      the ONE interactive mapper (absorbs the old translate + review). It first stamps a placeholder
+      `Main.lean` from `split.json` (`python3 scripts/faithful_map_assemble.py PropNN --placeholders` →
+      `(stepN : True)` + `@assumption TODO`, TEXT pulled from split.json so tiling is correct by
+      construction), then FILLS each claim ONE sentence at a time (building `check_step --provable` +
+      `check_faithful` as it goes), adds any structural FRAME (reductio/`by_cases`/`wlog`) or construction
+      beyond the vocab (superposition → reads `Book/`+`find.py`/`SystemE`), and self-reviews.
+      **Every sentence gets a REAL claim — NEVER `True`** at the end, and NEVER a restated given (that's an
+      `@assumption`). Bodies stay `:= by sorry`. **EXCEPTION — a mid-proof "I say that …" (what-to-show)
+      sentence is `euclid_wts "loc" "text"`** (a claimless STRUCTURAL tactic, legal mid-proof — the
+      opening mirror of the trailing `euclid_conclude_sentence`); it announces the goal, which the
+      FOLLOWING sentences prove and the tail `exact` assembles — do NOT give it the goal body as a claim.
+   Confirm with `check_step.py PropNN --provable` (Main elaborates) + `check_faithful.py PropNN/Main.lean`
+   (text tiling + construction deps + **hard-FAIL on any `True` claim**). STOPS for **human review** +
+   `python3 scripts/check_steps.py --save PropNN/Main.lean`.
+   (Retired: the old headless `faithful-translate` / `faithful-review` / `scaffold_translate.py` 3-agent
+   split — `faithful-map` does it all interactively. The headless driver `run_faithful.py` now batches
+   ONLY the two automatable phases — `assumptions` + `prove`; split/map/`--save`/Phase-C are manual.
+   Monitor a batch with `scripts/monitor_tui.py`.)
+2. **Assumption Phase — mechanical, the HUMAN runs a no-LLM SWEEP (between the Phase-A save and Phase B):**
+   `python3 scripts/assumptions.py <propdir>` (batch it in a plain loop over all props). For every
+   `-- @assumption ("text", type)` it materializes a `have stepK_assumptionN : type := by sorry` (every
+   assumption gets a have, no exceptions), then classifies each by a **LADDER** (cheapest-first), PERSISTING
+   the first tactic that closes it: 1 `rfl` · 2 `assumption` · 3 `simp (config := {zetaDelta := true})` ·
+   4 `linarith` · 5 `nlinarith` · 6 `euclid_finish`@30s · none → gap. valid → `:= by <tactic>` +
+   `-- @assumption_valid` (a free, node-invisible fact Phase B skips) with its `level`/`closed_by` recorded
+   (a graded triviality measure); gap → `:= by sorry` + `-- @assumption_gap` (a real node Phase B proves —
+   NOT a failure). The `simp` rung closes the superposition `img`/`lineImg` map coincidences that crash bare
+   `euclid_finish`. Writes the valid/gap tags (+ level) to `scripts/assumption_tags.json` (agent-write-
+   denied). Fail-closed: STEP A materializes + build-checks Main; FAIL (usually a `wlog … generalizing`
+   frame — the have shifts `Hsym`'s arity) ⟹ leave the haves, exit 1 (fix the frame: add the redundant arg
+   to `exact Hsym …` — NEVER delete the have — then `--tag-only`). After classifying it re-builds the
+   COMBINED Main; FAIL ⟹ exit 1, tags not written, left for review. **The `/faithful-assumptions` skill is
+   REPAIR-ONLY** — invoked by a human/LLM on just the exit-1 (or `sat`) props the sweep flags, never to run
+   the phase fresh. A plain re-run on a materialized prop auto-skips STEP A (never duplicates). `--dry-run`
+   reverts everything. `check_steps --save` is NOT re-run. Refuses a wired/post-Phase-B Main. Downstream `--all`
+   (and `check_faithful` at gate C) HARD-enforce: every @assumption is a helper-sig binder (#1 FORCE) with
+   its materialized have (#3 PARITY), and unchanged type (#2a, vs step_signatures) + valid/gap tag (#2b,
+   vs assumption_tags.json).
+3. **`faithful-prove`** ([.claude/skills/faithful-prove/SKILL.md](.claude/skills/faithful-prove/SKILL.md)) —
    Phase B: prove each step with the **recursive SF/SP/P atom** (delegates to `prove-euclid`). The agent
    creates/proves `stepN.lean` (recursing into `have`+backing files until every build ≤30s) and
    verifies each node with `scripts/check_step.py <propdir> <node>` (runs SF→SP→P, stops at first fail;
-   this checks ONLY that node). Driving order: certify leaves, confirm each container/step with
-   `--subtree <node>` (audits that node's whole cone, scoped — not the rest of the prop), bottom-up;
+   this checks ONLY that node). Driving order: prove leaves, then **`--drive` is the default driving
+   command** — it auto-loops the subtree audit over Main's not-done nodes IN ORDER, certifying each
+   node's whole cone, skipping anything already done, and stopping at the first not-yet-proved node
+   (fix it, re-run `--drive` to resume). Prefer `--drive` over hand-running `--subtree <node>` (that's
+   only for surgically re-confirming ONE cone — e.g. after editing a shared helper);
    `--all` is the single FINAL audit, run ONCE — NEVER mid-work to hunt a failure. `--all` also enforces
    **criterion-3 deps** (every cited `[Prop.~B.N]` satisfied by a Main construction `… as …` OR the
    sentence's helper cone); `check_step --dependency` isolates that check fast (number-only — the human's
@@ -60,7 +105,7 @@ skills + one mechanical step):
    reverts.** Dev-state files import NO pipeline (helper/step) files — only `SystemE` + cited
    propositions; the script adds/removes a helper import alongside its wiring (so per-node checks pull
    in only that node's olean — fast + isolated). Ends when `scripts/check_step.py <propdir> --all` exits 0.
-3. **Phase C — mechanical, NOT a skill (the human runs it):**
+4. **Phase C — mechanical, NOT a skill (the human runs it):**
    `python3 scripts/wire_main.py <propdir>` (commits the wiring, strips the 30s caps → 300s default,
    builds Main once — guaranteed green if `--all` passed) then `scripts/check_faithful.sh Book2` +
    `check_steps.py` + `check_signatures.py`. `wire_main.py --unwire` reverses it back to Phase B.
@@ -99,15 +144,15 @@ Every other Book-2 prop is at a varying/in-progress state — follow the skills'
   read-only command that's already allowed. Same for `cd … && python3 scripts/…`. So: just
   `git log …` / `git show …` / `python3 scripts/check_step.py …`, never wrapped. (`scripts/check_*` and
   `wire_main` also run bare — no pipes, no `timeout` wrapper; read what they print.)
-- **BASH IS A POSITIVE ALLOWLIST — this is the EXHAUSTIVE set of bash you run here. If your command
-  isn't on this list, it's the wrong tool; use Read / Grep / Glob instead.** A PreToolUse hook
-  (`.claude/hooks/bash_hygiene.py`) ENFORCES this: it hard-denies the off-list inspection commands
-  (`cat`/`head`/`tail`/`sed`/`awk`/`find`/`grep`/`rg`/`ls`/`wc`/`jq`/`python3 -c`, including inside a
-  pipe) with a message naming the tool to use — so don't reach for them, even a clever sibling.
-  THE ALLOWLIST:
-  - **read a file → the Read tool** (a slice `sed -n '76,100p' f` is just `Read(f, offset 76, limit 25)`);
-    **find files → the Glob tool**; **search contents → the Grep tool** (`grep -n foo Book/*.lean` is `Grep`).
-    These are faster, clickable, and never prompt — there is NO bash reason to read/search a file here.
+- **⚠ The `Grep` and `Glob` TOOLS do NOT exist in this harness — do NOT try to call them.** Read-only
+  bash inspection IS allowed here. A PreToolUse hook (`.claude/hooks/bash_hygiene.py`) governs bash:
+  read-only inspection (`grep`/`rg`/`egrep`/`fgrep`/`find`/`cat`/`head`/`tail`/`ls`/`wc`) runs freely;
+  only in-place transformers (`sed`/`awk`/`jq`) and ad-hoc code (`python3 -c`, heredocs) are blocked
+  (use Read/Edit instead). So:
+  - **read a KNOWN file → the Read tool** (a slice `sed -n '76,100p' f` is `Read(f, offset 76, limit 25)`);
+    it's clickable and never prompts — prefer it for a path you already know.
+  - **find files → bash `find` or `git ls-files`** · **search contents → bash `grep`/`rg`**. (There is no
+    Grep/Glob tool to fall back on — use bash or Read.)
   - **find a LEMMA/AXIOM/PROP by what it concludes/consumes/mentions → `python3 scripts/find.py …`**
     (the sanctioned smart-grep over the declaration database — "what gets me `¬intersectsLine`?"
     `--concludes "¬intersectsLine"`; "what consumes a parallelogram?" `--consumes formParallelogram`;
@@ -116,10 +161,18 @@ Every other Book-2 prop is at a varying/in-progress state — follow the skills'
     or guessing signatures. It auto-rebakes; `python3 scripts/bake_index.py --rebuild` forces a full
     re-parse. The parse-only test suite is `python3 -m pytest tests/`.
   - **`python3 scripts/check_step.py …` / `check_steps.py` / `check_faithful.py` / `check_signatures.py`
-    / `scripts/check_faithful.sh` / `python3 scripts/wire_main.py …` / `python3 scripts/scaffold_step.py …`**
-    — the build/verify pipeline and backing-file scaffolder. Run BARE, no pipe to `grep`/`head` (the hook
-    denies the pipe; just read what the script prints). `scaffold_step.py` creates a skeleton `stepN.lean`
-    backing file with correct naming law and claim type pre-filled (Phase B uses this to avoid boilerplate).
+    / `scripts/check_faithful.sh` / `python3 scripts/wire_main.py …` / `python3 scripts/scaffold_step.py …`
+    / `python3 scripts/assumptions.py <propdir> [--tag-only|--dry-run]`** — the build/verify pipeline,
+    backing-file scaffolder, and Assumption Phase. Run BARE, no pipe to `grep`/`head` (the hook denies the
+    pipe; just read what the script prints). `scaffold_step.py <file-or-propdir> <node>` creates a
+    skeleton backing file with correct naming law + 30s cap + claim type pre-filled — for BOTH Main
+    `euclid_sentence` steps and `have` sub-nodes (Phase B uses this to avoid boilerplate; new node ⟹
+    scaffold first). `assumptions.py` is the Assumption Phase: the **HUMAN** runs it as the no-LLM SWEEP
+    (a plain batch loop over all props — see the "Assumption Phase" step above). The AGENT touches it
+    ONLY via the REPAIR-ONLY `/faithful-assumptions` skill, on just the exit-1 props the sweep flags,
+    finishing with `--tag-only` — NEVER to run the phase fresh. The tags it writes are mechanical +
+    build-verified, so no human `--save`-style gate is needed; `scripts/assumption_tags.json` stays
+    agent-Write/Edit-denied so only the script writes it.
   - **read-only git**: `status`/`diff`/`log`/`show`/`branch`/`blame`/`ls-files` (git mutations are
     denied by policy — the human owns git, it's the safety net).
   - **path/shell helpers**: `cd LeanEuclidPlus` (the one allowed cd — see the bare-command rule above),

@@ -114,6 +114,12 @@ def preprocess : TacticM Unit := do
       let hname := decl.userName
       evalTactic $ ← `(tactic| try unfold Triangle.congruent at $(mkIdent hname):ident)
       evalTactic $ ← `(tactic| try simp at $(mkIdent hname):ident)
+  -- Destruct every context conjunction (the SAME step `euclid_apply` runs, Solve.lean's `elimAllConjunctions`
+  -- call below): `whnf` sees through reducible abbrevs, so a raw `distinctPointsOnLine`/`opposingSides`
+  -- hypothesis (e.g. a faithful `euclid_sentence` claim `have`, which no `euclid_apply` ever destructed)
+  -- is split into the primitive `onLine`/`≠` conjuncts the SMT translator can handle — instead of hitting
+  -- `translateExpr`'s catch-all and aborting the whole solve with "Unexpected application …".
+  elimAllConjunctions
 
 def EuclidFinish (isApply : Bool) : TacticM Unit := do
   if !isApply then preprocess
@@ -177,20 +183,38 @@ def EuclidApply (rule : Term) (idents : Array Ident)  : TacticM Unit := do
     if P.hasLooseBVars then  --  τ is an ∀
       evalTactic $ ← `(tactic| obtain ($(mkIdent hnm)) := $rule)
     else  -- τ is an implication, rather than ∀
-      let Γ ← init (← getMainGoal) hole rule idents
-      EuclidSolve |>.run Γ
+      -- CLOSE-DIRECTLY FIRST: a fully-applied implication-typed rule may BE the current goal — a
+      -- faithful `euclid_sentence` claim that is itself a conditional `P → R`. `exact` closes it with
+      -- zero SMT. On failure (the usual case: the goal is the CONSEQUENT, so this arrow-typed rule
+      -- does not match it) `exact` throws without assigning the goal, and we fall through to
+      -- EuclidSolve unchanged. Mirrors the non-arrow close-directly branch below.
+      let direct ← try
+        evalTactic $ ← `(tactic| first | exact $rule)
+        pure true
+      catch _ =>
+        pure false
+      if direct then
+        pure ()
+      else
+        let Γ ← init (← getMainGoal) hole rule idents
+        EuclidSolve |>.run Γ
   -- If there is no implication in the rule, i.e. no antecedent/hole to be filled, then just do the construction.
   | e =>
     match e.getAppFnArgs with
     | (``Exists, _) =>  -- τ is `∃ x, ...`
       evalTactic $ ← `(tactic| obtain ⟨$idents,*, ($(mkIdent hnm))⟩ := $rule)
     | _ =>
-      -- Try the destructuring `obtain ⟨h⟩` FIRST — byte-for-byte the previous behavior, so every proof
-      -- where it currently succeeds is UNCHANGED. Only if it FAILS (an `Eq`/atom with nothing to take
-      -- apart — `obtain ⟨h⟩` forces dependent elimination and errors) fall back to plain `obtain h`,
-      -- which just introduces the fact. The fallback fires only for cases that crash today (fast fail,
-      -- no slow backtrack). `elimAllConjunctions` below still splits any conjunction.
+      -- CLOSE-DIRECTLY FIRST: a fully-applied rule's conclusion may BE the current goal (the faithful
+      -- wire always has helper-conclusion == node-goal). `exact $rule` then closes it directly — ZERO
+      -- SMT, works for every claim shape (`∧`, `∨`, atomic, …). Citation recording already ran above
+      -- (appliedExt), so this loses nothing. On failure (conclusion ≠ goal — the old-style "add a
+      -- fact to context" use), fall through unchanged to the destructuring below. If `exact` closes
+      -- the goal, the trailing `elimAllConjunctions` is a no-op via its empty-goals guard (Util.lean).
+      -- NOTE: this requires faithful wires to carry NO trailing closer — the `(try split_ands) <;>
+      -- assumption` trailer errors "no goals" once `exact` closes. wire_main regenerates wires
+      -- trailer-free, so committed props must be unwired + rewired once this is live.
       evalTactic $ ← `(tactic| first
+        | exact $rule
         | (obtain ⟨$(mkIdent hnm)⟩ := $rule)
         | (obtain $(mkIdent hnm) := $rule))
 

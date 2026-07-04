@@ -41,29 +41,100 @@ itself was mid-compile at the kill — which warm deps prevent.
 
 ## PER PROP (e.g. Prop04) — three phases, two human gates (▶)
 
-**1. Phase A — translate (skill):**  `/faithful-map Book2/Prop04/Main.lean`
-   Wipes the old proof; writes `Main.lean` = the (untouched) proposition signature + `euclid_intros`
-   + the object-producing constructions + one `euclid_sentence "loc" "verbatim" (stepN : <claim>)
-   := by sorry` per sentence + the intro/conclude bookends. **Every body is `:= by sorry`; no step
-   files yet.** Elaborates cheap (all-sorry, SMT-free). STOPS for you.
+**1. Phase A — the sentence map (split → map), INTERACTIVE:**
 
-   **Sanity-check Criterion 1 (concatenated sentence texts == the canonical original) — both must PASS:**
+   Run these two skills BY HAND, reviewing between them. Headless mapping stalled; interactive,
+   one-sentence-at-a-time is the proven approach.
+
+   **Stage 1 — Split (text-only):**  `/faithful-split Book2/Prop04`
+   Agent reads ONLY `Book2/data/texts_proofs/4.txt` (Book 1: `Book/texts_proofs/N.txt`). Splits the
+   English into atomic assertions, marks roles (intro/construction/deduction/conclusion), and identifies
+   justification substrings. Outputs `Book2/Prop04/split.json`, and runs the byte-exact tiling gate
+   (which you can re-run):
+   ```
+   python3 scripts/check_faithful.py --split Book2/Prop04
+   ```
+   **Human reviews the split before proceeding.**
+
+   **Stage 2 — Map (interactive):**  `/faithful-map Book2/Prop04`
+   The ONE interactive mapper (absorbs the old translate + review). It:
+   1. stamps a placeholder Main from `split.json` (deterministic, no LLM):
+      ```
+      python3 scripts/faithful_map_assemble.py Book2/Prop04 --placeholders
+      ```
+      → one `euclid_sentence "loc" "text" (stepN : True) := by sorry` per sentence + `-- @assumption
+      ("substring", TODO)` lines. TEXT is copied from `split.json`, so tiling is correct by construction
+      (you NEVER edit sentence text).
+   2. FILLS each `True` → a real claim and each `TODO` → a real type, ONE sentence at a time, building
+      `check_step --provable` + `check_faithful` as it goes. Adds any structural FRAME (reductio /
+      `by_cases` / `wlog`) or a construction beyond the vocab (superposition → reads `Book/PropNN.lean` +
+      `find.py`/`SystemE`). **Every sentence gets a REAL claim, NEVER `True` at the end, and NEVER a
+      restated given (that is an `@assumption`).** Bodies stay `:= by sorry`.
+
+   **Sanity-check Criterion 1 (concatenated sentence texts == the canonical original) AND Criterion 4
+   (every `-- @assumption ("text", …)` text is a substring of its sentence) — both must PASS; the regex
+   check ALSO hard-FAILS on any `euclid_sentence` whose claim is exactly `True`:**
    - regex (quick, no build):
    ```
-   python3 scripts/check_faithful.py "Book2/Prop04/Main.lean"
+   python3 scripts/check_faithful.py "Book1/Prop04/Main.lean"
    ```
    - olean (authoritative, book-aware):
    ```
    lake build Book2.Prop04.Main
-   scripts/check_faithful.sh Book2.Prop04.Main
+   scripts/check_faithful.sh Book1.Prop04.Main
    ```
 
-**▶ 2. HUMAN GATE A — review + freeze the claims.**
-   Read each claim type: does it honestly say what that Euclid sentence says? (The one thing no
-   machine checks; use `Book2/data/diagrams/4.png` to resolve labels.) When happy:
+   (RETIRED: the old headless `faithful-translate` / `faithful-review` / `scaffold_translate.py` 3-agent
+   split — `faithful-map` does Phase A interactively now.)
+
+**▶ 2. HUMAN GATE A — review + freeze the claims (and record the @assumption map).**
+   Read each claim type: does it honestly say what that Euclid sentence says? Also eyeball each
+   `-- @assumption` line: is it a genuine *consumed input*, not a conjunct the step proves? (Both are
+   human-checked — no machine fully verifies faithfulness; use `Book2/data/diagrams/4.png` to resolve
+   labels.) When happy:
    ```
-   python3 scripts/check_steps.py --save Book2/Prop04/Main.lean
+   python3 scripts/check_steps.py --save Book1/Prop04/Main.lean
    ```
+   This freezes the claim TYPES **hard** and records the `@assumption` types. Under the Assumption
+   Phase (next), assumptions are first-class PROVEN obligations — frozen HARD like claims: Phase B may
+   NOT drop or retype one (`check_step --all` + gate-C `check_steps.py` hard-fail on `@assumption` drift).
+
+**▶ then the Assumption Phase (mechanical; YOU run it — NO LLM — between gate A and Phase B):**
+   ```
+   python3 scripts/assumptions.py Book1/Prop04            # --dry-run first to preview
+   ```
+   For every `-- @assumption` it materializes a `have stepK_assumptionN : type := by sorry`, then
+   classifies each by a **LADDER** (cheapest/most-trivial first), PERSISTING the FIRST tactic that closes it:
+
+     1 `rfl` · 2 `assumption` · 3 `simp (config := {zetaDelta := true})` · 4 `linarith` · 5 `nlinarith` ·
+     6 `euclid_finish` (30s solver cap — the only rung that runs z3) · none → **gap**.
+
+   **valid** (a rung closed it) → `:= by <tactic>` + `-- @assumption_valid` (free — the Phase-B agent skips
+   it). The winning rung (`level` 1–6) + `closed_by` are recorded in `scripts/assumption_tags.json` as a
+   GRADED triviality measure (post-processable; `tag` stays valid/gap so nothing downstream changes).
+   **gap** (nothing closed it) → `:= by sorry` + `-- @assumption_gap` — a real node Phase B proves; the
+   `verdict` field says why (`hard` = a candidate real reasoning gap; `crash`/`error` = a tooling limit on
+   the goal shape, NOT a deep gap; `sat` = the premise is FALSE → a MAP BUG to fix). You own
+   `assumption_tags.json` (agent-write-denied). Do NOT re-run `check_steps --save`. (`--dry-run` reverts
+   everything.)
+   The non-`euclid_finish` rungs run no solver → deterministic, immune to the SMT flake and the `simp_all`
+   loop; the level-3 `simp` rung closes the superposition `img`/`lineImg` map coincidences that crash bare
+   `euclid_finish`. It's fail-closed: STEP A materializes + build-checks Main; if that FAILS (almost always
+   a `wlog … generalizing` frame — the have shifts `Hsym`'s arity) it leaves the haves and stops → fix the
+   frame by hand (**add the redundant arg to `exact Hsym …`; never delete the have**) → `assumptions.py
+   <prop> --tag-only`. After classifying it re-builds the COMBINED Main; if THAT fails it stops (tags NOT
+   written) and leaves it for review. A plain re-run on an already-materialized prop auto-skips STEP A (it
+   re-classifies in place — never re-materializes/duplicates).
+
+   **The sweep (no LLM).** Once every prop is mapped + gate-A `--save`'d, run the ladder over all of them in
+   a plain loop — no agent needed, since it auto-closes the trivial premises:
+   ```
+   for p in 01 02 03 04 05 07 08 09 10; do python3 scripts/assumptions.py Book1/Prop$p; done
+   ```
+   `gap`s are EXPECTED (Phase B proves them) — they are NOT failures. Only these need you+LLM: a prop that
+   **exits 1** (STEP-A frame break or the final-build stop) or reports a **`sat`** (false premise / map
+   bug). Fix those (frame fix via `/faithful-assumptions`; map bug by re-mapping), re-run `--tag-only` on
+   just them, and the assumption phase is done → Phase B.
 
 **3. Phase B — prove (skill):**  `/faithful-prove Book2/Prop04/Main.lean`
    The agent creates each `stepN.lean` and proves it, decomposing recursively (adding `have`+backing
@@ -85,13 +156,13 @@ itself was mid-compile at the kill — which warm deps prevent.
 **5. Phase C — wire + verify (mechanical; YOU run it, not a skill):**
    **One command does all four (stops at the first failure):**
    ```
-   scripts/phase_c.sh Book2/Prop04                  # = the four steps below, in order
+   scripts/phase_c.sh Book1/Prop04                  # = the four steps below, in order
    ```
    (or run them by hand — note the THREE different argument shapes, the slash-vs-dot footgun:)
    ```
-   python3 scripts/wire_main.py Book2/PropNN        # commits the wiring, strips 30s caps, builds once
-   scripts/check_faithful.sh Book2.PropNN.Main            # text (crit.1) + deps (crit.3), book-aware
-   python3 scripts/check_steps.py Book2/PropNN/Main.lean   # claims unchanged since gate A
+   python3 scripts/wire_main.py Book1/PropNN        # commits the wiring, strips 30s caps, builds once
+   scripts/check_faithful.sh Book1.PropNN.Main            # text (crit.1) + deps (crit.3), book-aware
+   python3 scripts/check_steps.py Book1/PropNN/Main.lean   # claims unchanged since gate A
    python3 scripts/check_signatures.py              # no proposition statement was altered
    ```
    **▶ Gate C:** `wire_main` build green + zero sorry + all three checks PASS ⟹ Prop04 is faithful.
@@ -104,7 +175,8 @@ itself was mid-compile at the kill — which warm deps prevent.
 | script | purpose | who |
 |---|---|---|
 | `check_signatures.py` `[--save]` | guard proposition **statements** (must never change) | human, once + gate C |
-| `check_steps.py [--save] <Main>` | guard approved **claim types** (frozen after gate A) | human, gate A + gate C |
+| `check_steps.py [--save] <Main>` | guard approved **claim types** AND `@assumption` types (both frozen-HARD after gate A — assumption drift is now a hard fail, no drop/retype) | human, gate A + gate C |
+| `assumptions.py <propdir> [--dry-run] [--tag-only]` | **Assumption Phase** (no LLM): STEP A materializes a sorry have per `@assumption` + build-checks (fail → leave haves, fix the frame, `--tag-only`); STEP B classifies each by the LADDER (1 rfl · 2 assumption · 3 simp[zetaDelta] · 4 linarith · 5 nlinarith · 6 euclid_finish@30s), persists the first that closes + records level/closed_by, tags valid/gap in `scripts/assumption_tags.json`, then re-builds the combined Main (fail → STOP for review). Plain re-run on a materialized prop = auto `--tag-only` (no duplicate) | human (real run + sweep); agent (`--dry-run`, or fixing an exit-1 prop) |
 | `check_step.py <propdir> <node>` | certify ONLY that one node (SF→SP→P, stops at first fail) — does NOT check its sub-nodes | agent (Phase B) |
 | `check_step.py <propdir> --subtree <node>` | certify a node's WHOLE CONE (it + every sub-node it transitively contains), bottom-up, scoped — doesn't touch other steps; confirms a container/step is done | agent (Phase B) |
 | `check_step.py <propdir> --sufficient/--suppliable/--provable <node>` | run just one of SF/SP/P (diagnostics; `--provable` reports remaining-sorry file:lines) | agent (Phase B) |
@@ -113,7 +185,7 @@ itself was mid-compile at the kill — which warm deps prevent.
 | `check_step.py <propdir> --smell <node>` | SM pre-decompose sanity check: fire the bare claim at `euclid_finish` (short solver cap) — "closes" ⟹ don't decompose / "not closed" ⟹ decompose / "SAT" ⟹ claim is false. Deliberate; the no-flag path does NOT run it | agent (Phase B) |
 | `check_step.py <propdir> --check` | instant, no-build integrity scan (naming law, caps, no stray imports, no stray sorry, + criterion-3 deps) | agent (Phase B) |
 | `check_step.py <propdir> --dependency` (`--deps`) | instant, no-build criterion-3 check, BOTH arms: every cited `[Prop.~B.N]` satisfied by a Main construction (`… as …`) OR its sentence's helper cone. Number-only; isolate fast before `--all` (which also runs it). The book-aware authority is the human's gate-C olean check — don't game it | agent (**Phase B** — needs helpers) |
-| `check_step.py <propdir> --all` | WHOLE-prop bottom-up audit (SP every node + P every LEAF + no-stray-sorry + criterion-3 deps); the FINAL gate, run ONCE; exit 0 ⟹ Phase C guaranteed | agent (end of B) + human (gate B) |
+| `check_step.py <propdir> --all` | WHOLE-prop bottom-up audit (SP every node + P every LEAF + no-stray-sorry + criterion-3 deps); the FINAL gate, run ONCE; exit 0 ⟹ Phase C guaranteed. Also HARD-enforces the assumption invariants: #1 FORCE (every `@assumption` is a helper-sig binder), #3 PARITY (every one has its have), #2a/#2b (type + valid/gap tag unchanged) | agent (end of B) + human (gate B) |
 | `check_step.py <propdir> --whatchanged` (`--changed`) | instant, READ-ONLY (no build, no lock): after editing a file, report the MINIMAL set of certified nodes to re-check + WHY + the exact commands. Reads the certification manifest (written by `--all`/`--subtree`/each per-node PASS) and diffs input-file hashes. Use it instead of re-running `--all` after a fix | agent + human |
 | `check_step.py <propdir> --status` (`--checklist`) | instant, READ-ONLY (no build, no lock, never writes): the durable RESUME BOARD — Main's own nodes (source order), each rolled up over its cone against the manifest into done/stale/todo, plus the 3 whole-prop checks (deps/integrity/orphans) + the exact NEXT `--subtree` commands. All-✓ + 3/3 ⟹ `--all` is GUARANTEED to pass. The committed mirror `PropNN/STATUS.md` is regenerated by `--all`/`--subtree`/per-node PASS (the same writers as the manifest) | agent + human |
 | `check_step.py <propdir> --drive` | auto-loop `--subtree` over every Main node `--status` would report not-`done` (todo or stale), in source order, stopping at the first failure — covers cold-start (empty manifest) and warm-resume (skips already-`done` nodes) the same way, so you don't hand-drive `--status`'s printed command list yourself | agent (Phase B) |
@@ -143,8 +215,59 @@ parent — so it has no SF/SP, only a build. Therefore: build Main with `check_s
 (NO node); never pass `Main` as a node (SF/SP/bare with `Main` or with no node FAIL with a message
 pointing here). `propdir_of` requires `Main.lean` to exist, so a prop with no Main is rejected up front.
 
-## Running many in parallel
-One agent per prop folder; approve each at gate A independently. Book 1 (`Book/`, flat) is untouched.
+## Running many at scale — the headless driver (`run_faithful.py`)
+Only TWO phases are automatable across a batch, and the driver does exactly those two — **`assumptions`**
+and **`prove`**. Everything else is MANUAL/interactive: `/faithful-split`, `/faithful-map`, the human
+GATE-A review + `check_steps.py --save`, and Phase C (`wire_main.py`). `scripts/run_faithful.py` spawns
+`claude -p` per prop, saves the full agent trace, and logs cost. **Run it from `LeanEuclidPlus/` in YOUR
+terminal — NOT inside an agent session** (a nested `claude` spawn is hard-denied there).
+
+The per-prop order is: (manual) split → map → `--save` → **`assumptions`** → **`prove`** → (manual) Phase C.
+
+1. **assumptions** — the Assumption Phase (after each prop's map is `--save`'d). **Prefer the plain no-LLM
+   sweep first** — the ladder auto-closes the trivial premises, so most props need no agent:
+   ```
+   for p in Book1/Prop18 Book1/Prop19 …; do python3 scripts/assumptions.py $p; done
+   ```
+   Then spawn the LLM ONLY on the props that exited 1 (a `wlog`/`Hsym` frame break or the final-build stop)
+   or reported `sat`:
+   ```
+   python3 scripts/run_faithful.py assumptions <the-exit-1-props> --concurrency 30
+   ```
+   Each spawns `/faithful-assumptions` (fixes the frame, then `--tag-only`), and a `check_step --provable`
+   build-check confirms Main still elaborates. (Running the batch over ALL props still works — the agent is
+   just idle overhead on the ones the sweep already handled.)
+2. **prove** — the resumable prove loop, across the whole batch:
+   ```
+   python3 scripts/run_faithful.py prove Book1/Prop18 Book1/Prop19 … --concurrency 30
+   ```
+   Per prop it loops FRESH `claude` sessions (each continues from the on-disk step files + manifest, not
+   a `--resume`) until `check_step <propdir> --all` exits 0, writing one checkpoint per session. A Book-1
+   prop gets its original `Book/PropNN.lean` offered as a math reference. Then run Phase C (`phase_c.sh`)
+   per certified prop.
+
+**Monitor live** from another terminal: `python3 scripts/monitor_tui.py` (auto-discovers the running
+batch; no-lag even at 30+ props — status is computed off-thread, the render only reads a cache).
+
+**Cost + trace** land under each `PropNN/`:
+- `runs/<phase>-<seq>-<sid>.jsonl` — full streamed agent trace (**git-ignored**).
+- `cost/assumptions.json` · `cost/prove/<seq>.json` (status snapshot + cumulative $) ·
+  `cost/summary.json` (per-phase + overall).
+  **Committed.** Checkpoint delta = `cumulative_usd` now − prev.
+
+`--dry-run` prints the plan and spawns nothing. `--model M` overrides the model; `--max-resumes K` caps
+prove resumes. Concurrency 30 is fine (funded); builds serialize on the `.lake` flock (thinking
+parallelizes, building doesn't) — if prove wall-time drags, give each prop its own git worktree.
+**The human gates are irreducible** (faithfulness is human-judged; `--save` is human-only; Phase C is
+mechanical-human) — a batch is unattended WITHIN each segment, gated between. **Calibrate on ONE prop
+first** to get a real per-prop $ before scaling to 10, then 30.
+
+## Book 1 at scale
+Book-1 faithful work lands in the folderized `Book1/PropNN/` tree (parallel to the flat, untouched
+`Book/PropNN.lean` originals); `Book1/Prop06` is the vetted pilot. Phase C for a Book-1 prop adds
+`import Book1.PropNN.Main` to `Book1.lean` (mirror of `Book2.lean`) — stage it alongside. Dev-state
+per-prop builds need NO aggregator/lakefile change (a new `Book1/PropNN/` builds under the existing
+`Book1/` source path, as Prop06 does).
 
 ## If a gate fails — what it means / where to fix
 - **Gate A** never "fails" — it's your judgement. If a claim is wrong, fix it in `Main.lean` and

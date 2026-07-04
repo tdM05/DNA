@@ -14,6 +14,14 @@
       "Bash(lake env:*)",
       "Bash(lake exe faithful_export:*)",
       "Bash(mkdir:*)",
+      "Bash(rm:*)",
+
+      "Edit(LeanEuclidPlus/Book1/**)",
+      "Write(LeanEuclidPlus/Book1/**)",
+
+      "Edit(.claude/skills/faithful-patterns/**)",
+      "Write(.claude/skills/faithful-patterns/**)",
+
 
       "Bash(realpath:*)",
       "Bash(dirname:*)",
@@ -21,6 +29,17 @@
       "Bash(pwd)",
       "Bash(cd:*)",
       "Bash(echo:*)",
+
+      "Bash(grep:*)",
+      "Bash(egrep:*)",
+      "Bash(fgrep:*)",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(ls:*)",
+      "Bash(wc:*)",
 
       "Bash(git status:*)",
       "Bash(git diff:*)",
@@ -58,6 +77,13 @@
       "Bash(./scripts/safe_build.sh:*)",
       "Bash(lake build:*)",
 
+      "Write(**/step_signatures.json)",
+      "Edit(**/step_signatures.json)",
+      "Write(**/proposition_signatures.json)",
+      "Edit(**/proposition_signatures.json)",
+      "Write(**/assumption_tags.json)",
+      "Edit(**/assumption_tags.json)",
+
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
@@ -75,6 +101,26 @@
           {
             "type": "command",
             "command": "python3 /h/56/taddmao/code/autoform/DNA/.claude/hooks/bash_hygiene.py",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /h/56/taddmao/code/autoform/DNA/.claude/hooks/step_order_hook.py",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 /h/56/taddmao/code/autoform/DNA/.claude/hooks/step_order_hook.py",
             "timeout": 10
           }
         ]

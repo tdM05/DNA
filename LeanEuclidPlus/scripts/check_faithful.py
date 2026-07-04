@@ -145,6 +145,19 @@ def criterion1_exact(items, canon_rel, canon_path):
                            f"  ...{ctx} <HERE>",
                            f"  canonical: {cw[j]!r}",
                            f"  your text: {mw[j]!r}"]
+    if len(cw) == len(mw):
+        # Same words in the same order, but the raw strings differ → a WHITESPACE mismatch: the source
+        # has a multi-space run the single-space join didn't reproduce. Pinpoint it (still byte-exact to
+        # PASS — this only makes the FAIL actionable so split/review can fix the boundary). See
+        # faithful-split RULE 2: keep the extra space(s) inside a slice (trailing left / leading right).
+        k = next((i for i in range(min(len(canon), len(concat))) if canon[i] != concat[i]),
+                 min(len(canon), len(concat)))
+        return False, ["whitespace mismatch — all words match, only spacing differs "
+                       f"(first differs at char {k})",
+                       f"  canonical: {canon[max(0, k-25):k+25]!r}",
+                       f"  your text: {concat[max(0, k-25):k+25]!r}",
+                       "  → the source has a multi-space run here; keep the extra space(s) INSIDE a "
+                       "slice (trailing the left / leading the right) so the 1-space join reproduces it."]
     if len(mw) < len(cw):
         return False, [f"canonical text continues past your last sentence — "
                        f"missing (e.g.) {' '.join(cw[len(mw):len(mw)+8])!r} ..."]
@@ -206,10 +219,70 @@ def strip_comments(src: str) -> str:
         out.append(src[i]); i += 1
     return "".join(out)
 
-# any of the three annotation tactics, then "loc" "text" — both strings allow escaped quotes \"
+# any of the annotation tactics, then "loc" "text" — both strings allow escaped quotes \"
+# (`wts` = mid-proof "I say that …" what-to-show: STRUCTURAL like intro/conclude — no claim binder,
+#  but placement-unconstrained — so the True-gate skips it, the intro/conclude placement gate ignores
+#  it, and only its text tiles.)
 PAT = re.compile(
-    r'euclid_(sentence|intro_sentence|conclude_sentence)\s*'
+    r'euclid_(sentence|intro_sentence|conclude_sentence|wts)\s*'
     r'"((?:[^"\\]|\\.)*)"\s*"((?:[^"\\]|\\.)*)"')
+
+def sentence_claim(src: str, start_pos: int):
+    """Given `src` (comment-stripped) and a position at/after an `euclid_sentence`'s text string,
+    return the claim type inside the following `(ident : CLAIM) :=`, whitespace-normalized, or None.
+    Balances parens so nested `()` in the claim are handled. ONLY meaningful for `euclid_sentence`
+    (intro/conclude sentences carry no `(name : claim)` binder)."""
+    i = src.find("(", start_pos)
+    if i < 0:
+        return None
+    depth, j = 0, i
+    while j < len(src):
+        if src[j] == "(":
+            depth += 1
+        elif src[j] == ")":
+            depth -= 1
+            if depth == 0:
+                break
+        j += 1
+    else:
+        return None
+    m = re.match(r'\s*\w+\s*:\s*(.*)$', src[i + 1:j], re.DOTALL)   # "ident : CLAIM"
+    return " ".join(m.group(1).split()) if m else None
+
+_ASSUMPTION_TAGS = os.path.join(fl.BOOK_ROOT, "scripts", "assumption_tags.json")
+
+
+def _assumption_tag_problems(main_path: str):
+    """#2b (human Phase-C gate). Compare each assumption's CURRENT valid/gap (from its have body:
+    inline `euclid_finish` → valid; else → gap) against the frozen scripts/assumption_tags.json the
+    assumption phase wrote, AND confirm the structural pairing: a gap has a backing file (it must be
+    proven), a valid is inline (no backing file). Empty ⟹ OK (also when no tags recorded yet)."""
+    if not os.path.exists(_ASSUMPTION_TAGS):
+        return []
+    try:
+        data = json.load(open(_ASSUMPTION_TAGS, encoding="utf-8"))
+    except (ValueError, OSError):
+        return []
+    propdir = os.path.dirname(os.path.realpath(main_path))
+    saved = data.get(os.path.relpath(propdir, fl.BOOK_ROOT))
+    if not saved:
+        return []
+    current = fl.assumption_current_tags(main_path)
+    problems = []
+    for name, rec in sorted(saved.items()):
+        want, have = rec.get("tag"), current.get(name)
+        if have is None:
+            problems.append(f"{name}: recorded '{want}' but its have is gone")
+        elif have != want:
+            problems.append(f"{name}: recorded '{want}' but is now '{have}'")
+        else:
+            bf = fl.backing_file(propdir, name)
+            if want == "gap" and bf is None:
+                problems.append(f"{name}: tagged 'gap' but has no backing file (a gap must be proven)")
+            if want == "valid" and bf is not None:
+                problems.append(f"{name}: tagged 'valid' (inline) but a backing file exists")
+    return problems
+
 
 def check_source(path: str) -> int:
     raw = open(path, encoding="utf-8").read()
@@ -218,7 +291,8 @@ def check_source(path: str) -> int:
     for m in PAT.finditer(src):
         ln = src.count("\n", 0, m.start()) + 1
         anns.append({'loc': m.group(2), 'text': m.group(3).replace('\\"', '"'),
-                     'start': m.start(), 'ref': f"{path}:{ln}"})
+                     'kind': m.group(1), 'start': m.start(), 'end': m.end(),
+                     'ref': f"{path}:{ln}"})
     print(f"=== {os.path.basename(path)} — MODE: source/regex (no build) ===")
     print("    quick offline sanity check (text is EXACT; dependency match is number-only, not book-aware)")
     if not anns:
@@ -285,6 +359,59 @@ def check_source(path: str) -> int:
                        f"(use the per-sentence euclid_sentence/euclid_apply chain; algebra goes in a helper)")
         rc |= report("no forbidden bulk goal-closing tactics in the main proof body",
                      not bad, bad or ["none found"])
+
+    # @assumption text-substring check (criterion 4): every `-- @assumption ("text", ...)` annotation
+    # must have its English text as a normalized substring of the owning euclid_sentence's text.
+    # Scans the RAW source (annotations are comments, blanked in `src`). Positions align with `anns`
+    # (strip_comments replaces comment chars with spaces — character offsets are identical in raw/src).
+    assump_problems = []
+    for am in fl.ASSUMPTION_ANNOT.finditer(raw):
+        annot_text = am.group(1)
+        # Find the next euclid_sentence after this annotation (by source position).
+        after = [a for a in anns if a['start'] > am.start()]
+        if not after:
+            continue
+        owner = min(after, key=lambda a: a['start'])
+        if norm(annot_text) not in norm(owner['text']):
+            snippet = owner['text'][:80] + ("..." if len(owner['text']) > 80 else "")
+            assump_problems.append(
+                f"@assumption text \"{annot_text}\" is not a substring of sentence {owner['loc']}: "
+                f"\"{snippet}\"")
+    if assump_problems:
+        rc |= report("@assumption text is a normalized substring of its owning sentence",
+                     False, assump_problems)
+    elif fl.ASSUMPTION_ANNOT.search(raw):
+        rc |= report("@assumption text is a normalized substring of its owning sentence",
+                     True, [f"{sum(1 for _ in fl.ASSUMPTION_ANNOT.finditer(raw))} annotation(s) checked"])
+
+    # NO VACUOUS `True` CLAIM (hard gate): every `euclid_sentence` must assert real content. A `True`
+    # claim says Euclid's sentence is empty — almost never true and the classic all-`True` naive-map
+    # failure. (`euclid_intro_sentence`/`euclid_conclude_sentence` carry no claim binder — skip them.)
+    true_claims = []
+    for a in anns:
+        if a['kind'] != 'sentence':
+            continue
+        if sentence_claim(src, a['end']) == "True":
+            true_claims.append(
+                f"euclid_sentence {a['loc']} ({a['ref']}) has claim `True` — every sentence must "
+                f"assert real content (a `True` claim says Euclid's sentence is empty); re-map it.")
+    rc |= report("no euclid_sentence has a vacuous `True` claim",
+                 not true_claims, true_claims or [f"{sum(1 for a in anns if a['kind'] == 'sentence')} "
+                                                  "sentence claim(s) are non-trivial"])
+
+    # STRUCTURAL PLACEMENT (hard gate): `euclid_intro_sentence`/`euclid_conclude_sentence` are STRUCTURAL —
+    # they carry no claim and must bracket the proof (intro before the first euclid_sentence, conclude
+    # after the last). A mid-body intro/conclude is a faithfulness DODGE (see fl.intro_conclude_placement).
+    place_problems = fl.intro_conclude_placement_problems(anns)
+    rc |= report("euclid_intro/conclude_sentence bracket the proof (leading / trailing only)",
+                 not place_problems, place_problems or ["placement OK"])
+
+    # ASSUMPTION TAG GATE (#2b, human Phase-C): each assumption's valid/gap (from its have body) must
+    # match scripts/assumption_tags.json (written by the assumption phase); a gap must be backed, a valid
+    # stays inline. No-op until the prop has been run through the phase.
+    tag_problems = _assumption_tag_problems(path)
+    rc |= report("assumption valid/gap tags unchanged (+ gaps backed, valids inline)",
+                 not tag_problems, tag_problems or ["tags match assumption_tags.json (or none recorded)"])
 
     # Reminder: the third faithfulness criterion (each step's TYPE honestly captures its sentence)
     # is HUMAN-checked — no machine verifies it.
@@ -409,9 +536,77 @@ def check_olean(json_path: str) -> int:
 
 # ─────────────────────────────────────────────────────────────────────────────
 
+def check_split(propdir: str) -> int:
+    """--split mode (Phase-A stage-1 gate): verify Book<N>/PropNN/split.json TILES the canonical text
+    byte-for-byte BEFORE translate/assemble is paid for. Reuses criterion1_exact, so a whitespace-only
+    miss gets the same actionable "char N" diagnostic. Reads split.json + the canonical .txt; and, on
+    deduction entries carrying the OPT-IN "spans" field, checks the assertion/assumption/glue spans
+    reconstruct the sentence char-for-char (and warns on a compound assertion span).
+    Run this right after faithful-split and fix the slices until it PASSES."""
+    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))       # LeanEuclidPlus/
+    pd = propdir if os.path.isabs(propdir) else os.path.join(base, propdir)
+    sp = os.path.join(pd, "split.json")
+    print(f"=== --split — {propdir.rstrip('/')}/split.json vs canonical ===")
+    m = re.search(r'Book(\d+)[/\\]+Prop0*(\d+)', propdir)
+    if not m:
+        print(f"  [FAIL] cannot parse Book<N>/Prop<NN> from: {propdir}")
+        return 1
+    book, prop = m.group(1), m.group(2)
+    if not os.path.exists(sp):
+        print(f"  [FAIL] split.json not found: {os.path.relpath(sp, base)}")
+        return 1
+    try:
+        data = json.load(open(sp, encoding="utf-8"))
+    except ValueError as e:
+        print(f"  [FAIL] split.json is not valid JSON: {e}")
+        return 1
+    if not isinstance(data, list) or not data:
+        print("  [FAIL] split.json must be a non-empty JSON array")
+        return 1
+    # INDEX = array position (auto — the split agent never writes it); the array is already in order.
+    items = [{'loc': f"{book}.{prop}.{i}", 'text': e.get('text', ''),
+              'ref': f"split.json[{i}]"} for i, e in enumerate(data)]
+    canon_rel, canon_path = canon_path_for(book, prop)
+    ok, lines = criterion1_exact(items, canon_rel, canon_path)
+    rc = report("split.json tiles the canonical text byte-for-byte (whitespace included)", ok, lines)
+
+    # OPT-IN assertion/assumption discipline: only entries carrying a "spans" field are checked, so
+    # legacy split.json (no spans) is completely unaffected. Each span is {"label": assertion|assumption|
+    # glue, "text": <verbatim slice>}. (a) HARD: the spans must reconstruct the sentence CHARACTER-FOR-
+    # CHARACTER (empty join — no separator — every weird/double/trailing space included). (b) WARN: an
+    # `assertion` span with a comma or " and " is likely a compound claim to split (the AI decides).
+    concat_fails, warn_lines = [], []
+    for i, e in enumerate(data):
+        if not isinstance(e, dict) or not e.get("spans"):
+            continue
+        spans, ref, txt = e["spans"], f"split.json[{i}]", e.get("text", "")
+        joined = "".join(sp.get("text", "") for sp in spans if isinstance(sp, dict))
+        if joined != txt:
+            k = next((c for c in range(min(len(joined), len(txt))) if joined[c] != txt[c]),
+                     min(len(joined), len(txt)))
+            concat_fails += [f"{ref}: spans do not reconstruct the sentence (first differ at char {k})",
+                             f"    text : {txt[max(0, k - 20):k + 20]!r}",
+                             f"    spans: {joined[max(0, k - 20):k + 20]!r}"]
+        for sp in spans:
+            if isinstance(sp, dict) and sp.get("label") == "assertion":
+                a = sp.get("text", "")
+                if "," in a or " and " in norm(a):
+                    warn_lines.append(f"{ref} assertion span may be COMPOUND (has ',' or ' and '): {norm(a)!r}")
+    rc |= report("deduction spans reconstruct their sentence char-for-char (opt-in)",
+                 not concat_fails,
+                 concat_fails or ["no `spans` fields present, or all reconstruct exactly"])
+    for w in warn_lines:
+        print(f"  [warn] {w}")
+        print( "         → likely two claims; split into atomic entries (AI makes the final call)")
+
+    print(f"  => {'PASS' if rc == 0 else 'FAILED'} (--split mode)")
+    return rc
+
 def main(argv) -> int:
     if len(argv) == 2 and argv[0] == "--olean":
         return check_olean(argv[1])
+    if len(argv) == 2 and argv[0] == "--split":
+        return check_split(argv[1])
     if len(argv) == 1 and not argv[0].startswith("--"):
         return check_source(argv[0])
     print(__doc__)

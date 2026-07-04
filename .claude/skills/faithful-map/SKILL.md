@@ -1,265 +1,338 @@
 ---
 name: faithful-map
 description: >
-  PHASE A of making a Euclid proof faithful (LeanEuclidPlus, Book 2): TRANSLATE each of Euclid's
-  sentences into a Lean claim type, in `Book<N>/PropNN/Main.lean`. This is pure translation —
-  sentence → claim — NOT proving. Use when asked to "map" / "do the sentence map / Phase A" for a
-  prop, or as the first step of "make Book2/PropNN faithful". STOP at the end for human review; the
-  proving is the separate `faithful-prove` skill. Invoked with a path, e.g.
-  `/faithful-map Book2/Prop04/Main.lean`.
+  Phase A of making a Euclid proof faithful (LeanEuclidPlus, Book 1 & 2): turn the sentence split into
+  `Book<N>/PropNN/Main.lean`'s claim types, ONE sentence at a time, INTERACTIVELY. Prerequisite:
+  `/faithful-split` has produced `split.json` (verified by `check_faithful.py --split`). This skill
+  stamps a placeholder `Main.lean` (`(stepN : True)` + `@assumption TODO`, text from split.json so tiling
+  is correct by construction) then FILLS each claim, building + checking as it goes, and STOPS for human
+  review. It may read anything (diagram, `Book/`, `SystemE`, `find.py`) but PREFERS the vocab/translation
+  and only digs deeper when a sentence can't be expressed. This is TRANSLATION, not proving (bodies stay
+  `:= by sorry`; proving is `/faithful-prove`). Invoked with a prop path, e.g. `/faithful-map Book1/Prop08`.
 ---
 
-# Phase A — translate Euclid's sentences into claim types (THIS IS TRANSLATION, NOT PROVING)
+# Phase A — map Euclid's sentences to claim types, one at a time (TRANSLATION, not proving)
 
-Your only job: turn each of Euclid's sentences into one `euclid_sentence` annotation whose Lean type
-says **exactly what that sentence asserts**. You write `Book<N>/PropNN/Main.lean` ONLY: the proposition
-signature (untouched) + `euclid_intros` + the object-producing constructions + one `euclid_sentence`
-per sentence with a real claim type and a `:= by sorry` body + the intro/conclude bookends + the
-trailing `exact`/`rw` chain. You create **NO step files** (those are Phase B). You do **NOT** prove
-anything and you do **NOT** wire any `euclid_apply (helper…)`. When done you STOP for human review.
+Your job: fill `Book<N>/PropNN/Main.lean` with a Lean claim type per sentence — a faithful restatement of
+what THAT sentence asserts. You do this **one sentence at a time**, building and checking as you go, then
+**STOP for human review**. You do NOT prove (every body stays `:= by sorry`; proving is Phase B).
 
-This is genuinely easy — it's translation. The mistakes come from drifting into proving or
-over-thinking. The three rules below exist to stop exactly that.
+**Prerequisite:** `/faithful-split` already ran → `Book<N>/PropNN/split.json` exists and passes
+`python3 scripts/check_faithful.py --split Book<N>/PropNN`. If it doesn't, stop and run split first.
 
----
+## STEP 0 — stamp the placeholder scaffold (deterministic; do this first)
+```
+python3 scripts/faithful_map_assemble.py Book<N>/PropNN --placeholders
+```
+This writes `Main.lean` with one `euclid_sentence "<loc>" "<text>" (stepN : True) := by sorry` per
+sentence + `-- @assumption ("substring", TODO)` lines (seeded from split's justifications). **The TEXT
+is copied from `split.json`, so tiling is already byte-perfect — you must NEVER edit the sentence text,
+locators, or ordering.** Your whole job is to replace each `True` with a real claim and each `TODO` with a
+real type. (Right after Step 0, `check_faithful` will report every claim as a `True` failure and
+`--provable` will report the trailing `exact stepK` mismatch — both are EXPECTED and disappear as you fill.)
 
-## ⛔ THREE HARD RULES — read before anything else
+## ⛔ THE THREE HARD RULES
 
-**RULE 0 — THE SENTENCE IS THE CLAIM. THE DIAGRAM ONLY RESOLVES LABELS.**
-A `step_n` type is a faithful restatement of WHAT THAT EUCLID SENTENCE SAYS — nothing more, nothing
-less. The diagram (`Book<N>/data/diagrams/<N>.png`) is for ONE thing: resolving a label — which point
-is `G`, which corners a figure-name like "HF" denotes (Euclid names figures by opposite corners),
-vertex order of a named region. You may **NOT** build a coordinate model, read geometric facts off the
-picture, "audit" claims against coordinates, or expand one sentence into many facts it didn't state.
-"HF is also a square" is ONE assertion about HF (e.g. "X is the square on AB" as a single area equation
-`area(X) = |a─b|*|a─b|`) — NOT an invented list of four sides + four right angles from the diagram.
-Formalizing the picture instead of the words is a faithfulness violation even when the picture is true.
+**RULE 0 — THE SENTENCE IS THE CLAIM. THE DIAGRAM ONLY RESOLVES LABELS.** A `stepN` type is a faithful
+restatement of WHAT THAT SENTENCE SAYS — nothing more, nothing less. The diagram
+(`Book<N>/data/diagrams/<N>.png`) is for ONE thing: resolving a label — which point is `G`, which corners
+a figure-name denotes, vertex order. Do NOT build a coordinate model, read geometry off the picture, or
+expand one sentence into facts it didn't state. Formalizing the picture instead of the words is a
+faithfulness violation even when the picture is true.
 
-**RULE 1 — DO NOT READ ANY AXIOM FILE.** You may NOT open or grep `SystemE/Theory/Inferences/**`
-(Transfer / Metric / Diagrammatic), and you may NOT go looking for "which axiom proves this." That is
-the proving phase's job. A claim type is written from ONLY: the Euclid text, the diagram (labels), the
-proposition's own signature, and the VOCABULARY list below. If you feel the urge to open an Inferences
-file — STOP; you've left translation and started proving. (Reading a construction prop's signature in
-`Book/` or a relation def in `SystemE/Theory/Relations.lean` is fine; axiom/Inferences files are not.)
+**RULE 1 — ONE SENTENCE AT A TIME. NEVER one-shot the whole map.** Fill sentences in order, one at a
+time: write THIS sentence's claim (+ any construction it introduces) → BUILD / check → then the next.
+Batching all claims in one pass is what produces the claim + dependency mistakes that surface late.
 
-**RULE 2 — ONE SENTENCE AT A TIME. NEVER one-shot the whole map.** Do the sentences strictly in order,
-**one at a time**: write THIS sentence's claim type (+ any construction it introduces) → BUILD
-(`check_step --provable`, no node) to confirm it elaborates → DEP-CHECK (`check_faithful.py` — confirms
-any CONSTRUCTION it cites has its `… as …` in Main; proof-internal cites defer to Phase B) → only THEN
-move to the next sentence. Do NOT write several sentences' claims in one
-pass, and do NOT design all claims in one giant think — that one-shot habit is what produces the
-dependency and claim mistakes (a forgotten `… as …` construction, a claim referencing an object not yet in
-scope) that only surface much later. One sentence, confirmed, then the next.
+**RULE 2 — EVERY CLAIM IS NON-VACUOUS AND CONTAINS ONLY WHAT THE SENTENCE ASSERTS.**
+- **No `True` / vacuous claim at the end.** `True`, `x = x`, `|(a─b)| = |(b─a)|` (distance symmetry) are
+  all vacuous. Every non-structural sentence asserts something — state THAT. (This guards the CLAIM slot
+  `(stepN : …)` ONLY. A trivially-true fact is fine — and often clarifying — inside an `@assumption`
+  marker; see the `@assumption` section.)
+- **⛔ NEVER RESTATE A GIVEN.** If your claim equals one of the theorem's hypotheses — even mod
+  length/angle symmetry (`|(b─a)| = |(e─d)|` when `|(a─b)| = |(d─e)|` is given) — it is VACUOUS: you have
+  confused the sentence's JUSTIFICATION for its ASSERTION. The claim is the NEW fact the sentence states;
+  the given is an `@assumption`. (This is the #1 real-world failure — e.g. "C coincides with F, on account
+  of BC = EF": the claim is *C coincides with F*, and *BC = EF* is the `@assumption`.)
+- **No construction byproducts.** Facts a construction already deposits (incidences like `k.onLine BE`)
+  don't belong in a claim unless the SENTENCE asserts them.
 
-**RULE 3 — EVERY CLAIM IS NON-VACUOUS AND CONTAINS ONLY WHAT THE SENTENCE ASSERTS.** Two failure modes
-this rule kills:
-- **No vacuous / trivially-true types.** `True`, or a claim that holds by definition regardless of the
-  geometry (`|(c─b)| = |(b─c)|` — distance symmetry; `x = x`) is a faithfulness FAIL even though it
-  compiles, because it doesn't capture the sentence. EVERY non-structural sentence asserts something —
-  state THAT. In particular an **announcement** like "So I say that (it is) also right-angled" asserts
-  the thing announced — write the right angles (`∠…=∟ ∧ …`), NOT `True`. (Only `euclid_intro_sentence`
-  and `euclid_conclude_sentence` carry no claim.) If you can't think of a non-vacuous claim, you've
-  misread the sentence — re-read it.
-- **No construction byproducts.** Facts that a construction `euclid_apply` already deposits in Main's
-  context (incidences like `k.onLine BE`, `f.onLine CF`, `g.onLine BD` from `intersection_lines`, or
-  `b.onLine BD` from `line_from_points`) do NOT belong in a claim type unless the SENTENCE asserts them.
-  They're already in scope for later steps for free; echoing them into `step_n` both bloats the claim
-  and states things Euclid didn't. A "let X be drawn / described" sentence asserts the FIGURE's defining
-  properties (lengths, parallelism, right angles), not every incidence its construction happens to yield.
+**RULE 3 — FAITHFULNESS IS THE ONLY PRIORITY; DO NOT OPTIMIZE.** (These are the mistakes that waste hours.)
+- **Never collapse a claim** to a logically-equivalent shorter/cleaner/more-provable form. State literally
+  what the sentence says, even if redundant or verbose; redundant-but-true conjuncts STAY (one-line note).
+  Do NOT simplify for elegance or to make proving easier — that is Phase B's problem, not yours.
+- **Assertion vs assumption.** The claim IS the sentence's assertion; a consumed premise is an
+  `@assumption`, never a conjunct of the claim, and the assertion is never hidden inside an `@assumption`.
+  The `assumption`/`assertion` `spans` in `split.json` already draw this line — follow them.
+- **Negation placement (De Morgan).** For "X and Y do NOT / cannot … (respectively)", the `∧` stays
+  BETWEEN the parts and each `¬` sits on its OWN part — NEVER wrap a single `¬` around the whole
+  conjunction (that silently flips `∧`→`∨` and changes the meaning).
+- **Re-derive, don't patch.** Rewrite each claim from the sentence; never leave the comment saying one
+  thing and the claim saying another.
+- **Comments are ONE line.** If a claim seems to need a bulleted/multi-line comment, that is the signal to
+  SPLIT the sentence into atomic ones (re-split) — not to write a long comment.
 
-If you find yourself reading axioms, planning the whole proof at once, building a coordinate model, or
-writing facts the sentence didn't state (vacuous fillers, construction incidences, diagram-read geometry)
-— you have left Phase A's lane.
+## READING POLICY (you may read anything — but prefer the translation)
+You are NOT restricted: you MAY read the diagram, `SystemE/**`, `Book/PropNN.lean` originals, done Book-2
+props, and use `python3 scripts/find.py …`. **But default to the VOCABULARY below + a direct reading of
+the sentence.** Only dig deeper (open an axiom, read how `Book/PropM.lean` uses a construction) when a
+sentence genuinely can't be expressed from the vocab — e.g. superposition ("applied to" / "coincide",
+Props 4/8) is rendered with the `superposition` construction: read `Book/Prop08.lean` (and
+`find.py --name superposition`) to see how "C coincides with F" becomes an image-point equality (`c' = f`),
+NOT the given `|(b─c)| = |(e─f)|`. Don't over-read: most sentences are a one-line vocab claim.
 
-### SENTENCE-SHAPE → CLAIM-TYPE (the common patterns — translate by matching the shape)
-- **"Let the square FOO be described on XY" / "let PQ be drawn parallel to …"** → the figure's defining
-  facts from the cited construction's signature (the lengths, `∠…=∟`, `¬(L.intersectsLine M)`). NOT the
-  intersection incidences the construction also produces.
-- **"X is a square"** → either its definition `(sides equal) ∧ (angles right)`, OR — for an "X is the
-  square on AB" phrasing — the single area equation `area(figure) = |side|*|side|`. Pick the ONE the
-  sentence states; do not also invent the other.
-- **"figure F is the rectangle contained by P and Q"** → `area(F) = |(p…)| * |(q…)|`.
-- **"So I say that … is <property>" (announcement)** → assert the property itself (e.g. the right angles).
-- **"angle ABC = angle DEF"** → `∠ a:b:c = ∠ d:e:f`. **"side XY = side ZW"** → `|(x─y)| = |(z─w)|`.
-- **"it is on XY" / "on HG, that is to say XY"** → the square's side equals that segment,
-  `|(side)| = |(x─y)|` (a locating sentence; keep it the single side-equality, flag to human if unsure).
-- **"the figures … are equal to the whole of BIG"** → linear equation summing the sub-figure areas
-  `= area(BIG)`. Use the figure's REAL corners (from the diagram label-resolution) so you don't
-  double-count one region or omit another.
-
----
-
-## ENVIRONMENT (minimal — this skill edits Main.lean ONLY; no step files are created in Phase A)
-
-- **First Bash call: `cd LeanEuclidPlus`** (the session starts at repo root `DNA/`; all paths below
-  and the permission allow-rules are relative to `LeanEuclidPlus/`). The cwd persists; then run bare
-  commands. Do NOT chain `cd … && …`.
-- Read files with the Read tool, search with Grep — never `cat`/`sed`/`find -exec`, never chain shell
-  commands (see CLAUDE.md).
-- Build (skeleton elaboration only) via `python3 scripts/check_step.py Book<N>/PropNN --provable`
-  with NO node argument = "build Main, tolerate sorry" (Main has no parent, so it gets the build/
-  provable check, not SF/SP). (Raw `lake`/`safe_build.sh` are hard-denied to the agent; `check_step`
-  owns every build.)
-- Each prop is a folder: `Book<N>/PropNN/Main.lean` (the proposition) + `Book<N>/PropNN/stepN.lean`
-  (one per sentence, created in PHASE B). In Phase A you write Main ONLY — no step files. Book 1
-  (`Book/`) is flat and untouched.
-
-## INPUTS for each proposition (keyed by prop number `<N>`)
-- `Book<N>/data/texts_proofs/<N>.txt` — the canonical English statement + proof + conclusion. THE
-  GROUND TRUTH you slice (verbatim).
-- `Book<N>/data/diagrams/<N>.png` — the figure, for LABEL RESOLUTION ONLY (Rule 0).
-- The annotation FORMAT (the `euclid_sentence "loc" "text" (step_n : <claim>) := by sorry` shape, the
-  intro/conclude bookends, the trailing `exact`/`rw` chain) is described in THIS skill. `Book2/Prop01/
-  Main.lean`, `Book2/Prop02/Main.lean`, `Book2/Prop03/Main.lean` are DONE, vetted maps you may open to
-  see that FORMAT in a finished file. ⛔ But open them for SHAPE ONLY — NEVER copy a claim TYPE across
-  props. A claim is a translation of THIS prop's sentence (Rule 0); Prop02's `area△…=|x|*|x|` fits
-  Prop02's sentence, not yours. Reading another prop's claim to "see how a square is stated" is exactly
-  the proving-by-pattern-match Rule 0/3 forbid — translate your own sentence from its own words.
-- **Proposition SIGNATURES are fair game and HELP — read them freely in Phase A.** To know what a
-  construction yields (its output objects + their properties) so your claim types name the right
-  objects and your construction `euclid_apply` lines are right, READ the cited prop's signature:
-  `Book/PropM.lean` (Book 1) or `Book2/PropM/Main.lean` (Book 2) — e.g. open `Book/Prop46.lean` to see
-  `proposition_46` returns `(d e : Point)(DE AD BE : Line)` with its equalities/right-angles. Reading a
-  prop's STATEMENT (signature) is encouraged; it's the AXIOM/Inferences files (`SystemE/Theory/
-  Inferences/**` — how to PROVE) that are off-limits in Phase A. Signatures = what exists; axioms = how
-  to prove. Phase A needs the former, not the latter.
-
-## CLAIM-TYPE VOCABULARY (all you need — do NOT go hunting beyond this)
-Claim types are built from what's already in the proposition's own signature plus this vocabulary:
-- lengths `|(a─b)|`, products `|(a─b)| * |(c─d)|` ("rectangle contained by", "square on" = `|x|*|x|`)
-- angles `∠ a:b:c`, right angle `= ∟`
-- areas as sums of `Triangle.area △ p:q:r` (a figure split into triangles; `Triangle.area` is
-  permutation-invariant in its 3 vertices, so vertex order is cosmetic)
-- incidence/order: `.onLine`, `between a b c`, `¬(L.intersectsLine M)`, `.sameSide`, `.opposingSides`
-- relations: `formParallelogram a b c d AB CD AC BD`, `distinctPointsOnLine`, `formTriangle`
-That is the whole surface. If a sentence's claim seems to need something outside this, re-read the
-sentence — you're probably trying to prove it, not state it.
+## STRUCTURAL FRAMES — you EDIT Main's SHAPE, not just fill `True` slots (often NON-trivial)
+Filling a claim is usually a one-liner — but some props require you to **RESTRUCTURE `Main.lean`**, and
+that is squarely your job, done faithfully. This is NOT always trivial; take it seriously. You edit Main
+directly: add the scaffold, move sentences into branches, put the closing in the tail — whatever the
+proof's logic requires. Consult **`faithful-patterns`** (the catalog of these shapes + exemplars). The
+recurring ones:
+- **Reductio / `by_contra`** — exemplars **`Book1/Prop06`** (isosceles) and **`Book2/Prop14`**
+  (quadrature). Wrap the reductio body in `have habsurd : ¬(<negation of the goal>) := by intro hne …`;
+  the contradiction sentence's claim is `(step_k : False)`; the closing lives in the tail
+  (`exact`/contradiction from `habsurd`). A "…is not…" / "similarly, neither…" sentence carries NO
+  positive claim — **RE-ROUTE its TEXT** to the branch tail or to `euclid_conclude_sentence` (keeps tiling,
+  no vacuous `True`).
+- **Case-split** — `by_cases h : <disjunct>` / `wlog`, one branch per case; symmetric case via a mirror
+  helper or repeated structure (exemplar `Book1/Prop06`).
+- **Superposition** — add `euclid_apply (superposition …) as (…)` (it births the image point + phantom
+  apex); "coincide" → image equality `c' = f` (exemplar `Book/Prop08.lean`).
+- **Mid-text "I say that …"** (the goal announcement, placed AFTER the construction) — map it as
+  **`euclid_wts "loc" "text"`** (the what-to-show tactic: STRUCTURAL, no claim, no node, but legal
+  mid-proof). Euclid's "I say that X" ANNOUNCES the goal; it is not an assertion that X is already
+  proven. X is established by the sentences that FOLLOW it and assembled by the trailing `exact` from
+  those real component steps — e.g. `exact ⟨witness, stepFoo, stepBar⟩`, NOT from the WTS sentence.
+  ⛔ Do NOT map it as a `euclid_sentence` carrying the goal body: that forces you to *prove X at the
+  announcement's position*, but X's supporting facts come LATER in source order, so you'd re-derive the
+  whole argument there (or a monolithic helper proves X and the following sentences re-prove it — the
+  redundant assert-then-reprove `euclid_wts` exists to kill). `euclid_wts` is symmetric with the already-
+  structural closing "Thus X" (`euclid_conclude_sentence`); faithfulness is preserved because X lives in
+  the theorem's goal + the real component steps. (⛔ Still NEVER use `euclid_intro_sentence`/
+  `euclid_conclude_sentence` mid-proof — those are gated to the LEADING/TRAILING brackets; `euclid_wts`
+  is the mid-proof structural tactic.) Exemplars: `Book1/Prop09/10/11/12`.
+  **Tail pattern after `euclid_wts`:** the following sentences prove the goal's components under their
+  construction labels (e.g. step9 proves `∠ d:a:f = ∠ e:a:f` using auxiliary points D/E, while the goal
+  needs `∠ b:a:f = ∠ c:a:f`). If the step types don't match the goal form exactly, add a bridging
+  `have hbridge : <goal-type> := by sorry` in the tail (proved in Phase C by euclid_finish from the
+  between/on-line facts that D is on AB, E on AC). Similarly, implicit geometric facts not stated by any
+  sentence (e.g. `between a d b` in Prop10 — D is the construction intersection) need their own named
+  `have`. These are NOT stray sorrys — they are the standard `have <n> : <claim> := by sorry` form.
+Open the exemplar's `Main.lean` for the frame SHAPE **(structure only — NEVER copy a claim TYPE; the claim
+is THIS prop's own sentence)**. If the proof is a reductio/case-split, the map is a genuine restructuring,
+not a fill-in-the-blanks — do it, and do it faithfully.
 
 ---
 
-## THE PROCEDURE
+## VOCABULARY (the building blocks — each is a System-E surface form)
+There is NO `parallel`/`perpendicular`/`coincidesWith`/`Square`/`Rectangle`/`Parallelogram.area`/
+`isRightAngle` predicate — spell each with the primitives below.
 
-### A1 — split the text into sentences (no Lean types yet)
-
+### Lengths and products (real-valued: =, ≠, <, >, + all apply)
 ```
-1. READ Book<N>/data/texts_proofs/<N>.txt; look at the diagram for label resolution. (The annotation
-   FORMAT is described in this skill; the done Prop01/02/03 Mains show it in a finished file — open for
-   shape only, NEVER to copy a claim type, see INPUTS above.)
-
-2. WIPE THE OLD PROOF. Main.lean currently has an UNFAITHFUL proof. Delete the entire body after
-   `:= by` down to just `euclid_intros`. DO NOT touch the signature (theorem proposition_N : ∀ … :=)
-   — leave those lines byte-for-byte; it is checked by scripts/check_signatures.py.
-   Ensure `set_option systemE.solverTime 30 in` sits on the line DIRECTLY ABOVE `theorem proposition_N`
-   (add it now if the old Main lacked it). Every file in the prop — Main included — carries the 30s dev
-   cap; if Main lacks it, the construction `euclid_apply`s run uncapped and `--check` only flags it at
-   the very end. (Phase C's `wire_main` strips this back to the 300s default — leave it during dev.)
-
-3. SLICE the text into contiguous locators "<book>.<prop>.0 … k":
-     .0     = euclid_intro_sentence  (enunciation + "Let …" + "I say that …")
-     1..k-1 = euclid_sentence        (each ATOMIC IDEA — see below)
-     last   = euclid_conclude_sentence ("Thus, …" + QED)
-
-   ONE STEP = ONE ATOMIC IDEA, not mechanically one sentence. Euclid often packs several assertions
-   into one sentence ("But CB is equal to GK, and CG to KB"); SPLIT such a sentence into one step per
-   atomic idea (here: a step for `|CB|=|GK|`, a step for `|CG|=|KB|`). More, smaller steps = more
-   systematic and far easier to prove/isolate in Phase B. Use judgement for what's "atomic" (one
-   equality, one angle fact, one figure's defining properties).
-
-   TWO HARD CONSTRAINTS on splitting (both mechanical — a bad split FAILS `check_faithful` criterion 1):
-   - **Verbatim tiling.** Each step's text is a CONTIGUOUS slice of the original; the slices, joined by
-     single spaces in locator order, reproduce the WHOLE file CHAR-FOR-CHAR. Nothing reworded, dropped,
-     duplicated, or reordered. So you may split a sentence ONLY at clause boundaries that leave clean
-     contiguous slices. If an atomic idea is NOT a clean contiguous span (two facts interleaved in the
-     wording), you CANNOT split it — keep it ONE step with a conjunction claim (`… ∧ …`).
-   - **Split-only, never merge.** A step covers AT MOST one Euclid sentence. A sentence boundary is
-     ALWAYS at least a step boundary — never combine text from two sentences into one step. (If one
-     idea spans two sentences, they stay separate steps; the later can use the earlier as a hypothesis.)
-   A trailing "For …"/"since …" justification clause STAYS in its idea's step (it's the reason, not a
-   new claim).
-
-4. Stub every logical sentence as:  euclid_sentence "<loc>" "<verbatim text>" (step_n : True) := by sorry
-   (True = placeholder; structural intro/conclude take no claim/body.)
-
-5. GATE A1 — text + construction deps:  python3 scripts/check_faithful.py "Book<N>/PropNN/Main.lean"
-   The text-map line must PASS char-for-char (fix slicing until it does). The dep line is now
-   CONSTRUCTION-AWARE: it PASSES when every cited construction prop has its `… as …` in Main, and lists
-   proof-internal citations as "deferred to Phase B" (expected — those are satisfied later by a step's
-   helper cone; deferred is NOT a failure). Both lines should be green/deferred before gate A.
+|(a─b)|                    -- length of segment a→b
+|(a─b)| * |(c─d)|          -- "the rectangle contained by AB and CD"
+|(a─b)| * |(a─b)|          -- "the square on AB"
+|(a─b)| = |(c─d)|          -- lengths equal   (also <, >, and sums)
+|(a─b)|*|(a─b)| + |(c─d)|*|(c─d)| = |(e─f)|*|(e─f)|   -- sum of squares (Pythagoras, 47/48)
 ```
-
-### A2 — fill the real claim types, ONE SENTENCE AT A TIME (Rule 2)
-
-Go through the sentences strictly IN ORDER, ONE at a time — fully finishing (steps 1–5 below) for one
-`step_n` before touching the next. Do NOT batch several sentences into one pass:
+### Angles (real-valued: same =, <, >, +)
 ```
-1. Replace True with the CLAIM TYPE: what THIS STEP's atomic idea asserts, in the VOCABULARY above.
-   Rule 0 — the step's words, not the diagram's geometry. One step → one compact claim for its atomic
-   idea (a sentence you split into several steps gives several small claims). Earlier steps' claims are
-   available as context.
-
-2. The Main sentence body STAYS `:= by sorry` (do NOT wire `euclid_apply (helper …)` into Main in
-   Phase A — wiring is temporary in Phase B's per-step script and permanent only in Phase C):
-       euclid_sentence "<loc>" "<verbatim text>" (step_n : <CLAIM TYPE>) := by sorry
-   Because every body is `sorry`, the Main build here is cheap and SMT-FREE (it only type-checks the
-   `have step_n : <claim>`; no helper is discharged). Keeping Main sorry is what lets Phase B revise a
-   step's hypotheses freely and cheaply — nothing in Main is committed until C.
-
-3. CONSTRUCTIONS go in Main, BEFORE the sentence that needs the object: object-producing applies like
-   euclid_apply (proposition_46 a b AB) as (d,e,DE,AD,BE) / (proposition_31 …) / (intersection_lines …)
-   / (line_from_points …). The claim types reference these objects, so they must be in scope. (These
-   ARE wired in Main and DO run a tiny precondition SMT — that's fine and expected. Only the step
-   discharges (`euclid_apply (helper …)`) are NOT wired yet.)
-   CRITERION-3 (construction arm) IS YOUR PHASE-A JOB: every Euclid sentence that cites a CONSTRUCTION
-   prop (e.g. "[Prop.~1.46]", "[Prop.~1.31]") must have that `euclid_apply (proposition_N …) as …` present
-   in Main (it may sit earlier than the citing sentence — objects are often needed early; the check is
-   presence-in-Main, not block-local). A citation to a prop used only INSIDE a step's proof (not a
-   construction) is deferred to Phase B (the helper cone will cite it). Confirm with the dep check below.
-   IMPORTS: Main imports ONLY `SystemE` + the CONSTRUCTION props it uses (e.g. `import Book.Prop46`,
-   `import Book.Prop31`). NEVER `import Book<N>.PropNN.stepK` — step files don't exist yet, and a
-   step's import (like its wiring) is added transiently by the Phase-B/C SCRIPTS, never by you.
-
-4. After THIS sentence, BUILD to confirm Main elaborates: python3 scripts/check_step.py Book<N>/PropNN --provable
-   (all step bodies are sorry, so NO helper discharge runs — cheap; a non-elaborating claim is a
-   vocabulary/missing-object problem — fix it NOW, before the next sentence, while the cause is local).
-
-5. DEP CHECK (construction arm), THIS sentence:  python3 scripts/check_faithful.py "Book<N>/PropNN/Main.lean"
-   Instant, no build. Every cited CONSTRUCTION prop must be satisfied by its `… as …` in Main; proof-only
-   citations show as "deferred to Phase B" (expected — leave them). Fix any construction citation it
-   flags NOW (you forgot the `euclid_apply (proposition_N …) as …`) — number-only, and the human's gate-C
-   olean check is book-aware, so don't cite the wrong book's prop number. THEN move to the NEXT sentence
-   (back to step 1). Doing 4+5 per sentence — not in one batch at the end — is what keeps every claim and
-   construction-citation mistake LOCAL and cheap to fix.
-   (`check_step --dependency` is the PHASE-B dep gate — both arms, once helpers exist — not a Phase-A tool.)
+∠ a:b:c                    -- angle at vertex b, rays b→a and b→c
+∟                          -- ONE right angle;  ∟ + ∟ = "two right angles";  ∟ / 2 = "half"
+∠ a:b:c = ∟                -- "ABC is a right angle" / "at right angles" / "perpendicular"
+∠ a:b:c = ∠ d:e:f          -- angles equal;   < / >  for less/greater (exterior angle, 16)
+∠ a:b:c + ∠ d:e:f = ∟ + ∟  -- "sum = two right angles"
+∠ a:b:c = ∠ d:e:f + ∠ g:h:i -- angle-sum decomposition (exterior = two interior, 32)
 ```
+### Areas (figures as triangle sums — NO polygon/parallelogram area primitive)
+```
+Triangle.area △ p:q:r
+Triangle.area △ a:b:c + Triangle.area △ a:c:d   -- quadrilateral ABCD (opposite corners)
+```
+### Incidence, order, sides
+```
+p.onLine L        collinear a b c        between a b c
+p.sameSide q L    p.opposingSides q L    ¬(L.intersectsLine M)   -- "AB parallel to CD"
+```
+### Circles (Book 1)
+```
+p.onCircle α   p.isCentre α   p.insideCircle α   p.outsideCircle α
+-- "since A is the centre, AB = AC" is a LENGTH (radius) equality |(a─b)| = |(a─c)| — state THAT.
+```
+### Figure-formation relations
+```
+formTriangle a b c AB BC AC            formParallelogram a b c d AB CD AC BD
+formRectilinearAngle a b c AB BC       distinctPointsOnLine a b L
+```
+### Connectives & comparisons
+```
+∧      =  ≠  (points/lines & reals)      <  >  ≤  ≥  (reals only: lengths, angles, areas)
+```
+### Construction calls (for construction sentences — READ the cited prop/axiom signature for arg order)
+```
+line_from_points a b → AB            intersection_lines L M → p
+extend_point L b c → a (between b c a)     extend_point_longer L b c (d─e) → a
+point_between_points_shorter_than L b c (d─e) → a     exists_point_between_points_on_line L b c → a
+exists_point_opposite L b → a (a.opposingSides b L)
+circle_from_points a b → α   intersection_circles α β → p   intersections_circle_line α L → (p,q)
+-- cited PROPOSITIONS deposit their signature's outputs (proposition_46 → a square; _31 → a parallel;
+--   _11 → a perpendicular; _3 → a cut-off point). For "coincide/applied" superposition, see READING POLICY.
+```
+For a cited construction (`[Prop.~1.46]`, …) read the prop's signature (`Book/PropM.lean`) for its
+argument order + outputs.
 
-> **NOTE — step files / signatures are created in PHASE B, not here.** Phase A's deliverable is just
-> `Main.lean`: the `euclid_sentence`s with real claim types, `:= by sorry` bodies, and the
-> object-producing constructions. The `Book<N>/PropNN/stepN.lean` files (with their candidate
-> `theorem helper_<book>_<prop>_stepN <args> : <claim>` signatures) are written and verified in Phase B
-> (`faithful-prove`), because choosing a step's hypotheses is part of proving it — and the per-step
-> script is what certifies those hypotheses are suppliable. EVERY logical sentence will get its own
-> `stepN.lean` (one step = one file, never inlined, never merged) — but that's Phase B's job.
+### Variable naming
+Points lowercase (`a b c … g h`); lines UPPERCASE two-letter (`AB CE GH`). Use the signature's existing
+names; new construction points follow the Euclid label (`$E$`→`e`); intermediates `e0`,`e1` then `e`.
 
-### GATE A — SELF-REVIEW, then STOP for human review
-When every claim is a real type and `Main.lean` elaborates (all step files are sorry-stubs), FIRST do
-this self-review pass over your own map (these are the exact issues humans keep catching — catch them
-yourself):
-  □ No `True` and no vacuous/definitional claim (`|ab|=|ba|`, `x=x`) on any non-structural sentence (Rule 3).
-  □ No construction-byproduct incidences in any claim type (Rule 3) — only what the sentence asserts.
-  □ Every figure-area claim uses the figure's REAL corners; no region double-counted or omitted (Rule 0/3).
-  □ No claim expanded into facts the text didn't state (one step → its one atomic idea; split a
-    multi-idea sentence into multiple steps rather than cramming, but never invent facts).
-  □ Splits tile verbatim (slices reproduce the original char-for-char) and never merge across sentences.
-  □ You did not open any `SystemE/Theory/Inferences/**` file (Rule 1).
-Fix anything the checklist flags. THEN:
-- Report the sentence map: for each locator → its text → its `step_n` claim type, and call out any
-  sentence whose faithful claim you were genuinely unsure of (e.g. near-structural "it is on XY"
-  locating sentences) so the human can focus there.
-- STOP. The human reviews that each claim honestly captures its sentence (the one thing no script
-  checks), then runs `python3 scripts/check_steps.py --save Book<N>/PropNN/Main.lean` to freeze the
-  claims. Proving happens next via the `faithful-prove` skill.
+### Common sentence-shape → claim-shape
+| Euclid says | claim |
+|---|---|
+| "angle ABC is a right angle" | `∠ a:b:c = ∟` |
+| "angle ABC equals angle DEF" | `∠ a:b:c = ∠ d:e:f` |
+| "AB is equal to CD" | `\|(a─b)\| = \|(c─d)\|` |
+| "the square on AB equals…" | `\|(a─b)\| * \|(a─b)\| = …` |
+| "X is the rectangle by A and B" | area (triangle-sum) `= \|(a─…)\| * \|(b─…)\|` |
+| "let BG be made equal to A" (construction) | `\|(b─g)\| = \|(a₁─a₂)\|` |
+| "let the equilateral triangle DEF be constructed" (construction) | `formTriangle d e f DE EF DF ∧ \|(f─d)\|=\|(d─e)\| ∧ \|(f─e)\|=\|(d─e)\|` |
+| "drawn parallel to AD" (construction) | `e.onLine EF ∧ ¬(EF.intersectsLine AD)` |
+| "let EA, EB be joined" (construction) | `distinctPointsOnLine e a EA ∧ distinctPointsOnLine e b EB` |
+| "the very thing is impossible" (reductio) | `False` (inside the frame) |
+| "BE is not straight-on to CB" (a negation) | `¬ (between c b e)` |
+ \|(b─c)\| = \|(b─g)\| → \|(a─l)\| = \|(b─c)\|` |
 
-**Do not start proving. Do not read axiom files. Do not write a header comment block** (brief
-`-- dev:` notes are fine; they get deleted later). If a claim seems impossible to state without
-deciding how to prove it, that's a signal you're over-thinking the translation — state what the
-sentence says and stop.
+A trivially-valid claim like this last row is FAITHFUL — not a RULE-2 vacuity violation — precisely
+*because Euclid states it as a sentence*. The sentence IS the claim; when Euclid invokes a Common
+Notion ("things equal to the same thing…") as its own step, translate it as the implication he asserts,
+not as `True`.
+
+### Figural language stays figural — translate the FIGURE Euclid NAMES, not the consequence it implies
+Congruence / base-angle props (I.4–I.8, I.26 …) keep tripping this. The mistake is substituting the
+arithmetic that *follows* for what the sentence *says*. Translate what is named:
+- **IF THE SENTENCE SAYS "TRIANGLE", THE CLAIM CONTAINS `formTriangle` — full stop** (likewise
+  "square"/"parallelogram" → `formParallelogram`). A CONSTRUCTION that NAMES a figure asserts the FIGURE,
+  not the construction call's output shape. "let the equilateral triangle DEF be constructed [I.1]" →
+  `formTriangle d e f DE EF DF ∧ <the equal sides>`, even though the cited call (`proposition_1'`) only
+  *outputs* two length equalities + an `opposingSides` (no `formTriangle`). The call's OUTPUTS are NOT the
+  claim; the sentence's word "triangle" is. Build whatever side-lines the figure needs FIRST (silently, as Prop02/Prop10 join the two new sides
+  before their triangle sentence: `line_from_points e f as EF`, `line_from_points d f as DF`) so
+  `formTriangle` has its lines. Same law for "square"/"parallelogram" → `formParallelogram …`. (This is
+  RULE 0: matching a construction's return type instead of the sentence is the single most common figure
+  miss — Prop09 step4 was originally written without the triangle for exactly this reason.)
+- **"the triangle X = triangle Y"** = *figure/area* equality → `Triangle.area △ x… = Triangle.area △ y…`
+  WHEN base and angles are stated as their OWN separate sentences (I.5: base | triangle | angles — the
+  "triangle" clause is the one thing base+angles don't cover). ONLY if "triangle = triangle [I.4]" is the
+  *bundled* congruence (no separate base/angle sentences — I.6) → the congruence parts
+  `|base₁|=|base₂| ∧ ∠…=∠… ∧ ∠…=∠…`. Decider: are base & angles their own sentences? yes → area; no → parts.
+- **"the base BC is common to them"** = a shared *side* → `distinctPointsOnLine b c BC`, NOT the vacuous
+  distance identity `|(b─c)| = |(c─b)|`.
+- **"they encompass a common angle XYZ"** → NAME it: both figures' vertex-angle = `∠ x:y:z`, e.g.
+  `(∠ f:a:c = ∠ f:a:g) ∧ (∠ g:a:b = ∠ f:a:g)` — not the re-lettered `∠ f:a:c = ∠ g:a:b`.
+- **"they are at / under the base"** (locational) → the claim is the IDENTIFICATION "these ARE the
+  [base / under-base] angles", NOT the equality that follows. If the angles already ARE the goal's angles
+  (no conversion) it collapses to that equality; if they're auxiliary (need a ray-identity — e.g. F on BD
+  ⟹ ∠FBC=∠CBD) the identification is the claim and the goal-conjunct equality is ASSEMBLED in the closing
+  tail (`exact ⟨…, h.1.symm.trans (h2.trans h.2)⟩` — a term-mode `exact`, which is not a "bulk tactic").
+
+### Closing the goal — the ONLY two places a `sorry` may appear
+A `sorry` is allowed in EXACTLY two slots: a `euclid_sentence "…" "…" (stepN : …) := by sorry` body, or a
+`have <n> : <claim> := by sorry`. **A `by sorry` ANYWHERE ELSE is a STRAY sorry and is a hard error** —
+most often smuggled into a tail term like `exact ⟨f, by sorry, step6⟩`. (`check_step --provable` now
+rejects this at map time; see [[book1-prop09-faithful-map]].)
+- **Existential goal `∃ w, P w ∧ Q w`** whose witness has a side-condition NOT asserted by any sentence
+  (e.g. `f ≠ a`, `between a h b`): `use <witness>` then discharge each unmet conjunct as its OWN
+  `have <n> : <side-cond> := by sorry`, then `exact ⟨…⟩`. NEVER inline the gap as `by sorry` in the
+  `exact`. E.g. Prop09 (post-`euclid_wts`): `use f` / `have hfa : f ≠ a := by sorry` /
+  `have hangle : ∠ b:a:f = ∠ c:a:f := by sorry` / `exact ⟨hfa, hangle⟩` — `hangle` bridges step9's
+  auxiliary-label form `∠ d:a:f = ∠ e:a:f` to the goal form (D on AB, E on AC). Or route side-conditions
+  to a Phase-B helper à la Prop11's `between_ahb` (`refine ⟨between_ahb, step23⟩`).
+- If a conjunct IS a context hyp, `use <witness>` alone (or a plain `exact ⟨…⟩` over named haves) closes
+  it — no sorry needed.
+
+## `@assumption` (INPUTS-ONLY)
+Each `-- @assumption ("substring", TODO)` line the scaffold seeded marks a prior fact this sentence
+CONSUMES (from split's justifications). Replace `TODO` with the Lean type of that fact — the EXACT
+normalized form of the hypothesis binder it becomes (e.g. `|(a─c)| = |(c─e)|`).
+**These types are now LOAD-BEARING, not a revisable guess.** After your map is reviewed + saved, the
+**Assumption Phase** (`scripts/assumptions.py`, the human runs it) materializes EACH `@assumption` into a
+`have stepK_assumptionN`, proves the trivial ones (`euclid_finish`, tagged `@assumption_valid`) and marks
+the rest `@assumption_gap` for Phase B — and downstream checks HARD-FAIL if an assumption is dropped or
+retyped. So get the type right and don't tag an assertion as an assumption. (`use_override` is retired —
+`euclid_finish` splits conjuncts and crosses orientation flips on its own; just write the type.)
+**INPUTS-ONLY:** an `@assumption` is a fact the step consumes — NOT a conjunct of the step's own claim. If
+a seeded substring is actually the assertion (not a consumed input), delete that `@assumption` line. When
+in doubt, drop it.
+
+**TRIVIALLY-TRUE INPUTS ARE OK HERE (unlike claims).** RULE 2's no-vacuous ban guards the CLAIM slot; an
+`@assumption` documents a consumed input, so a definitional / trivially-true conjunct is ALLOWED and is
+often the FAITHFUL choice — it makes explicit that a hypothesis really was consumed, so a (paper) reviewer
+isn't left wondering where it went. Canonical case: **superposition**. "BC coincides with EF" = (B↦E) ∧
+(C↦F); B↦E is definitional (E is the copy's first vertex — the axiom's `d`-slot argument), so it has no
+non-trivial equation: write it as `e = e` and pair it, e.g. `@assumption ("$BC$ coinciding with $EF$",
+e = e ∧ c' = f)`. Do this CONSISTENTLY everywhere a coincidence/placement is re-invoked (the "if base BC
+coincides…" reductio sentence, the "base BC being applied…" restatement), with a one-line note that the
+`e = e` conjunct is the definitional half. The CLAIM itself still states a real fact (e.g. `EG = DE ∧
+GF = DF`), never `e = e`. (Exemplar: `Book1/Prop08/Main.lean`.)
+
+## PROCEDURE (one sentence at a time)
+1. STEP 0 above (stamp the placeholder scaffold). Read `split.json` (roles/justifications) and the diagram
+   (labels).
+2. For each sentence IN ORDER:
+   a. Replace its `(stepN : True)` with the real claim (RULE 0/2, VOCABULARY). For a **construction**
+      sentence, ALSO add the object-producing `euclid_apply (…) as …` line(s) in Main BEFORE the sentence
+      (the claim references those objects) — and if it calls a cited PROP (`proposition_3`, `_46`, …) add
+      `import Book.PropM` at the top (the scaffold stamps only `import SystemE`, so a cited prop is an
+      `unknown identifier` until imported). For a sentence needing a **frame** (reductio/`by_cases`/`wlog`)
+      or a construction beyond the vocab (superposition): add the frame / `euclid_apply (superposition …)`
+      — read `Book/PropNN.lean` for the shape (READING POLICY). Bodies stay `:= by sorry`.
+   b. Fill any `@assumption` `TODO` on that sentence (INPUTS-ONLY).
+   c. Keep going — do NOT one-shot. When a small batch is filled, BUILD:
+      `python3 scripts/check_step.py Book<N>/PropNN --provable` (fix any malformed-claim error it names;
+      the trailing `exact stepK` mismatch is expected until the final goal-bearing step is filled).
+3. **HARD GATE — you may NOT finish until BOTH commands exit 0. Loop: fix → re-run → repeat.**
+   - `python3 scripts/check_step.py Book<N>/PropNN --provable` → **must exit 0** — Main ELABORATES /
+     compiles (all-sorry). A malformed claim type fails here on its line; the trailing `exact stepK`
+     mismatch persists only until the final goal-bearing step's claim is filled — once all claims are in,
+     this MUST be green.
+   - `python3 scripts/check_faithful.py Book<N>/PropNN/Main.lean` → **must exit 0** — perfect tiling,
+     **ZERO `True`**, construction deps satisfied.
+   If either is red, fix the offending claim(s) and re-run. Do NOT proceed to human review with either
+   failing — that is the whole point of this stage.
+4. Run the GATE-A self-review (below); fix anything, then re-run both checks once more (still both green).
+5. **STOP for human review — only once BOTH checks above exit 0.** The human confirms each claim honestly
+   captures its sentence, then runs `python3 scripts/check_steps.py --save Book<N>/PropNN/Main.lean`.
+   Proving is next (`/faithful-prove`).
+
+## GATE-A SELF-REVIEW (before you stop — the issues humans keep catching)
+  □ No `True` and no vacuous/definitional claim on any non-structural sentence; only intro/conclusion
+    carry none. Reductio contradiction → `False`; a negation → `¬ …`; add/subtract → the resulting equation.
+  □ **No claim RESTATES A GIVEN** (even mod length/angle symmetry) — that's the assertion-vs-justification
+    confusion; the given belongs in `@assumption`.
+  □ Every `@assumption`: substring is verbatim from the sentence, and the type is a genuine consumed INPUT
+    (not a conjunct of this step's own claim).
+  □ No construction-byproduct incidences in any claim — only what the sentence asserts.
+  □ Figural sentences translated as the FIGURE, not the consequence: "triangle=triangle" → area (parts
+    separate) / congruence (bundled); "base common" → shared side; "common angle XYZ" → named `∠ x:y:z`;
+    "at/under the base" → the locational identification, not the equality it implies.
+  □ **A construction NAMING a figure claims the figure** (`formTriangle`/`formParallelogram` + equal
+    sides), NOT the construction call's output shape — build the needed side-lines first.
+  □ Every figure-area claim uses the figure's REAL corners; no region double-counted or omitted.
+  □ **NO stray sorry** — every `sorry` sits in a `euclid_sentence` body or a `have := by sorry`; none in a
+    tail `exact`/term (an existential witness side-condition is a `have`, not an inline `by sorry`).
+  □ **`euclid_intro_sentence`/`euclid_conclude_sentence` ONLY bracket the proof** (leading / trailing) —
+    NEVER mid-body. A mid-text "I say that …" (goal announcement) is **`euclid_wts "loc" "text"`**
+    (structural, no claim, mid-proof-legal) — the goal is proved by the FOLLOWING sentences and assembled
+    in the tail `exact`. Do NOT map it as a `euclid_sentence` carrying the goal body (assert-then-reprove),
+    and do NOT demote it to intro/conclude (those are bracket-only, hard-failed mid-body by `check_faithful`).
+  □ You did NOT edit any sentence's text / locator / ordering (Step-0 scaffold owns tiling).
+  □ Every cited CONSTRUCTION prop has its `euclid_apply (…) as …` present in Main.
+
+## WHAT YOU DO NOT DO
+- Do NOT prove (leave `:= by sorry`; no real tactic bodies). Do NOT wire `euclid_apply (helper…)`.
+- Do NOT touch the theorem signature, or any sentence's text/locator.
+- Do NOT read geometry off the diagram (RULE 0) or invent facts a sentence didn't state.
+- Do NOT over-read axioms — prefer the vocab; dig deeper only when a sentence can't be expressed. When a
+  precedent is needed, go to the ONE canonical exemplar (this skill names it), not every done prop; and
+  do NOT re-Read a file already quoted in your context — both waste API for no new information.
+- Do NOT leave a stray `by sorry` in a tail term — the only sorry slots are a `euclid_sentence` body or a
+  `have := by sorry`.
