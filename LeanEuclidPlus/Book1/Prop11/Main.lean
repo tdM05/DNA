@@ -1,6 +1,6 @@
 import SystemE
-import Book.Prop01
-import Book.Prop03
+import Book1Variants.Prop01
+import Book1.Prop03.Main
 import Mathlib.Tactic.Linarith
 import Book1.Prop11.step1
 import Book1.Prop11.step2

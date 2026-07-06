@@ -1,10 +1,12 @@
 # CURR
-- MAPPING done up to prop 13 (mapping means assumption is also done running.)
+- make sure to prepare to delete Book/ . Currently Book3 is using it, and we should make it use things in Book1/ or Book1Vairants thing similar toi how book 1 imports. we should do it immediately so agents do not get confused. and a checker that they can only import these ones.
 
 ## Prove last done
-- 15
+- 41
+
+Others that are done: 25
 ## Map last done (including assumption):
-- 20
+- 48
 
 
 # Naming is off

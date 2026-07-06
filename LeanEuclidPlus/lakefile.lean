@@ -18,7 +18,20 @@ lean_lib Book {
 lean_lib Book1 {
 }
 
+lean_lib Book1Variants {
+}
+
+-- upstream baseline for benchmarking (fully isolated: nothing else imports these)
+lean_lib OldBook1 {
+}
+
+lean_lib OldBook1Variants {
+}
+
 lean_lib Book2 {
+}
+
+lean_lib Book3 {
 }
 
 lean_lib E3 {

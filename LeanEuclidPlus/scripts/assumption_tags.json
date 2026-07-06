@@ -428,5 +428,739 @@
       "type": "\u2220 b:c:d > \u2220 b:d:c",
       "verdict": "closes"
     }
+  },
+  "Book1/Prop21": {
+    "step5_assumption1": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "$CE$ and $ED$ is  greater than $CD$",
+      "type": "|(c\u2500e)| + |(e\u2500d)| > |(c\u2500d)|",
+      "verdict": "hard"
+    }
+  },
+  "Book1/Prop22": {
+    "step12_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "point  $G$ is the center of the circle $LKH$",
+      "type": "g.isCentre KLH",
+      "verdict": "closes"
+    },
+    "step9_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "point $F$ is the center of the circle $DKL$",
+      "type": "f.isCentre DKL",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop23": {
+    "step6_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "the two (straight-lines) $DC$, $CE$ are equal to the two (straight-lines) $FA$, $AG$, respectively",
+      "type": "|(c\u2500d)| = |(a\u2500f)| \u2227 |(c\u2500e)| = |(a\u2500g)|",
+      "verdict": "closes"
+    },
+    "step6_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the base $DE$ is equal to the base $FG$",
+      "type": "|(d\u2500e)| = |(f\u2500g)|",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop24": {
+    "step10_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "triangle $EFG$ has angle $EFG$  greater than $EGF$",
+      "type": "\u2220 e:f:g > \u2220 e:g:f",
+      "verdict": "closes"
+    },
+    "step1_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "angle $BAC$ is greater than angle $EDF$",
+      "type": "\u2220 b:a:c > \u2220 e:d:f",
+      "verdict": "closes"
+    },
+    "step4_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$AB$ is equal to $DE$ and $AC$ to $DG$",
+      "type": "|(a\u2500b)| = |(d\u2500e)| \u2227 |(a\u2500c)| = |(d\u2500g)|",
+      "verdict": "closes"
+    },
+    "step7_assumption1": {
+      "closed_by": "linarith",
+      "level": 4,
+      "tag": "valid",
+      "text": "$DF$ is equal to $DG$",
+      "type": "|(d\u2500f)| = |(d\u2500g)|",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop26": {
+    "step26_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$BH$ is equal to $EF$",
+      "type": "|(b\u2500h)| = |(e\u2500f)|",
+      "verdict": "closes"
+    },
+    "step26_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AB$ to $DE$",
+      "type": "|(a\u2500b)| = |(d\u2500e)|",
+      "verdict": "closes"
+    },
+    "step3_assumption1": {
+      "closed_by": "linarith",
+      "level": 4,
+      "tag": "valid",
+      "text": "$BG$ is equal to $DE$",
+      "type": "|(b\u2500g)| = |(d\u2500e)|",
+      "verdict": "closes"
+    },
+    "step3_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$BC$ to $EF$",
+      "type": "|(b\u2500c)| = |(e\u2500f)|",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop27": {
+    "step1_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "For if not",
+      "type": "AE.intersectsLine FD",
+      "verdict": "closes"
+    },
+    "step7_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "meeting in neither direction",
+      "type": "\u00ac(g.sameSide b EF) \u2227 \u00ac(g.opposingSides b EF)",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop28": {
+    "step1_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$EGB$ is equal to $GHD$",
+      "type": "\u2220 e:g:b = \u2220 g:h:d",
+      "verdict": "closes"
+    },
+    "step1_assumption2": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "$EGB$ is equal to $AGH$ [Prop.~1.15]",
+      "type": "\u2220 e:g:b = \u2220 a:g:h",
+      "verdict": "hard"
+    },
+    "step4_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$BGH$ and $GHD$ is equal to two right-angles",
+      "type": "\u2220 b:g:h + \u2220 g:h:d = \u221f + \u221f",
+      "verdict": "closes"
+    },
+    "step4_assumption2": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "$AGH$ and $BGH$ is also equal to two right-angles [Prop.~1.13]",
+      "type": "\u2220 a:g:h + \u2220 b:g:h = \u221f + \u221f",
+      "verdict": "hard"
+    }
+  },
+  "Book1/Prop29": {
+    "step1_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AGH$ is unequal to $GHD$",
+      "type": "\u2220 a:g:h \u2260 \u2220 g:h:d",
+      "verdict": "closes"
+    },
+    "step9_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "them (initially) being assumed parallel (to one another)",
+      "type": "\u00ac(AB.intersectsLine CD)",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop30": {
+    "step2_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "the straight-line $GK$ has fallen across the parallel straight-lines $AB$ and $EF$",
+      "type": "AB.intersectsLine GK \u2227 EF.intersectsLine GK \u2227 \u00ac(AB.intersectsLine EF)",
+      "verdict": "closes"
+    },
+    "step3_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "the straight-line $GK$ has fallen across the parallel straight-lines $EF$ and $CD$",
+      "type": "EF.intersectsLine GK \u2227 CD.intersectsLine GK \u2227 \u00ac(CD.intersectsLine EF)",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop31": {
+    "step5_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the straight-line $AD$, (in) falling across the two straight-lines $BC$ and $EF$,  has made the alternate angles $EAD$ and $ADC$ equal to one another",
+      "type": "\u2220 e:a:d = \u2220 a:d:c",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop32": {
+    "step2_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$AB$ is parallel to $CE$",
+      "type": "\u00ac(AB.intersectsLine CE)",
+      "verdict": "closes"
+    },
+    "step2_assumption2": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$AC$ has fallen across them",
+      "type": "distinctPointsOnLine a c AC",
+      "verdict": "closes"
+    },
+    "step3_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AB$ is parallel to $CE$",
+      "type": "\u00ac(AB.intersectsLine CE)",
+      "verdict": "closes"
+    },
+    "step3_assumption2": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "the straight-line $BD$ has fallen across them",
+      "type": "distinctPointsOnLine b d BC",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop33": {
+    "step2_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AB$ is parallel to $CD$",
+      "type": "\u00ac(AB.intersectsLine CD)",
+      "verdict": "closes"
+    },
+    "step2_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$BC$ has fallen across them",
+      "type": "distinctPointsOnLine b c BC",
+      "verdict": "closes"
+    },
+    "step3_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AB$ is equal to $CD$",
+      "type": "|(a\u2500b)| = |(c\u2500d)|",
+      "verdict": "closes"
+    },
+    "step3_assumption2": {
+      "closed_by": "rfl",
+      "level": 1,
+      "tag": "valid",
+      "text": "$BC$ is common",
+      "type": "|(b\u2500c)| = |(b\u2500c)|",
+      "verdict": "closes"
+    },
+    "step8_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the straight-line $BC$, (in) falling across the two straight-lines $AC$ and $BD$, has made the alternate angles  ($ACB$ and $CBD$) equal to one another",
+      "type": "\u2220 a:c:b = \u2220 c:b:d",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop34": {
+    "step1_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AB$ is parallel to $CD$",
+      "type": "\u00ac(AB.intersectsLine CD)",
+      "verdict": "closes"
+    },
+    "step1_assumption2": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "the straight-line $BC$ has fallen across  them",
+      "type": "b.onLine AB \u2227 b.onLine BC \u2227 c.onLine CD \u2227 c.onLine BC",
+      "verdict": "closes"
+    },
+    "step2_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AC$ is parallel to $BD$",
+      "type": "\u00ac(AC.intersectsLine BD)",
+      "verdict": "closes"
+    },
+    "step2_assumption2": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$BC$ has fallen across them",
+      "type": "c.onLine AC \u2227 c.onLine BC \u2227 b.onLine BD \u2227 b.onLine BC",
+      "verdict": "closes"
+    },
+    "step3_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "the two angles $ABC$ and $BCA$ equal to the two (angles) $BCD$ and $CBD$, respectively",
+      "type": "\u2220 a:b:c = \u2220 b:c:d \u2227 \u2220 b:c:a = \u2220 c:b:d",
+      "verdict": "closes"
+    },
+    "step8_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "angle $ABC$ is equal to $BCD$",
+      "type": "\u2220 a:b:c = \u2220 b:c:d",
+      "verdict": "closes"
+    },
+    "step8_assumption2": {
+      "closed_by": "linarith",
+      "level": 4,
+      "tag": "valid",
+      "text": "$CBD$ to $ACB$",
+      "type": "\u2220 c:b:d = \u2220 a:c:b",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop35": {
+    "step1_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$ABCD$ is a parallelogram",
+      "type": "formParallelogram a d b c AF BC AB CD",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop36": {
+    "step2_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$BC$ is equal to $FG$",
+      "type": "|(b\u2500c)| = |(f\u2500g)|",
+      "verdict": "closes"
+    },
+    "step2_assumption2": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "$FG$ is equal to $EH$ [Prop.~1.34]",
+      "type": "|(f\u2500g)| = |(e\u2500h)|",
+      "verdict": "hard"
+    },
+    "step7_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$BC$, as ($ABCD$)",
+      "type": "distinctPointsOnLine b c BG",
+      "verdict": "closes"
+    },
+    "step7_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$BC$ and $AH$, as ($ABCD$) [Prop.~1.35]",
+      "type": "\u00ac(BG.intersectsLine AH)",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop37": {
+    "step5_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "they are on the same base $BC$, and between the same parallels $BC$ and $EF$",
+      "type": "formParallelogram e a b c AD BC BE AC \u2227 formParallelogram d f b c AD BC BD CF",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop38": {
+    "step5_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "they are on the equal bases $BC$ and $EF$, and between  the same parallels $BF$ and $GH$",
+      "type": "|(b\u2500c)| = |(e\u2500f)| \u2227 \u00ac(AD.intersectsLine BF)",
+      "verdict": "closes"
+    },
+    "step6_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "the diagonal $AB$ cuts the latter in half",
+      "type": "formParallelogram g b a c BG AC AD BF",
+      "verdict": "closes"
+    },
+    "step7_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "the diagonal $DF$ cuts the latter in half",
+      "type": "formParallelogram d e h f DE FH AD BF",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop39": {
+    "step5_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "on the same base as it, $BC$, and between the same parallels",
+      "type": "\u00ac(AE.intersectsLine BC)",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop40": {
+    "step5_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$BC$ and $CE$",
+      "type": "|(b\u2500c)| = |(c\u2500e)|",
+      "verdict": "closes"
+    },
+    "step5_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$BE$ and $AF$",
+      "type": "\u00ac(AF.intersectsLine BC)",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop41": {
+    "step2_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "it is on the same base, $BC$,  as ($EBC$)",
+      "type": "distinctPointsOnLine b c BC",
+      "verdict": "closes"
+    },
+    "step2_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "between the same parallels, $BC$ and $AE$",
+      "type": "\u00ac(AE.intersectsLine BC)",
+      "verdict": "closes"
+    },
+    "step3_assumption1": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "the diagonal $AC$ cuts the former in half",
+      "type": "Triangle.area \u25b3 a:b:c = Triangle.area \u25b3 a:c:d",
+      "verdict": "hard"
+    }
+  },
+  "Book1/Prop42": {
+    "step7_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$BE$ is equal to $EC$",
+      "type": "|(b\u2500e)| = |(e\u2500c)|",
+      "verdict": "closes"
+    },
+    "step7_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the equal bases, $BE$ and $EC$",
+      "type": "|(b\u2500e)| = |(e\u2500c)|",
+      "verdict": "closes"
+    },
+    "step7_assumption3": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the same parallels, $BC$ and $AG$",
+      "type": "\u00ac(AG.intersectsLine BC)",
+      "verdict": "closes"
+    },
+    "step9_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "the same base as ($AEC$)",
+      "type": "distinctPointsOnLine e c BC",
+      "verdict": "closes"
+    },
+    "step9_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the same parallels  as ($AEC$)",
+      "type": "\u00ac(AG.intersectsLine BC)",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop43": {
+    "step1_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$ABCD$ is a parallelogram, and $AC$ its diagonal",
+      "type": "formParallelogram a d b c AD BC AB CD \u2227 distinctPointsOnLine a c AC",
+      "verdict": "closes"
+    },
+    "step2_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$EH$ is a parallelogram, and $AK$ is its diagonal",
+      "type": "formParallelogram a h e k AD EF AB GH \u2227 distinctPointsOnLine a k AC",
+      "verdict": "closes"
+    },
+    "step4_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "triangle $AEK$ is equal to triangle $AHK$, and $KFC$ to $KGC$",
+      "type": "Triangle.area \u25b3 a:e:k = Triangle.area \u25b3 a:h:k \u2227 Triangle.area \u25b3 k:f:c = Triangle.area \u25b3 k:g:c",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop44": {
+    "step20_assumption1": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "angle $GBE$ is equal to $ABM$",
+      "type": "\u2220 e:b:f = \u2220 a:b:m",
+      "verdict": "hard"
+    },
+    "step20_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$GBE$ is equal to $D$",
+      "type": "\u2220 e:b:f = \u2220 d\u2081:d\u2082:d\u2083",
+      "verdict": "closes"
+    },
+    "step6_assumption1": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "the straight-line $HF$ falls across the parallels $AH$ and $EF$",
+      "type": "\u00ac(AH.intersectsLine EF) \u2227 GF.intersectsLine AH \u2227 GF.intersectsLine EF",
+      "verdict": "hard"
+    }
+  },
+  "Book1/Prop45": {
+    "step11_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the straight-line $HG$ falls across the parallels $KM$ and $FG$",
+      "type": "\u00ac(FG.intersectsLine KH)",
+      "verdict": "closes"
+    },
+    "step17_assumption1": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "$FK$ is equal and parallel to $HG$",
+      "type": "|(f\u2500k)| = |(h\u2500g)| \u2227 \u00ac(FK.intersectsLine GH)",
+      "verdict": "hard"
+    },
+    "step17_assumption2": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "$HG$ to $ML$",
+      "type": "|(h\u2500g)| = |(m\u2500l)| \u2227 \u00ac(GH.intersectsLine LM)",
+      "verdict": "hard"
+    },
+    "step21_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "triangle $ABD$ is equal to parallelogram $FH$",
+      "type": "Triangle.area \u25b3 f:k:h + Triangle.area \u25b3 f:h:g = Triangle.area \u25b3 a:b:d",
+      "verdict": "closes"
+    },
+    "step21_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$DBC$ to $GM$",
+      "type": "Triangle.area \u25b3 g:h:m + Triangle.area \u25b3 g:l:m = Triangle.area \u25b3 d:b:c",
+      "verdict": "closes"
+    },
+    "step4_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "angle $E$ is equal to each of (angles) $HKF$ and $GHM$",
+      "type": "\u2220 e\u2081:e\u2082:e\u2083 = \u2220 h:k:f \u2227 \u2220 e\u2081:e\u2082:e\u2083 = \u2220 g:h:m",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop46": {
+    "step12_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the straight-line $AD$ falls across the parallels $AB$ and $DE$",
+      "type": "\u00ac(DE.intersectsLine AB)",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop47": {
+    "step13_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "they have the same base, $BD$, and are between the same parallels, $BD$ and $AL$",
+      "type": "b.onLine BD \u2227 d.onLine BD \u2227 \u00ac(BD.intersectsLine AL)",
+      "verdict": "closes"
+    },
+    "step14_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "they have the same base, $FB$, and are between the same parallels, $FB$ and $GC$",
+      "type": "f.onLine BF \u2227 b.onLine BF \u2227 \u00ac(BF.intersectsLine AC)",
+      "verdict": "closes"
+    },
+    "step4_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "angles $BAC$ and $BAG$ are each right-angles",
+      "type": "(\u2220 b:a:c = \u221f) \u2227 (\u2220 b:a:g = \u221f)",
+      "verdict": "closes"
+    },
+    "step7_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "angle $DBC$ is equal to $FBA$",
+      "type": "\u2220 d:b:c = \u2220 f:b:a",
+      "verdict": "closes"
+    },
+    "step7_assumption2": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "for (they are) both right-angles",
+      "type": "(\u2220 d:b:c = \u221f) \u2227 (\u2220 f:b:a = \u221f)",
+      "verdict": "closes"
+    },
+    "step9_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$DB$ is equal to $BC$",
+      "type": "|(d\u2500b)| = |(b\u2500c)|",
+      "verdict": "closes"
+    },
+    "step9_assumption2": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$FB$ to $BA$",
+      "type": "|(f\u2500b)| = |(b\u2500a)|",
+      "verdict": "closes"
+    }
+  },
+  "Book1/Prop48": {
+    "step11_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$DA$ is equal to $AB$",
+      "type": "|(d\u2500a)| = |(a\u2500b)|",
+      "verdict": "closes"
+    },
+    "step11_assumption2": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$AC$ (is) common",
+      "type": "distinctPointsOnLine a c AC",
+      "verdict": "closes"
+    },
+    "step4_assumption1": {
+      "closed_by": "euclid_finish",
+      "level": 6,
+      "tag": "valid",
+      "text": "$DA$ is equal to $AB$",
+      "type": "|(d\u2500a)| = |(a\u2500b)|",
+      "verdict": "closes"
+    },
+    "step7_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "angle $DAC$ is a right-angle",
+      "type": "\u2220 d:a:c = \u221f",
+      "verdict": "closes"
+    },
+    "step8_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "(that) was assumed",
+      "type": "|(b\u2500c)| * |(b\u2500c)| = |(b\u2500a)| * |(b\u2500a)| + |(a\u2500c)| * |(a\u2500c)|",
+      "verdict": "closes"
+    }
   }
 }
