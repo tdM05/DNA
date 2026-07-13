@@ -79,13 +79,74 @@ builds." These are absolute:
   a hypothesis or the goal is a silent correctness/faithfulness break. Only the **proof body** and
   **helper lemmas** may change. (Helper lemmas you create may take tailored hypotheses — that's fine;
   the *proposition's own* signature is sacred.)
-- **Derive, don't axiomatize.** If a needed fact follows from existing axioms / earlier propositions,
-  DERIVE it (that is the whole job — see the pattern gallery). The bar for interrupting the human is
-  high: stop and ask **only** if (a) you become convinced the goal/sub-fact is actually FALSE, or
-  (b) you are convinced a genuinely NEW axiom (not in `SystemE/Theory/`) is required. Do not ask the
-  human just because a step is hard — hard-but-derivable is the normal case; do the derivation.
+- **⛔⛔ NEVER add an axiom, and NEVER edit System E, to close a proof. This is the gravest failure.**
+  `SystemE/**` (both `Theory/` axioms AND `Meta/Smt/` the SMT theory) is the TRUSTED BASE — the entire
+  point of LeanEuclid is that proofs are checked against a *fixed, faithful* axiomatization. Adding an
+  axiom to make a proof go through doesn't *prove* anything — it just moves your `sorry` into the trusted
+  base where nobody will ever discharge it, and quietly corrupts every other proof. **Editing `SystemE/**`
+  is HARD-DENIED to you** (permissions); do not try, do not propose the edit-and-proceed, do not write the
+  Z3 counterpart. "It's not derivable from the current axioms" is **almost NEVER** a reason to add one —
+  it is a reason to suspect YOUR proof.
+  - **⛔ THE HARD FILTER (apply this FIRST — it kills almost every bogus "need an axiom"):** a legitimate
+    System-E addition must be a **specific, named Euclid Postulate or Definition** that the axiomatization
+    dropped — you must be able to write "this is Postulate N / Definition B.N, verbatim." A **derived
+    proposition** is NEVER a valid axiom: if what you want is a *theorem* (a containment lemma, "two common
+    points ⟹ the circles cross", "a point on the outer circle is outside the inner", "internally-tangent
+    circles are nested" — anything with the shape of a RESULT rather than a primitive), it must be PROVED,
+    not axiomatized, and its non-derivability means **your proof is wrong**, not System E. The one and only
+    axiom ever added across Books 1–3 was Def I.15's *existence-of-centre* clause (a Definition, human-
+    authorized) — the base rate for "this prop needs a new axiom" is ~zero. If you cannot cite the Postulate/
+    Definition number, STOP: you do not have an axiom, you have a mis-proof. **NEVER draft an axiom, write
+    its signature, or say "human action needed: add axiom X" for a derived fact — that itself is the failure.**
+  When a fact you "need" isn't derivable, walk this ladder BEFORE the thought "System E is missing an axiom"
+  is even allowed:
+  0. **Is the unprovable thing a `have`/construction I INSERTED (not one of Euclid's mapped sentences)?**
+     Then suspect it is **FALSE**, not un-derivable. A self-inserted bridging fact that resists every tactic
+     is almost always geometrically wrong — and the fastest check is your OWN proof: does it contradict a
+     later mapped step? (III.11 disaster: the agent inserted `have hd_ex : … between g d h`, couldn't prove
+     it, and invented `non_intersecting_circles_outer_point_outside`. But `between g d h` needs H *outside*
+     the inner circle, while the proof's own **step 4** — Euclid's `AG > GH`, with `AG` = inner radius —
+     says H is *inside* it. The bridging `have` was refuted by a step of the same proof; the "missing axiom"
+     was a derived containment lemma dressed up as a postulate. Both filters fired; the agent ignored both.)
+  1. **Is my proof STRUCTURE wrong / am I proving the wrong sub-fact?** (Re-read Euclid's actual argument —
+     don't reinvent it. The Prop05/III.5 disaster: an agent needed `¬(circle intersects itself)`, declared
+     it a missing axiom, and started editing System E — when Euclid's "the lesser to the greater" is a
+     *radii-length* contradiction that needs no such fact. It misread the argument, then reached for the
+     trusted base.)
+  2. **Is a HYPOTHESIS missing from the proposition SIGNATURE?** A fact "not derivable" from the stated
+     hypotheses often means the *statement* is under-specified (e.g. "two circles … one another" ⟹ the
+     distinctness `ABC ≠ CDE` belongs in the signature — Prop06 has it; without it the theorem is false).
+     That is a SIGNATURE question for the human (you may not weaken/alter statements yourself), NOT an axiom.
+  3. **How did a DONE sibling prop handle the same shape?** (Prop06 closes the identical "lesser to the
+     greater" with `equal_circles` + the distinctness hypothesis — zero new axioms. Find the template.)
+  4. **Is it a Euclid generic-position gap?** Fill with a case split + `@euclid_gap` (see below) — not an axiom.
+  Only if ALL of these genuinely fail do you STOP and hand the HUMAN a full written analysis (why it's not
+  derivable, why no missing hypothesis fits, which Euclid *definition/postulate* would ground it, how no
+  sibling avoids it). The human — never you — decides whether System E changes. Do not "ask and proceed";
+  STOP.
+- **Derive, don't axiomatize (the normal case).** If a needed fact follows from existing axioms / earlier
+  propositions, DERIVE it — that is the whole job (see the pattern gallery). Do not interrupt the human
+  just because a step is HARD; hard-but-derivable is the normal case. The only two reasons to stop and ask
+  are (a) you become convinced the goal/sub-fact is actually FALSE (likely an unfaithful map or a missing
+  signature hypothesis — see the ladder above), or (b) you've walked the whole ladder and still believe the
+  trusted base is genuinely incomplete — in which case you REPORT, you never edit `SystemE/**`.
 - **Touch only the proposition the human assigned you.** If a *different* prop is broken, REPORT it;
   do not "helpfully" fix it (another agent may own it).
+- **An OUTSIDE-SOURCE bug is the human's call — STOP and REPORT it, do NOT "fix" it.** A blocker you hit
+  is one of THREE things, and only the first two are yours to handle:
+  1. **OUR bug → fix it quietly.** An unfaithful map, a mis-built construction, a wrong helper — repair it.
+  2. **A Euclid generic-position PROOF gap → fill it + mark `@euclid_gap`.** Euclid reads a
+     true-in-general fact off the figure that a degenerate admissible model violates; his theorem still
+     holds. Add the implicit case (`by_cases`/`wlog`); this is expected, not a bug (see CLAUDE.md).
+  3. **A genuine OUTSIDE-SOURCE bug (NOT ours, NOT a mere implicit case) → STOP and TELL the human.**
+     Euclid's own logical/mathematical mistake, a translation/text error, or a wrong editorial citation
+     (a `[Prop.~B.N]` bracket pointing at the wrong proposition — e.g. III.1 brackets a segment-bisection
+     as `[Prop.~1.9]`, but 1.9 is angle-bisection; it is I.10). **Do NOT paper over it:** don't alter the
+     proposition statement or source text, don't swap in a different prop to chase a wrong bracket, don't
+     invent a fact/axiom to go green. Lay out the evidence and let the human decide (fix the source, accept
+     a documented gap, or — for a wrong citation — add `-- @suppress_deps_check "reason"` above the
+     sentence, which waives criterion-3 for it while the text stays verbatim). "Bug" here means an
+     outside-source error, never our own — ours you fix, theirs you report.
 
 ## THE NON-NEGOTIABLE RULES
 

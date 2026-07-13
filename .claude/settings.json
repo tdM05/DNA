@@ -100,6 +100,10 @@
       "Write(LeanEuclidPlus/OldBook1.lean)",
       "Edit(LeanEuclidPlus/OldBook1Variants.lean)",
       "Write(LeanEuclidPlus/OldBook1Variants.lean)"
+    ],
+    "ask": [
+      "Edit(LeanEuclidPlus/SystemE/**)",
+      "Write(LeanEuclidPlus/SystemE/**)"
     ]
   },
   "hooks": {

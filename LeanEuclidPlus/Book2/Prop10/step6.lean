@@ -1,5 +1,5 @@
 import SystemE
-import Book.Prop29
+import Book1Variants.Prop29
 import Helpers.OffLine
 import Helpers.SameSide
 set_option linter.unusedVariables false
@@ -20,7 +20,7 @@ theorem helper_2_10_step6
   (hne0 : ¬e0.onLine AD)
   (hbte : between c e e1)
   (hEF_e : e.onLine EF) (hEF_f : f.onLine EF) (hEFAD : ¬EF.intersectsLine AD)
-  (hFD_d : d.onLine FD) (hFD_f : f.onLine FD) (hFDCE : ¬FD.intersectsLine CE) :
+  (hFD_d : d.onLine FD) (hFD_f : f.onLine FD) (hFDCE : ¬(FD.intersectsLine CE)) :
   ∠ c:e:f + ∠ e:f:d = ∟ + ∟ := by
   have heCE : e.onLine CE := by euclid_apply (between_same_line_in c e e1 CE); assumption
   have hec : e ≠ c := by euclid_finish

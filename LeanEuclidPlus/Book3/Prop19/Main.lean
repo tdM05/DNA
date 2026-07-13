@@ -1,67 +1,73 @@
 import SystemE
+import Book3.Prop19.step1
+import Book3.Prop19.step2
+import Book3.Prop19.step3
+import Book3.Prop19.step4
+import Book3.Prop19.step5
+import Book3.Prop19.step6
+import Book3.Prop19.step7
+import Book3.Prop19.step8
+import Book3.Prop19.step9
 set_option linter.unusedVariables false
 set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
-set_option systemE.solverTime 30 in
 theorem proposition_19 : ∀ (a c e : Point) (ABC : Circle) (DE CA : Line),
   c.onLine DE ∧ c.onCircle ABC ∧ ¬ DE.intersectsCircle ABC ∧
   a.onLine CA ∧ c.onLine CA ∧ a ≠ c ∧
   e.onLine DE ∧ e ≠ c ∧ ∠ a:c:e = ∟ →
-  ∀ o : Point, o.isCentre ABC → o.onLine CA :=
+  ∀ f : Point, f.isCentre ABC → f.onLine CA :=
 by
   euclid_intros
   euclid_intro_sentence "3.19.0"
     "If some straight-line touches a circle, and a straight-line is drawn from the point of contact, at right-[angles] to the tangent, (then) the center (of the circle) will be on the (straight-line) so drawn. For let some straight-line $DE$ touch the circle $ABC$ at point $C$. And let $CA$ be drawn from $C$, at right-angles to $DE$ [Prop.~1.11]. I say that the center of the circle is on $AC$."
 
-  have habsurd1 : ¬(¬o.onLine CA) := by
+  have habsurd1 : ¬(¬f.onLine CA) := by
     intro hsuppose1
-    -- orchestrator-note: step1 restates given o.isCentre ABC; faithful to "let F be the center"
-    -- (F=o in the formal proof; the sentence names the reductio's hypothetical center).
     euclid_sentence "3.19.1"
       "For (if) not, if possible, let $F$ be (the center of the circle),"
-      (step1 : o.isCentre ABC) := by sorry
+      (step1 : f.isCentre ABC) := by euclid_apply (helper_3_19_step1 f ABC (by euclid_assumption "" (show f.isCentre ABC; assumption)))
 
-    euclid_apply (line_from_points o c) as CF
+    euclid_apply (line_from_points f c) as CF
     euclid_sentence "3.19.2"
       "and let $CF$ be joined."
-      (step2 : o.onLine CF ∧ c.onLine CF) := by sorry
+      (step2 : f.onLine CF ∧ c.onLine CF) := by euclid_apply (helper_3_19_step2 f c CF (by euclid_assumption "" (show f.onLine CF; assumption)) (by euclid_assumption "" (show c.onLine CF; assumption)))
 
+    -- @assumption_valid
+    have step3_assumption1 : c.onCircle ABC ∧ c.onLine DE ∧ ¬DE.intersectsCircle ABC := by euclid_finish
+    -- @assumption_valid
+    have step3_assumption2 : f.isCentre ABC ∧ f ≠ c := by euclid_finish
     -- @assumption ("some straight-line $DE$ touches the circle $ABC$", c.onCircle ABC ∧ c.onLine DE ∧ ¬DE.intersectsCircle ABC)
-    -- @assumption ("$FC$ has been joined from the center to the point of contact", o.isCentre ABC ∧ o ≠ c)
+    -- @assumption ("$FC$ has been joined from the center to the point of contact", f.isCentre ABC ∧ f ≠ c)
     euclid_sentence "3.19.3"
       "[Therefore], since some straight-line $DE$ touches the circle $ABC$, and $FC$ has been joined from the center to the point of contact, $FC$ is thus perpendicular to $DE$ [Prop.~3.18]."
-      (step3 : ∠ o:c:e = ∟) := by sorry
+      (step3 : ∠ f:c:e = ∟) := by euclid_apply (helper_3_19_step3 c f e ABC DE (by euclid_assumption "some straight-line $DE$ touches the circle $ABC$" (show c.onCircle ABC ∧ c.onLine DE ∧ ¬DE.intersectsCircle ABC; assumption)) (by euclid_assumption "$FC$ has been joined from the center to the point of contact" (show f.isCentre ABC ∧ f ≠ c; assumption)) (by euclid_assumption "" (show e.onLine DE; assumption)) (by euclid_assumption "" (show e ≠ c; assumption)))
 
     euclid_sentence "3.19.4"
       "Thus, $FCE$ is a right-angle."
-      (step4 : ∠ o:c:e = ∟) := by sorry
+      (step4 : ∠ f:c:e = ∟) := by euclid_apply (helper_3_19_step4 c f e (by euclid_assumption "" (show ∠ f:c:e = ∟; assumption)))
 
-    -- orchestrator-note: step5 restates given ∠a:c:e = ∟; Euclid quotes the given for the
-    -- comparison with step4/step3 that yields the contradiction.
     euclid_sentence "3.19.5"
       "And $ACE$ is also a right-angle."
-      (step5 : ∠ a:c:e = ∟) := by sorry
+      (step5 : ∠ a:c:e = ∟) := by euclid_apply (helper_3_19_step5 a c e (by euclid_assumption "" (show ∠ a:c:e = ∟; assumption)))
 
     euclid_sentence "3.19.6"
       "Thus, $FCE$ is equal to $ACE$, the lesser to the greater."
-      (step6 : ∠ o:c:e = ∠ a:c:e) := by sorry
+      (step6 : ∠ f:c:e = ∠ a:c:e) := by euclid_apply (helper_3_19_step6 a c f e (by euclid_assumption "" (show ∠ f:c:e = ∟; assumption)) (by euclid_assumption "" (show ∠ a:c:e = ∟; assumption)))
 
     euclid_sentence "3.19.7"
       "The very thing is impossible."
-      (step7 : False) := by sorry
+      (step7 : False) := by euclid_apply (helper_3_19_step7 a c f e CA DE CF ABC (by euclid_assumption "" (show a.onLine CA; assumption)) (by euclid_assumption "" (show c.onLine CA; assumption)) (by euclid_assumption "" (show a ≠ c; assumption)) (by euclid_assumption "" (show c.onLine DE; assumption)) (by euclid_assumption "" (show e.onLine DE; assumption)) (by euclid_assumption "" (show e ≠ c; assumption)) (by euclid_assumption "" (show f.onLine CF; assumption)) (by euclid_assumption "" (show c.onLine CF; assumption)) (by euclid_assumption "" (show f.isCentre ABC; assumption)) (by euclid_assumption "" (show ¬DE.intersectsCircle ABC; assumption)) (by euclid_assumption "" (show ∠ f:c:e = ∟; assumption)) (by euclid_assumption "" (show ∠ a:c:e = ∟; assumption)) (by euclid_assumption "" (show ¬f.onLine CA; assumption)))
     exact step7
 
-  -- orchestrator-note: step8 "F is not the center" = reductio_close; formally ¬(¬o.onLine CA)
-  -- (the center cannot be a point off CA; F [= supposed center off CA] is not the center).
   euclid_sentence "3.19.8"
     "Thus, $F$ is not the center of circle $ABC$."
-    (step8 : ¬(¬o.onLine CA)) := by sorry
+    (step8 : ¬(f.isCentre ABC ∧ ¬f.onLine CA)) := by euclid_apply (helper_3_19_step8 f ABC CA (by euclid_assumption "" (show ¬(¬f.onLine CA); assumption)))
 
   euclid_sentence "3.19.9"
     "So, similarly, we can show that neither is any (point) other (than one) on $AC$."
-    (step9 : o.onLine CA) := by sorry
+    (step9 : f.onLine CA) := by euclid_apply (helper_3_19_step9 f CA (by euclid_assumption "" (show ¬(¬f.onLine CA); assumption)))
 
   exact step9
   euclid_conclude_sentence "3.19.10"

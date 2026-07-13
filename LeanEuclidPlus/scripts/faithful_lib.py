@@ -775,6 +775,97 @@ ARGS_ANNOT = re.compile(r'(?m)^[ \t]*--[ \t]*@args:[ \t]*(.*?)[ \t]*$')
 # step1.1` where `step1.1` is the proof term).
 ASSUMPTION_ANNOT = re.compile(
     r'(?m)^[ \t]*--[ \t]*@assumption[ \t]*\(\s*"([^"]*)"\s*,\s*(.+?)(?:\s*,\s*(use_override\s+.+?))?\s*\)[ \t]*$')
+# Dependency-waiver annotation: `-- @suppress_deps_check "reason"` on its OWN line in the annotation
+# block directly above a euclid_sentence head. It EXEMPTS that one sentence's cited `[Prop.~B.N]` from
+# the criterion-3 dependency check (both Phase-B arms AND gate C). It is the greppable, reason-carrying
+# escape hatch for a citation the source EDITION gets objectively wrong — e.g. Fitzpatrick's III.1 brackets
+# a segment-bisection as `[Prop.~1.9]` (his angle-bisection) where the construction is really I.10, so
+# the faithful Lean applies `proposition_10` and the number/book match can never agree. Analogous to
+# `@euclid_gap` (which flags a PROOF gap): this flags a CITATION-metadata error in the source, not ours.
+# The reason is MANDATORY — an empty/malformed tag is a hard error, so it can never silently mute a real
+# missing dependency.
+SUPPRESS_DEPS_ANNOT = re.compile(r'(?m)^[ \t]*--[ \t]*@suppress_deps_check[ \t]+"([^"]*)"[ \t]*$')
+SUPPRESS_DEPS_KEYWORD = re.compile(r'(?m)^[ \t]*--[ \t]*@suppress_deps_check\b')
+# loc = the first string literal following the `euclid_sentence` keyword (always on the keyword's line).
+_SENT_LOC = re.compile(r'euclid_sentence\s*"((?:[^"\\]|\\.)*)"')
+
+
+# Lines the Assumption Phase (assumptions.py) MATERIALIZES into the annotation block, above the
+# euclid_sentence, when it turns an `-- @assumption` into a checked obligation: the `@assumption_valid`/
+# `@assumption_gap` classification tag, and the `have <node>_assumption<N> : <type> := by <tactic>` have
+# itself (which may wrap onto continuation lines before its `:=`). These legally sit BETWEEN a
+# `@suppress_deps_check` tag and its sentence, so `_next_sentence_loc` must scan over them too — otherwise
+# a valid tag looks "detached" after the sweep runs (crashing gate-C / --all and blanking the status mirror).
+_ASSUMPTION_CLASS_TAG = re.compile(r'(?m)^[ \t]*--[ \t]*@assumption_(?:valid|gap)\b')
+_ASSUMPTION_HAVE = re.compile(r'^[ \t]*have[ \t]+\w+_assumption\d+\b')
+
+
+def _next_sentence_loc(src, pos):
+    """From char offset `pos`, scan forward over blank + annotation lines (@assumption/@args/
+    @suppress_deps_check, the @assumption_valid/@assumption_gap classification tags, and the materialized
+    `have <node>_assumption<N> …` obligation the Assumption Phase inserts) to the first euclid_sentence
+    head; return its `loc`, or None only if a genuinely-unrelated line is hit first (tag not attached to a
+    sentence). Tolerating the materialized lines is what keeps a @suppress_deps_check tag valid AFTER the
+    assumption sweep — and keeps gate-C / --all / the status mirror from breaking on it."""
+    i, n = pos, len(src)
+    in_have = False                                              # inside a multi-line `have …_assumption…`
+    while i < n:
+        eol = src.find("\n", i)
+        if eol == -1:
+            eol = n
+        line = src[i:eol]
+        stripped = line.strip()
+        if in_have:                                             # swallow continuation lines up to `:=`
+            if ":=" in line:
+                in_have = False
+            i = eol + 1
+            continue
+        if not stripped:
+            i = eol + 1
+            continue
+        if stripped.startswith("euclid_sentence"):
+            m = _SENT_LOC.search(src[i:i + 400])                 # loc is on this line; small window is safe
+            return m.group(1) if m else None
+        if _ASSUMPTION_HAVE.match(line):
+            if ":=" not in line:                                # wrapped have — swallow its continuation
+                in_have = True
+            i = eol + 1
+            continue
+        if (ASSUMPTION_ANNOT.match(line) or ARGS_ANNOT.match(line)
+                or SUPPRESS_DEPS_ANNOT.match(line) or _ASSUMPTION_CLASS_TAG.match(line)):
+            i = eol + 1
+            continue
+        return None
+    return None
+
+
+def suppressed_dep_locs_in_src(src):
+    """Map `loc` → reason for every `-- @suppress_deps_check "reason"` tag in `src`, keyed by the
+    euclid_sentence it sits directly above. Validates every tag: malformed grammar, an empty reason, or a
+    tag not attached to a sentence is a FaithfulError. Callers skip criterion-3 for any `loc` in the map."""
+    out = {}
+    for km in SUPPRESS_DEPS_KEYWORD.finditer(src):
+        eol = src.find("\n", km.start())
+        line = src[km.start():eol if eol != -1 else len(src)]
+        m = SUPPRESS_DEPS_ANNOT.match(line)
+        if not m:
+            raise FaithfulError(
+                f'malformed @suppress_deps_check (expected `-- @suppress_deps_check "reason"`): {line.strip()}')
+        reason = m.group(1).strip()
+        if not reason:
+            raise FaithfulError('@suppress_deps_check requires a non-empty "reason" (e.g. the source-edition '
+                                'citation typo it waives) — an empty reason may not silence a dependency.')
+        loc = _next_sentence_loc(src, (eol + 1) if eol != -1 else len(src))
+        if loc is None:
+            raise FaithfulError(f'@suppress_deps_check "{reason}" is not directly above a euclid_sentence '
+                                f'(only @assumption/@args/blank lines may sit between the tag and its sentence).')
+        out[loc] = reason
+    return out
+
+
+def suppressed_dep_locs(propdir):
+    """`suppressed_dep_locs_in_src` for a prop's Main.lean."""
+    return suppressed_dep_locs_in_src(open(main_file(propdir), encoding="utf-8").read())
 
 
 class Node:
@@ -831,7 +922,7 @@ def _assumptions_above(src, head_start):
             found.append((m.group(1), m.group(2).strip(), m.group(3)))
             cursor = prev_start
             continue
-        if ARGS_ANNOT.match(line):                     # @args line — skip, keep scanning
+        if ARGS_ANNOT.match(line) or SUPPRESS_DEPS_ANNOT.match(line):  # @args/@suppress line — skip
             cursor = prev_start
             continue
         break                                          # any other non-blank line — stop
@@ -1732,6 +1823,17 @@ def integrity_scan(propdir, names=None):
             problems.append(f"{os.path.relpath(path, BOOK_ROOT)} has a STRAY helper import "
                             f"`import {mod}` — only the script may add pipeline imports (transiently "
                             f"when wiring). Remove it; the dev state imports no helper/step file.")
+        # FLAT `Book.PropNN` import guard: the old flat `Book/` directory is DEAD since the Book1
+        # migration (Book/ and Book1/ both declared Elements.Book1.proposition_N, so importing both
+        # under a wired Main causes `environment already contains` collisions). All proposition
+        # citations must use the FOLDERED form: `import Book1.PropNN.Main` (or Book2/Book3).
+        for m in re.finditer(r'^[ \t]*import[ \t]+(Book\.Prop\d+\S*)', src, re.MULTILINE):
+            mod = m.group(1)
+            problems.append(f"{os.path.relpath(path, BOOK_ROOT)} has a FLAT `Book/` proposition import "
+                            f"`import {mod}` — the old flat `Book/` directory is DEAD. Replace with "
+                            f"`import Book1.PropNN.Main` (or Book2/Book3 as appropriate). "
+                            f"This conflicts with the foldered `Book1.*` imports that wire_main adds "
+                            f"transitively, causing `environment already contains` failures at Phase C.")
         # ORPHAN `-- @args:` guard: every @args line must sit DIRECTLY above a node head (`have <n> :`
         # or `euclid_sentence …`); otherwise it's silently ignored (e.g. a blank line crept between).
         # Flag it loudly so the override never silently no-ops.
@@ -1818,6 +1920,7 @@ def dependency_problems(propdir):
     via `check_step --dependency` and inside `--all`/`--check`.)"""
     cons = construction_nums(propdir)
     main_src = open(main_file(propdir), encoding="utf-8").read()
+    suppressed = suppressed_dep_locs_in_src(main_src)       # @suppress_deps_check waivers (loc → reason)
     # map each logical sentence's step-node name → so we can scope the proof arm to its cone
     occ = parse_occurrences(propdir)
     name_by_loc = {nd.loc: nm for nm, nds in occ.items() for nd in nds
@@ -1827,6 +1930,8 @@ def dependency_problems(propdir):
         loc, text = m.group(1), m.group(2)
         if not m.group(0).startswith('euclid_sentence'):
             continue                                        # intro/conclude/wts: background citations only
+        if loc in suppressed:
+            continue                                        # criterion-3 waived by @suppress_deps_check
         for cb, cn in CITE_RE.findall(text):
             num = int(cn)
             if num in cons:

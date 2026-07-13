@@ -15,6 +15,23 @@ Design principles:
 USAGE (run from LeanEuclidPlus/ or repo root)
   python3 diagrams/scripts/proof_map.py --prop Book2/Prop02
   python3 diagrams/scripts/proof_map.py --prop Book2/Prop02 -o out.html
+
+SAVING AS PNG (headless, uses Playwright)
+  1. Open map.html in a browser, arrange cards, then click "Save layout".
+     This downloads map_layout.json — move it into the prop folder:
+       mv ~/Downloads/map_layout.json LeanEuclidPlus/Book2/Prop02/
+  2. Run --png or --all_layouts:
+       python3 diagrams/scripts/proof_map.py --prop Book2/Prop02 --png
+         Reads map_layout.json → writes map.png
+
+       python3 diagrams/scripts/proof_map.py --prop Book2/Prop02 --all_layouts
+         Finds every map_layout*.json in the prop folder and writes one PNG each:
+           map_layout.json         → map.png
+           map_layout_compact.json → map_compact.png
+           map_layout_v2.json      → map_v2.png
+
+       Both accept --scale N (default 2) and --transparent.
+     Install Playwright once: pip install playwright && playwright install chromium
 """
 
 import argparse, os, re, sys, html as htmllib, subprocess
@@ -84,20 +101,45 @@ def parse_main(main_path):
             in_body = True; role = "sig"
         else:
             role = "body" if in_body else "sig"
+        if re.match(r'^\s*end\s+Elements\.', l):
+            continue
+        if l.strip().startswith("--"):
+            result.append({"line": l, "kind": "comment", "key": None, "role": role, "sent_text": ""})
+            continue
         cl = classify_line(l)
         if cl:
-            kind, key, _ = cl
-            if kind == "sentence" and key is None:
-                buf = l; j = i
-                while j < len(lines) and ":=" not in buf:
-                    nxt = strip_line_comment(lines[j]).rstrip()
-                    if not nxt.strip(): break
-                    buf += " " + nxt.strip(); j += 1
-                cm = RE_CLAIM.search(buf)
-                if cm: key = cm.group(1)
-            result.append({"line": l, "kind": kind, "key": key, "role": role})
+            kind, key, sent_text = cl
+            if kind == "sentence":
+                # Collect continuation lines: Euclid text string, then lean claim+proof
+                j = i
+                cont_items = []
+                while j < len(lines):
+                    nxt = lines[j]
+                    nxt_s = nxt.strip()
+                    if not nxt_s or classify_line(nxt) is not None:
+                        break
+                    nxt_kind = "sent_cont_text" if nxt_s.startswith('"') else "sent_cont_lean"
+                    cont_items.append({"line": nxt, "kind": nxt_kind, "key": None,
+                                       "role": role, "sent_text": ""})
+                    j += 1
+                    if ":=" in strip_line_comment(nxt):
+                        break
+                if key is None and cont_items:
+                    buf = l + " " + " ".join(
+                        strip_line_comment(c["line"]).rstrip().strip() for c in cont_items)
+                    cm = RE_CLAIM.search(buf)
+                    if cm: key = cm.group(1)
+                cont_id = key if key else sent_text
+                for c in cont_items:
+                    c["key"] = cont_id
+                i = j
+                result.append({"line": l, "kind": kind, "key": key, "role": role,
+                               "sent_text": sent_text, "cont_id": cont_id})
+                result.extend(cont_items)
+            else:
+                result.append({"line": l, "kind": kind, "key": key, "role": role, "sent_text": sent_text})
         else:
-            result.append({"line": l, "kind": "plain", "key": None, "role": role})
+            result.append({"line": l, "kind": "plain", "key": None, "role": role, "sent_text": ""})
     return result
 
 RE_BY        = re.compile(r':=\s*by\s*$')
@@ -121,12 +163,17 @@ def parse_step(path):
             role = "sig"
         else:
             role = "body" if in_body else "sig"
+        if re.match(r'^\s*end\s+Elements\.', l):
+            continue
+        if l.strip().startswith("--"):
+            result.append({"line": l, "kind": "comment", "key": None, "role": role, "sent_text": ""})
+            continue
         cl = classify_line(l)
         if cl:
-            kind, key, _ = cl
-            result.append({"line": l, "kind": kind, "key": key, "role": role})
+            kind, key, sent_text = cl
+            result.append({"line": l, "kind": kind, "key": key, "role": role, "sent_text": sent_text})
         else:
-            result.append({"line": l, "kind": "plain", "key": None, "role": role})
+            result.append({"line": l, "kind": "plain", "key": None, "role": role, "sent_text": ""})
     child_keys = [it["key"] for it in result if it["kind"] == "have" and it["key"]]
     return result, child_keys
 
@@ -179,15 +226,14 @@ _KW_CLASS = {
     "theorem":"kw-def","lemma":"kw-def","def":"kw-def","abbrev":"kw-def",
     "instance":"kw-def","namespace":"kw-def","end":"kw-def","open":"kw-def",
     "import":"kw-def","section":"kw-def","structure":"kw-def","class":"kw-def",
-    "by":"kw-by",
+    "by":"kw-have",
     "have":"kw-have","let":"kw-have",
-    "show":"kw-tac","exact":"kw-tac","apply":"kw-tac","rw":"kw-tac",
-    "simp":"kw-tac","ring":"kw-tac","linarith":"kw-tac","assumption":"kw-tac",
+    "exact":"kw-have","apply":"kw-tac","rw":"kw-tac",
+    "simp":"kw-tac","ring":"kw-tac","linarith":"kw-tac",
     "intro":"kw-tac","intros":"kw-tac","cases":"kw-tac","induction":"kw-tac",
     "constructor":"kw-tac","refine":"kw-tac","push_neg":"kw-tac",
     "contrapose":"kw-tac","contradiction":"kw-tac",
-    "euclid_intros":"kw-euclid","euclid_finish":"kw-euclid",
-    "euclid_apply":"kw-euclid","euclid_assumption":"kw-euclid",
+    "euclid_finish":"kw-euclid","euclid_assumption":"kw-euclid",
     "euclid_sentence":"kw-sent","euclid_intro_sentence":"kw-sent",
     "euclid_conclude_sentence":"kw-sent",
     "fun":"kw-quant","match":"kw-quant","if":"kw-quant","then":"kw-quant","else":"kw-quant",
@@ -201,14 +247,18 @@ _HL_RE = re.compile(
     r'|(\b(?:' + '|'.join(re.escape(k) for k in sorted(_KW_CLASS, key=len, reverse=True)) + r')\b)'
                                       # group 2: keyword (longest first)
     r'|([a-zA-Z_]\w*(?::[a-zA-Z_]\w*)+)'  # group 3: point-colon chain a:b:c (match before bare :)
-    r'|(:=|=>|[→←↔])'                # group 4: arrow/assign ops
+    r'|(=>|[→←↔])'                    # group 4: arrow ops
     r'|([∧∨¬∥⊥])'                    # group 5: logic ops
     r'|([=≠≤≥])'                      # group 6: relation ops
-    r'|([∟△─∠∀∃])'                   # group 7: special math
+    r'|([∟△∠])'                        # group 7: special math
     r'|(:)'                           # group 8: colon
-    r'|([([{⟨])'                      # group 9: open bracket
-    r'|([\])}⟩])'                     # group 10: close bracket
+    r'|([([{])'                       # group 9: open bracket
+    r'|([\])}])'                      # group 10: close bracket
     r'|(\b\d[\d.]*\b)'                # group 11: number
+    r'|(:=)'                          # group 12: assignment — plain
+    r'|([⟨⟩])'                       # group 13: angle brackets — plain
+    r'|([─])'                         # group 14: segment dash — orange
+    r'|([∀∃])'                        # group 15: quantifiers — plain
 )
 
 _GRP_CLASS = {
@@ -217,6 +267,10 @@ _GRP_CLASS = {
     3: "t-id",     # point-colon chain a:b:c — plain identifier
     4: "op-assign", 5: "op-logic", 6: "op-rel", 7: "op-special",
     8: "op-colon", 9: "t-brk-o", 10: "t-brk-c", 11: "t-num",
+    12: "t-id",     # := — plain white
+    13: "t-id",     # ⟨⟩ — plain white
+    14: "t-id",     # ─ — plain white
+    15: "t-id",     # ∀∃ — plain white
 }
 
 def lean_highlight(raw):
@@ -276,21 +330,47 @@ def render_code_lines(items, id_prefix="", node_keys=None):
                     f'<span class="ln"></span><span class="lc">{h(item["line"])}</span></div>\n')
             continue
         if not item["line"].strip():
-            out += (f'<div class="code-line plain" data-role="{role}">'
+            out += (f'<div class="code-line blank" data-role="{role}">'
                     f'<span class="ln"></span><span class="lc"> </span></div>\n')
             continue
         real_ln += 1
         key = item.get("key")
-        content = render_line_content(item["line"])
         is_node = key and (node_keys is None or key in node_keys)
         if k in ("sentence", "have"):
             sid = f'{id_prefix}{key}' if key else ""
             connects = f'data-connects="{key}"' if is_node else ""
             id_attr = f'id="{sid}"' if sid else ""
+            lc_content = render_line_content(item["line"])
+            extra = ""
+            hint  = ""
+            if k == "sentence":
+                cont_id = item.get("cont_id") or (key or item.get("sent_text", ""))
+                if cont_id:
+                    extra = f'data-sent-key="{h(cont_id)}"'
+                hint = '<span class="sent-hint">&#9658;</span>'
             out += (f'<div class="code-line {k}" data-role="{role}" {id_attr} '
-                    f'{connects} data-kind="{k}">'
+                    f'{connects} data-kind="{k}" {extra}>'
+                    f'<span class="ln">{real_ln}</span><span class="lc">{lc_content}</span>'
+                    f'{hint}</div>\n')
+        elif k in ("sent_cont_text", "sent_cont_lean"):
+            cont_key  = item.get("key", "")
+            cont_role = "text" if k == "sent_cont_text" else "lean"
+            ck_attr   = f'data-sent-cont="{h(cont_key)}"' if cont_key else ""
+            if k == "sent_cont_lean":
+                sorry_line = re.sub(r':=\s*by\s+.*', ':= by sorry', item["line"].rstrip())
+                lc_html = (f'<span class="sorry-off">{render_line_content(item["line"])}</span>'
+                           f'<span class="sorry-on">{render_line_content(sorry_line)}</span>')
+            else:
+                lc_html = render_line_content(item["line"])
+            out += (f'<div class="code-line sent-cont" data-role="{role}" '
+                    f'{ck_attr} data-sent-role="{cont_role}">'
+                    f'<span class="ln">{real_ln}</span><span class="lc">{lc_html}</span></div>\n')
+        elif k == "comment":
+            content = render_line_content(item["line"])
+            out += (f'<div class="code-line comment" data-role="{role}">'
                     f'<span class="ln">{real_ln}</span><span class="lc">{content}</span></div>\n')
         else:
+            content = render_line_content(item["line"])
             out += (f'<div class="code-line plain" data-role="{role}">'
                     f'<span class="ln">{real_ln}</span><span class="lc">{content}</span></div>\n')
     return out
@@ -374,7 +454,7 @@ body {
 .leg-dot { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
 
 /* ── page body — top padding clears the fixed toolbar ── */
-.page { padding: 60px 48px 80px; padding-top: 72px; }
+.page { padding: 60px 48px 80px; padding-top: 110px; }
 
 /* ── outer (SVG anchor) ── */
 .outer {
@@ -390,27 +470,26 @@ body {
 }
 
 /* ── Lean syntax colours ── */
-.kw-def    { color: #c792ea; font-weight: 600; }  /* theorem/lemma/def/import */
-.kw-by     { color: #89ddff; font-weight: 600; }  /* by */
-.kw-have   { color: #f5a623; font-weight: 600; }  /* have/let */
-.kw-tac    { color: #82aaff; }                     /* exact/apply/rw/simp/linarith … */
-.kw-euclid { color: #21c7a8; font-weight: 600; }  /* euclid_apply/finish/intros */
+.kw-def    { color: #f5a623; font-weight: 600; }  /* theorem/lemma/def/import/end */
+.kw-by     { color: #f5a623; font-weight: 600; }  /* (unused — kept for compat) */
+.kw-have   { color: #f5a623; font-weight: 600; }  /* by/have/let/exact */
+.kw-tac    { color: #82aaff; }                     /* apply/rw/simp/linarith … */
+.kw-euclid { color: #21c7a8; font-weight: 600; }  /* euclid_finish/assumption */
 .kw-sent   { color: #52e3c2; font-weight: 600; }  /* euclid_sentence */
-.kw-quant  { color: #c792ea; }                     /* ∀/∃/fun/match */
+.kw-quant  { color: #c792ea; }                     /* fun/match/if/then/else */
 .kw-bool   { color: #f78c6c; }                     /* true/false */
 .kw-sorry  { color: #ff5370; font-weight: 700; background: rgba(255,83,112,.12);
              padding: 0 2px; border-radius: 2px; }
-.op-assign { color: #89ddff; }   /* := */
-.op-arrow  { color: #89ddff; }   /* → ← ↔ => */
-.op-logic  { color: #c792ea; }   /* ∧ ∨ ¬ */
-.op-rel    { color: #89ddff; }   /* = ≠ ≤ ≥ */
-.op-colon  { color: #89ddff; }   /* : */
-.op-special{ color: #ffcb6b; }   /* ∟ △ ─ ∠ */
+.op-assign { color: var(--c-plain); }  /* => → ← ↔ */
+.op-logic  { color: var(--c-plain); }  /* ∧ ∨ ¬ ∥ ⊥ */
+.op-rel    { color: #89ddff; }         /* = ≠ ≤ ≥ */
+.op-colon  { color: var(--c-plain); }  /* : */
+.op-special{ color: #ffcb6b; }         /* ∟ △ ∠ */
 .t-str     { color: #c3e88d; }   /* "string literals" */
 .t-num     { color: #f78c6c; }   /* numbers */
 .t-id      { color: var(--c-plain); }
-.t-brk-o   { color: #ffcb6b; }   /* ( [ { ⟨ */
-.t-brk-c   { color: #ffcb6b; }   /* ) ] } ⟩ */
+.t-brk-o   { color: #ffcb6b; }   /* ( [ { */
+.t-brk-c   { color: #ffcb6b; }   /* ) ] } */
 
 /* ── column header ── */
 .col-header {
@@ -688,6 +767,57 @@ body.dragging { user-select: none; }
 [data-lod="full"]    .hdr-center .cname { opacity: 1; }
 [data-lod="compact"] .hdr-center .cname { opacity: 0.7; }
 [data-lod="minimal"] .hdr-center .cname { opacity: 0.5; }
+
+/* ── Sentence continuation lines (hidden/shown by JS on click-cycle) ── */
+/* No default hiding needed — JS sets style.display directly */
+
+/* Collapse indicator: visible when any data-sent-lod is set (i.e. not full) */
+.sent-hint {
+  display: none;
+  color: #52e3c2;
+  font-size: 12px;
+  padding-left: 8px;
+  align-self: center;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+.code-line.sentence[data-sent-lod] .sent-hint { display: inline; }
+.code-line.sentence[data-sent-lod="text"]   .sent-hint::after { content: " NL";  font-size: 10px; font-weight: 400; opacity: 0.75; }
+.code-line.sentence[data-sent-lod="number"] .sent-hint::after { content: " Min"; font-size: 10px; font-weight: 400; opacity: 0.75; }
+
+/* ── Hide comments globally ── */
+body.hide-comments .code-line.comment { display: none; }
+.code-line.comment .lc { color: #6272a4; }
+.code-line.comment .lc span { color: inherit; }
+
+/* ── Remove blank lines ── */
+body.no-spaces .code-line.blank { display: none; }
+
+/* ── Sorry mode ── */
+.sorry-on { display: none; }
+body.sorry-mode .sorry-off { display: none; }
+body.sorry-mode .sorry-on  { display: inline; }
+
+/* ── Global sentence control buttons ── */
+.sent-global-group { display: flex; gap: 3px; align-items: center; }
+.sent-global-label { font-size: 10px; color: var(--c-dimmed); white-space: nowrap; }
+.sent-global-btn {
+  background: #1a1d2e; border: 1px solid #353b56;
+  border-radius: 4px; color: #5a6080; font: 10px/1 var(--font);
+  padding: 3px 8px; cursor: pointer; white-space: nowrap;
+  transition: background .1s, color .1s, border-color .1s;
+}
+.sent-global-btn:hover  { background: #242840; color: #9aa0c0; }
+.sent-global-btn.active { background: #272d48; border-color: var(--c-sent); color: var(--c-sent); }
+/* Comment toggle */
+.toggle-btn {
+  background: #1a1d2e; border: 1px solid #353b56;
+  border-radius: 4px; color: #5a6080; font: 10px/1 var(--font);
+  padding: 3px 8px; cursor: pointer; white-space: nowrap;
+  transition: background .1s, color .1s, border-color .1s;
+}
+.toggle-btn:hover  { background: #242840; color: #9aa0c0; }
+.toggle-btn.active { background: #272d48; border-color: #f5a623; color: #f5a623; }
 """
 
 JS = r"""
@@ -1075,12 +1205,19 @@ function cycleCardLod(btn) {
 const LAYOUT_KEY = "proof_map_layout_" + document.title.replace(/[^a-zA-Z0-9]/g, "_");
 
 function saveLayout() {
-  const state = { cards: {}, lod: {}, sliders: {} };
+  const state = { cards: {}, lod: {}, sliders: {}, sentLod: {}, hideComments: false };
   document.querySelectorAll(".card, .main-col").forEach(el => {
     const id = el.id || "main-col";
     state.cards[id] = getTranslate(el);
     state.lod[id]   = el.getAttribute("data-lod") || "minimal";
   });
+  document.querySelectorAll(".code-line.sentence[data-sent-key]").forEach(el => {
+    const lod = el.getAttribute("data-sent-lod");
+    if (lod) state.sentLod[el.dataset.sentKey] = lod;
+  });
+  state.hideComments = document.body.classList.contains("hide-comments");
+  state.noSpaces     = document.body.classList.contains("no-spaces");
+  state.sorryMode    = document.body.classList.contains("sorry-mode");
   state.sliders = {
     tsz: parseFloat(tszSlider.value),
     sz:  parseFloat(szSlider.value),
@@ -1133,6 +1270,33 @@ function loadLayout() {
       el.setAttribute("data-lod", state.lod[id]);
     }
   });
+  if (state.sentLod) {
+    Object.entries(state.sentLod).forEach(([key, lod]) => {
+      const el = document.querySelector(`.code-line.sentence[data-sent-key="${key}"]`);
+      if (!el) return;
+      el.setAttribute("data-sent-lod", lod);
+      document.querySelectorAll(`[data-sent-cont="${key}"]`).forEach(cont => {
+        const role = cont.dataset.sentRole;
+        if (lod === "text")   cont.style.display = role === "text" ? "" : "none";
+        else                  cont.style.display = "none";
+      });
+    });
+  }
+  if (state.hideComments) {
+    document.body.classList.add("hide-comments");
+    const btn = document.getElementById("toggle-comments-btn");
+    if (btn) btn.classList.add("active");
+  }
+  if (state.noSpaces) {
+    document.body.classList.add("no-spaces");
+    const btn = document.getElementById("toggle-spaces-btn");
+    if (btn) btn.classList.add("active");
+  }
+  if (state.sorryMode) {
+    document.body.classList.add("sorry-mode");
+    const btn = document.getElementById("toggle-sorry-btn");
+    if (btn) btn.classList.add("active");
+  }
   drawConnectors();
 }
 
@@ -1142,6 +1306,19 @@ function resetLayout() {
     el.style.transform = "";
     el.style.position  = "";
     el.setAttribute("data-lod", el.classList.contains("main-col") ? "full" : "minimal");
+  });
+  // Reset all sentence LOD states
+  document.querySelectorAll(".code-line.sentence[data-sent-lod]").forEach(el => {
+    el.removeAttribute("data-sent-lod");
+  });
+  document.querySelectorAll(".code-line.sent-cont").forEach(el => {
+    el.style.display = "";
+  });
+  document.querySelectorAll(".sent-global-btn").forEach(b => b.classList.remove("active"));
+  // Reset toggles
+  ["hide-comments","no-spaces","sorry-mode"].forEach(c => document.body.classList.remove(c));
+  ["toggle-comments-btn","toggle-spaces-btn","toggle-sorry-btn"].forEach(id => {
+    const b = document.getElementById(id); if (b) b.classList.remove("active");
   });
   tszSlider.value = 11; szSlider.value = 12; lhSlider.value = 1.65; gapSlider.value = 88; mwSlider.value = 2000;
   applySliders();
@@ -1264,7 +1441,11 @@ function handleLineClick(lineEl, e) {
   const rect = lineEl.getBoundingClientRect();
   const half = (e.clientX - rect.left) / rect.width;
   if (half < 0.5) {
-    highlightTypeRefs(lineEl);
+    if (lineEl.classList.contains("sentence")) {
+      cycleSentLod(lineEl);
+    } else {
+      highlightTypeRefs(lineEl);
+    }
   } else {
     clearTypeRefs();
     if (lineEl.dataset.connects) {
@@ -1296,6 +1477,67 @@ window.addEventListener("load", () => {
   });
 });
 window.addEventListener("resize", drawConnectors);
+
+// ── Per-sentence LOD cycle (left-click: full → text → number → full) ─────────
+function cycleSentLod(lineEl) {
+  const cur  = lineEl.getAttribute('data-sent-lod') || 'full';
+  const next = cur === 'full' ? 'text' : cur === 'text' ? 'number' : 'full';
+  if (next === 'full') lineEl.removeAttribute('data-sent-lod');
+  else lineEl.setAttribute('data-sent-lod', next);
+
+  const key = lineEl.dataset.sentKey;
+  if (key) {
+    document.querySelectorAll(`[data-sent-cont="${key}"]`).forEach(el => {
+      const role = el.dataset.sentRole;
+      if (next === 'full')       el.style.display = '';
+      else if (next === 'text')  el.style.display = role === 'text' ? '' : 'none';
+      else                       el.style.display = 'none';
+    });
+  }
+  // Individual toggle — no longer a uniform global state
+  document.querySelectorAll('.sent-global-btn').forEach(b => b.classList.remove('active'));
+  requestAnimationFrame(drawConnectors);
+}
+
+// ── Global sentence LOD (sets all sentences at once) ─────────────────────────
+function setAllSentLod(mode) {
+  document.querySelectorAll('.code-line.sentence[data-sent-key]').forEach(lineEl => {
+    if (mode === 'full') lineEl.removeAttribute('data-sent-lod');
+    else lineEl.setAttribute('data-sent-lod', mode);
+    const key = lineEl.dataset.sentKey;
+    if (key) {
+      document.querySelectorAll(`[data-sent-cont="${key}"]`).forEach(el => {
+        const role = el.dataset.sentRole;
+        if (mode === 'full')       el.style.display = '';
+        else if (mode === 'text')  el.style.display = role === 'text' ? '' : 'none';
+        else                       el.style.display = 'none';
+      });
+    }
+  });
+  document.querySelectorAll('.sent-global-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.sentGlobal === mode));
+  requestAnimationFrame(drawConnectors);
+}
+
+// ── Comment toggle ────────────────────────────────────────────────────────────
+function toggleComments(btn) {
+  const on = document.body.classList.toggle('hide-comments');
+  btn.classList.toggle('active', on);
+  requestAnimationFrame(drawConnectors);
+}
+
+// ── Spaces toggle ─────────────────────────────────────────────────────────────
+function toggleSpaces(btn) {
+  const on = document.body.classList.toggle('no-spaces');
+  btn.classList.toggle('active', on);
+  requestAnimationFrame(drawConnectors);
+}
+
+// ── Sorry mode ────────────────────────────────────────────────────────────────
+function toggleSorry(btn) {
+  const on = document.body.classList.toggle('sorry-mode');
+  btn.classList.toggle('active', on);
+}
 """
 
 
@@ -1368,6 +1610,15 @@ def build_html(prop_name, main_lines, roots):
     <button class="lod-btn"        data-lod="compact" onclick="setAllLod('compact')">Compact</button>
     <button class="lod-btn active" data-lod="minimal" onclick="setAllLod('minimal')">Minimal</button>
   </div>
+  <div class="sent-global-group">
+    <span class="sent-global-label">Sentences:</span>
+    <button class="sent-global-btn" data-sent-global="full"   onclick="setAllSentLod('full')">Full</button>
+    <button class="sent-global-btn" data-sent-global="text"   onclick="setAllSentLod('text')">NL</button>
+    <button class="sent-global-btn" data-sent-global="number" onclick="setAllSentLod('number')">Min</button>
+  </div>
+  <button id="toggle-comments-btn" class="toggle-btn" onclick="toggleComments(this)">Comments</button>
+  <button id="toggle-spaces-btn"  class="toggle-btn" onclick="toggleSpaces(this)">Spaces</button>
+  <button id="toggle-sorry-btn"   class="toggle-btn" onclick="toggleSorry(this)">Sorry</button>
   <div class="export-group">
     <button id="save-btn" class="save-btn" onclick="saveLayout()">Save layout</button>
     <button class="save-btn" onclick="importLayout()">Import layout</button>
@@ -1379,6 +1630,7 @@ def build_html(prop_name, main_lines, roots):
     <div class="leg"><div class="leg-dot" style="background:#52e3c2"></div>euclid_sentence</div>
     <div class="leg"><div class="leg-dot" style="background:#f5a623"></div>have node (dashed)</div>
     <div class="leg" style="color:#7a88bb">Shift+click = multi-select</div>
+    <div class="leg" style="color:#7a88bb">PNG export: "Save layout" → move map_layout.json to prop folder → run with <code style="font-size:10px;color:#c3e88d">--png</code></div>
   </div>
 </div>
 <div id="rband"></div>
@@ -1398,20 +1650,29 @@ def build_html(prop_name, main_lines, roots):
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
-def export_png(html_path, scale=2, transparent=False):
+def export_png(html_path, scale=2, transparent=False, layout_file=None):
+    """Export html_path to PNG.  layout_file overrides the default map_layout.json lookup.
+    The PNG name mirrors the layout file name: map_layout_foo.json → map_foo.png."""
     from playwright.sync_api import sync_playwright
 
-    png_path = os.path.splitext(html_path)[0] + ".png"
-    layout_path = os.path.join(os.path.dirname(html_path), "map_layout.json")
+    propdir = os.path.dirname(html_path)
+    base    = os.path.splitext(os.path.basename(html_path))[0]   # "map"
+
+    if layout_file is None:
+        layout_file = os.path.join(propdir, "map_layout.json")
+
+    # Derive PNG name from layout filename: map_layout_foo.json → map_foo.png
+    lbase   = os.path.splitext(os.path.basename(layout_file))[0]  # "map_layout_foo"
+    suffix  = lbase[len("map_layout"):]                            # "_foo" or ""
+    png_path = os.path.join(propdir, base + suffix + ".png")
 
     layout_json = None
-    if os.path.isfile(layout_path):
-        with open(layout_path) as f:
+    if os.path.isfile(layout_file):
+        with open(layout_file) as f:
             layout_json = f.read()
 
     with sync_playwright() as p:
         browser = p.chromium.launch()
-        # Inject layout before page loads
         page = browser.new_page(device_scale_factor=scale)
         if layout_json:
             page.add_init_script(f"window.__LAYOUT__ = {layout_json};")
@@ -1419,6 +1680,9 @@ def export_png(html_path, scale=2, transparent=False):
         page.wait_for_load_state("networkidle")
         page.evaluate("document.querySelector('.toolbar').style.display = 'none'")
         page.evaluate("document.querySelector('.page').style.paddingTop = '20px'")
+        if transparent:
+            page.evaluate("document.documentElement.style.background = 'transparent'")
+            page.evaluate("document.body.style.background = 'transparent'")
         page.evaluate("drawConnectors()")
         page.wait_for_timeout(100)
         content_size = page.evaluate("""() => {
@@ -1430,8 +1694,8 @@ def export_png(html_path, scale=2, transparent=False):
         page.wait_for_timeout(50)
         page.screenshot(path=png_path, full_page=True, omit_background=transparent)
         browser.close()
-    src = "layout" if layout_json else "defaults"
-    print(f"wrote {png_path} ({scale}x, {src})")
+    src = layout_file if layout_json else "defaults"
+    print(f"wrote {png_path} ({scale}x, {os.path.basename(src)})")
 
 def export_pdf(html_path):
     pdf = os.path.splitext(html_path)[0] + ".pdf"
@@ -1453,6 +1717,8 @@ def main():
     ap.add_argument("-o","--out")
     ap.add_argument("--pdf", action="store_true")
     ap.add_argument("--png", action="store_true", help="Export PNG via headless browser")
+    ap.add_argument("--all_layouts", action="store_true",
+                    help="Export one PNG per map_layout*.json found in the prop folder")
     ap.add_argument("--scale", type=int, default=2, help="PNG resolution multiplier (default 2)")
     ap.add_argument("--transparent", action="store_true", help="Transparent PNG background")
     args = ap.parse_args()
@@ -1477,7 +1743,15 @@ def main():
         f.write(build_html(prop_name, main_lines, roots))
     print(f"wrote {out}")
     if args.pdf: export_pdf(out)
-    if args.png: export_png(out, scale=args.scale, transparent=args.transparent)
+    if args.png:
+        export_png(out, scale=args.scale, transparent=args.transparent)
+    if args.all_layouts:
+        import glob
+        layouts = sorted(glob.glob(os.path.join(propdir, "map_layout*.json")))
+        if not layouts:
+            print("no map_layout*.json files found in", propdir)
+        for lf in layouts:
+            export_png(out, scale=args.scale, transparent=args.transparent, layout_file=lf)
 
 if __name__ == "__main__":
     main()
