@@ -8,6 +8,9 @@ LeanEuclidPlus/scripts/step_signatures.json
 LeanEuclidPlus/Book*/Prop*/runs/
 
 
+# Claude Code auto-generated runtime lock (harness rewrites it constantly; not source)
+.claude/scheduled_tasks.lock
+
 # Lake build files
 .lake/
 
