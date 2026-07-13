@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "afkit"
+name = "leaneuclid-pipeline"
 version = "0.0.1"
-description = "Autoformalization toolkit"
+description = "LeanEuclid faithful-formalization pipeline tooling"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "Apache 2.0"}
@@ -50,8 +50,11 @@ Homepage = "https://github.com/your-org/afkit"
 Repository = "https://github.com/your-org/afkit"
 Documentation = "https://github.com/your-org/afkit#readme"
 
-[tool.setuptools.packages.find]
-include = ["afkit*"]
+# No importable package ships here — the pipeline is a set of scripts run directly
+# (python3 scripts/<name>.py). This project exists to pin dependencies + tool config.
+[tool.setuptools]
+packages = []
+py-modules = []
 
 [tool.black]
 line-length = 150

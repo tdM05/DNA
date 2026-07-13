@@ -12,13 +12,19 @@ lean_lib SystemE {
 lean_lib Helpers {
 }
 
-lean_lib Book {
-}
-
+@[default_target]
 lean_lib Book1 {
 }
 
 lean_lib Book1Variants {
+}
+
+@[default_target]
+lean_lib Book2 {
+}
+
+@[default_target]
+lean_lib Book3 {
 }
 
 -- upstream baseline for benchmarking (fully isolated: nothing else imports these)
@@ -28,14 +34,6 @@ lean_lib OldBook1 {
 lean_lib OldBook1Variants {
 }
 
-lean_lib Book2 {
-}
-
-lean_lib Book3 {
-}
-
-lean_lib E3 {
-}
 
 /-- Reads faithfulness annotations back from a compiled module's `.olean` and dumps them as JSON
 for `scripts/check_faithful.py --olean`.  See `FaithfulExport.lean`. -/
