@@ -5,6 +5,9 @@ import OldBook1.Prop05
 
 namespace Elements.Book1
 
+/--
+A restriction of proposition_5.
+-/
 theorem proposition_5' : ∀ (a b c : Point) (AB BC AC : Line),
   formTriangle a b c AB BC AC ∧ (|(a─b)| = |(a─c)|) →
   (∠ a:b:c = ∠ a:c:b) :=

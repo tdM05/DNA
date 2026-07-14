@@ -23,8 +23,4 @@ by
   use l
   euclid_finish
 
-/-
-An extension of proposition_2 to the case where a and b may be the same point.
--/
-
 end Elements.Book1

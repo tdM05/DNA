@@ -20,8 +20,4 @@ by
   euclid_apply (sum_angles_onlyif c a f b AC FC)
   euclid_finish
 
-/--
-A restriction of proposition_5.
--/
-
 end Elements.Book1

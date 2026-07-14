@@ -58,10 +58,26 @@ def parse(n):
         if l.startswith("import "):
             mm = IMPORT_RE.match(l)
             imports.append(repoint(int(mm.group(1))) if mm else l)
+    def block_start(ti):
+        # a comment block (/- ... -/ or docstring /-- ... -/) directly above a theorem belongs
+        # to THAT theorem, so it travels with it when a primed variant is lifted out (else a
+        # docstring orphans → parse error, and a mis-sliced comment leaks the next theorem).
+        j = ti - 1
+        while j >= 0 and src[j].strip() == "":
+            j -= 1
+        if j >= 0 and src[j].rstrip().endswith("-/"):
+            k = j
+            while k >= 0 and not src[k].lstrip().startswith("/-"):
+                k -= 1
+            if k >= 0:
+                return k
+        return ti
+    starts = [block_start(ti) for ti, _ in thms]
+    names  = [name for _, name in thms]
     plain, primed = [], []
-    for k, (ti, name) in enumerate(thms):
-        stop = thms[k + 1][0] if k + 1 < len(thms) else end_i
-        (primed if "'" in name else plain).extend(src[ti:stop])
+    for k, name in enumerate(names):
+        stop = starts[k + 1] if k + 1 < len(names) else end_i
+        (primed if "'" in name else plain).extend(src[starts[k]:stop])
     def trim(b):
         while b and b[-1].strip() == "":
             b.pop()

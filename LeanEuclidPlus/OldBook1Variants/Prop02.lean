@@ -4,6 +4,9 @@ import OldBook1.Prop02
 
 namespace Elements.Book1
 
+/-
+An extension of proposition_2 to the case where a and b may be the same point.
+-/
 theorem proposition_2' : ∀ (a b c : Point) (BC : Line),
   distinctPointsOnLine b c BC →
   ∃ l : Point, |(a─l)| = |(b─c)| :=
