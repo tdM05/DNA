@@ -12,13 +12,13 @@ register_option systemE.trace : Bool := {
 }
 
 register_option systemE.solverTime : Nat := {
-  defValue := 300
+  defValue := 100000
   descr := "Number of seconds to allow each solver (z3, cvc5) to fill reasoning gaps (default: 300)."
 }
 
 def getTimeOption : MetaM Nat := do
   match systemE.solverTime.get? (← getOptions) with
-  | none => return 180
+  | none => return 100000
   | some x => return x
 
 def getTraceOption : MetaM Bool := do
