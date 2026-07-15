@@ -5,8 +5,7 @@ Checks two of the three `Book2/faithful.txt` criteria (the third — statement-f
 human-checked):
 
   CRITERION 1 (exact text recovery).  Concatenate the sentence texts in locator order and require
-  the result to equal the canonical proposition source (Book 1: `Book/texts_proofs/{prop}.txt`;
-  Book 2+: `Book{N}/data/texts_proofs/{prop}.txt`)
+  the result to equal the canonical proposition source (`Book{N}/data/texts_proofs/{prop}.txt`)
   CHARACTER-FOR-CHARACTER (only tolerance: a trailing newline at EOF). Three annotation forms
   participate, joined by a single space:
       euclid_sentence          — a logical proof step (emits a `have`)
@@ -84,13 +83,10 @@ def loc_key(loc: str):
 
 def canon_path_for(book: str, prop: str):
     """Resolve the canonical proof text relative to LeanEuclidPlus/.
-    Book 1 is flat:       Book/texts_proofs/{prop}.txt
-    Book 2+ is foldered:  Book{N}/data/texts_proofs/{prop}.txt  (data/ holds the generated corpus)."""
-    if book == "1":
-        rel = os.path.join("Book", "texts_proofs", f"{prop}.txt")
-    else:
-        rel = os.path.join(f"Book{book}", "data", "texts_proofs", f"{prop}.txt")
+    Every book is foldered:  Book{N}/data/texts_proofs/{prop}.txt  (data/ holds the generated
+    corpus). Book 1 is not special — the flat Book/ layout is gone."""
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # LeanEuclidPlus/
+    rel = os.path.join(f"Book{book}", "data", "texts_proofs", f"{prop}.txt")
     return rel, os.path.join(base, rel)
 
 def name_matches(name: str, book: str, num: str) -> bool:
