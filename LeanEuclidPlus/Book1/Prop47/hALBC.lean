@@ -1,11 +1,10 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
 -- AL ∥ BD and BD meets BC at b ⟹ AL meets BC. (else AL ∥ BC ⟹ BD = BC via
 -- parallel_line_unique, contradicting d ∈ BD but d ∉ BC.)
+set_option systemE.solverTime 30 in
 theorem helper_1_47_hALBC
     (a b d : Point) (AL BD BC : Line)
     (ha_AL : a.onLine AL) (h_nALBD : ¬AL.intersectsLine BD) (hoffBD : ¬a.onLine BD)

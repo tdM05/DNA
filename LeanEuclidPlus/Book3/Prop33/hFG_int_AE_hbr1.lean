@@ -1,11 +1,10 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- Post-5 branch: e0 is the acute-direction rep of AE (∠e0:a:b < ∟) and g0 is on the same
 -- side of AB as e0.  Co-interior sum ∠e0:a:f + ∠a:f:g0 = ∠e0:a:b + ∟ < 2∟ → lines meet.
+set_option systemE.solverTime 30 in
 theorem helper_3_33_hFG_int_AE_hbr1
     (a b e0 f g0 : Point) (AB AE FG : Line)
     (haae : a.onLine AE) (heae : e0.onLine AE)

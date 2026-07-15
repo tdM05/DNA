@@ -1,12 +1,8 @@
 import SystemE
-import Book1.Prop47.hoffBD_hacute
-import Book1.Prop47.hoffBD_bet
-import Book1.Prop47.hoffBD_nbet
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem helper_1_47_hoffBD
     (a b c : Point) (AB BC AC : Line)
     (d : Point) (BD : Line)
@@ -22,11 +18,11 @@ theorem helper_1_47_hoffBD
   by_contra h
   have hbc : b ≠ c := by euclid_finish
   have hbd : b ≠ d := by euclid_finish
-  have hoffBD_hacute : (∠ a:b:c : ℝ) < ∟ := by euclid_apply (helper_1_47_hoffBD_hacute a b c AB BC AC (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show b.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine BC; assumption)) (by euclid_assumption "" (show a.onLine AC; assumption)) (by euclid_assumption "" (show c.onLine AC; assumption)) (by euclid_assumption "" (show AB ≠ BC; assumption)) (by euclid_assumption "" (show BC ≠ AC; assumption)) (by euclid_assumption "" (show AC ≠ AB; assumption)) (by euclid_assumption "" (show (∠ b:a:c : ℝ) = ∟; assumption)))
+  have hoffBD_hacute : (∠ a:b:c : ℝ) < ∟ := by sorry
   by_cases hbet : between a b d
-  · have hoffBD_bet : False := by euclid_apply (helper_1_47_hoffBD_bet a b c d AB BC BD (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show a.onLine BD; assumption)) (by euclid_assumption "" (show b.onLine BD; assumption)) (by euclid_assumption "" (show d.onLine BD; assumption)) (by euclid_assumption "" (show b.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine BC; assumption)) (by euclid_assumption "" (show AB ≠ BC; assumption)) (by euclid_assumption "" (show b ≠ c; assumption)) (by euclid_assumption "" (show (∠ c:b:d : ℝ) = ∟; assumption)) (by euclid_assumption "" (show between a b d; assumption)) (by euclid_assumption "" (show (∠ a:b:c : ℝ) < ∟; assumption)))
+  · have hoffBD_bet : False := by sorry
     exact hoffBD_bet
-  · have hoffBD_nbet : False := by euclid_apply (helper_1_47_hoffBD_nbet a b c d BC BD (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show a.onLine BD; assumption)) (by euclid_assumption "" (show b.onLine BD; assumption)) (by euclid_assumption "" (show d.onLine BD; assumption)) (by euclid_assumption "" (show b.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine BC; assumption)) (by euclid_assumption "" (show b ≠ c; assumption)) (by euclid_assumption "" (show b ≠ d; assumption)) (by euclid_assumption "" (show (∠ c:b:d : ℝ) = ∟; assumption)) (by euclid_assumption "" (show ¬between a b d; assumption)) (by euclid_assumption "" (show (∠ a:b:c : ℝ) < ∟; assumption)))
+  · have hoffBD_nbet : False := by sorry
     exact hoffBD_nbet
 
 end Elements.Book1

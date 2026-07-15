@@ -2,13 +2,12 @@ import SystemE
 import Book1.Prop32.Main
 import Book1Variants.Prop29
 
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 open Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem helper_3_25_hAG3DB (a b c d g3 : Point) (AC DB AB AG3 : Line)
     (ha_ac : a.onLine AC) (hc_ac : c.onLine AC) (hbet : between a d c)
     (hb_off : ¬b.onLine AC)

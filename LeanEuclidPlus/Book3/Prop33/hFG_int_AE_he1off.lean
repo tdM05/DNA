@@ -1,11 +1,10 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- e1 is off AB: e1 lies on AE (with a), and a is on AB; if e1 were also on AB then AE = AB
 -- (two common points a ≠ e1), so e0 ∈ AE would be on AB — contradicting ¬e0.onLine AB.
+set_option systemE.solverTime 30 in
 theorem helper_3_33_hFG_int_AE_he1off
     (a e0 e1 : Point) (AB AE : Line)
     (haae : a.onLine AE) (he0ae : e0.onLine AE) (he1ae : e1.onLine AE)

@@ -1,11 +1,10 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 -- Proposition citations: import Book1.PropNN.Main / Book2.PropNN.Main / Book3.PropNN.Main — NOT Book.PropNN
 
 namespace Elements.Book3
 
 -- e is off AB: e lies on FG (⊥ to AB at f), and e ≠ f (between e f g0), so e ∉ AB (AB ∩ FG = {f}).
+set_option systemE.solverTime 30 in
 theorem helper_3_33_he_off
     (a b e f g0 : Point) (AB FG : Line)
     (hab : a.onLine AB) (hbb : b.onLine AB) (hafb : between a f b)

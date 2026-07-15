@@ -1,13 +1,12 @@
 import SystemE
 import Book1.Prop47.Main
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- Pythagoras for the right triangle a-f-e (right angle at the foot f on AB).
 -- Robust to the degenerate coincidences a = f and e = f.
+set_option systemE.solverTime 30 in
 theorem helper_3_14_gap_cd_diam_pa
     (a e f : Point) (ABDC : Circle) (AB : Line)
     (ha : a.onCircle ABDC)

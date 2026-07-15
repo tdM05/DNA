@@ -1,9 +1,8 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem helper_1_10_hbet (a b c d d' : Point) (AB AC BC CD : Line)
     (haAB : a.onLine AB) (hbAB : b.onLine AB) (hab : a ≠ b)
     (hcAC : c.onLine AC) (haAC : a.onLine AC)

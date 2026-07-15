@@ -2,13 +2,12 @@ import SystemE
 import Book1.Prop11.Main
 import Book3.Prop01.Main
 import Book3.Prop16.Main
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 open Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem helper_3_34_hEF_exists (b : Point) (ABC : Circle)
     (hb : b.onCircle ABC) :
     ∃ EF : Line, b.onLine EF ∧ ¬ EF.intersectsCircle ABC ∧

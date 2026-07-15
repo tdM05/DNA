@@ -1,12 +1,11 @@
 import SystemE
 import Book1.Prop10.Main
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 open Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem helper_3_34_ha_exists (b c e f : Point) (ABC : Circle) (BC EF : Line)
     (hb_ABC : b.onCircle ABC) (hc_ABC : c.onCircle ABC)
     (hb_BC : b.onLine BC) (hc_BC : c.onLine BC) (hbc_ne : b ≠ c)

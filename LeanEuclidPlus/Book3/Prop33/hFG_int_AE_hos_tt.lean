@@ -1,11 +1,10 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- b,d opposite sides of AE; b same side of AD as e0 and d same side of AB as e0: e0 is the
 -- interior ray, ∠b:a:d = ∠b:a:e0 + ∠e0:a:d = 2∟, contradicting ∠d:a:b < ∟.
+set_option systemE.solverTime 30 in
 theorem helper_3_33_hFG_int_AE_hos_tt
     (a b c₁ c c₂ d e0 : Point) (AD AE AB : Line)
     (haad : a.onLine AD) (hdad : d.onLine AD) (he0off : ¬ e0.onLine AD)

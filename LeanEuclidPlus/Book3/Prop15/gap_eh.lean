@@ -1,7 +1,5 @@
 import SystemE
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
@@ -9,6 +7,7 @@ namespace Elements.Book3
 -- Conclusion |AD| > |BC| is then false. Theorem is missing hypothesis h ≠ e.
 -- NOW RESOLVED: proposition_15's signature includes e ≠ h, so this branch is impossible.
 -- Closed by contradiction: heh (e ≠ h from signature) refutes h_eh (e = h from by_cases).
+set_option systemE.solverTime 30 in
 theorem helper_3_15_gap_eh
     (a b c d e f g h k : Point) (ABCD : Circle) (BC FG : Line)
     (hcentre : e.isCentre ABCD)

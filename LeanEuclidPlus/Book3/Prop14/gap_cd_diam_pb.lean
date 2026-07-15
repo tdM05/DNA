@@ -1,13 +1,12 @@
 import SystemE
 import Book1.Prop47.Main
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- Pythagoras for the right triangle b-f-e.  ∠b:f:e = ∟ from ∠a:f:e = ∟ and between a f b.
 -- Robust to the degenerate coincidences b = f and e = f.
+set_option systemE.solverTime 30 in
 theorem helper_3_14_gap_cd_diam_pb
     (a b e f : Point) (ABDC : Circle) (AB : Line)
     (ha : a.onCircle ABDC) (hb : b.onCircle ABDC)

@@ -1,6 +1,4 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
@@ -8,6 +6,7 @@ namespace Elements.Book1
    case `Hsym`. All but two are pure symmetry of the given figure; `a ≠ c` is a triangle-vertex
    distinctness (euclid_finish), and `|(a─c)| > |(a─b)|` follows from the disjunction `step1` and
    the WLOG negation `¬(|(a─b)| > |(a─c)|)`. -/
+set_option systemE.solverTime 30 in
 theorem helper_1_6_swapfig (a b c : Point) (AB BC AC : Line)
     (haAB : a.onLine AB) (hbAB : b.onLine AB) (hab : a ≠ b)
     (hbBC : b.onLine BC) (hcBC : c.onLine BC)

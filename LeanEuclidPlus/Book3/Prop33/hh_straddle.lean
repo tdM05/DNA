@@ -1,6 +1,4 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 -- Proposition citations: import Book1.PropNN.Main / Book2.PropNN.Main / Book3.PropNN.Main — NOT Book.PropNN
 
 namespace Elements.Book3
@@ -8,6 +6,7 @@ namespace Elements.Book3
 -- h1, h2 (the two FG∩α points) straddle AB: FG is a diameter (through centre g), so it meets α at
 -- two points with the interior chord-midpoint f between them (f is inside α, on both FG and AB), hence
 -- h1, h2 lie on opposite sides of AB.
+set_option systemE.solverTime 30 in
 theorem helper_3_33_hh_straddle
     (a b f g g0 h1 h2 : Point) (AB FG : Line) (α : Circle)
     (haAB : a.onLine AB) (hbAB : b.onLine AB) (hne : a ≠ b)

@@ -1,22 +1,6 @@
 import SystemE
 import Book1.Prop31.Main
 import Book1Variants.Prop46
-import Book2.Prop07.step1
-import Book2.Prop07.step2
-import Book2.Prop07.step3
-import Book2.Prop07.step4
-import Book2.Prop07.step5
-import Book2.Prop07.step6
-import Book2.Prop07.step7
-import Book2.Prop07.step8
-import Book2.Prop07.step9
-import Book2.Prop07.step10
-import Book2.Prop07.step11
-import Book2.Prop07.step12
-import Book2.Prop07.step13
-import Book2.Prop07.step14
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book2
 
@@ -35,7 +19,7 @@ by
   euclid_sentence "2.7.1"
     "For let the square $ADEB$ be described on $AB$ [Prop.~1.46],"
     (step1 : |(a─d)| = |(a─b)| ∧ |(b─e)| = |(a─b)| ∧ |(d─e)| = |(a─b)| ∧
-      (∠ b:a:d = ∟) ∧ (∠ a:d:e = ∟) ∧ (∠ a:b:e = ∟) ∧ (∠ b:e:d = ∟)) := by euclid_apply (helper_2_7_step1 a b d e (by euclid_assumption "" (show |(a─d)| = |(a─b)|; assumption)) (by euclid_assumption "" (show |(b─e)| = |(a─b)|; assumption)) (by euclid_assumption "" (show |(d─e)| = |(a─b)|; assumption)) (by euclid_assumption "" (show ∠ b:a:d = ∟; assumption)) (by euclid_assumption "" (show ∠ a:d:e = ∟; assumption)) (by euclid_assumption "" (show ∠ a:b:e = ∟; assumption)) (by euclid_assumption "" (show ∠ b:e:d = ∟; assumption)))
+      (∠ b:a:d = ∟) ∧ (∠ a:d:e = ∟) ∧ (∠ a:b:e = ∟) ∧ (∠ b:e:d = ∟)) := by sorry
 
   euclid_apply (line_from_points b d) as BD
   euclid_apply (Elements.Book1.proposition_31 c a d AD) as CN
@@ -48,24 +32,24 @@ by
     "and let the (rest of) the figure be drawn."
     (step2 : distinctPointsOnLine b d BD ∧
       (c.onLine CN ∧ ¬(CN.intersectsLine AD)) ∧
-      (g.onLine HF ∧ ¬(HF.intersectsLine AB))) := by euclid_apply (helper_2_7_step2 a b c d e n g h f AB DE AD BE BD CN HF (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show |(a─d)| = |(a─b)|; assumption)) (by euclid_assumption "" (show ∠ b:a:d = ∟; assumption)) (by euclid_assumption "" (show b.onLine BD; assumption)) (by euclid_assumption "" (show d.onLine BD; assumption)) (by euclid_assumption "" (show c.onLine CN; assumption)) (by euclid_assumption "" (show ¬CN.intersectsLine AD; assumption)) (by euclid_assumption "" (show g.onLine HF; assumption)) (by euclid_assumption "" (show ¬HF.intersectsLine AB; assumption)))
+      (g.onLine HF ∧ ¬(HF.intersectsLine AB))) := by sorry
 
   euclid_sentence "2.7.3"
     "Therefore, since (rectangle) $AG$ is equal to (rectangle) $GE$ [Prop.~1.43], let the (square) $CF$ be added to both."
     (step3 : Triangle.area △ a:c:g + Triangle.area △ a:g:h =
-      Triangle.area △ g:f:e + Triangle.area △ g:e:n) := by euclid_apply (helper_2_7_step3 a b c d e n g h f AB CN AD BE HF BD DE (by euclid_assumption "" (show between a c b; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show c.onLine CN; assumption)) (by euclid_assumption "" (show g.onLine CN; assumption)) (by euclid_assumption "" (show n.onLine CN; assumption)) (by euclid_assumption "" (show a.onLine AD; assumption)) (by euclid_assumption "" (show d.onLine AD; assumption)) (by euclid_assumption "" (show h.onLine AD; assumption)) (by euclid_assumption "" (show e.onLine BE; assumption)) (by euclid_assumption "" (show b.onLine BE; assumption)) (by euclid_assumption "" (show f.onLine BE; assumption)) (by euclid_assumption "" (show d.onLine DE; assumption)) (by euclid_assumption "" (show e.onLine DE; assumption)) (by euclid_assumption "" (show n.onLine DE; assumption)) (by euclid_assumption "" (show b.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine BD; assumption)) (by euclid_assumption "" (show d.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine HF; assumption)) (by euclid_assumption "" (show h.onLine HF; assumption)) (by euclid_assumption "" (show f.onLine HF; assumption)) (by euclid_assumption "" (show ¬(HF.intersectsLine AB); assumption)) (by euclid_assumption "" (show ¬(AD.intersectsLine BE); assumption)) (by euclid_assumption "" (show ¬(CN.intersectsLine AD); assumption)) (by euclid_assumption "" (show ¬(DE.intersectsLine AB); assumption)) (by euclid_assumption "" (show ∠ a:d:e = ∟; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show e ≠ b; assumption)) (by euclid_assumption "" (show |(a─d)| = |(a─b)|; assumption)) (by euclid_assumption "" (show |(d─e)| = |(a─b)|; assumption)) (by euclid_assumption "" (show ∠ b:a:d = ∟; assumption)) (by euclid_assumption "" (show ∠ a:b:e = ∟; assumption)))
+      Triangle.area △ g:f:e + Triangle.area △ g:e:n) := by sorry
 
   euclid_sentence "2.7.4"
     "Thus, the whole (rectangle) $AF$ is equal to the whole (rectangle) $CE$."
     (step4 : Triangle.area △ a:b:f + Triangle.area △ a:f:h =
-      Triangle.area △ c:b:e + Triangle.area △ c:e:n) := by euclid_apply (helper_2_7_step4 a b c d e n g h f AB CN AD BE HF BD DE (by euclid_assumption "" (show between a c b; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show c.onLine CN; assumption)) (by euclid_assumption "" (show g.onLine CN; assumption)) (by euclid_assumption "" (show n.onLine CN; assumption)) (by euclid_assumption "" (show a.onLine AD; assumption)) (by euclid_assumption "" (show d.onLine AD; assumption)) (by euclid_assumption "" (show h.onLine AD; assumption)) (by euclid_assumption "" (show e.onLine BE; assumption)) (by euclid_assumption "" (show b.onLine BE; assumption)) (by euclid_assumption "" (show f.onLine BE; assumption)) (by euclid_assumption "" (show d.onLine DE; assumption)) (by euclid_assumption "" (show e.onLine DE; assumption)) (by euclid_assumption "" (show n.onLine DE; assumption)) (by euclid_assumption "" (show b.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine BD; assumption)) (by euclid_assumption "" (show d.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine HF; assumption)) (by euclid_assumption "" (show h.onLine HF; assumption)) (by euclid_assumption "" (show f.onLine HF; assumption)) (by euclid_assumption "" (show ¬(HF.intersectsLine AB); assumption)) (by euclid_assumption "" (show ¬(AD.intersectsLine BE); assumption)) (by euclid_assumption "" (show ¬(CN.intersectsLine AD); assumption)) (by euclid_assumption "" (show ¬(DE.intersectsLine AB); assumption)) (by euclid_assumption "" (show ∠ a:d:e = ∟; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show e ≠ b; assumption)) (by euclid_assumption "" (show |(a─d)| = |(a─b)|; assumption)) (by euclid_assumption "" (show |(d─e)| = |(a─b)|; assumption)) (by euclid_assumption "" (show ∠ b:a:d = ∟; assumption)) (by euclid_assumption "" (show ∠ a:b:e = ∟; assumption)) (by euclid_assumption "" (show Triangle.area △ a:c:g + Triangle.area △ a:g:h = Triangle.area △ g:f:e + Triangle.area △ g:e:n; assumption)))
+      Triangle.area △ c:b:e + Triangle.area △ c:e:n) := by sorry
 
   euclid_sentence "2.7.5"
     "Thus, (rectangle) $AF$ plus (rectangle) $CE$ is double (rectangle) $AF$."
     (step5 : (Triangle.area △ a:b:f + Triangle.area △ a:f:h) +
         (Triangle.area △ c:b:e + Triangle.area △ c:e:n) =
       (Triangle.area △ a:b:f + Triangle.area △ a:f:h) +
-        (Triangle.area △ a:b:f + Triangle.area △ a:f:h)) := by euclid_apply (helper_2_7_step5 a b c e n g h f (by euclid_assumption "" (show Triangle.area △ a:b:f + Triangle.area △ a:f:h = Triangle.area △ c:b:e + Triangle.area △ c:e:n; assumption)))
+        (Triangle.area △ a:b:f + Triangle.area △ a:f:h)) := by sorry
 
   euclid_sentence "2.7.6"
     "But, (rectangle) $AF$ plus (rectangle) $CE$ is the gnomon $KLM$, and the square $CF$."
@@ -74,7 +58,7 @@ by
       ((Triangle.area △ a:c:g + Triangle.area △ a:g:h) +
         (Triangle.area △ g:f:e + Triangle.area △ g:e:n) +
         (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) +
-      (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) := by euclid_apply (helper_2_7_step6 a b c d e n g h f AB CN AD BE HF BD DE (by euclid_assumption "" (show between a c b; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show c.onLine CN; assumption)) (by euclid_assumption "" (show g.onLine CN; assumption)) (by euclid_assumption "" (show n.onLine CN; assumption)) (by euclid_assumption "" (show a.onLine AD; assumption)) (by euclid_assumption "" (show d.onLine AD; assumption)) (by euclid_assumption "" (show h.onLine AD; assumption)) (by euclid_assumption "" (show e.onLine BE; assumption)) (by euclid_assumption "" (show b.onLine BE; assumption)) (by euclid_assumption "" (show f.onLine BE; assumption)) (by euclid_assumption "" (show d.onLine DE; assumption)) (by euclid_assumption "" (show e.onLine DE; assumption)) (by euclid_assumption "" (show n.onLine DE; assumption)) (by euclid_assumption "" (show b.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine BD; assumption)) (by euclid_assumption "" (show d.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine HF; assumption)) (by euclid_assumption "" (show h.onLine HF; assumption)) (by euclid_assumption "" (show f.onLine HF; assumption)) (by euclid_assumption "" (show ¬(HF.intersectsLine AB); assumption)) (by euclid_assumption "" (show ¬(AD.intersectsLine BE); assumption)) (by euclid_assumption "" (show ¬(CN.intersectsLine AD); assumption)) (by euclid_assumption "" (show ¬(DE.intersectsLine AB); assumption)) (by euclid_assumption "" (show ∠ a:d:e = ∟; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show e ≠ b; assumption)) (by euclid_assumption "" (show |(a─d)| = |(a─b)|; assumption)) (by euclid_assumption "" (show |(d─e)| = |(a─b)|; assumption)) (by euclid_assumption "" (show ∠ b:a:d = ∟; assumption)) (by euclid_assumption "" (show ∠ a:b:e = ∟; assumption)))
+      (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) := by sorry
 
   euclid_sentence "2.7.7"
     "Thus, the gnomon $KLM$, and the square $CF$, is double the (rectangle) $AF$."
@@ -83,17 +67,17 @@ by
         (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) +
       (Triangle.area △ c:b:f + Triangle.area △ c:f:g) =
       (Triangle.area △ a:b:f + Triangle.area △ a:f:h) +
-        (Triangle.area △ a:b:f + Triangle.area △ a:f:h)) := by euclid_apply (helper_2_7_step7 a b c e n g h f (by euclid_assumption "" (show (Triangle.area △ a:b:f + Triangle.area △ a:f:h) + (Triangle.area △ c:b:e + Triangle.area △ c:e:n) = (Triangle.area △ a:b:f + Triangle.area △ a:f:h) + (Triangle.area △ a:b:f + Triangle.area △ a:f:h); assumption)) (by euclid_assumption "" (show (Triangle.area △ a:b:f + Triangle.area △ a:f:h) + (Triangle.area △ c:b:e + Triangle.area △ c:e:n) = ((Triangle.area △ a:c:g + Triangle.area △ a:g:h) + (Triangle.area △ g:f:e + Triangle.area △ g:e:n) + (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) + (Triangle.area △ c:b:f + Triangle.area △ c:f:g); assumption)))
+        (Triangle.area △ a:b:f + Triangle.area △ a:f:h)) := by sorry
 
   euclid_sentence "2.7.8"
     "But double the (rectangle) $AF$ is also twice the (rectangle contained) by $AB$ and $BC$."
     (step8 : (Triangle.area △ a:b:f + Triangle.area △ a:f:h) +
         (Triangle.area △ a:b:f + Triangle.area △ a:f:h) =
-      (|(a─b)| * |(b─c)|) + (|(a─b)| * |(b─c)|)) := by euclid_apply (helper_2_7_step8 a b c d e n g h f AB CN AD BE HF BD DE (by euclid_assumption "" (show between a c b; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show c.onLine CN; assumption)) (by euclid_assumption "" (show g.onLine CN; assumption)) (by euclid_assumption "" (show n.onLine CN; assumption)) (by euclid_assumption "" (show a.onLine AD; assumption)) (by euclid_assumption "" (show d.onLine AD; assumption)) (by euclid_assumption "" (show h.onLine AD; assumption)) (by euclid_assumption "" (show e.onLine BE; assumption)) (by euclid_assumption "" (show b.onLine BE; assumption)) (by euclid_assumption "" (show f.onLine BE; assumption)) (by euclid_assumption "" (show d.onLine DE; assumption)) (by euclid_assumption "" (show e.onLine DE; assumption)) (by euclid_assumption "" (show n.onLine DE; assumption)) (by euclid_assumption "" (show b.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine BD; assumption)) (by euclid_assumption "" (show d.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine HF; assumption)) (by euclid_assumption "" (show h.onLine HF; assumption)) (by euclid_assumption "" (show f.onLine HF; assumption)) (by euclid_assumption "" (show ¬(HF.intersectsLine AB); assumption)) (by euclid_assumption "" (show ¬(AD.intersectsLine BE); assumption)) (by euclid_assumption "" (show ¬(CN.intersectsLine AD); assumption)) (by euclid_assumption "" (show ¬(DE.intersectsLine AB); assumption)) (by euclid_assumption "" (show ∠ a:d:e = ∟; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show e ≠ b; assumption)) (by euclid_assumption "" (show |(a─d)| = |(a─b)|; assumption)) (by euclid_assumption "" (show |(d─e)| = |(a─b)|; assumption)) (by euclid_assumption "" (show ∠ b:a:d = ∟; assumption)) (by euclid_assumption "" (show ∠ a:b:e = ∟; assumption)))
+      (|(a─b)| * |(b─c)|) + (|(a─b)| * |(b─c)|)) := by sorry
 
   euclid_sentence "2.7.9"
     "For $BF$ (is) equal to $BC$."
-    (step9 : |(b─f)| = |(b─c)|) := by euclid_apply (helper_2_7_step9 a b c d e n g h f AB CN AD BE HF BD DE (by euclid_assumption "" (show between a c b; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show c.onLine CN; assumption)) (by euclid_assumption "" (show g.onLine CN; assumption)) (by euclid_assumption "" (show n.onLine CN; assumption)) (by euclid_assumption "" (show a.onLine AD; assumption)) (by euclid_assumption "" (show d.onLine AD; assumption)) (by euclid_assumption "" (show h.onLine AD; assumption)) (by euclid_assumption "" (show e.onLine BE; assumption)) (by euclid_assumption "" (show b.onLine BE; assumption)) (by euclid_assumption "" (show f.onLine BE; assumption)) (by euclid_assumption "" (show d.onLine DE; assumption)) (by euclid_assumption "" (show e.onLine DE; assumption)) (by euclid_assumption "" (show n.onLine DE; assumption)) (by euclid_assumption "" (show b.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine BD; assumption)) (by euclid_assumption "" (show d.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine HF; assumption)) (by euclid_assumption "" (show h.onLine HF; assumption)) (by euclid_assumption "" (show f.onLine HF; assumption)) (by euclid_assumption "" (show ¬(HF.intersectsLine AB); assumption)) (by euclid_assumption "" (show ¬(AD.intersectsLine BE); assumption)) (by euclid_assumption "" (show ¬(CN.intersectsLine AD); assumption)) (by euclid_assumption "" (show ¬(DE.intersectsLine AB); assumption)) (by euclid_assumption "" (show ∠ a:d:e = ∟; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show e ≠ b; assumption)) (by euclid_assumption "" (show |(a─d)| = |(a─b)|; assumption)) (by euclid_assumption "" (show |(d─e)| = |(a─b)|; assumption)) (by euclid_assumption "" (show ∠ b:a:d = ∟; assumption)) (by euclid_assumption "" (show ∠ a:b:e = ∟; assumption)))
+    (step9 : |(b─f)| = |(b─c)|) := by sorry
 
   euclid_sentence "2.7.10"
     "Thus, the gnomon $KLM$, and the square $CF$, are equal to twice the (rectangle contained) by $AB$ and $BC$."
@@ -101,11 +85,11 @@ by
         (Triangle.area △ g:f:e + Triangle.area △ g:e:n) +
         (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) +
       (Triangle.area △ c:b:f + Triangle.area △ c:f:g) =
-      (|(a─b)| * |(b─c)|) + (|(a─b)| * |(b─c)|)) := by euclid_apply (helper_2_7_step10 a b c e n g h f AB (by euclid_assumption "" (show ((Triangle.area △ a:c:g + Triangle.area △ a:g:h) + (Triangle.area △ g:f:e + Triangle.area △ g:e:n) + (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) + (Triangle.area △ c:b:f + Triangle.area △ c:f:g) = (Triangle.area △ a:b:f + Triangle.area △ a:f:h) + (Triangle.area △ a:b:f + Triangle.area △ a:f:h); assumption)) (by euclid_assumption "" (show (Triangle.area △ a:b:f + Triangle.area △ a:f:h) + (Triangle.area △ a:b:f + Triangle.area △ a:f:h) = |(a─b)| * |(b─c)| + |(a─b)| * |(b─c)|; assumption)))
+      (|(a─b)| * |(b─c)|) + (|(a─b)| * |(b─c)|)) := by sorry
 
   euclid_sentence "2.7.11"
     "Let $DG$, which is the square on $AC$, be added to both."
-    (step11 : Triangle.area △ d:h:g + Triangle.area △ d:g:n = |(a─c)| * |(a─c)|) := by euclid_apply (helper_2_7_step11 a b c d e n g h f AB CN AD BE HF BD DE (by euclid_assumption "" (show between a c b; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show c.onLine CN; assumption)) (by euclid_assumption "" (show g.onLine CN; assumption)) (by euclid_assumption "" (show n.onLine CN; assumption)) (by euclid_assumption "" (show a.onLine AD; assumption)) (by euclid_assumption "" (show d.onLine AD; assumption)) (by euclid_assumption "" (show h.onLine AD; assumption)) (by euclid_assumption "" (show e.onLine BE; assumption)) (by euclid_assumption "" (show b.onLine BE; assumption)) (by euclid_assumption "" (show f.onLine BE; assumption)) (by euclid_assumption "" (show d.onLine DE; assumption)) (by euclid_assumption "" (show e.onLine DE; assumption)) (by euclid_assumption "" (show n.onLine DE; assumption)) (by euclid_assumption "" (show b.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine BD; assumption)) (by euclid_assumption "" (show d.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine HF; assumption)) (by euclid_assumption "" (show h.onLine HF; assumption)) (by euclid_assumption "" (show f.onLine HF; assumption)) (by euclid_assumption "" (show ¬(HF.intersectsLine AB); assumption)) (by euclid_assumption "" (show ¬(AD.intersectsLine BE); assumption)) (by euclid_assumption "" (show ¬(CN.intersectsLine AD); assumption)) (by euclid_assumption "" (show ¬(DE.intersectsLine AB); assumption)) (by euclid_assumption "" (show ∠ a:d:e = ∟; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show e ≠ b; assumption)) (by euclid_assumption "" (show |(a─d)| = |(a─b)|; assumption)) (by euclid_assumption "" (show |(d─e)| = |(a─b)|; assumption)) (by euclid_assumption "" (show ∠ b:a:d = ∟; assumption)) (by euclid_assumption "" (show ∠ a:b:e = ∟; assumption)))
+    (step11 : Triangle.area △ d:h:g + Triangle.area △ d:g:n = |(a─c)| * |(a─c)|) := by sorry
 
   euclid_sentence "2.7.12"
     "Thus, the gnomon $KLM$, and the squares $BG$ and $GD$, are equal to twice the rectangle contained by $AB$ and $BC$, and the square on $AC$."
@@ -114,7 +98,7 @@ by
         (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) +
       (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) +
       (Triangle.area △ d:h:g + Triangle.area △ d:g:n) =
-      ((|(a─b)| * |(b─c)|) + (|(a─b)| * |(b─c)|)) + |(a─c)| * |(a─c)|) := by euclid_apply (helper_2_7_step12 a b c d e n g h f (by euclid_assumption "" (show ((Triangle.area △ a:c:g + Triangle.area △ a:g:h) + (Triangle.area △ g:f:e + Triangle.area △ g:e:n) + (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) + (Triangle.area △ c:b:f + Triangle.area △ c:f:g) = |(a─b)| * |(b─c)| + |(a─b)| * |(b─c)|; assumption)) (by euclid_assumption "" (show Triangle.area △ d:h:g + Triangle.area △ d:g:n = |(a─c)| * |(a─c)|; assumption)))
+      ((|(a─b)| * |(b─c)|) + (|(a─b)| * |(b─c)|)) + |(a─c)| * |(a─c)|) := by sorry
 
   euclid_sentence "2.7.13"
     "But, the gnomon $KLM$ and the squares $BG$ and $GD$ is (equivalent to) the whole of $ADEB$ and $CF$, which are the squares on $AB$ and $BC$ (respectively)."
@@ -123,12 +107,12 @@ by
         (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) +
       (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) +
       (Triangle.area △ d:h:g + Triangle.area △ d:g:n) =
-      |(a─b)| * |(a─b)| + |(b─c)| * |(b─c)|) := by euclid_apply (helper_2_7_step13 a b c d e n g h f AB CN AD BE HF BD DE (by euclid_assumption "" (show between a c b; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show c.onLine CN; assumption)) (by euclid_assumption "" (show g.onLine CN; assumption)) (by euclid_assumption "" (show n.onLine CN; assumption)) (by euclid_assumption "" (show a.onLine AD; assumption)) (by euclid_assumption "" (show d.onLine AD; assumption)) (by euclid_assumption "" (show h.onLine AD; assumption)) (by euclid_assumption "" (show e.onLine BE; assumption)) (by euclid_assumption "" (show b.onLine BE; assumption)) (by euclid_assumption "" (show f.onLine BE; assumption)) (by euclid_assumption "" (show d.onLine DE; assumption)) (by euclid_assumption "" (show e.onLine DE; assumption)) (by euclid_assumption "" (show n.onLine DE; assumption)) (by euclid_assumption "" (show b.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine BD; assumption)) (by euclid_assumption "" (show d.onLine BD; assumption)) (by euclid_assumption "" (show g.onLine HF; assumption)) (by euclid_assumption "" (show h.onLine HF; assumption)) (by euclid_assumption "" (show f.onLine HF; assumption)) (by euclid_assumption "" (show ¬(HF.intersectsLine AB); assumption)) (by euclid_assumption "" (show ¬(AD.intersectsLine BE); assumption)) (by euclid_assumption "" (show ¬(CN.intersectsLine AD); assumption)) (by euclid_assumption "" (show ¬(DE.intersectsLine AB); assumption)) (by euclid_assumption "" (show ∠ a:d:e = ∟; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show e ≠ b; assumption)) (by euclid_assumption "" (show |(a─d)| = |(a─b)|; assumption)) (by euclid_assumption "" (show |(d─e)| = |(a─b)|; assumption)) (by euclid_assumption "" (show ∠ b:a:d = ∟; assumption)) (by euclid_assumption "" (show ∠ a:b:e = ∟; assumption)))
+      |(a─b)| * |(a─b)| + |(b─c)| * |(b─c)|) := by sorry
 
   euclid_sentence "2.7.14"
     "Thus, the (sum of the) squares on $AB$ and $BC$ is equal to twice the rectangle contained by $AB$ and $BC$, and the square on $AC$."
     (step14 : |(a─b)| * |(a─b)| + |(b─c)| * |(b─c)| =
-      2 * (|(a─b)| * |(b─c)|) + |(c─a)| * |(c─a)|) := by euclid_apply (helper_2_7_step14 a b c d e n g h f (by euclid_assumption "" (show (((Triangle.area △ a:c:g + Triangle.area △ a:g:h) + (Triangle.area △ g:f:e + Triangle.area △ g:e:n) + (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) + (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) + (Triangle.area △ d:h:g + Triangle.area △ d:g:n) = ((|(a─b)| * |(b─c)|) + (|(a─b)| * |(b─c)|)) + |(a─c)| * |(a─c)|; assumption)) (by euclid_assumption "" (show (((Triangle.area △ a:c:g + Triangle.area △ a:g:h) + (Triangle.area △ g:f:e + Triangle.area △ g:e:n) + (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) + (Triangle.area △ c:b:f + Triangle.area △ c:f:g)) + (Triangle.area △ d:h:g + Triangle.area △ d:g:n) = |(a─b)| * |(a─b)| + |(b─c)| * |(b─c)|; assumption)))
+      2 * (|(a─b)| * |(b─c)|) + |(c─a)| * |(c─a)|) := by sorry
 
   exact step14
   euclid_conclude_sentence "2.7.15"

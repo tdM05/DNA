@@ -1,9 +1,8 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
+set_option systemE.solverTime 30 in
 theorem helper_3_35_gapDiam_powbd_diam (b d e f : Point) (ABCD : Circle) (BD : Line)
   (hb : b.onCircle ABCD) (hd : d.onCircle ABCD) (hbet2 : between b e d)
   (hfc : f.isCentre ABCD) (hbBD : b.onLine BD) (hdBD : d.onLine BD)

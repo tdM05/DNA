@@ -1,10 +1,9 @@
 import SystemE
 import Book1.Prop17.Main
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem helper_1_47_hoffBD_hacute
     (a b c : Point) (AB BC AC : Line)
     (ha_AB : a.onLine AB) (hb_AB : b.onLine AB) (hab : a ≠ b)

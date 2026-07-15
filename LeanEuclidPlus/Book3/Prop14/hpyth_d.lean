@@ -1,14 +1,13 @@
 import SystemE
 import Book1.Prop47.Main
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- Pythagoras for the right triangle d-g-e.  The right angle ∠d:g:e = ∟ comes from
 -- ∠c:g:e = ∟ together with `between c g d` (eg ⊥ the whole line CD).
 -- Robust to the degenerate coincidences d = g and e = g.
+set_option systemE.solverTime 30 in
 theorem helper_3_14_hpyth_d
     (a c d e g : Point) (ABDC : Circle) (CD : Line)
     (ha : a.onCircle ABDC) (hc : c.onCircle ABDC) (hd : d.onCircle ABDC)

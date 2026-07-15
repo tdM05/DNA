@@ -1,13 +1,12 @@
 import SystemE
 import Book1.Prop47.Main
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- Pythagoras for the right triangle c-g-e (right angle at the foot g).
 -- Robust to the degenerate coincidences c = g and e = g (identity still holds).
+set_option systemE.solverTime 30 in
 theorem helper_3_14_hpyth_c
     (a c e g : Point) (ABDC : Circle) (CD : Line)
     (ha : a.onCircle ABDC) (hc : c.onCircle ABDC)

@@ -1,12 +1,11 @@
 import SystemE
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- Direction-1 arithmetic core (mirror of hge0): with CD a diameter (|CD| = 2R) and
 -- |AB| = |CD|, the two Pythagoras identities force |AF| = |FB| = R, hence |FE| = 0.
+set_option systemE.solverTime 30 in
 theorem helper_3_14_gap_cd_diam_fe0
     (a b c d e f : Point)
     (hpyth_a : |(a─f)| * |(a─f)| + |(f─e)| * |(f─e)| = |(a─e)| * |(a─e)|)

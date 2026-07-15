@@ -2,8 +2,6 @@ import SystemE
 import Book1.Prop03.Main
 import Book1.Prop04.Main
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
@@ -11,6 +9,7 @@ namespace Elements.Book1
    with CE = AB (proposition_3) and joins EB, then runs the mirror: `equal_angles` (∠e:c:b = ∠a:c:b,
    e on ray c→a) + the hypothesis ⟹ ∠e:c:b = ∠a:b:c; SAS (proposition_4, △CEB ≅ △BAC); and the area
    absurdity (area_congruence + sum_areas_if: e∈CA splits CAB) contradicts the congruence. -/
+set_option systemE.solverTime 30 in
 theorem helper_1_6_sym (a b c : Point) (AB BC AC : Line)
     (haAB : a.onLine AB) (hbAB : b.onLine AB) (hab : a ≠ b)
     (hbBC : b.onLine BC) (hcBC : c.onLine BC)

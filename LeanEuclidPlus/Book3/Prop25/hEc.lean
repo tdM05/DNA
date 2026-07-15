@@ -1,10 +1,9 @@
 import SystemE
 
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
+set_option systemE.solverTime 30 in
 theorem helper_3_25_hEc (a b c d e : Point) (AC DB : Line)
     (ha_ac : a.onLine AC) (hc_ac : c.onLine AC) (hbet : between a d c)
     (hb_off : ¬b.onLine AC)

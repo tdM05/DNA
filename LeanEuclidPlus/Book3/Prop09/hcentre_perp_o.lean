@@ -1,12 +1,11 @@
 import SystemE
 import Mathlib.Tactic.Linarith
 import Book1.Prop08.Main
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 open Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem helper_3_9_hcentre_perp_o
     (ABC : Circle) (a b e o : Point) (AB : Line)
     (ha : a.onCircle ABC) (hb : b.onCircle ABC)

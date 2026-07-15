@@ -1,11 +1,10 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- g ≠ b: g lies on FG, but b is off FG (b, f on both AB and FG would force AB = FG, yet g0 ∈ FG
 -- is off AB).
+set_option systemE.solverTime 30 in
 theorem helper_3_33_hgb
     (a b f g g0 : Point) (AB FG : Line)
     (haab : a.onLine AB) (hbab : b.onLine AB) (hafb : between a f b)

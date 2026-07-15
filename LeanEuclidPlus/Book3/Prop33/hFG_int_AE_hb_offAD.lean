@@ -1,13 +1,12 @@
 import SystemE
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- b is off AD: if b were on AD then a, b, d collinear, so ∠d:a:b = 0 (not between) or 2∟
 -- (between d a b) — both contradict 0 < ∠d:a:b < ∟.  Proven explicitly (euclid_finish loops on
 -- the opaque-angle → off-line inference).
+set_option systemE.solverTime 30 in
 theorem helper_3_33_hFG_int_AE_hb_offAD
     (a b c₁ c c₂ d : Point) (AD : Line)
     (haad : a.onLine AD) (hdad : d.onLine AD) (hne : a ≠ b) (hadd : d ≠ a)

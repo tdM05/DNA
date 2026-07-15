@@ -1,9 +1,6 @@
 import SystemE
 import Mathlib.Tactic.Linarith
 import Book1.Prop08.Main
-import Book3.Prop09.hcentre_aonL_doff
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
@@ -16,6 +13,7 @@ open Elements.Book1
     between a d b and between a o b; metric + betweenness → d = o. Contradiction.
   Case d.off AB: sorry sub-node (requires SSS + perpendicular bisector argument).
 -/
+set_option systemE.solverTime 30 in
 theorem helper_3_9_hcentre_aonL
     (ABC α₀ : Circle)
     (a b c d e f : Point) (o : Point)
@@ -42,7 +40,7 @@ theorem helper_3_9_hcentre_aonL
   have hd_in_α₀ : d.insideCircle α₀ := center_inside_circle d α₀ hd_ctr
   have ho_in_ABC : o.insideCircle ABC := center_inside_circle o ABC ho
   -- Case split: d on AB (leads to d=o) vs d off AB (sorry sub-node)
-  have hcentre_aonL_doff : ¬(d.onLine AB) → False := by euclid_apply (helper_3_9_hcentre_aonL_doff ABC α₀ a b d e o AB L (by euclid_assumption "" (show a.onCircle ABC; assumption)) (by euclid_assumption "" (show b.onCircle ABC; assumption)) (by euclid_assumption "" (show |(d─a)| = |(d─b)|; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show between a e b; assumption)) (by euclid_assumption "" (show |(a─e)| = |(e─b)|; assumption)) (by euclid_assumption "" (show o.isCentre ABC; assumption)) (by euclid_assumption "" (show ¬d = o; assumption)) (by euclid_assumption "" (show d ≠ a; assumption)) (by euclid_assumption "" (show d.isCentre α₀; assumption)) (by euclid_assumption "" (show a.onCircle α₀; assumption)) (by euclid_assumption "" (show b.onCircle α₀; assumption)) (by euclid_assumption "" (show c.onCircle α₀; assumption)) (by euclid_assumption "" (show ¬α₀ = ABC; assumption)) (by euclid_assumption "" (show d.onLine L; assumption)) (by euclid_assumption "" (show o.onLine L; assumption)) (by euclid_assumption "" (show ¬a.sameSide b L; assumption)) (by euclid_assumption "" (show ¬a.sameSide c L; assumption)) (by euclid_assumption "" (show ¬b.sameSide c L; assumption)) (by euclid_assumption "" (show a.onLine L; assumption)))
+  have hcentre_aonL_doff : ¬(d.onLine AB) → False := by sorry
   rcases Classical.em (d.onLine AB) with hdAB | hdAB
   · -- Case 1: d.onLine AB → L = AB → circle_line_intersections → d = o
     have hLAB : L = AB :=

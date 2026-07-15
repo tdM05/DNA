@@ -1,11 +1,10 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- b same side of AE as d, and e0 same side of AB as d: ∠e0:a:b = ∠e0:a:d + ∠d:a:b
 -- (sum_angles_onlyif, d the interior ray).  With ∠e0:a:b = ∠e0:a:d = ∟ this gives ∠d:a:b = 0.
+set_option systemE.solverTime 30 in
 theorem helper_3_33_hFG_int_AE_hcon_ss_a
     (a b c₁ c c₂ d e0 : Point) (AD AE AB : Line)
     (haad : a.onLine AD) (hdad : d.onLine AD)

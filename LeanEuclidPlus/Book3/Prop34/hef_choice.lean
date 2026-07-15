@@ -1,12 +1,11 @@
 import SystemE
 import Book1.Prop15.Main
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 open Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem helper_3_34_hef_choice (b c c₀ p q d1 d d2 : Point) (ABC : Circle) (EF BC : Line)
     (hp_EF : p.onLine EF) (hq_EF : q.onLine EF) (hbet_pbq : between p b q)
     (hb_EF : b.onLine EF) (hb_BC : b.onLine BC) (hc₀_BC : c₀.onLine BC) (hc_BC : c.onLine BC)

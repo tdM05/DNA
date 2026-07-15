@@ -9,7 +9,6 @@ namespace Elements.Book3
 
 open Elements.Book1
 
-set_option systemE.solverTime 30 in
 theorem proposition_28 : ∀ (a b d e k l : Point) (ABC DEF : Circle),
   a.onCircle ABC ∧ b.onCircle ABC ∧
   d.onCircle DEF ∧ e.onCircle DEF ∧

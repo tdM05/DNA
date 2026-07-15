@@ -1,6 +1,4 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
@@ -8,6 +6,7 @@ namespace Elements.Book3
 -- (Book2/Prop05) is not yet a proven lemma in this repo, so we prove the instance directly: once the
 -- collinear order of a, m, e, c is fixed, the length algebra is closed by euclid_finish (exactly as in
 -- the diameter case, where the midpoint's betweenness was already explicit).
+set_option systemE.solverTime 30 in
 theorem helper_3_35_gapDiam_ac_ii5 (a c e m : Point) (AC : Line)
   (hbet1 : between a e c) (haAC : a.onLine AC) (hcAC : c.onLine AC) (hmAC : m.onLine AC)
   (hbisect : |(m─a)| = |(m─c)|)

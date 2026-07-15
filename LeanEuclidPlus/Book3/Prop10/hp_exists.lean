@@ -1,10 +1,9 @@
 import SystemE
 -- Proposition citations: import Book1.PropNN.Main / Book2.PropNN.Main / Book3.PropNN.Main — NOT Book.PropNN
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
+set_option systemE.solverTime 30 in
 theorem helper_3_10_hp_exists
     (ABC : Circle) (AC NO : Line)
     (step4 : ∃ o : Point, o.isCentre ABC ∧ o.onLine AC)

@@ -1,7 +1,5 @@
 import SystemE
 import Book1.Prop13.Main
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
@@ -9,6 +7,7 @@ open Elements.Book1
 
 -- Angles on a straight line (Euclid I.13): e0, a, e1 collinear with a between, so
 -- ∠e0:a:b + ∠e1:a:b = 2∟.  (AB ≠ AE holds since e0 ∈ AE but e0 ∉ AB.)
+set_option systemE.solverTime 30 in
 theorem helper_3_33_hFG_int_AE_hsup_e1
     (a b e0 e1 : Point) (AE AB : Line)
     (haae : a.onLine AE) (he0ae : e0.onLine AE) (he1ae : e1.onLine AE)

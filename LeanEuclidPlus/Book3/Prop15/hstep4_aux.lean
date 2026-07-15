@@ -1,10 +1,9 @@
 import SystemE
 import Book1.Prop11.Main
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
+set_option systemE.solverTime 30 in
 theorem helper_3_15_hstep4_aux
     (e k l : Point) (EK : Line)
     (hEK : distinctPointsOnLine e k EK)

@@ -2,11 +2,10 @@ import SystemE
 import Book1.Prop03.Main
 import Book1.Prop04.Main
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem helper_1_26_h_sym
     (a b c d e f : Point) (AB BC AC DE EF DF : Line)
     (ha_AB : a.onLine AB) (hb_AB : b.onLine AB) (hab : a ≠ b)

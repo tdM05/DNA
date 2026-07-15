@@ -1,10 +1,9 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- II.5 instance for the chord BD cut equally at midpoint m, unequally at e (see gapDiam_ac_ii5).
+set_option systemE.solverTime 30 in
 theorem helper_3_35_gapDiam_bd_ii5 (b d e m : Point) (BD : Line)
   (hbet2 : between b e d) (hbBD : b.onLine BD) (hdBD : d.onLine BD) (hmBD : m.onLine BD)
   (hbisect : |(m─b)| = |(m─d)|)

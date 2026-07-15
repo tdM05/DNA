@@ -1,9 +1,8 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
+set_option systemE.solverTime 30 in
 theorem helper_3_1_hDC_int (ABC : Circle) (d : Point) (DC : Line)
     (h_d_inside : d.insideCircle ABC) (h_d_on_DC : d.onLine DC) :
     DC.intersectsCircle ABC :=

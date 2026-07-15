@@ -1,11 +1,10 @@
 import SystemE
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- f is outside BCD: same radius as a from center e (both on AFG), a is outside BCD.
+set_option systemE.solverTime 30 in
 theorem helper_3_17_hf_out_BCD (a d e f : Point) (BCD AFG : Circle)
     (hcen_BCD : e.isCentre BCD)
     (hcen_AFG : e.isCentre AFG)

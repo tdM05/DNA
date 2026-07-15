@@ -1,9 +1,8 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
+set_option systemE.solverTime 30 in
 theorem helper_3_11_hd_ex (f g h : Point) (ADE : Circle)
     (left_5 : g.isCentre ADE)
     (h_bet_fgh : between f g h)

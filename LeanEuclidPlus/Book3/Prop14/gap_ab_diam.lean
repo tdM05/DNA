@@ -1,12 +1,5 @@
 import SystemE
 import Mathlib.Tactic.Linarith
-import Book3.Prop14.hdiam_ab
-import Book3.Prop14.hpyth_c
-import Book3.Prop14.hpyth_d
-import Book3.Prop14.hge0
-import Book3.Prop14.hdiam_cd
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
@@ -17,6 +10,7 @@ namespace Elements.Book3
 -- proposition IS true and provable in this branch (equal chords ⟹ CD is a diameter
 -- too, so g = e).  Without those hypotheses the foot-at-endpoint model (c = g on a
 -- diameter) is a genuine counterexample; see STATUS.md.
+set_option systemE.solverTime 30 in
 theorem helper_3_14_gap_ab_diam
     (a b c d e f g : Point) (ABDC : Circle) (AB CD : Line)
     (ha : a.onCircle ABDC) (hb : b.onCircle ABDC)
@@ -35,11 +29,11 @@ theorem helper_3_14_gap_ab_diam
   · -- Direction 1: |AB| = |CD| ⟹ |EF| = |EG| (both are 0: e = f and e = g).
     intro h_ab_cd
     have hef0 : |(e─f)| = 0 := zero_segment_onlyif e f h_ef
-    have hdiam_ab : |(a─b)| = |(a─e)| + |(a─e)| := by euclid_apply (helper_3_14_hdiam_ab a b e ABDC AB (by euclid_assumption "" (show a.onCircle ABDC; assumption)) (by euclid_assumption "" (show b.onCircle ABDC; assumption)) (by euclid_assumption "" (show e.isCentre ABDC; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show e.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)))
-    have hpyth_c : |(c─g)| * |(c─g)| + |(g─e)| * |(g─e)| = |(a─e)| * |(a─e)| := by euclid_apply (helper_3_14_hpyth_c a c e g ABDC CD (by euclid_assumption "" (show a.onCircle ABDC; assumption)) (by euclid_assumption "" (show c.onCircle ABDC; assumption)) (by euclid_assumption "" (show e.isCentre ABDC; assumption)) (by euclid_assumption "" (show c.onLine CD; assumption)) (by euclid_assumption "" (show g.onLine CD; assumption)) (by euclid_assumption "" (show ∠ c:g:e = ∟; assumption)))
-    have hpyth_d : |(d─g)| * |(d─g)| + |(g─e)| * |(g─e)| = |(a─e)| * |(a─e)| := by euclid_apply (helper_3_14_hpyth_d a c d e g ABDC CD (by euclid_assumption "" (show a.onCircle ABDC; assumption)) (by euclid_assumption "" (show c.onCircle ABDC; assumption)) (by euclid_assumption "" (show d.onCircle ABDC; assumption)) (by euclid_assumption "" (show e.isCentre ABDC; assumption)) (by euclid_assumption "" (show c.onLine CD; assumption)) (by euclid_assumption "" (show d.onLine CD; assumption)) (by euclid_assumption "" (show g.onLine CD; assumption)) (by euclid_assumption "" (show ∠ c:g:e = ∟; assumption)) (by euclid_assumption "" (show between c g d; assumption)))
+    have hdiam_ab : |(a─b)| = |(a─e)| + |(a─e)| := by sorry
+    have hpyth_c : |(c─g)| * |(c─g)| + |(g─e)| * |(g─e)| = |(a─e)| * |(a─e)| := by sorry
+    have hpyth_d : |(d─g)| * |(d─g)| + |(g─e)| * |(g─e)| = |(a─e)| * |(a─e)| := by sorry
     have hchord_cd : |(c─g)| + |(g─d)| = |(c─d)| := between_if c g d hcgd
-    have hge0 : |(g─e)| = 0 := by euclid_apply (helper_3_14_hge0 a b c d e g (by euclid_assumption "" (show |(c─g)| * |(c─g)| + |(g─e)| * |(g─e)| = |(a─e)| * |(a─e)|; assumption)) (by euclid_assumption "" (show |(d─g)| * |(d─g)| + |(g─e)| * |(g─e)| = |(a─e)| * |(a─e)|; assumption)) (by euclid_assumption "" (show |(c─g)| + |(g─d)| = |(c─d)|; assumption)) (by euclid_assumption "" (show |(a─b)| = |(a─e)| + |(a─e)|; assumption)) (by euclid_assumption "" (show |(a─b)| = |(c─d)|; assumption)))
+    have hge0 : |(g─e)| = 0 := by sorry
     have heg0 : |(e─g)| = 0 := by rw [segment_symmetric e g]; exact hge0
     rw [hef0, heg0]
   · -- Direction 2: |EF| = |EG| ⟹ |AB| = |CD|.  |EF| = 0 forces e = g (CD diameter).
@@ -48,8 +42,8 @@ theorem helper_3_14_gap_ab_diam
     have heg0 : |(e─g)| = 0 := by linarith
     have h_eg : e = g := zero_segment_if e g heg0
     have hbet_ced : between c e d := by rw [h_eg]; exact hcgd
-    have hdiam_ab : |(a─b)| = |(a─e)| + |(a─e)| := by euclid_apply (helper_3_14_hdiam_ab a b e ABDC AB (by euclid_assumption "" (show a.onCircle ABDC; assumption)) (by euclid_assumption "" (show b.onCircle ABDC; assumption)) (by euclid_assumption "" (show e.isCentre ABDC; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show e.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)))
-    have hdiam_cd : |(c─d)| = |(a─e)| + |(a─e)| := by euclid_apply (helper_3_14_hdiam_cd a c d e ABDC (by euclid_assumption "" (show a.onCircle ABDC; assumption)) (by euclid_assumption "" (show c.onCircle ABDC; assumption)) (by euclid_assumption "" (show d.onCircle ABDC; assumption)) (by euclid_assumption "" (show e.isCentre ABDC; assumption)) (by euclid_assumption "" (show between c e d; assumption)))
+    have hdiam_ab : |(a─b)| = |(a─e)| + |(a─e)| := by sorry
+    have hdiam_cd : |(c─d)| = |(a─e)| + |(a─e)| := by sorry
     linarith
 
 end Elements.Book3

@@ -1,13 +1,12 @@
 import SystemE
 import Book1.Prop47.Main
 import Helpers.OffLine
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 open Elements.Book1 Elements
 
+set_option systemE.solverTime 30 in
 theorem helper_3_35_gapDiam_ac_47fe (a c e f m : Point) (ABCD : Circle) (AC FM : Line)
   (hbet1 : between a e c) (haAC : a.onLine AC) (hcAC : c.onLine AC)
   (hmAC : m.onLine AC) (hperp : ∀ (p : Point), p.onLine AC → p ≠ m → ∠ p:m:f = ∟)

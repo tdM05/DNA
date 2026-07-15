@@ -1,12 +1,11 @@
 import SystemE
 import Mathlib.Tactic.Linarith
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- Direction-1 arithmetic core: with AB a diameter (|AB| = 2R) and |AB| = |CD|,
 -- the two Pythagoras identities force |CG| = |GD| = R, hence the distance |GE| = 0.
+set_option systemE.solverTime 30 in
 theorem helper_3_14_hge0
     (a b c d e g : Point)
     (hpyth_c : |(c─g)| * |(c─g)| + |(g─e)| * |(g─e)| = |(a─e)| * |(a─e)|)

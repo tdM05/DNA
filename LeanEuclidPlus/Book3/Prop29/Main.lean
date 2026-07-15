@@ -5,7 +5,6 @@ set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
-set_option systemE.solverTime 30 in
 theorem proposition_29 : ∀ (b c e f k l : Point) (ABC DEF : Circle),
   k.isCentre ABC ∧ l.isCentre DEF ∧
   b.onCircle ABC ∧ c.onCircle ABC ∧

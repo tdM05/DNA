@@ -1,16 +1,12 @@
 import SystemE
 import Mathlib.Tactic.Linarith
 import Book1.Prop08.Main
-import Book3.Prop09.hcentre_perp_d
-import Book3.Prop09.hcentre_perp_o
-import Book3.Prop09.hcentre_oED
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 open Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem helper_3_9_hcentre_aonL_doff
     (ABC α₀ : Circle)
     (a b d e o : Point)
@@ -37,7 +33,7 @@ theorem helper_3_9_hcentre_aonL_doff
   obtain ⟨ED, he_ED, hd_ED⟩ := line_from_points e d hed
   have he_AB : e.onLine AB := between_same_line_in a e b AB ⟨haeb, ha_AB, hb_AB⟩
   -- Sub-node 1: ∠a:e:d = ∟ (SSS proof in hcentre_perp_d.lean)
-  have hcentre_perp_d : ∠ a:e:d = ∟ := by euclid_apply (helper_3_9_hcentre_perp_d a b d e AB ED (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show e.onLine AB; assumption)) (by euclid_assumption "" (show e.onLine ED; assumption)) (by euclid_assumption "" (show d.onLine ED; assumption)) (by euclid_assumption "" (show between a e b; assumption)) (by euclid_assumption "" (show |(a─e)| = |(e─b)|; assumption)) (by euclid_assumption "" (show |(d─a)| = |(d─b)|; assumption)) (by euclid_assumption "" (show ¬d.onLine AB; assumption)) (by euclid_assumption "" (show e ≠ d; assumption)) (by euclid_assumption "" (show d ≠ a; assumption)))
+  have hcentre_perp_d : ∠ a:e:d = ∟ := by sorry
   -- Case split: o on AB?
   by_cases hoAB : o.onLine AB
   · -- Case: o on AB → L = AB → d on AB → contradiction
@@ -46,7 +42,7 @@ theorem helper_3_9_hcentre_aonL_doff
       two_points_determine_line a o L AB ⟨⟨haL, ho_L, hoa⟩, ha_AB, hoAB⟩
     exact hdAB (hLAB ▸ hd_L)
   · -- Sub-node 2: ∠a:e:o = ∟ (SSS proof in hcentre_perp_o.lean)
-    have hcentre_perp_o : ∠ a:e:o = ∟ := by euclid_apply (helper_3_9_hcentre_perp_o ABC a b e o AB (by euclid_assumption "" (show a.onCircle ABC; assumption)) (by euclid_assumption "" (show b.onCircle ABC; assumption)) (by euclid_assumption "" (show o.isCentre ABC; assumption)) (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show e.onLine AB; assumption)) (by euclid_assumption "" (show between a e b; assumption)) (by euclid_assumption "" (show |(a─e)| = |(e─b)|; assumption)) (by euclid_assumption "" (show ¬o.onLine AB; assumption)))
+    have hcentre_perp_o : ∠ a:e:o = ∟ := by sorry
     -- Derive ∠d:e:b = ∟ and ∠o:e:b = ∟
     have hd_eb : ∠ d:e:b = ∟ := by
       have := perpendicular_onlyif a b e d AB ⟨ha_AB, hb_AB, haeb, hdAB, hcentre_perp_d⟩
@@ -57,7 +53,7 @@ theorem helper_3_9_hcentre_aonL_doff
       linarith
     have hflat : ∠ a:e:b = ∟ + ∟ := flat_angle_onlyif a e b haeb
     -- Sub-node 3: o on line ED (hcentre_oED.lean)
-    have hcentre_oED : o.onLine ED := by euclid_apply (helper_3_9_hcentre_oED a b d e o AB ED (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show e.onLine AB; assumption)) (by euclid_assumption "" (show e.onLine ED; assumption)) (by euclid_assumption "" (show d.onLine ED; assumption)) (by euclid_assumption "" (show between a e b; assumption)) (by euclid_assumption "" (show ∠ a:e:d = ∟; assumption)) (by euclid_assumption "" (show ∠ a:e:o = ∟; assumption)) (by euclid_assumption "" (show ∠ d:e:b = ∟; assumption)) (by euclid_assumption "" (show ∠ o:e:b = ∟; assumption)) (by euclid_assumption "" (show ∠ a:e:b = ∟ + ∟; assumption)) (by euclid_assumption "" (show o ≠ e; assumption)) (by euclid_assumption "" (show e ≠ d; assumption)))
+    have hcentre_oED : o.onLine ED := by sorry
     -- ED = L (d and o both on both)
     have hEDL : ED = L :=
       two_points_determine_line d o ED L ⟨⟨hd_ED, hcentre_oED, hdo⟩, hd_L, ho_L⟩

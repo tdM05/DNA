@@ -1,9 +1,8 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
+set_option systemE.solverTime 30 in
 theorem helper_3_1_hgNa (ABC : Circle) (a g : Point)
     (h_a_on : a.onCircle ABC) (h_g_center : g.isCentre ABC) :
     g ≠ a := by

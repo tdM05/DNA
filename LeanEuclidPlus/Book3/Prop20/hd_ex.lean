@@ -1,10 +1,9 @@
 import SystemE
 import Book1.Prop31.Main
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
+set_option systemE.solverTime 30 in
 theorem helper_3_20_hd_ex
   (a b c e : Point) (BC : Line) (ABC : Circle)
   (h_e_centre : e.isCentre ABC) (h_a_circ : a.onCircle ABC)

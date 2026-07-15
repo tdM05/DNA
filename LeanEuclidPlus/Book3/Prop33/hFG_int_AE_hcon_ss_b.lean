@@ -1,12 +1,11 @@
 import SystemE
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
 -- b same side of AE as d, e0 opposite side of AB from d.  Take e1 = AE reflected past a
 -- (between e0 a e1); then ∠b:a:e1 = ∠d:a:e1 = ∟ and e1 is on d's side of AB, so
 -- ∠e1:a:b = ∠e1:a:d + ∠d:a:b forces ∠d:a:b = 0, contradicting 0 < ∠d:a:b.
+set_option systemE.solverTime 30 in
 theorem helper_3_33_hFG_int_AE_hcon_ss_b
     (a b c₁ c c₂ d e0 : Point) (AD AE AB : Line)
     (haad : a.onLine AD) (hdad : d.onLine AD) (he0off : ¬ e0.onLine AD)
