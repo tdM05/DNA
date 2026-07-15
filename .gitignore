@@ -26,6 +26,13 @@ result_*/
 **/result/
 **/result_*/
 
+**/slurm_err/
+
+# compile-time benchmark run outputs (keep the scripts + plot, ignore all run outputs)
+reproducable_experiments/compile_time/results/
+reproducable_experiments/compile_time/slurm_output/
+reproducable_experiments/compile_time/slurm_err/
+
 # ProofNetHard env and output files
 ProofNetHard/outputs/
 ProofNetHard/result/
