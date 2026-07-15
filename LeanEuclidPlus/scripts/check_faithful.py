@@ -280,6 +280,12 @@ def _assumption_tag_problems(main_path: str):
     return problems
 
 
+# --relaxed: judge the SAME way for the ablated baseline and the full method — drop the two
+# METHODOLOGY-only checks (bulk-tactic ban, assumption valid/gap + backing-file). Faithfulness =
+# text/claims/structure preserved + citations; the tactic used and whether it's decomposed into
+# backing files are NOT faithfulness. (The map-unchanged anti-cheat is enforced by the caller.)
+RELAXED = False
+
 def check_source(path: str) -> int:
     raw = open(path, encoding="utf-8").read()
     src = strip_comments(raw)
@@ -353,7 +359,7 @@ def check_source(path: str) -> int:
     # NO CHEAT-CLOSED GOAL: a faithful MAIN proof must not close its goal with a bulk tactic left
     # over from the old proof. Lint the (comment-stripped) source for forbidden tactics. Helper/
     # scratch files are exempt. This is a heuristic guard, not a proof of faithfulness.
-    if not is_helper_file(path):
+    if not is_helper_file(path) and not RELAXED:
         bad = []
         for m in FORBIDDEN_RE.finditer(src):
             ln = src.count("\n", 0, m.start()) + 1
@@ -411,9 +417,10 @@ def check_source(path: str) -> int:
     # ASSUMPTION TAG GATE (#2b, human Phase-C): each assumption's valid/gap (from its have body) must
     # match scripts/assumption_tags.json (written by the assumption phase); a gap must be backed, a valid
     # stays inline. No-op until the prop has been run through the phase.
-    tag_problems = _assumption_tag_problems(path)
-    rc |= report("assumption valid/gap tags unchanged (+ gaps backed, valids inline)",
-                 not tag_problems, tag_problems or ["tags match assumption_tags.json (or none recorded)"])
+    if not RELAXED:
+        tag_problems = _assumption_tag_problems(path)
+        rc |= report("assumption valid/gap tags unchanged (+ gaps backed, valids inline)",
+                     not tag_problems, tag_problems or ["tags match assumption_tags.json (or none recorded)"])
 
     # Reminder: the third faithfulness criterion (each step's TYPE honestly captures its sentence)
     # is HUMAN-checked — no machine verifies it.
@@ -694,6 +701,10 @@ def check_split(propdir: str) -> int:
     return rc
 
 def main(argv) -> int:
+    global RELAXED
+    if "--relaxed" in argv:
+        RELAXED = True
+        argv = [a for a in argv if a != "--relaxed"]
     if len(argv) >= 2 and argv[0] == "--olean":
         json_path = argv[1]
         focus = None

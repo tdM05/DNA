@@ -58,13 +58,17 @@ trap restore_mem EXIT
 if [ -d "$MEMDIR" ]; then mv "$MEMDIR" "$HIDDEN" && echo "[memory hidden]"
 else echo "!! memory dir not found ($MEMDIR) — aborting to avoid a leaked run"; exit 1; fi
 
-# ---- grade: genuinely done? (0 sorry in Main + compiles + faithful). Cheap first (sorry check). ----
+# ---- grade (SAME for both arms): compiles + 0 sorry + map unchanged (texts/statement/claims) +
+#      citations. Relaxed = drop the METHODOLOGY-only checks (bulk-tactic, backing-file, @assumption
+#      annotation drift). Cheap checks first. ----
 grade() { # $1 = Book1/PropNN
   local rel="$1" main="$LEP/$1/Main.lean" mod="${1//\//.}.Main"
   [ -f "$main" ] || return 1
-  [ "$(grep -c 'sorry' "$main")" -eq 0 ] || return 1
-  ( cd "$LEP" && lake build "$mod" >/dev/null 2>&1 ) || return 1
-  ( cd "$LEP" && python3 scripts/check_faithful.py "$1/Main.lean" >/dev/null 2>&1 ) || return 1
+  [ "$(grep -c 'sorry' "$main")" -eq 0 ] || return 1                                          # 0 sorry
+  ( cd "$LEP" && python3 scripts/check_faithful.py --relaxed "$1/Main.lean" >/dev/null 2>&1 ) || return 1  # texts + citations + structure
+  ( cd "$LEP" && python3 scripts/check_signatures.py "$1/Main.lean"          >/dev/null 2>&1 ) || return 1  # statement unchanged
+  ( cd "$LEP" && python3 scripts/check_steps.py "$1/Main.lean"               >/dev/null 2>&1 ) || return 1  # claim types + @assumption/have types unchanged (map lock)
+  ( cd "$LEP" && lake build "$mod"                                           >/dev/null 2>&1 ) || return 1  # compiles (last: slowest)
   return 0
 }
 
@@ -72,13 +76,14 @@ grade() { # $1 = Book1/PropNN
 run_prop() { # $1 = NN (zero-padded)
   local nn="$1" rel="Book1/Prop$nn" pdir="$OUT/Prop$nn"; mkdir -p "$pdir"
   local cert="Prop$nn of Book1 that I was assigned to work on, is completely done. I certify it is faithful, compiles with no sorry, and is ready for review."
-  local prompt="$rel/Main.lean (under LeanEuclidPlus/) is a Lean proof of Euclid's Book 1 Proposition ${nn#0}, with every step body left as ':= by sorry'. Fill in all the sorries so the file compiles and builds with NO sorry, making sure to cite any proposition Euclid cites (a proposition of the same number, or a variant of it, is fine). Do NOT use git. When it fully compiles with zero sorry, print on its OWN line EXACTLY this and nothing appended: $cert"
+  local prompt="$rel/Main.lean (under LeanEuclidPlus/) is a Lean proof of Euclid's Book 1 Proposition ${nn#0}, with every step body left as ':= by sorry'. Fill in all the sorries so the file compiles and builds with NO sorry. Keep these UNCHANGED (do not rename, retype, move, or delete them): the theorem statement, each euclid_sentence's claim type '(stepN : …)', and the '-- @assumption (…)' comment lines. Cite any proposition Euclid cites (a proposition of the same number, or a variant of it, is fine). Do NOT use git. When it fully compiles with zero sorry, print on its OWN line EXACTLY this and nothing appended: $cert"
   local cont="Continue until $rel/Main.lean compiles with zero sorry. Do NOT use git. Only when fully done, print on its own line EXACTLY: $cert"
 
   echo "Prop$nn" > "$OUT/_current.txt"
   echo "--- Prop$nn: starting (\$$BUDGET budget) ---"
+  git -C "$REPO" checkout HEAD -- "LeanEuclidPlus/$rel/Main.lean" 2>/dev/null   # every attempt starts from the clean committed map
   cd "$REPO"
-  local spent=0 remaining="$BUDGET" out sid jsonl i=0
+  local spent=0 wall_ms=0 remaining="$BUDGET" out sid jsonl i=0
   out=$(claude -p "$prompt" --model "$MODEL" --permission-mode acceptEdits --output-format json --max-budget-usd "$remaining")
   echo "$out" > "$pdir/turn0.json"
   sid=$(echo "$out" | jq -r '.session_id')
@@ -86,6 +91,7 @@ run_prop() { # $1 = NN (zero-padded)
   while true; do
     local tc; tc=$(echo "$out" | jq -r '.total_cost_usd // 0')
     spent=$(awk "BEGIN{print $spent+$tc}"); remaining=$(awk "BEGIN{print $BUDGET-$spent}")
+    wall_ms=$(awk "BEGIN{print $wall_ms + $(echo "$out"|jq -r '.duration_ms // 0')}")
     echo "    Prop$nn round $i: turn=\$$tc cumulative=\$$spent remaining=\$$remaining subtype=$(echo "$out"|jq -r '.subtype')"
     echo "$out" | jq -r '.result' | grep -qF "$cert" && break
     [ "$(echo "$out"|jq -r '.subtype')" = error_max_budget_usd ] && { echo "    (budget cut)"; break; }
@@ -96,8 +102,8 @@ run_prop() { # $1 = NN (zero-padded)
   done
   [ -n "${jsonl:-}" ] && cp "$jsonl" "$pdir/transcript.jsonl" 2>/dev/null
   local status=FAIL; grade "$rel" && status=SUCCESS
-  printf 'prop: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nresult: %s\n' \
-    "$rel" "$sid" "${jsonl:-<none>}" "$spent" "$status" > "$pdir/result.txt"
+  printf 'prop: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\nresult: %s\n' \
+    "$rel" "$sid" "${jsonl:-<none>}" "$spent" "$(awk "BEGIN{print $wall_ms/1000}")" "$status" > "$pdir/result.txt"
   echo "=== Prop$nn -> $status  (\$$spent) ==="
   [ "$status" = SUCCESS ]
 }
