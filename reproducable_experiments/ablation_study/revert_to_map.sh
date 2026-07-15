@@ -43,8 +43,9 @@ for p in "${targets[@]}"; do
   if grep -q 'import .*\.step[0-9]' "$main"; then
     echo "STILL WIRED (unwire failed): $p — skipped to avoid breakage"; failed=$((failed+1)); continue
   fi
-  # 3. safe now: delete backing/orphan step files + strip any solverTime dev cap
-  rm -f "$p"/step*.lean
+  # 3. keep ONLY Main.lean: delete every other file (backing *.lean, STATUS.md, split.json,
+  #    map.html, custom sub-node files like swapfig.lean/hgoal1.lean, …) + strip solverTime
+  find "$p" -maxdepth 1 -type f ! -name 'Main.lean' -delete
   sed -i '/set_option systemE\.solverTime/d' "$main"
   # report + flag if it did NOT end at map stage (no sorry bodies => inline-proved, manual revert needed)
   sc=$(grep -c ':= by sorry' "$main")
