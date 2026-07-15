@@ -6,6 +6,7 @@
 # Usage: bash 8_test_naive_prop01.sh [BUDGET_USD] [MODEL]   (defaults 50, opus)
 set -uo pipefail
 unset ANTHROPIC_API_KEY                       # subscription auth
+set +u; source "$HOME/.venvs/leaneuclid/bin/activate"; set -u  # z3/cvc5 on PATH for the agent's `lake build` (+u guards the activate script)
 
 # Derive repo root from THIS script's location, real path (so the project SLUG matches
 # what Claude uses for memory/session, regardless of cluster symlinks).
