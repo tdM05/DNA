@@ -33,6 +33,9 @@ reproducable_experiments/compile_time/results/
 reproducable_experiments/compile_time/slurm_output/
 reproducable_experiments/compile_time/slurm_err/
 
+# any experiment run-output folder named `out` (ablation_study/out, etc.) — never committed
+**/out/
+
 # ProofNetHard env and output files
 ProofNetHard/outputs/
 ProofNetHard/result/
