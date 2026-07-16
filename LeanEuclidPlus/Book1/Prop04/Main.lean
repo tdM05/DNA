@@ -45,7 +45,10 @@ theorem proposition_4 : ∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line),
   -- @assumption ("$AB$ being equal to $DE$", |(a─b)| = |(d─e)|)
   euclid_sentence "1.4.1"
     "For if triangle $ABC$ is applied to triangle $DEF$, the point $A$ being placed on the point $D$, and the straight-line $AB$ on $DE$, then the point $B$ will also coincide with $E$, on account of $AB$ being equal to $DE$."
-    (step1 : ptImg b = e) := by sorry
+    (step1 : ptImg b = e) := by
+    simp only [h_ptImg_a, h_ptImg_b, h_ptImg_c, h_lineImg_AB, h_lineImg_AC, h_lineImg_BC] at *
+    clear ptImg lineImg
+    euclid_finish
 
   -- @assumption_valid
   have step2_assumption1 : lineImg AB = DE := by simp (config := { zetaDelta := true })
@@ -55,21 +58,30 @@ theorem proposition_4 : ∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line),
   -- @assumption ("the angle $BAC$ being equal to $EDF$", ∠ b:a:c = ∠ e:d:f)
   euclid_sentence "1.4.2"
     "So (because of) $AB$ coinciding with $DE$, the straight-line $AC$ will also coincide with $DF$, on account of the angle $BAC$ being equal to $EDF$."
-    (step2 : lineImg AC = DF) := by sorry
+    (step2 : lineImg AC = DF) := by
+    simp only [h_ptImg_a, h_ptImg_b, h_ptImg_c, h_lineImg_AB, h_lineImg_AC, h_lineImg_BC] at *
+    clear ptImg lineImg
+    euclid_finish
 
   -- @assumption_valid
   have step3_assumption1 : |(a─c)| = |(d─f)| := by assumption
   -- @assumption ("$AC$ being equal to $DF$", |(a─c)| = |(d─f)|)
   euclid_sentence "1.4.3"
     "So the point $C$ will also coincide with the point $F$,  again on account of $AC$ being equal to $DF$. "
-    (step3 : ptImg c = f) := by sorry
+    (step3 : ptImg c = f) := by
+    simp only [h_ptImg_a, h_ptImg_b, h_ptImg_c, h_lineImg_AB, h_lineImg_AC, h_lineImg_BC] at *
+    clear ptImg lineImg
+    euclid_finish
 
   -- @assumption_valid
   have step4_assumption1 : ptImg b = e := by assumption
   -- @assumption ("point $B$  certainly also coincided with point $E$", ptImg b = e)
   euclid_sentence "1.4.4"
     "But,  point $B$  certainly also coincided with point $E$, so that the base $BC$ will coincide with the base $EF$."
-    (step4 : lineImg BC = EF) := by sorry
+    (step4 : lineImg BC = EF) := by
+    simp only [h_ptImg_a, h_ptImg_b, h_ptImg_c, h_lineImg_AB, h_lineImg_AC, h_lineImg_BC] at *
+    clear ptImg lineImg
+    euclid_finish
 
   have habsurd : ¬ (lineImg BC ≠ EF) := by
     intro hne
@@ -85,11 +97,17 @@ theorem proposition_4 : ∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line),
     -- @assumption ("the base $BC$ does not coincide with $EF$", lineImg BC ≠ EF)
     euclid_sentence "1.4.5"
       "For if $B$ coincides with $E$, and $C$ with $F$, and the base $BC$ does not coincide with $EF$, then two straight-lines will encompass an area."
-      (step5 : distinctPointsOnLine e f (lineImg BC) ∧ distinctPointsOnLine e f EF) := by sorry
+      (step5 : distinctPointsOnLine e f (lineImg BC) ∧ distinctPointsOnLine e f EF) := by
+      simp only [h_ptImg_a, h_ptImg_b, h_ptImg_c, h_lineImg_AB, h_lineImg_AC, h_lineImg_BC] at *
+      clear ptImg lineImg
+      euclid_finish
 
     euclid_sentence "1.4.6"
       "The very thing is impossible [Post.~1]."
-      (step6 : False) := by sorry
+      (step6 : False) := by
+      simp only [h_ptImg_a, h_ptImg_b, h_ptImg_c, h_lineImg_AB, h_lineImg_AC, h_lineImg_BC] at *
+      clear ptImg lineImg
+      euclid_finish
     exact step6
 
   -- @assumption_valid
@@ -97,27 +115,36 @@ theorem proposition_4 : ∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line),
   -- @assumption ("the base $BC$ will coincide with $EF$", lineImg BC = EF)
   euclid_sentence "1.4.7"
     "Thus, the base $BC$ will coincide with $EF$, and will be equal to it [C.N.~4]."
-    (step7 : |(b─c)| = |(e─f)|) := by sorry
+    (step7 : |(b─c)| = |(e─f)|) := by
+    simp only [h_ptImg_a, h_ptImg_b, h_ptImg_c, h_lineImg_AB, h_lineImg_AC, h_lineImg_BC] at *
+    clear ptImg lineImg
+    euclid_finish
 
   -- @assumption_gap
-  have step8_assumption1 : ptImg a = d ∧ ptImg b = e ∧ ptImg c = f := by sorry
+  have step8_assumption1 : ptImg a = d ∧ ptImg b = e ∧ ptImg c = f := ⟨h_ptImg_a, step1, step3⟩
   -- @assumption ("the whole triangle $ABC$ will coincide with the whole triangle $DEF$", ptImg a = d ∧ ptImg b = e ∧ ptImg c = f)
   euclid_sentence "1.4.8"
     "So  the whole triangle $ABC$ will coincide with the whole triangle $DEF$, and will be equal to it [C.N.~4]."
-    (step8 : Triangle.area △ a:b:c = Triangle.area △ d:e:f) := by sorry
+    (step8 : Triangle.area △ a:b:c = Triangle.area △ d:e:f) := by
+    simp only [h_ptImg_a, h_ptImg_b, h_ptImg_c, h_lineImg_AB, h_lineImg_AC, h_lineImg_BC] at *
+    clear ptImg lineImg
+    euclid_finish
 
 
   euclid_sentence "1.4.9"
     "And the remaining angles will coincide with the remaining angles, and  will be equal to them [C.N.~4]."
-    (step9 : ∠ a:b:c = ∠ d:e:f ∧ ∠ a:c:b = ∠ d:f:e) := by sorry
+    (step9 : ∠ a:b:c = ∠ d:e:f ∧ ∠ a:c:b = ∠ d:f:e) := by
+    simp only [h_ptImg_a, h_ptImg_b, h_ptImg_c, h_lineImg_AB, h_lineImg_AC, h_lineImg_BC] at *
+    clear ptImg lineImg
+    euclid_finish
 
   euclid_sentence "1.4.10"
     "(That is) $ABC$ to $DEF$,"
-    (step10 : ∠ a:b:c = ∠ d:e:f) := by sorry
+    (step10 : ∠ a:b:c = ∠ d:e:f) := by exact step9.1
 
   euclid_sentence "1.4.11"
     "and $ACB$ to $DFE$ [C.N.~4]."
-    (step11 : ∠ a:c:b = ∠ d:f:e) := by sorry
+    (step11 : ∠ a:c:b = ∠ d:f:e) := by exact step9.2
 
   exact ⟨step7, step10, step11⟩
   euclid_conclude_sentence "1.4.12"

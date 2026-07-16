@@ -52,15 +52,17 @@ else
   echo "=== baseline run · mode=$MODE · branch=$branch · Book$BOOK props 1..$END · \$$BUDGET/prop · model=$MODEL ==="
 fi
 
-# ---- hide memory for the whole run (restore on any exit) ----
+# ---- hide memory for the whole run (restore on any exit, incl. Ctrl-C / kill) ----
+HB=""   # background elapsed-heartbeat PID; killed on exit/cancel so it never outlives the run
 restore_mem() {
+  [ -n "$HB" ] && kill "$HB" 2>/dev/null
   if [ -d "$HIDDEN" ]; then
     [ -d "$MEMDIR" ] && mv "$MEMDIR" "${MEMDIR}.recreated_junk_$$"
     mv "$HIDDEN" "$MEMDIR" && echo "[memory restored]"
   fi
   rm -f "$OUT/_current.txt"
 }
-trap restore_mem EXIT
+trap restore_mem EXIT   # fires on normal exit, Ctrl-C (SIGINT), and kill (SIGTERM) — so cancel stays clean
 if [ -d "$MEMDIR" ]; then mv "$MEMDIR" "$HIDDEN" && echo "[memory hidden]"
 else echo "!! memory dir not found ($MEMDIR) — aborting to avoid a leaked run"; exit 1; fi
 
@@ -74,7 +76,7 @@ grade() { # $1 = Book1/PropNN
   ( cd "$LEP" && python3 scripts/check_faithful.py --relaxed "$1/Main.lean" >/dev/null 2>&1 ) || return 1  # texts + citations + structure
   ( cd "$LEP" && python3 scripts/check_signatures.py "$1/Main.lean"          >/dev/null 2>&1 ) || return 1  # statement unchanged
   ( cd "$LEP" && python3 scripts/check_steps.py --relaxed "$1/Main.lean"     >/dev/null 2>&1 ) || return 1  # claim types + @assumption types unchanged (map lock; --relaxed = regex, tolerates hand-written bodies)
-  ( cd "$LEP" && lake build "$mod"                                           >/dev/null 2>&1 ) || return 1  # compiles (last: slowest)
+  ( cd "$LEP" && timeout 3600 lake build "$mod"                              >/dev/null 2>&1 ) || return 1  # compiles within 1h (generous termination bound, NOT a tuned threshold; identical for both arms)
   return 0
 }
 
@@ -96,20 +98,32 @@ run_prop() { # $1 = NN (zero-padded)
   local prompt="$rel/Main.lean (under LeanEuclidPlus/) is a Lean proof of Euclid's Book ${BOOK} Proposition ${nn#0}, with every step body left as ':= by sorry'. Fill in all the sorries so the file compiles and builds with NO sorry. Keep these UNCHANGED (do not rename, retype, move, or delete them): the theorem statement, each euclid_sentence's claim type '(stepN : …)', and the '-- @assumption (…)' comment lines. Cite any proposition Euclid cites (a proposition of the same number, or a variant of it, is fine). Do NOT use git. When it fully compiles with zero sorry, print on its OWN line EXACTLY this and nothing appended: $cert"
   local cont="Continue until $rel/Main.lean compiles with zero sorry. Do NOT use git. Only when fully done, print on its own line EXACTLY: $cert"
 
-  echo "$rel" > "$OUT/_current.txt"
-  echo "--- $rel: starting (\$$BUDGET budget) ---"
+  echo "--- $rel: starting (\$$BUDGET budget · no time limit) ---"
   git -C "$REPO" checkout HEAD -- "LeanEuclidPlus/$rel/Main.lean" \
     || { echo "ABORT $rel: could not reset to its committed map"; return 1; }   # start each attempt from map
   grep -q 'sorry' "$LEP/$rel/Main.lean" \
     || { echo "ABORT $rel: HEAD's copy has NO sorry — committed as a full proof, not a map. Refusing to re-attempt it."; return 1; }
-  cd "$REPO" || { echo "ABORT Prop$nn: cannot cd to $REPO"; return 1; }
+  cd "$REPO" || { echo "ABORT $rel: cannot cd to $REPO"; return 1; }
+  # Snapshot the transcripts that ALREADY exist before this prop starts, so the heartbeat can pick out
+  # the run's OWN session — any .jsonl that appears afterward — and never latch onto this chat/an old one.
+  local PROJ="$HOME/.claude/projects/${SLUG}"
+  ls "$PROJ"/*.jsonl 2>/dev/null | sort > "$pdir/.pre_snapshot"
+  # heartbeat → _current.txt: the run's live transcript (newest .jsonl NOT in the snapshot) + its session
+  # id + elapsed. Reads it off disk within seconds; auto-tracks per-round session forks. No pre-generation.
+  local t0; t0=$(date +%s)
+  ( while :; do e=$(( $(date +%s) - t0 ))
+      cur=$(ls -t "$PROJ"/*.jsonl 2>/dev/null | grep -vxF -f "$pdir/.pre_snapshot" | head -1)
+      sid=$([ -n "$cur" ] && basename "$cur" .jsonl || echo "<pending>")
+      printf '%s  session=%s  transcript=%s  elapsed=%dm%02ds  (started %s · Ctrl-C to cancel)\n' \
+        "$rel" "$sid" "${cur:-<pending>}" $((e/60)) $((e%60)) "$(date -d @"$t0" +%H:%M:%S)" > "$OUT/_current.txt"
+      sleep 15; done ) &
+  HB=$!
   local spent=0 wall_ms=0 remaining="$BUDGET" out sid jsonl i=0
   out=$(claude -p "$prompt" --model "$MODEL" --permission-mode acceptEdits --output-format json --max-budget-usd "$remaining")
   echo "$out" > "$pdir/turn0.json"
   sid=$(echo "$out" | jq -r '.session_id')
   jsonl="$(find "$HOME/.claude/projects" -name "$sid.jsonl" 2>/dev/null | head -1)"
-  printf '%s  session=%s\n' "$rel" "$sid" > "$OUT/_current.txt"   # monitor + a glance now show the live session id
-  write_result RUNNING                       # session_id available immediately (result.txt result=RUNNING)
+  write_result RUNNING                       # session_id now in result.txt; the heartbeat surfaces it in _current.txt
   while true; do
     local tc; tc=$(echo "$out" | jq -r '.total_cost_usd // 0')
     spent=$(awk "BEGIN{print $spent+$tc}"); remaining=$(awk "BEGIN{print $BUDGET-$spent}")
@@ -123,18 +137,19 @@ run_prop() { # $1 = NN (zero-padded)
     out=$(claude -p "$cont" --resume "$sid" --model "$MODEL" --permission-mode acceptEdits --output-format json --max-budget-usd "$remaining")
     echo "$out" > "$pdir/turn$i.json"
   done
+  kill "$HB" 2>/dev/null; HB=""
   [ -n "${jsonl:-}" ] && cp "$jsonl" "$pdir/transcript.jsonl" 2>/dev/null
   local status=FAIL; grade "$rel" && status=SUCCESS
   write_result "$status"
-  echo "=== $rel -> $status  (\$$spent) ==="
+  echo "=== $rel -> $status  (\$$spent · $(( ($(date +%s)-t0)/60 ))m wall) ==="
   [ "$status" = SUCCESS ]
 }
 
-# ---- single-prop mode: run exactly ONE prop and report (test a specific hard prop, e.g. Book2/Prop04) ----
+# ---- single-prop mode: ALWAYS a fresh attempt. run_prop resets the prop to its map first, so we never
+#      grade (or slowly re-build) leftover working-tree state from a prior/interrupted run. ----
 if [ -n "$PROPONLY" ]; then
   nn=$(printf '%02d' "$PROPONLY"); rel="Book${BOOK}/Prop$nn"
   [ -f "$LEP/$rel/Main.lean" ] || { echo "no such prop: $rel/Main.lean"; exit 1; }
-  if grade "$rel"; then echo "=== $rel already passes the grade — nothing to run ==="; exit 0; fi
   if run_prop "$nn"; then echo "=== $rel : SUCCESS ==="; else echo "=== $rel : FAIL ==="; fi
   exit 0
 fi
