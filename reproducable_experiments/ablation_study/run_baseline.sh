@@ -67,31 +67,46 @@ grade() { # $1 = Book1/PropNN
   [ "$(grep -c 'sorry' "$main")" -eq 0 ] || return 1                                          # 0 sorry
   ( cd "$LEP" && python3 scripts/check_faithful.py --relaxed "$1/Main.lean" >/dev/null 2>&1 ) || return 1  # texts + citations + structure
   ( cd "$LEP" && python3 scripts/check_signatures.py "$1/Main.lean"          >/dev/null 2>&1 ) || return 1  # statement unchanged
-  ( cd "$LEP" && python3 scripts/check_steps.py "$1/Main.lean"               >/dev/null 2>&1 ) || return 1  # claim types + @assumption/have types unchanged (map lock)
+  ( cd "$LEP" && python3 scripts/check_steps.py --relaxed "$1/Main.lean"     >/dev/null 2>&1 ) || return 1  # claim types + @assumption types unchanged (map lock; --relaxed = regex, tolerates hand-written bodies)
   ( cd "$LEP" && lake build "$mod"                                           >/dev/null 2>&1 ) || return 1  # compiles (last: slowest)
   return 0
 }
 
+# ---- write/refresh result.txt (reads run_prop's locals via bash dynamic scope). $1 = status.
+#      Written EARLY (as soon as session_id is known) and refreshed each round, so the session_id +
+#      live cost/wall are visible WHILE the prop runs, not only at the end. ----
+write_result() {
+  printf 'prop: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\nresult: %s\n' \
+    "$rel" "${sid:-<pending>}" "${jsonl:-<none>}" "${spent:-0}" "$(awk "BEGIN{print ${wall_ms:-0}/1000}")" "$1" \
+    > "$pdir/result.txt"
+}
+
 # ---- run the agent on one prop (budget loop), archive, grade. Returns 0 = SUCCESS. ----
 run_prop() { # $1 = NN (zero-padded)
-  local nn="$1" rel="Book1/Prop$nn" pdir="$OUT/Prop$nn"; mkdir -p "$pdir"
+  local nn="$1" rel="Book1/Prop$nn" pdir="$OUT/Prop$nn"; rm -rf "$pdir"; mkdir -p "$pdir"
   local cert="Prop$nn of Book1 that I was assigned to work on, is completely done. I certify it is faithful, compiles with no sorry, and is ready for review."
   local prompt="$rel/Main.lean (under LeanEuclidPlus/) is a Lean proof of Euclid's Book 1 Proposition ${nn#0}, with every step body left as ':= by sorry'. Fill in all the sorries so the file compiles and builds with NO sorry. Keep these UNCHANGED (do not rename, retype, move, or delete them): the theorem statement, each euclid_sentence's claim type '(stepN : …)', and the '-- @assumption (…)' comment lines. Cite any proposition Euclid cites (a proposition of the same number, or a variant of it, is fine). Do NOT use git. When it fully compiles with zero sorry, print on its OWN line EXACTLY this and nothing appended: $cert"
   local cont="Continue until $rel/Main.lean compiles with zero sorry. Do NOT use git. Only when fully done, print on its own line EXACTLY: $cert"
 
   echo "Prop$nn" > "$OUT/_current.txt"
   echo "--- Prop$nn: starting (\$$BUDGET budget) ---"
-  git -C "$REPO" checkout HEAD -- "LeanEuclidPlus/$rel/Main.lean" 2>/dev/null   # every attempt starts from the clean committed map
-  cd "$REPO"
+  git -C "$REPO" checkout HEAD -- "LeanEuclidPlus/$rel/Main.lean" \
+    || { echo "ABORT Prop$nn: could not reset $rel to its committed map"; return 1; }   # start each attempt from map
+  grep -q 'sorry' "$LEP/$rel/Main.lean" \
+    || { echo "ABORT Prop$nn: HEAD's $rel has NO sorry — it's committed as a full proof, not a map. Refusing to re-attempt it."; return 1; }
+  cd "$REPO" || { echo "ABORT Prop$nn: cannot cd to $REPO"; return 1; }
   local spent=0 wall_ms=0 remaining="$BUDGET" out sid jsonl i=0
   out=$(claude -p "$prompt" --model "$MODEL" --permission-mode acceptEdits --output-format json --max-budget-usd "$remaining")
   echo "$out" > "$pdir/turn0.json"
   sid=$(echo "$out" | jq -r '.session_id')
   jsonl="$(find "$HOME/.claude/projects" -name "$sid.jsonl" 2>/dev/null | head -1)"
+  printf 'Prop%s  session=%s\n' "$nn" "$sid" > "$OUT/_current.txt"   # monitor + a glance now show the live session id
+  write_result RUNNING                       # session_id available immediately (result.txt result=RUNNING)
   while true; do
     local tc; tc=$(echo "$out" | jq -r '.total_cost_usd // 0')
     spent=$(awk "BEGIN{print $spent+$tc}"); remaining=$(awk "BEGIN{print $BUDGET-$spent}")
     wall_ms=$(awk "BEGIN{print $wall_ms + $(echo "$out"|jq -r '.duration_ms // 0')}")
+    write_result RUNNING                     # refresh live cost/wall each round
     echo "    Prop$nn round $i: turn=\$$tc cumulative=\$$spent remaining=\$$remaining subtype=$(echo "$out"|jq -r '.subtype')"
     echo "$out" | jq -r '.result' | grep -qF "$cert" && break
     [ "$(echo "$out"|jq -r '.subtype')" = error_max_budget_usd ] && { echo "    (budget cut)"; break; }
@@ -102,8 +117,7 @@ run_prop() { # $1 = NN (zero-padded)
   done
   [ -n "${jsonl:-}" ] && cp "$jsonl" "$pdir/transcript.jsonl" 2>/dev/null
   local status=FAIL; grade "$rel" && status=SUCCESS
-  printf 'prop: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\nresult: %s\n' \
-    "$rel" "$sid" "${jsonl:-<none>}" "$spent" "$(awk "BEGIN{print $wall_ms/1000}")" "$status" > "$pdir/result.txt"
+  write_result "$status"
   echo "=== Prop$nn -> $status  (\$$spent) ==="
   [ "$status" = SUCCESS ]
 }
@@ -113,7 +127,11 @@ last_done=0
 for n in $(seq 1 "$END"); do
   nn=$(printf '%02d' "$n"); rel="Book1/Prop$nn"
   [ -f "$LEP/$rel/Main.lean" ] || { echo "skip Prop$nn (no Main.lean)"; continue; }
-  if grade "$rel"; then echo "Prop$nn already done — skip"; last_done=$n; continue; fi
+  if grade "$rel"; then
+    echo "Prop$nn already done — skip"; last_done=$n
+    [ -f "$OUT/Prop$nn/result.txt" ] && sed -i 's/^result: .*/result: SUCCESS/' "$OUT/Prop$nn/result.txt"  # keep a prior run's verdict honest
+    continue
+  fi
   if run_prop "$nn"; then
     last_done=$n
   else
