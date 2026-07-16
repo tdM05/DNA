@@ -99,13 +99,20 @@ def extract_file(path: str):
         except _fl.FaithfulError:
             nodes_by_loc = {}
     out = {}
+    prev_end = 0                                    # lower bound of the current sentence's assumption window
     for m in HEAD.finditer(raw):
         loc, name = m.group(1), m.group(2)
         claim, _ = balanced_type(raw, m.end())
         line = raw.count("\n", 0, m.start()) + 1
         entry = {"file": rel, "line": line, "name": name, "claim": norm(claim)}
         if RELAXED:
-            raw_assumps = _fl._assumptions_above(raw, m.start())
+            # Order-preserving association: every `-- @assumption` line between the previous
+            # euclid_sentence head and this one belongs to THIS sentence — regardless of any
+            # interleaved proof lines (euclid_apply/have/…) a hand-written body may insert between the
+            # annotation and its sentence. Still catches a dropped/retyped/moved assumption (its frozen
+            # type won't fall in this sentence's window).
+            raw_assumps = [(a.group(1), a.group(2).strip(), a.group(3))
+                           for a in _fl.ASSUMPTION_ANNOT.finditer(raw[prev_end:m.start()])] or None
         else:
             nd = nodes_by_loc.get(loc)
             raw_assumps = nd.assumptions if (nd and nd.assumptions) else None
@@ -118,6 +125,7 @@ def extract_file(path: str):
                 assump_list.append(a)
             entry["assumptions"] = assump_list
         out[loc] = entry
+        prev_end = m.start()
     return out
 
 

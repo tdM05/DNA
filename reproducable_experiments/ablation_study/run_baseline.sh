@@ -22,7 +22,7 @@ MEMDIR="$HOME/.claude/projects/${SLUG}/memory"
 HIDDEN="${MEMDIR}.HIDDEN_baseline"
 
 # ---- args ----
-MODE=""; BUDGET=50.00; MODEL=opus; END=48
+MODE=""; BUDGET=50.00; MODEL=opus; END=48; BOOK=1; PROPONLY=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --ablated) MODE=ablated ;;
@@ -30,10 +30,12 @@ while [ $# -gt 0 ]; do
     --budget)  BUDGET="${2:?}"; shift ;;
     --model)   MODEL="${2:?}"; shift ;;
     --end)     END="${2:?}"; shift ;;
+    --book)    BOOK="${2:?}"; shift ;;
+    --prop)    PROPONLY="${2:?}"; shift ;;     # run ONLY this one prop, e.g. --book 2 --prop 4
     *) echo "unknown arg: $1"; exit 1 ;;
   esac; shift
 done
-[ -z "$MODE" ] && { echo "usage: run_baseline.sh --ablated [--budget 50] [--model opus] [--end 48]"; exit 1; }
+[ -z "$MODE" ] && { echo "usage: run_baseline.sh --ablated [--book N] [--prop NN] [--budget 50] [--model opus] [--end 48]"; exit 1; }
 
 # ---- branch guard (the script is allowed to check git) ----
 branch="$(git -C "$REPO" rev-parse --abbrev-ref HEAD)"
@@ -44,7 +46,11 @@ else
 fi
 
 OUT="$ABL/out/$MODE"; mkdir -p "$OUT"
-echo "=== baseline run · mode=$MODE · branch=$branch · Book1 props 1..$END · \$$BUDGET/prop · model=$MODEL ==="
+if [ -n "$PROPONLY" ]; then
+  echo "=== baseline run · mode=$MODE · branch=$branch · SINGLE Book$BOOK/Prop$(printf '%02d' "$PROPONLY") · \$$BUDGET · model=$MODEL ==="
+else
+  echo "=== baseline run · mode=$MODE · branch=$branch · Book$BOOK props 1..$END · \$$BUDGET/prop · model=$MODEL ==="
+fi
 
 # ---- hide memory for the whole run (restore on any exit) ----
 restore_mem() {
@@ -83,31 +89,33 @@ write_result() {
 
 # ---- run the agent on one prop (budget loop), archive, grade. Returns 0 = SUCCESS. ----
 run_prop() { # $1 = NN (zero-padded)
-  local nn="$1" rel="Book1/Prop$nn" pdir="$OUT/Prop$nn"; rm -rf "$pdir"; mkdir -p "$pdir"
-  local cert="Prop$nn of Book1 that I was assigned to work on, is completely done. I certify it is faithful, compiles with no sorry, and is ready for review."
-  local prompt="$rel/Main.lean (under LeanEuclidPlus/) is a Lean proof of Euclid's Book 1 Proposition ${nn#0}, with every step body left as ':= by sorry'. Fill in all the sorries so the file compiles and builds with NO sorry. Keep these UNCHANGED (do not rename, retype, move, or delete them): the theorem statement, each euclid_sentence's claim type '(stepN : …)', and the '-- @assumption (…)' comment lines. Cite any proposition Euclid cites (a proposition of the same number, or a variant of it, is fine). Do NOT use git. When it fully compiles with zero sorry, print on its OWN line EXACTLY this and nothing appended: $cert"
+  local nn="$1" rel="Book${BOOK}/Prop$nn"
+  local plabel="Prop$nn"; [ "$BOOK" != 1 ] && plabel="Book${BOOK}_Prop$nn"
+  local pdir="$OUT/$plabel"; rm -rf "$pdir"; mkdir -p "$pdir"
+  local cert="Prop$nn of Book${BOOK} that I was assigned to work on, is completely done. I certify it is faithful, compiles with no sorry, and is ready for review."
+  local prompt="$rel/Main.lean (under LeanEuclidPlus/) is a Lean proof of Euclid's Book ${BOOK} Proposition ${nn#0}, with every step body left as ':= by sorry'. Fill in all the sorries so the file compiles and builds with NO sorry. Keep these UNCHANGED (do not rename, retype, move, or delete them): the theorem statement, each euclid_sentence's claim type '(stepN : …)', and the '-- @assumption (…)' comment lines. Cite any proposition Euclid cites (a proposition of the same number, or a variant of it, is fine). Do NOT use git. When it fully compiles with zero sorry, print on its OWN line EXACTLY this and nothing appended: $cert"
   local cont="Continue until $rel/Main.lean compiles with zero sorry. Do NOT use git. Only when fully done, print on its own line EXACTLY: $cert"
 
-  echo "Prop$nn" > "$OUT/_current.txt"
-  echo "--- Prop$nn: starting (\$$BUDGET budget) ---"
+  echo "$rel" > "$OUT/_current.txt"
+  echo "--- $rel: starting (\$$BUDGET budget) ---"
   git -C "$REPO" checkout HEAD -- "LeanEuclidPlus/$rel/Main.lean" \
-    || { echo "ABORT Prop$nn: could not reset $rel to its committed map"; return 1; }   # start each attempt from map
+    || { echo "ABORT $rel: could not reset to its committed map"; return 1; }   # start each attempt from map
   grep -q 'sorry' "$LEP/$rel/Main.lean" \
-    || { echo "ABORT Prop$nn: HEAD's $rel has NO sorry — it's committed as a full proof, not a map. Refusing to re-attempt it."; return 1; }
+    || { echo "ABORT $rel: HEAD's copy has NO sorry — committed as a full proof, not a map. Refusing to re-attempt it."; return 1; }
   cd "$REPO" || { echo "ABORT Prop$nn: cannot cd to $REPO"; return 1; }
   local spent=0 wall_ms=0 remaining="$BUDGET" out sid jsonl i=0
   out=$(claude -p "$prompt" --model "$MODEL" --permission-mode acceptEdits --output-format json --max-budget-usd "$remaining")
   echo "$out" > "$pdir/turn0.json"
   sid=$(echo "$out" | jq -r '.session_id')
   jsonl="$(find "$HOME/.claude/projects" -name "$sid.jsonl" 2>/dev/null | head -1)"
-  printf 'Prop%s  session=%s\n' "$nn" "$sid" > "$OUT/_current.txt"   # monitor + a glance now show the live session id
+  printf '%s  session=%s\n' "$rel" "$sid" > "$OUT/_current.txt"   # monitor + a glance now show the live session id
   write_result RUNNING                       # session_id available immediately (result.txt result=RUNNING)
   while true; do
     local tc; tc=$(echo "$out" | jq -r '.total_cost_usd // 0')
     spent=$(awk "BEGIN{print $spent+$tc}"); remaining=$(awk "BEGIN{print $BUDGET-$spent}")
     wall_ms=$(awk "BEGIN{print $wall_ms + $(echo "$out"|jq -r '.duration_ms // 0')}")
     write_result RUNNING                     # refresh live cost/wall each round
-    echo "    Prop$nn round $i: turn=\$$tc cumulative=\$$spent remaining=\$$remaining subtype=$(echo "$out"|jq -r '.subtype')"
+    echo "    $rel round $i: turn=\$$tc cumulative=\$$spent remaining=\$$remaining subtype=$(echo "$out"|jq -r '.subtype')"
     echo "$out" | jq -r '.result' | grep -qF "$cert" && break
     [ "$(echo "$out"|jq -r '.subtype')" = error_max_budget_usd ] && { echo "    (budget cut)"; break; }
     [ "$(awk "BEGIN{print ($remaining<=0.05)}")" = 1 ] && break
@@ -118,26 +126,36 @@ run_prop() { # $1 = NN (zero-padded)
   [ -n "${jsonl:-}" ] && cp "$jsonl" "$pdir/transcript.jsonl" 2>/dev/null
   local status=FAIL; grade "$rel" && status=SUCCESS
   write_result "$status"
-  echo "=== Prop$nn -> $status  (\$$spent) ==="
+  echo "=== $rel -> $status  (\$$spent) ==="
   [ "$status" = SUCCESS ]
 }
 
-# ---- main loop: in order, skip done, STOP at first failure ----
+# ---- single-prop mode: run exactly ONE prop and report (test a specific hard prop, e.g. Book2/Prop04) ----
+if [ -n "$PROPONLY" ]; then
+  nn=$(printf '%02d' "$PROPONLY"); rel="Book${BOOK}/Prop$nn"
+  [ -f "$LEP/$rel/Main.lean" ] || { echo "no such prop: $rel/Main.lean"; exit 1; }
+  if grade "$rel"; then echo "=== $rel already passes the grade — nothing to run ==="; exit 0; fi
+  if run_prop "$nn"; then echo "=== $rel : SUCCESS ==="; else echo "=== $rel : FAIL ==="; fi
+  exit 0
+fi
+
+# ---- main loop (Book$BOOK, in order): skip done, STOP at first failure ----
 last_done=0
 for n in $(seq 1 "$END"); do
-  nn=$(printf '%02d' "$n"); rel="Book1/Prop$nn"
-  [ -f "$LEP/$rel/Main.lean" ] || { echo "skip Prop$nn (no Main.lean)"; continue; }
+  nn=$(printf '%02d' "$n"); rel="Book${BOOK}/Prop$nn"
+  plabel="Prop$nn"; [ "$BOOK" != 1 ] && plabel="Book${BOOK}_Prop$nn"
+  [ -f "$LEP/$rel/Main.lean" ] || { echo "skip $rel (no Main.lean)"; continue; }
   if grade "$rel"; then
-    echo "Prop$nn already done — skip"; last_done=$n
-    [ -f "$OUT/Prop$nn/result.txt" ] && sed -i 's/^result: .*/result: SUCCESS/' "$OUT/Prop$nn/result.txt"  # keep a prior run's verdict honest
+    echo "$rel already done — skip"; last_done=$n
+    [ -f "$OUT/$plabel/result.txt" ] && sed -i 's/^result: .*/result: SUCCESS/' "$OUT/$plabel/result.txt"  # keep a prior run's verdict honest
     continue
   fi
   if run_prop "$nn"; then
     last_done=$n
   else
     echo
-    echo "=== STOP · first failure at Prop$nn · baseline depth = $last_done props (Prop01..Prop$(printf '%02d' "$last_done")) ==="
+    echo "=== STOP · first failure at $rel · depth = $last_done props ==="
     exit 0
   fi
 done
-echo "=== reached Prop$(printf '%02d' "$END") with no failure · depth = $last_done ==="
+echo "=== reached Book$BOOK/Prop$(printf '%02d' "$END") with no failure · depth = $last_done ==="
