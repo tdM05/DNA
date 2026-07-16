@@ -20,6 +20,8 @@ ABL="$REPO/reproducable_experiments/ablation_study"
 SLUG="$(echo "$REPO" | sed 's#/#-#g')"
 MEMDIR="$HOME/.claude/projects/${SLUG}/memory"
 HIDDEN="${MEMDIR}.HIDDEN_baseline"
+MAP_REF="c0993e8"    # the clean 'unmapped' commit — reset each prop's Main.lean to ITS map from HERE
+                     # (fixed, NOT HEAD: HEAD drifts as results/experiments get committed on top).
 
 # ---- args ----
 MODE=""; BUDGET=50.00; MODEL=opus; END=48; BOOK=1; PROPONLY=""
@@ -133,8 +135,8 @@ run_prop() { # $1 = NN (zero-padded)
   fi
 
   echo "--- $rel: starting (\$$BUDGET budget · no time limit) ---"
-  git -C "$REPO" checkout HEAD -- "LeanEuclidPlus/$rel/Main.lean" \
-    || { echo "ABORT $rel: could not reset to its committed map"; return 1; }   # start each attempt from map
+  git -C "$REPO" checkout "$MAP_REF" -- "LeanEuclidPlus/$rel/Main.lean" \
+    || { echo "ABORT $rel: could not reset to its map at $MAP_REF"; return 1; }   # start each attempt from the fixed map commit
   grep -q 'sorry' "$LEP/$rel/Main.lean" \
     || { echo "ABORT $rel: HEAD's copy has NO sorry — committed as a full proof, not a map. Refusing to re-attempt it."; return 1; }
   cd "$REPO" || { echo "ABORT $rel: cannot cd to $REPO"; return 1; }

@@ -25,6 +25,79 @@ For Prop04 of Book2:
 
 - After the fact, yes naive llm is better. My original motiviation was I did not know how bad this is gonna get since they are new proofs. 
 
+# also confirmed mine does NOT grow:
+    #  | clock    | wall  | check mode  | target
+  -----+----------+-------+-------------+--------------------
+     1 | 07:35:16 |    1s | status      |
+     2 | 07:35:22 |    0s | check       |            (+deps)
+     3 | 07:36:49 |   67s | provable    |            (all steps)
+     4 | 07:38:22 |    6s | context     | step1
+     5 | 07:38:58 |   21s | run         | step1
+     6 | 07:39:28 |    7s | context     | step2      (+scaffold)
+     7 | 07:40:13 |   13s | context     | step3
+     8 | 07:40:46 |   45s | drive       |
+     9 | 07:42:19 |   27s | drive       |
+    10 | 07:42:57 |   26s | drive       |
+    11 | 07:43:34 |   18s | drive       |
+    12 | 07:47:08 |    6s | context     | step5      (+scaffold)
+    13 | 07:51:37 |   45s | provable    | step5
+    14 | 07:52:33 |   45s | provable    | step5
+    15 | 07:53:41 |   45s | provable    | step5
+    16 | 07:55:21 |   45s | provable    | step5
+    17 | 07:57:03 |    5s | provable    | step5
+    18 | 07:57:11 |    2s | provable    | step5
+    19 | 07:58:05 |    0s | (grep script, not a check)
+    20 | 08:01:32 |   35s | provable    | step5_bgd
+    21 | 08:04:08 |   35s | provable    | step5_bgd
+    22 | 08:05:05 |    4s | provable    | step5_bgd
+    23 | 08:05:15 |   34s | provable    | step5_ss
+    24 | 08:06:23 |    5s | provable    | step5_ss
+    25 | 08:06:45 |   50s | drive       |
+    26 | 08:08:07 |    6s | context     | step6      (+scaffold)
+    27 | 08:09:11 |    5s | provable    | step6
+    28 | 08:09:20 |    4s | provable    | step6
+    29 | 08:10:11 |    5s | provable    | step6
+    30 | 08:10:21 |   21s | drive       |
+    31 | 08:11:55 |   34s | drive       |
+    32 | 08:13:47 |   39s | provable    | step8
+    33 | 08:15:02 |   34s | drive       |
+    34 | 08:19:35 |   64s | drive       |
+    35 | 08:21:09 |   47s | drive       |
+    36 | 08:22:25 |   49s | drive       |
+    37 | 08:23:45 |   23s | drive       |
+    38 | 08:24:32 |   22s | drive       |
+    39 | 08:25:45 |    5s | provable    | step14_assumption1
+    40 | 08:25:55 |   23s | drive       |
+    41 | 08:27:37 |   39s | drive       |
+    42 | 08:32:28 |   51s | drive       |
+    43 | 08:34:06 |   25s | drive       |
+    44 | 08:34:35 |    7s | provable    | step16
+    45 | 08:35:18 |    4s | provable    | step16
+    46 | 08:35:58 |    7s | provable    | step16
+    47 | 08:37:17 |   85s | drive       |
+    48 | 08:39:14 |    4s | status      |
+    49 | 08:39:57 |   47s | subtree     | step17
+    50 | 08:41:21 |   25s | drive       |
+    51 | 08:42:24 |   27s | drive       |
+    52 | 08:43:24 |   27s | drive       |
+    53 | 08:44:53 |   56s | drive       |
+    54 | 08:57:07 |   60s | drive       |
+    55 | 08:58:40 |   67s | drive       |
+    56 | 08:59:55 |   67s | drive       |
+    57 | 09:01:30 |  120s | drive       |
+    58 | 09:05:18 |    0s | drive       |   (cached, no edits)
+    59 | 09:07:29 |   83s | drive       |
+    60 | 09:09:26 |   60s | drive       |
+    61 | 09:16:42 |    0s | drive       |   (cached)
+    62 | 09:17:21 |    0s | status      |
+    63 | 09:17:25 |    0s | status      |
+    64 | 09:17:39 |    0s | status      |
+    65 | 09:17:46 |    7s | status      |
+    66 | 09:18:03 |    0s | drive       |   (cached)
+    67 | 09:19:01 |    8s | status      |
+    68 | 09:19:47 |    1s | drive       |   (cached)
+    69 | 09:20:15 |    8s | status      |
+
 
 # Why is mine so much longer
 
