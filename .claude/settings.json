@@ -75,7 +75,8 @@
       "Bash(python3 -m pytest:*)"
     ],
     "deny": [
-
+      "Bash(git:*)",
+      "Bash(git)",
 
       "Write(**/step_signatures.json)",
       "Edit(**/step_signatures.json)",
