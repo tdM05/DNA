@@ -5,7 +5,6 @@ set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
-set_option systemE.solverTime 30 in
 theorem proposition_24 : ∀ (a e b f : Point) (AB : Line) (AEB CFD : Circle),
   a.onCircle AEB ∧ e.onCircle AEB ∧ b.onCircle AEB ∧
   a.onCircle CFD ∧ f.onCircle CFD ∧ b.onCircle CFD ∧

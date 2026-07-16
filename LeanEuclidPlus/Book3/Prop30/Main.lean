@@ -9,7 +9,6 @@ namespace Elements.Book3
 
 open Elements.Book1
 
-set_option systemE.solverTime 30 in
 theorem proposition_30 : ∀ (a b o : Point) (ADB : Circle),
   a.onCircle ADB ∧ b.onCircle ADB ∧ a ≠ b ∧ o.isCentre ADB →
   ∃ d : Point, d.onCircle ADB ∧ ∠ a:o:d = ∠ d:o:b :=
