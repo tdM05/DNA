@@ -45,6 +45,27 @@ else
   [ "$branch" = full_methodology_branch ] || { echo "ABORT: --full must run on 'full_methodology_branch' (currently on '$branch')"; exit 1; }
 fi
 
+# ---- LEAK GUARD: deny ALL git for the AGENT so it can't `git show`/`git log` the finished proof out of
+#      history. Add-only + idempotent (inserts the two rules into permissions.deny iff missing, preserving
+#      formatting). The SCRIPT's own `git checkout` is UNAFFECTED — the deny gates only Claude's Bash tool,
+#      not this shell. NOT auto-removed: to restore read-only git, `git checkout -- .claude/settings.json`
+#      (or delete the two lines by hand). ----
+python3 - "$REPO/.claude/settings.json" <<'PY'
+import sys
+p = sys.argv[1]
+try:
+    s = open(p).read()
+except FileNotFoundError:
+    print("!! no %s — skipping git leak-guard" % p); sys.exit(0)
+need = [r for r in ('"Bash(git:*)"', '"Bash(git)"') if r not in s]
+if not need:
+    print("[leak-guard: git already denied for agent]"); sys.exit(0)
+i = s.index('"deny": [') + len('"deny": [')          # top of the deny array
+s = s[:i] + "".join('\n      %s,' % r for r in need) + s[i:]
+open(p, "w").write(s)
+print("[leak-guard: denied git for agent -> %s]" % ", ".join(need))
+PY
+
 OUT="$ABL/out/$MODE"; mkdir -p "$OUT"
 if [ -n "$PROPONLY" ]; then
   echo "=== baseline run · mode=$MODE · branch=$branch · SINGLE Book$BOOK/Prop$(printf '%02d' "$PROPONLY") · \$$BUDGET · model=$MODEL ==="

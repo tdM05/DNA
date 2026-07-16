@@ -6,6 +6,7 @@ namespace Elements.Book2
 
 open Elements.Book1
 
+set_option systemE.solverTime 30 in
 theorem proposition_4 : ∀ (a b c : Point) (AB : Line),
   distinctPointsOnLine a b AB ∧ between a c b →
   |(a─b)| * |(a─b)| =
