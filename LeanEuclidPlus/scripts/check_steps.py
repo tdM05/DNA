@@ -27,6 +27,11 @@ import faithful_lib as _fl
 
 BOOK_ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))  # LeanEuclidPlus/ (realpath → symlink-stable)
 BASELINE  = os.path.join(BOOK_ROOT, "scripts", "step_signatures.json")
+RELAXED   = False   # --relaxed: read @assumption types by regex-above-head instead of via faithful_lib's
+                    # node parser, so a hand-written sentence body (which faithful_lib rejects, but which
+                    # is legal for a non-methodology arm) does not blank the whole assumption map. The
+                    # map lock still holds — a dropped/retyped @assumption still drifts. Claim types are
+                    # regex-based either way.
 
 
 def canon_rel(p: str) -> str:
@@ -80,30 +85,47 @@ def extract_file(path: str):
     with `--save`, exactly like a claim-type change."""
     raw = open(path, encoding="utf-8").read()
     rel = canon_rel(path)
-    # Use faithful_lib to get Node objects (with .assumptions populated) for assumption data.
-    try:
-        book = _fl.book_num(_fl.propdir_of(os.path.dirname(path)))
-        nodes_by_loc = {nd.loc: nd
-                        for nd in _fl.parse_nodes_in_file(path, book)
-                        if nd.kind == "sentence"}
-    except _fl.FaithfulError:
-        nodes_by_loc = {}
+    # Strict: faithful_lib Node objects (their .assumptions), which raise on a non-canonical body → we
+    # fall back to {} (no assumptions). Relaxed: skip that parse entirely and read assumptions per head
+    # via faithful_lib._assumptions_above — the SAME association parse_nodes_in_file uses, minus the
+    # body-shape guard — so a hand-written body doesn't blank the map.
+    nodes_by_loc = {}
+    if not RELAXED:
+        try:
+            book = _fl.book_num(_fl.propdir_of(os.path.dirname(path)))
+            nodes_by_loc = {nd.loc: nd
+                            for nd in _fl.parse_nodes_in_file(path, book)
+                            if nd.kind == "sentence"}
+        except _fl.FaithfulError:
+            nodes_by_loc = {}
     out = {}
+    prev_end = 0                                    # lower bound of the current sentence's assumption window
     for m in HEAD.finditer(raw):
         loc, name = m.group(1), m.group(2)
         claim, _ = balanced_type(raw, m.end())
         line = raw.count("\n", 0, m.start()) + 1
         entry = {"file": rel, "line": line, "name": name, "claim": norm(claim)}
-        nd = nodes_by_loc.get(loc)
-        if nd and nd.assumptions:
+        if RELAXED:
+            # Order-preserving association: every `-- @assumption` line between the previous
+            # euclid_sentence head and this one belongs to THIS sentence — regardless of any
+            # interleaved proof lines (euclid_apply/have/…) a hand-written body may insert between the
+            # annotation and its sentence. Still catches a dropped/retyped/moved assumption (its frozen
+            # type won't fall in this sentence's window).
+            raw_assumps = [(a.group(1), a.group(2).strip(), a.group(3))
+                           for a in _fl.ASSUMPTION_ANNOT.finditer(raw[prev_end:m.start()])] or None
+        else:
+            nd = nodes_by_loc.get(loc)
+            raw_assumps = nd.assumptions if (nd and nd.assumptions) else None
+        if raw_assumps:
             assump_list = []
-            for text, atype, override in nd.assumptions:
+            for text, atype, override in raw_assumps:
                 a = {"text": text, "type": norm(atype)}
                 if override:
                     a["override"] = override
                 assump_list.append(a)
             entry["assumptions"] = assump_list
         out[loc] = entry
+        prev_end = m.start()
     return out
 
 
@@ -216,6 +238,10 @@ def diff(prop_arg: str = None):
 
 
 def main(argv):
+    global RELAXED
+    if "--relaxed" in argv:
+        RELAXED = True
+        argv = [a for a in argv if a != "--relaxed"]
     if len(argv) == 2 and argv[0] == "--save":
         return save(argv[1])
     if len(argv) == 1 and not argv[0].startswith("--"):

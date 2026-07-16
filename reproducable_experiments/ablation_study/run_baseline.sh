@@ -88,8 +88,8 @@ grade() { # $1 = Book1/PropNN
 #      Written EARLY (as soon as session_id is known) and refreshed each round, so the session_id +
 #      live cost/wall are visible WHILE the prop runs, not only at the end. ----
 write_result() {
-  printf 'prop: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\nresult: %s\n' \
-    "$rel" "${sid:-<pending>}" "${jsonl:-<none>}" "${spent:-0}" "$(awk "BEGIN{print ${wall_ms:-0}/1000}")" "$1" \
+  printf 'prop: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\ncompile_sec: %s\nresult: %s\n' \
+    "$rel" "${sid:-<pending>}" "${jsonl:-<none>}" "${spent:-0}" "$(awk "BEGIN{print ${wall_ms:-0}/1000}")" "${grade_sec:-<pending>}" "$1" \
     > "$pdir/result.txt"
 }
 
@@ -132,7 +132,7 @@ run_prop() { # $1 = NN (zero-padded)
         "$rel" "$sid" "$jsonl" $((e/60)) $((e%60)) "$(date -d @"$t0" +%H:%M:%S)" > "$OUT/_current.txt"
       sleep 15; done ) &
   HB=$!
-  local spent=0 wall_ms=0 remaining="$BUDGET" out i=0
+  local spent=0 wall_ms=0 remaining="$BUDGET" out i=0 grade_sec=""
   write_result RUNNING                       # result.txt carries the session_id + transcript from t=0
   out=$(claude -p "$prompt" --model "$MODEL" --session-id "$sid" --permission-mode acceptEdits --output-format json --max-budget-usd "$remaining")
   echo "$out" > "$pdir/turn0.json"
@@ -151,7 +151,9 @@ run_prop() { # $1 = NN (zero-padded)
   done
   kill "$HB" 2>/dev/null; HB=""
   [ -n "${jsonl:-}" ] && cp "$jsonl" "$pdir/transcript.jsonl" 2>/dev/null
-  local status=FAIL; grade "$rel" && status=SUCCESS
+  local status=FAIL gt; gt=$(date +%s)                # time the full grade (all checks + lake build)
+  grade "$rel" && status=SUCCESS
+  grade_sec=$(( $(date +%s) - gt ))                   # compile+checks wall seconds → result.txt
   write_result "$status"
   echo "=== $rel -> $status  (\$$spent · $(( ($(date +%s)-t0)/60 ))m wall) ==="
   [ "$status" = SUCCESS ]
