@@ -10,8 +10,7 @@
       "Grep"
     ],
     "deny": [
-      "Bash(git:*)",
-      "Bash(git)"
+
     ]
   }
 }

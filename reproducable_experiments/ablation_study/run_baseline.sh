@@ -20,6 +20,8 @@ ABL="$REPO/reproducable_experiments/ablation_study"
 SLUG="$(echo "$REPO" | sed 's#/#-#g')"
 MEMDIR="$HOME/.claude/projects/${SLUG}/memory"
 HIDDEN="${MEMDIR}.HIDDEN_baseline"
+# MAP_REF (the fixed 'unmapped' map commit to reset each prop's Main.lean from — NOT HEAD, which drifts
+# as results get committed) is set per-mode in the branch guard below: differs between the two arms.
 
 # ---- args ----
 MODE=""; BUDGET=50.00; MODEL=opus; END=48; BOOK=1; PROPONLY=""
@@ -41,8 +43,38 @@ done
 branch="$(git -C "$REPO" rev-parse --abbrev-ref HEAD)"
 if [ "$MODE" = ablated ]; then
   [ "$branch" = ablation_branch ] || { echo "ABORT: --ablated must run on 'ablation_branch' (currently on '$branch')"; exit 1; }
+  MAP_REF="04c4e2a"   # ablation branch's clean 'unmapped' map commit
 else
-  echo "ABORT: --full is not wired up yet (only --ablated works for now)"; exit 1
+  [ "$branch" = full_methodology_branch ] || { echo "ABORT: --full must run on 'full_methodology_branch' (currently on '$branch')"; exit 1; }
+  MAP_REF="c0993e8"   # full_methodology branch's clean 'unmapped' map commit
+fi
+
+# ---- LEAK GUARD: deny ALL git for the AGENT so it can't `git show`/`git log` the finished proof out of
+#      history. Add-only + idempotent (inserts the two rules into permissions.deny iff missing, preserving
+#      formatting). The SCRIPT's own `git checkout` is UNAFFECTED — the deny gates only Claude's Bash tool,
+#      not this shell. NOT auto-removed: to restore read-only git, `git checkout -- .claude/settings.json`
+#      (or delete the two lines by hand).  Skipped when a wrapper (run_parallel) already installed it. ----
+if [ -z "${RB_CHILD:-}" ]; then
+python3 - "$REPO/.claude/settings.json" <<'PY'
+import sys
+p = sys.argv[1]
+try:
+    s = open(p).read()
+except FileNotFoundError:
+    print("!! no %s — skipping git leak-guard" % p); sys.exit(0)
+rules = ('"Bash(git:*)"', '"Bash(git)"',                                  # deny git (history has the proofs)
+         '"Read(**/ablation_study/**)"', '"Edit(**/ablation_study/**)"', '"Write(**/ablation_study/**)"')  # + OTHER runs' results (TOOLS only; see bash hook for full coverage)
+need = [r for r in rules if r not in s]
+if not need:
+    print("[leak-guard: git + results-folder already denied for agent]"); sys.exit(0)
+i = s.index('"deny": [') + len('"deny": [')          # top of the deny array
+block = "".join('\n      %s,' % r for r in need)
+if s[i:].lstrip().startswith(']'):                   # deny array was EMPTY → drop trailing comma (no trailing commas in JSON)
+    block = block.rstrip(',')
+s = s[:i] + block + s[i:]
+open(p, "w").write(s)
+print("[leak-guard: denied for agent -> %s]" % ", ".join(need))
+PY
 fi
 
 OUT="$ABL/out/$MODE"; mkdir -p "$OUT"
@@ -52,19 +84,25 @@ else
   echo "=== baseline run · mode=$MODE · branch=$branch · Book$BOOK props 1..$END · \$$BUDGET/prop · model=$MODEL ==="
 fi
 
-# ---- hide memory for the whole run (restore on any exit, incl. Ctrl-C / kill) ----
+# ---- hide memory for the whole run — BOTH arms. What's under test is the skills + pipeline + hooks,
+#      NOT the accumulated per-prop answer notes; hiding memory in full mode too keeps it fair. Restore on
+#      any exit (incl. Ctrl-C / kill). A wrapper (run_parallel) that hides ONCE for many children sets
+#      RB_CHILD, so a child skips the hide AND leaves the restore + dashboard cleanup to the wrapper. ----
 HB=""   # background elapsed-heartbeat PID; killed on exit/cancel so it never outlives the run
 restore_mem() {
   [ -n "$HB" ] && kill "$HB" 2>/dev/null
+  [ -z "${RB_CHILD:-}" ] || return 0                    # child: leave shared memory + dashboard to the wrapper
   if [ -d "$HIDDEN" ]; then
     [ -d "$MEMDIR" ] && mv "$MEMDIR" "${MEMDIR}.recreated_junk_$$"
     mv "$HIDDEN" "$MEMDIR" && echo "[memory restored]"
   fi
-  rm -f "$OUT/_current.txt"
+  rm -rf "$OUT/_current.txt" "$OUT/_current.d"
 }
 trap restore_mem EXIT   # fires on normal exit, Ctrl-C (SIGINT), and kill (SIGTERM) — so cancel stays clean
-if [ -d "$MEMDIR" ]; then mv "$MEMDIR" "$HIDDEN" && echo "[memory hidden]"
-else echo "!! memory dir not found ($MEMDIR) — aborting to avoid a leaked run"; exit 1; fi
+if [ -z "${RB_CHILD:-}" ]; then                          # a wrapper hides once for all its children
+  if [ -d "$MEMDIR" ]; then mv "$MEMDIR" "$HIDDEN" && echo "[memory hidden — both arms]"
+  else [ -d "$HIDDEN" ] || { echo "!! memory dir not found ($MEMDIR) and none hidden — aborting to avoid a leaked run"; exit 1; }; fi
+fi
 
 # ---- grade (SAME for both arms): compiles + 0 sorry + map unchanged (texts/statement/claims) +
 #      citations. Relaxed = drop the METHODOLOGY-only checks (bulk-tactic, backing-file, @assumption
@@ -84,8 +122,8 @@ grade() { # $1 = Book1/PropNN
 #      Written EARLY (as soon as session_id is known) and refreshed each round, so the session_id +
 #      live cost/wall are visible WHILE the prop runs, not only at the end. ----
 write_result() {
-  printf 'prop: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\nresult: %s\n' \
-    "$rel" "${sid:-<pending>}" "${jsonl:-<none>}" "${spent:-0}" "$(awk "BEGIN{print ${wall_ms:-0}/1000}")" "$1" \
+  printf 'prop: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\ncompile_sec: %s\nresult: %s\n' \
+    "$rel" "${sid:-<pending>}" "${jsonl:-<none>}" "${spent:-0}" "$(awk "BEGIN{print ${wall_ms:-0}/1000}")" "${grade_sec:-<pending>}" "$1" \
     > "$pdir/result.txt"
 }
 
@@ -93,37 +131,47 @@ write_result() {
 run_prop() { # $1 = NN (zero-padded)
   local nn="$1" rel="Book${BOOK}/Prop$nn"
   local plabel="Prop$nn"; [ "$BOOK" != 1 ] && plabel="Book${BOOK}_Prop$nn"
+  plabel="${plabel}_${MODEL}"                         # keep per-model results separate (haiku/sonnet/opus)
   local pdir="$OUT/$plabel"; rm -rf "$pdir"; mkdir -p "$pdir"
   local cert="Prop$nn of Book${BOOK} that I was assigned to work on, is completely done. I certify it is faithful, compiles with no sorry, and is ready for review."
-  local prompt="$rel/Main.lean (under LeanEuclidPlus/) is a Lean proof of Euclid's Book ${BOOK} Proposition ${nn#0}, with every step body left as ':= by sorry'. Fill in all the sorries so the file compiles and builds with NO sorry. Keep these UNCHANGED (do not rename, retype, move, or delete them): the theorem statement, each euclid_sentence's claim type '(stepN : …)', and the '-- @assumption (…)' comment lines. Cite any proposition Euclid cites (a proposition of the same number, or a variant of it, is fine). Do NOT use git. When it fully compiles with zero sorry, print on its OWN line EXACTLY this and nothing appended: $cert"
-  local cont="Continue until $rel/Main.lean compiles with zero sorry. Do NOT use git. Only when fully done, print on its own line EXACTLY: $cert"
+  local prompt cont
+  if [ "$MODE" = full ]; then
+    # FULL methodology: use the faithful pipeline / skills, prove AND wire.
+    prompt="$rel/Main.lean (under LeanEuclidPlus/) has been reset to a premapped-but-UNPROVEN state: it holds the faithful euclid_sentence map with every body ':= by sorry', and the backing stepN.lean files were deleted. The pipeline scripts live in LeanEuclidPlus/scripts, so cd into LeanEuclidPlus and run them from there (e.g. 'python3 scripts/check_step.py $rel ...'). Fully prove AND WIRE it using the faithful pipeline (your prove-euclid / faithful-prove skills) end to end so Main compiles with NO sorry. Do NOT use git. When it is completely done and wired, print on its OWN line EXACTLY this and nothing appended: $cert"
+    cont="Continue until $rel is completely proven AND wired (Main compiles, zero sorry). Do NOT use git. Only when fully done, print on its own line EXACTLY: $cert"
+  else
+    # ABLATED baseline: naive, any tactic, keep the map unchanged.
+    prompt="$rel/Main.lean (under LeanEuclidPlus/) is a Lean proof of Euclid's Book ${BOOK} Proposition ${nn#0}, with every step body left as ':= by sorry'. Fill in all the sorries so the file compiles and builds with NO sorry. Keep these UNCHANGED (do not rename, retype, move, or delete them): the theorem statement, each euclid_sentence's claim type '(stepN : …)', and the '-- @assumption (…)' comment lines. Cite any proposition Euclid cites (a proposition of the same number, or a variant of it, is fine). Do NOT use git. When it fully compiles with zero sorry, print on its OWN line EXACTLY this and nothing appended: $cert"
+    cont="Continue until $rel/Main.lean compiles with zero sorry. Do NOT use git. Only when fully done, print on its own line EXACTLY: $cert"
+  fi
 
   echo "--- $rel: starting (\$$BUDGET budget · no time limit) ---"
-  git -C "$REPO" checkout HEAD -- "LeanEuclidPlus/$rel/Main.lean" \
-    || { echo "ABORT $rel: could not reset to its committed map"; return 1; }   # start each attempt from map
+  git -C "$REPO" show "$MAP_REF:LeanEuclidPlus/$rel/Main.lean" > "$LEP/$rel/Main.lean" 2>/dev/null \
+    || { echo "ABORT $rel: could not read its map from $MAP_REF"; return 1; }   # reset from map via git show (NO index lock → parallel-safe)
   grep -q 'sorry' "$LEP/$rel/Main.lean" \
     || { echo "ABORT $rel: HEAD's copy has NO sorry — committed as a full proof, not a map. Refusing to re-attempt it."; return 1; }
   cd "$REPO" || { echo "ABORT $rel: cannot cd to $REPO"; return 1; }
-  # Snapshot the transcripts that ALREADY exist before this prop starts, so the heartbeat can pick out
-  # the run's OWN session — any .jsonl that appears afterward — and never latch onto this chat/an old one.
+  # Pre-generate a FRESH, UNIQUE session id so the id AND its transcript path are known from t=0 — written
+  # into _current.txt/result.txt immediately and passed to claude via --session-id. Regenerate on the
+  # (astronomically-unlikely) chance the uuid already has a transcript on disk, so we can never collide.
   local PROJ="$HOME/.claude/projects/${SLUG}"
-  ls "$PROJ"/*.jsonl 2>/dev/null | sort > "$pdir/.pre_snapshot"
-  # heartbeat → _current.txt: the run's live transcript (newest .jsonl NOT in the snapshot) + its session
-  # id + elapsed. Reads it off disk within seconds; auto-tracks per-round session forks. No pre-generation.
+  local sid jsonl
+  sid="$(cat /proc/sys/kernel/random/uuid 2>/dev/null || python3 -c 'import uuid;print(uuid.uuid4())')"
+  while [ -e "$PROJ/$sid.jsonl" ]; do sid="$(python3 -c 'import uuid;print(uuid.uuid4())')"; done
+  jsonl="$PROJ/$sid.jsonl"
   local t0; t0=$(date +%s)
+  mkdir -p "$OUT/_current.d"
+  # heartbeat → one line for THIS prop in _current.d/, then regen _current.txt = one line per prop.
   ( while :; do e=$(( $(date +%s) - t0 ))
-      cur=$(ls -t "$PROJ"/*.jsonl 2>/dev/null | grep -vxF -f "$pdir/.pre_snapshot" | head -1)
-      sid=$([ -n "$cur" ] && basename "$cur" .jsonl || echo "<pending>")
-      printf '%s  session=%s  transcript=%s  elapsed=%dm%02ds  (started %s · Ctrl-C to cancel)\n' \
-        "$rel" "$sid" "${cur:-<pending>}" $((e/60)) $((e%60)) "$(date -d @"$t0" +%H:%M:%S)" > "$OUT/_current.txt"
+      printf '%-14s RUNNING  %-7s session=%s  %dm%02ds\n' \
+        "$rel" "$MODEL" "$sid" $((e/60)) $((e%60)) > "$OUT/_current.d/$plabel"
+      cat "$OUT"/_current.d/* 2>/dev/null > "$OUT/_current.txt"
       sleep 15; done ) &
   HB=$!
-  local spent=0 wall_ms=0 remaining="$BUDGET" out sid jsonl i=0
-  out=$(claude -p "$prompt" --model "$MODEL" --permission-mode acceptEdits --output-format json --max-budget-usd "$remaining")
+  local spent=0 wall_ms=0 remaining="$BUDGET" out i=0 grade_sec=""
+  write_result RUNNING                       # result.txt carries the session_id + transcript from t=0
+  out=$(claude -p "$prompt" --model "$MODEL" --session-id "$sid" --permission-mode acceptEdits --output-format json --max-budget-usd "$remaining")
   echo "$out" > "$pdir/turn0.json"
-  sid=$(echo "$out" | jq -r '.session_id')
-  jsonl="$(find "$HOME/.claude/projects" -name "$sid.jsonl" 2>/dev/null | head -1)"
-  write_result RUNNING                       # session_id now in result.txt; the heartbeat surfaces it in _current.txt
   while true; do
     local tc; tc=$(echo "$out" | jq -r '.total_cost_usd // 0')
     spent=$(awk "BEGIN{print $spent+$tc}"); remaining=$(awk "BEGIN{print $BUDGET-$spent}")
@@ -139,8 +187,13 @@ run_prop() { # $1 = NN (zero-padded)
   done
   kill "$HB" 2>/dev/null; HB=""
   [ -n "${jsonl:-}" ] && cp "$jsonl" "$pdir/transcript.jsonl" 2>/dev/null
-  local status=FAIL; grade "$rel" && status=SUCCESS
+  local status=FAIL gt; gt=$(date +%s)                # time the full grade (all checks + lake build)
+  grade "$rel" && status=SUCCESS
+  grade_sec=$(( $(date +%s) - gt ))                   # compile+checks wall seconds → result.txt
   write_result "$status"
+  printf '%-14s %-8s %-7s session=%s  $%s  compile=%ss\n' \
+    "$rel" "$status" "$MODEL" "$sid" "$spent" "$grade_sec" > "$OUT/_current.d/$plabel"   # final dashboard line
+  cat "$OUT"/_current.d/* 2>/dev/null > "$OUT/_current.txt"
   echo "=== $rel -> $status  (\$$spent · $(( ($(date +%s)-t0)/60 ))m wall) ==="
   [ "$status" = SUCCESS ]
 }

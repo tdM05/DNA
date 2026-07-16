@@ -9,6 +9,8 @@ LeanEuclidPlus/Book*/Prop*/runs/
 # Claude Code auto-generated runtime lock (harness rewrites it constantly; not source)
 .claude/scheduled_tasks.lock
 
+/reproducable_experiments/ablation_study/notes.md
+
 # Lake build files
 .lake/
 
