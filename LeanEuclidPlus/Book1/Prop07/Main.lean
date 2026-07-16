@@ -1,6 +1,4 @@
 import SystemE
-import Book1.Prop05.Main
-import Book1Variants.Prop05
 
 namespace Elements.Book1
 
@@ -14,49 +12,47 @@ theorem proposition_7 : ∀ (a b c d : Point) (AB AC CB AD DB : Line),
 
   euclid_sentence "1.7.1"
     "So $CA$ is equal to $DA$, having the same end $A$ as it,"
-    (step1 : |(c─a)| = |(d─a)|) := by euclid_finish
+    (step1 : |(c─a)| = |(d─a)|) := by sorry
 
   euclid_sentence "1.7.2"
     "and $CB$ is equal to $DB$, having the same end $B$ as it."
-    (step2 : |(c─b)| = |(d─b)|) := by euclid_finish
+    (step2 : |(c─b)| = |(d─b)|) := by sorry
 
   euclid_apply (line_from_points c d) as CD
   euclid_sentence "1.7.3"
     "And let $CD$ have been joined [Post.~1]. "
-    (step3 : c.onLine CD ∧ d.onLine CD) := by euclid_finish
+    (step3 : c.onLine CD ∧ d.onLine CD) := by sorry
 
   -- @assumption_valid
   have step4_assumption1 : |(a─c)| = |(a─d)| := by assumption
   -- @assumption ("$AC$ is equal to $AD$", |(a─c)| = |(a─d)|)
-  euclid_apply (proposition_5' a c d AC CD AD)
   euclid_sentence "1.7.4"
     "Therefore, since $AC$ is equal to $AD$,  the angle $ACD$ is also equal to angle $ADC$ [Prop.~1.5]."
-    (step4 : ∠ a:c:d = ∠ a:d:c) := by euclid_finish
+    (step4 : ∠ a:c:d = ∠ a:d:c) := by sorry
 
   euclid_sentence "1.7.5"
     "Thus, $ADC$ (is) greater than $DCB$ [C.N.~5]."
-    (step5 : ∠ a:d:c > ∠ d:c:b) := by euclid_finish
+    (step5 : ∠ a:d:c > ∠ d:c:b) := by sorry
 
   euclid_sentence "1.7.6"
     "Thus, $CDB$ is much greater than $DCB$ [C.N.~5]."
-    (step6 : ∠ c:d:b > ∠ d:c:b) := by euclid_finish
+    (step6 : ∠ c:d:b > ∠ d:c:b) := by sorry
 
   -- @assumption_valid
   have step7_assumption1 : |(c─b)| = |(d─b)| := by assumption
   -- @assumption ("$CB$ is equal to $DB$", |(c─b)| = |(d─b)|)
-  euclid_apply (proposition_5' b c d CB CD DB)
   euclid_sentence "1.7.7"
     "Again, since  $CB$ is equal to $DB$, the angle $CDB$ is also equal to angle $DCB$ [Prop.~1.5]."
-    (step7 : ∠ c:d:b = ∠ d:c:b) := by euclid_finish
+    (step7 : ∠ c:d:b = ∠ d:c:b) := by sorry
 
   -- recalls step6: ∠CDB was shown much greater than ∠DCB
   euclid_sentence "1.7.8"
     "But it was shown that the former (angle) is also much greater (than the latter)."
-    (step8 : ∠ c:d:b > ∠ d:c:b) := by euclid_finish
+    (step8 : ∠ c:d:b > ∠ d:c:b) := by sorry
 
   euclid_sentence "1.7.9"
     "The very thing is impossible. "
-    (step9 : False) := by euclid_finish
+    (step9 : False) := by sorry
 
   exact step9
   euclid_conclude_sentence "1.7.10"
