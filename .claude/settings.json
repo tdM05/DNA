@@ -70,13 +70,15 @@
       "Bash(python scripts/scaffold_step.py:*)",
       "Bash(python3 scripts/scaffold_step.py:*)",
       "Bash(python -m pytest:*)",
-      "Bash(python3 -m pytest:*)"
+      "Bash(python3 -m pytest:*)",
+      "Bash(scripts/safe_build.sh:*)",
+      "Bash(./scripts/safe_build.sh:*)"
     ],
     "deny": [
-      "Bash(scripts/safe_build.sh:*)",
-      "Bash(./scripts/safe_build.sh:*)",
-      "Bash(lake build:*)",
 
+      "Bash(lake build:*)",
+      "Bash(git:*)",
+      "Bash(git)",
       "Write(**/step_signatures.json)",
       "Edit(**/step_signatures.json)",
       "Write(**/proposition_signatures.json)",
