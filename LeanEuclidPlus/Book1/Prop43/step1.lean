@@ -1,7 +1,5 @@
 import SystemE
 import Book1.Prop34.Main
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 

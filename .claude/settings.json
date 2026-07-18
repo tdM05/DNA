@@ -79,8 +79,6 @@
     "deny": [
       "AskUserQuestion",
       "Bash(lake build:*)",
-      "Bash(git:*)",
-      "Bash(git)",
       "Write(**/step_signatures.json)",
       "Edit(**/step_signatures.json)",
       "Write(**/proposition_signatures.json)",
@@ -104,10 +102,6 @@
       "Write(LeanEuclidPlus/OldBook1.lean)",
       "Edit(LeanEuclidPlus/OldBook1Variants.lean)",
       "Write(LeanEuclidPlus/OldBook1Variants.lean)"
-    ],
-    "ask": [
-      "Edit(LeanEuclidPlus/SystemE/**)",
-      "Write(LeanEuclidPlus/SystemE/**)"
     ]
   },
   "hooks": {
@@ -117,7 +111,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /h/56/taddmao/code/autoform/DNA/.claude/hooks/step_order_hook.py",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/step_order_hook.py\"",
             "timeout": 10
           }
         ]
@@ -127,7 +121,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /h/56/taddmao/code/autoform/DNA/.claude/hooks/step_order_hook.py",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/step_order_hook.py\"",
             "timeout": 10
           }
         ]

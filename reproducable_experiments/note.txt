@@ -1,0 +1,10 @@
+srun --partition=cpunodes --nodes=1 --exclusive --mem=0 --time=1-00:00:00 --pty bash
+- 2 options: agnet says
+1) "I confirm that I want to stop this attempt because I am not making progress"
+2) "I confirm that the proof is faithful..."
+
+For 1), we stop immediately, and mark it not complete. for 2) then the checker checks.
+
+
+limit to book 1 for now (Ziyang suggested this). and let's randomly sample 20, ensuring prop47 is one of those 20.
+Do naive first. 
