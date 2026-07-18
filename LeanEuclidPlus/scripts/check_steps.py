@@ -35,13 +35,23 @@ RELAXED   = False   # --relaxed: read @assumption types by regex-above-head inst
 
 
 def canon_rel(p: str) -> str:
-    """Symlink-stable path of `p` relative to BOOK_ROOT. Accepts an absolute path, a path relative to
-    BOOK_ROOT, or a STALE baseline `file` field that was saved through a different symlink branch
-    (e.g. `--save` run from the /u/ mount while home resolves to /h/56, which yields an ugly
-    `../../../../../../../u/.../Main.lean`). `os.path.realpath` collapses every branch to the same
-    on-disk key, so `--save` and the diff match regardless of how either was invoked."""
+    """Tree-relative key of `p`: its path *inside* the `LeanEuclidPlus/` book tree (e.g.
+    `Book1/Prop47/Main.lean`), independent of WHICH tree it lives in. Accepts an absolute path, a path
+    relative to BOOK_ROOT, or a baseline `file` field saved from a different checkout — including a
+    sibling comparison worktree or the canonical DNA tree, whose realpath resolves OUTSIDE this
+    worktree's BOOK_ROOT (yielding an ugly `../../../u/.../DNA/LeanEuclidPlus/Book1/Prop47/Main.lean`).
+    We `realpath` to collapse symlink branches, then key off the LAST `LeanEuclidPlus/` segment so a
+    claim map approved in one tree is diffed against the SAME prop here — that's the whole point of a
+    comparison arm: verify this branch's claim types are unchanged vs the frozen baseline, no re-save
+    needed just because the baseline was recorded in another tree. Falls back to BOOK_ROOT-relative if
+    no `LeanEuclidPlus/` segment is present."""
     ap = p if os.path.isabs(p) else os.path.join(BOOK_ROOT, p)
-    return os.path.relpath(os.path.realpath(ap), BOOK_ROOT)
+    real = os.path.realpath(ap)
+    marker = os.sep + "LeanEuclidPlus" + os.sep
+    idx = real.rfind(marker)
+    if idx != -1:
+        return real[idx + len(marker):]
+    return os.path.relpath(real, BOOK_ROOT)
 
 # `euclid_sentence "loc" "text" (name :` — we capture loc + name, then balance-scan the type.
 HEAD = re.compile(
