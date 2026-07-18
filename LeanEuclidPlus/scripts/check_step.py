@@ -41,6 +41,10 @@ USAGE  (run from LeanEuclidPlus/):
   python3 scripts/check_step.py <propdir> --all         FINAL bottom-up audit of the WHOLE prop (SP all +
                                                           P leaves + no-stray-sorry; sub-nodes first);
                                                           STOP at first failure. Run ONCE, at the very end.
+                                                          GATED: REFUSED (exit 2, no builds) unless the
+                                                          read-only --status board is already all-green —
+                                                          it is the FINAL WITNESS, NOT a way to hunt a
+                                                          failure. Drive nodes to `done` first (--drive).
   python3 scripts/check_step.py <propdir> --check        instant source-only integrity scan (NO builds;
                                                           incl. no-stray-sorry: every sorry/admit/axiom
                                                           must be a declared node body; + criterion-3 deps)
@@ -81,8 +85,16 @@ THE CHECKS (node X, parent container Cnt, backing file X.lean):
       `(by assumption)` does NOT crack a conjunction). Body- and combine-independent. (--context AIDS.)
   COMBINE — (CONTAINERS ONLY) : build Cnt's backing file in dev state (sub-nodes sorry, REAL combine
       tail), tolerate sorry. Green ⟹ the combine closes from the sub-node claim-types.
-  P  — PROVABLE   : LEAVES ONLY — build X.lean isolated → ZERO sorry. A CONTAINER backing file is NOT
-      P-built ('container' = n/a): its combine is certified by its OWN combine-check, its leaves by P.
+  P  — PROVABLE   : LEAVES ONLY — build X.lean isolated → the LEAF's OWN body has ZERO sorry. A CONTAINER
+      backing file is NOT P-built ('container' = n/a): its combine is certified by its OWN combine-check,
+      its leaves by P.
+      NOTE — a `sorry` located in an IMPORTED CITED PROPOSITION / dependency (e.g. an `import Book1.PropNN.Main`
+      whose `proposition_N` is itself still `:= by sorry`) is NOT counted against the leaf. Depending on an
+      unproven cited prop is EXPECTED and OK: the leaf is PROVEN MODULO its deps (exactly the
+      `PASS (with unproven deps)` state wire_main accepts at Phase C), and the dep is proven on its own track.
+      So P has TWO non-fail sorry outcomes: 'sorry' = the LEAF's own body is still `:= by sorry` (pending —
+      prove THIS leaf); 'deps' = the leaf is sorry-free and only a cited dependency has a `sorry` (fine — do
+      NOT drop the citation). Only 'sorry' (own-body) and 'fail' are the leaf's problem.
   The no-flag command `check_step <node>` certifies ONLY that node (SF/SP, + P if leaf / Combine if
   container) — NOT its sub-nodes. To confirm a CONTAINER/step's whole subtree, use `--subtree <node>`
   (SP every in-cone call site + Combine every in-cone container + P every leaf, bottom-up). `--all` does
@@ -233,10 +245,13 @@ def _backing_subnodes(propdir, node):
 
 
 def check_provable(propdir, node):
-    """P: build the node's backing file in isolation and assert ZERO sorry (LEAVES ONLY).
-       status ∈ {'proven', 'fail', 'sorry', 'container'}.
-       - LEAF backing file (no sub-nodes): build it isolated as-is (wall 30). 'sorry' ⟹ built green but
-         a `sorry` warning remains (NOT proven).
+    """P: build the node's backing file in isolation and assert its OWN body is ZERO sorry (LEAVES ONLY).
+       status ∈ {'proven', 'deps', 'fail', 'sorry', 'container'}.
+       - LEAF backing file (no sub-nodes): build it isolated as-is (wall 30). A remaining `sorry` warning
+         is split by WHERE it is: 'sorry' ⟹ the LEAF's OWN body is still `:= by sorry` (NOT proven — prove
+         this leaf); 'deps' ⟹ the leaf itself is sorry-free and the only `sorry` is in an IMPORTED cited
+         proposition / dependency (EXPECTED and OK — the leaf is proven MODULO its unproven deps, the same
+         state wire_main labels `PASS (with unproven deps)`; do NOT drop the citation).
        - CONTAINER backing file (has sub-nodes): P is SKIPPED → 'container'. A container is NOT proven by
          a build of its own; it is REDUNDANT to build (every SMT query in its wired build — each
          sub-node's hyp-discharge AND the container's combine `euclid_finish` — is already certified by
@@ -251,7 +266,12 @@ def check_provable(propdir, node):
     ok, out = L.lake_build(L.target_of(bf), wall=L.WALL)
     if not ok:
         return "fail", out
-    return ("sorry" if L.has_sorry(out) else "proven"), out
+    if not L.has_sorry(out):
+        return "proven", out
+    # A `sorry` warning remains. Distinguish the leaf's OWN body still being `:= by sorry` (genuinely
+    # unproven → 'sorry') from a `sorry` located ONLY in an imported cited proposition / dependency
+    # (EXPECTED and OK → 'deps' — the leaf is proven MODULO its deps; do NOT count it against the leaf).
+    return ("sorry" if _sorry_in_own_file(bf, out) else "deps"), out
 
 
 def check_sufficient(propdir, node):
@@ -273,6 +293,24 @@ def _sorry_locations(output):
             m = re.search(r'([^\s]+\.lean):(\d+):(\d+)', ln)
             locs.append(f"{m.group(1)}:{m.group(2)}" if m else ln.strip())
     return locs
+
+
+def _sorry_in_own_file(backing_file, output):
+    """True iff a `declaration uses 'sorry'` warning points at the node's OWN backing file (its body is
+    still `:= by sorry`), as opposed to sorries located ONLY in imported cited-proposition / dependency
+    files. A dependency that still has a `sorry` is EXPECTED and OK — the leaf is proven MODULO its cited
+    deps (the `PASS (with unproven deps)` state wire_main accepts at Phase C), so it must NOT be reported
+    as the leaf itself being unproven. Compares the last two path components (PropNN/file.lean) so it is
+    robust to `./././` prefixes and abs-vs-rel differences in Lean's warning paths."""
+    def _tail2(path):
+        parts = os.path.normpath(path.strip()).split(os.sep)
+        return os.sep.join(parts[-2:])
+    own = _tail2(backing_file)
+    for loc in _sorry_locations(output):
+        p = loc.rsplit(":", 1)[0] if ":" in loc else loc
+        if _tail2(p) == own:
+            return True
+    return False
 
 
 # ── modes ────────────────────────────────────────────────────────────────────────────────────────────
@@ -351,7 +389,7 @@ def _run_SP(propdir, node, *, site=""):
 
 
 def _run_P(propdir, node, *, verbose=True):
-    """P — Provable (LEAVES ONLY). Returns status ∈ {'proven','sorry','fail','container'}; prints a report."""
+    """P — Provable (LEAVES ONLY). Returns status ∈ {'proven','deps','sorry','fail','container'}; prints a report."""
     status, pout = check_provable(propdir, node)
     bf_rel = os.path.relpath(L.backing_file(propdir, node.name), L.BOOK_ROOT)
     if status == "container":
@@ -364,10 +402,20 @@ def _run_P(propdir, node, *, verbose=True):
         print(f"FAIL (P — provable): {bf_rel} did not build (or hit the 30s cap — decompose into more "
               f"`have`+backing files).\n")
         print(_fail_output(pout))
+    elif status == "deps":
+        locs = _sorry_locations(pout)
+        where = f" ({', '.join(locs)})" if locs else ""
+        print(f"  P ok (deps pending) — {bf_rel} (leaf) is itself sorry-free; the only remaining `sorry`{where} "
+              f"is in an IMPORTED cited proposition / dependency, NOT in this leaf. That is EXPECTED and OK — the "
+              f"leaf is PROVEN modulo its unproven deps (the same `PASS (with unproven deps)` state Phase-C "
+              f"wire_main accepts). Do NOT drop the citation or try to 'prove it' here — the dep is proven on "
+              f"its own track.")
     elif status == "sorry":
         locs = _sorry_locations(pout)
         where = f" at {', '.join(locs)}" if locs else ""
-        print(f"  P pending — {bf_rel} builds but still has `sorry`{where}. Prove it, then re-run.")
+        print(f"  P pending — {bf_rel}'s OWN body still has `sorry`{where}. Prove THIS leaf, then re-run. "
+              f"(A `sorry` located only in an imported cited dependency would be fine and reported as "
+              f"`P ok (deps pending)` — this one is in the leaf itself.)")
     elif verbose:
         print(f"  P ok — {bf_rel} (leaf) builds with ZERO sorry.")
     return status
@@ -420,7 +468,7 @@ def mode_node(propdir, node_name):
     if status == "fail":
         return 1
     if status == "sorry":
-        return 0                                    # SF+SP certified; leaf body still to prove — not an error
+        return 0                                    # SF+SP certified; leaf's OWN body still to prove — not an error
     spx = ' ×' + str(len(occs)) if multi else ''
     if status == "container":
         if not _run_combine(propdir, occs[0]):       # a container's combine is its OWN check
@@ -429,8 +477,11 @@ def mode_node(propdir, node_name):
         print(f"PASS: {node_name} suppliable (SF + SP{spx}) + Combine; it's a CONTAINER — also certify "
               f"its sub-nodes (their isolated SP + their own combine/P).")
     else:
+        # 'proven' (leaf zero-sorry) OR 'deps' (leaf sorry-free, only a cited dependency still `sorry`) —
+        # both fully certify THIS leaf; a dep-sorry is proven-modulo-deps, not this leaf's problem.
         _restamp_node(propdir, node_name, "leaf")
-        print(f"PASS: {node_name} CERTIFIED (SF + SP{spx} + P).")
+        modulo = " (modulo unproven deps — OK)" if status == "deps" else ""
+        print(f"PASS: {node_name} CERTIFIED (SF + SP{spx} + P{modulo}).")
     return 0
 
 
@@ -452,7 +503,7 @@ def mode_one(propdir, node_name, which):
         return 0
     # provable — once
     status = _run_P(propdir, occs[0])
-    return 1 if status == "fail" else 0             # 'sorry' is reported, not a hard fail in diag mode
+    return 1 if status == "fail" else 0             # 'sorry'/'deps' are reported, not a hard fail in diag mode
 
 
 def mode_context(propdir, node_name):
@@ -535,13 +586,21 @@ def _audit(propdir, order, success_msg, on_pass=None):
                   f"decompose).\n")
             print(_fail_output(pout))
             return 1
-        if status == "sorry":
-            print(f"  ⚠ {name}: leaf backing file builds but still has a `sorry` (unproven dependency) — "
-                  f"tolerated; recorded as certified (Main's own stray-sorry gate stays strict).")
+        nsite = f" [{len(occs)} call sites]" if len(occs) > 1 else ""
+        if status == "deps":
+            print(f"  ✓ {name}: SP[isolated]{nsite} + P (leaf sorry-free; residual `sorry` is only in an "
+                  f"unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)")
             if on_pass:
                 on_pass(name, "leaf")
             continue
-        nsite = f" [{len(occs)} call sites]" if len(occs) > 1 else ""
+        if status == "sorry":
+            print(f"  ⚠ {name}: leaf backing file's OWN body is still `:= by sorry` — tolerated here "
+                  f"(SF+SP certified) and recorded as certified, but this leaf still needs its own proof "
+                  f"(Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a "
+                  f"cited dependency is the separate `deps` case above, not this.")
+            if on_pass:
+                on_pass(name, "leaf")
+            continue
         if status == "container":
             cstatus, cout = check_combine(propdir, rep)        # certify the combine on its OWN
             if cstatus == "combine_fail":
@@ -716,7 +775,51 @@ def _run_tag_drift(propdir):
     return True
 
 
+def _board_all_green(propdir):
+    """Read-only (no build, no lock): does the `--status` board certify EVERY Main node `done` AND all 3
+    whole-prop checks (deps/integrity/orphans) green? This is the EXACT all-green condition mode_status
+    prints as "⟹ --all is GUARANTEED to pass" — computed from the SAME `L.status_rows` rollup so the board
+    and this gate can never diverge. Returns (green: bool, reason: str); reason names the blockers when not
+    green. Used to gate `--all`: it is the FINAL WITNESS, only legal once the board says it will pass — it
+    is NOT an exploratory checker (a full bottom-up build audit is expensive, and agents must not lean on
+    it to FIND failures — that's what --drive/--status/per-node checks are for)."""
+    manifest = L.read_manifest(propdir)
+    if not manifest.get("certified"):
+        return False, "nothing certified yet — no manifest (drive the nodes first)"
+    rows, checks = L.status_rows(propdir)
+    if "error" in checks:
+        return False, f"status ABORT: {checks['error']}"
+    blockers = []
+    not_done = [name for name, state, _ in rows if state != "done"]
+    if not_done:
+        blockers.append(f"{len(not_done)}/{len(rows)} Main node(s) not done: {', '.join(not_done)}")
+    if not checks["deps"]:
+        blockers.append("criterion-3 deps failing")
+    if not checks["integrity"]:
+        blockers.append("integrity (whole prop) failing")
+    if checks["orphans"]:
+        blockers.append(f"orphan node(s): {', '.join(checks['orphans'])}")
+    return (not blockers), "; ".join(blockers)
+
+
 def mode_all(propdir):
+    # GATE: `--all` runs ONLY as the final witness once the read-only `--status` board is all-green. It is
+    # not a discovery tool — refuse (exit 2, no builds) when the board isn't certifying every node, so an
+    # agent can't burn a full bottom-up build audit to HUNT a failure. The board is fed by --drive /
+    # --subtree / per-node PASSes (not just --all), so there's no chicken-and-egg: drive nodes to `done`
+    # first, THEN --all witnesses. Same all-green predicate mode_status prints, so they can't disagree.
+    green, reason = _board_all_green(propdir)
+    if not green:
+        rel = os.path.relpath(propdir, L.BOOK_ROOT)
+        print(f"REFUSED: `--all` is the FINAL WITNESS, not an exploratory checker — it runs ONLY once the "
+              f"read-only `--status` board is all-green (a full bottom-up build audit is expensive; never "
+              f"run it to HUNT a failure). The board is NOT all-green yet:")
+        print(f"  {reason}")
+        print(f"\n  Drive the not-done nodes (cheap, per-node, in order), then re-check the board:")
+        print(f"    python3 scripts/check_step.py {rel} --drive")
+        print(f"    python3 scripts/check_step.py {rel} --status")
+        print(f"  When --status prints '⟹ --all is GUARANTEED to pass', run --all ONCE as the witness.")
+        return 2
     problems = L.integrity_scan(propdir)
     if problems:
         print("FAIL (--all aborted by integrity scan — fix structure first):")

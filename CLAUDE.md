@@ -1,4 +1,6 @@
-# DNA / LeanEuclidPlus
+# full / LeanEuclidPlus
+
+DO NOT LOOK OUTSIDE OF THE PROJECT ROOT FOLDER (full/) or you are auto-failed. The proofs you are assigned have already been done and are possible. Do not try adding axioms or cheating your way out.
 
 Formalizing Euclid's *Elements* in System E (LeanEuclidPlus). Proofs are checked by an SMT
 backend behind `euclid_finish` / `euclid_assert` / `euclid_apply`.

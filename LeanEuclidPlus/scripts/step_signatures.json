@@ -3279,26 +3279,26 @@
   },
   "1.47.1": {
     "claim": "(|(b─d)| = |(b─c)| ∧ |(c─e)| = |(b─c)| ∧ |(d─e)| = |(b─c)| ∧ (∠ c:b:d = ∟) ∧ (∠ b:d:e = ∟) ∧ (∠ b:c:e = ∟) ∧ (∠ c:e:d = ∟)) ∧ (|(a─g)| = |(a─b)| ∧ |(b─f)| = |(a─b)| ∧ |(g─f)| = |(a─b)| ∧ (∠ b:a:g = ∟) ∧ (∠ a:g:f = ∟) ∧ (∠ a:b:f = ∟) ∧ (∠ b:f:g = ∟)) ∧ (|(a─h)| = |(a─c)| ∧ |(c─k)| = |(a─c)| ∧ |(h─k)| = |(a─c)| ∧ (∠ c:a:h = ∟) ∧ (∠ a:h:k = ∟) ∧ (∠ a:c:k = ∟) ∧ (∠ c:k:h = ∟))",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 23,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 46,
     "name": "step1"
   },
   "1.47.10": {
     "claim": "∠ d:b:a = ∠ f:b:c",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 81,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 109,
     "name": "step10"
   },
   "1.47.11": {
     "claim": "|(a─d)| = |(f─c)|",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 85,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 113,
     "name": "step11"
   },
   "1.47.12": {
     "claim": "Triangle.area △ a:b:d = Triangle.area △ f:b:c",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 89,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 117,
     "name": "step12"
   },
   "1.47.13": {
@@ -3309,8 +3309,8 @@
       }
     ],
     "claim": "Triangle.area △ b:m:l + Triangle.area △ b:l:d = Triangle.area △ a:b:d + Triangle.area △ a:b:d",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 97,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 126,
     "name": "step13"
   },
   "1.47.14": {
@@ -3321,62 +3321,62 @@
       }
     ],
     "claim": "Triangle.area △ a:g:f + Triangle.area △ a:f:b = Triangle.area △ f:b:c + Triangle.area △ f:b:c",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 104,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 134,
     "name": "step14"
   },
   "1.47.15": {
     "claim": "Triangle.area △ a:b:d = Triangle.area △ f:b:c → Triangle.area △ a:b:d + Triangle.area △ a:b:d = Triangle.area △ f:b:c + Triangle.area △ f:b:c",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 109,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 139,
     "name": "step15"
   },
   "1.47.16": {
     "claim": "Triangle.area △ b:m:l + Triangle.area △ b:l:d = Triangle.area △ a:g:f + Triangle.area △ a:f:b",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 115,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 145,
     "name": "step16"
   },
   "1.47.17": {
     "claim": "Triangle.area △ c:e:l + Triangle.area △ c:l:m = Triangle.area △ a:h:k + Triangle.area △ a:k:c",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 122,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 152,
     "name": "step17"
   },
   "1.47.18": {
     "claim": "Triangle.area △ b:d:e + Triangle.area △ b:e:c = (Triangle.area △ a:g:f + Triangle.area △ a:f:b) + (Triangle.area △ a:h:k + Triangle.area △ a:k:c)",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 127,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 157,
     "name": "step18"
   },
   "1.47.19": {
     "claim": "Triangle.area △ b:d:e + Triangle.area △ b:e:c = |(b─c)| * |(b─c)|",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 133,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 163,
     "name": "step19"
   },
   "1.47.2": {
     "claim": "a.onLine AL ∧ (¬(AL.intersectsLine BD) ∨ ¬(AL.intersectsLine CE))",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 37,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 60,
     "name": "step2"
   },
   "1.47.20": {
     "claim": "(Triangle.area △ a:g:f + Triangle.area △ a:f:b = |(b─a)| * |(b─a)|) ∧ (Triangle.area △ a:h:k + Triangle.area △ a:k:c = |(a─c)| * |(a─c)|)",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 137,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 167,
     "name": "step20"
   },
   "1.47.21": {
     "claim": "|(b─c)| * |(b─c)| = |(b─a)| * |(b─a)| + |(a─c)| * |(a─c)|",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 142,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 172,
     "name": "step21"
   },
   "1.47.3": {
     "claim": "distinctPointsOnLine a d AD ∧ distinctPointsOnLine f c FC",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 43,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 66,
     "name": "step3"
   },
   "1.47.4": {
@@ -3387,20 +3387,20 @@
       }
     ],
     "claim": "c.opposingSides g AB ∧ (∠ b:a:c + ∠ b:a:g = ∟ + ∟)",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 49,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 73,
     "name": "step4"
   },
   "1.47.5": {
     "claim": "between c a g",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 53,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 77,
     "name": "step5"
   },
   "1.47.6": {
     "claim": "between b a h",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 57,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 81,
     "name": "step6"
   },
   "1.47.7": {
@@ -3415,14 +3415,14 @@
       }
     ],
     "claim": "∠ d:b:c + ∠ a:b:c = ∠ f:b:a + ∠ a:b:c",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 65,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 91,
     "name": "step7"
   },
   "1.47.8": {
     "claim": "∠ d:b:a = ∠ f:b:c",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 69,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 95,
     "name": "step8"
   },
   "1.47.9": {
@@ -3437,8 +3437,8 @@
       }
     ],
     "claim": "|(d─b)| = |(c─b)| ∧ |(b─a)| = |(b─f)|",
-    "file": "../../../../../../../u/taddmao/code/autoform/DNA/LeanEuclidPlus/Book1/Prop47/Main.lean",
-    "line": 77,
+    "file": "Book1/Prop47/Main.lean",
+    "line": 105,
     "name": "step9"
   },
   "1.48.1": {
