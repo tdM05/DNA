@@ -216,6 +216,7 @@ def diff(prop_arg: str = None):
 
 
 def main(argv):
+    argv = _fl.consume_standalone_flag(argv)           # `--standalone`: allow a custom (non-Book) path
     if len(argv) == 2 and argv[0] == "--save":
         return save(argv[1])
     if len(argv) == 1 and not argv[0].startswith("--"):

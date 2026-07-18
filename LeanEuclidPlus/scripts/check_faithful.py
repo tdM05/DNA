@@ -116,16 +116,26 @@ def report_dup_and_gap(items, ref_of) -> int:
             return 1
     return 0
 
-def criterion1_exact(items, canon_rel, canon_path):
+def criterion1_exact(items, canon_rel, canon_path, canon_text=None, normalize_ws=False):
     """items: list of dicts with 'loc','text','ref' (the right set for ONE prop), in any order.
     Concatenate in locator order, compare char-for-char to the canonical text.
-    Returns (ok: bool, lines: list[str]) — caller prints. Does not print."""
-    if not os.path.exists(canon_path):
-        return False, [f"canonical source not found: {canon_rel}"]
-    canon = open(canon_path, encoding="utf-8").read().rstrip("\n")
+    Returns (ok: bool, lines: list[str]) — caller prints. Does not print.
+    canon_text: supply the canonical text directly instead of reading canon_path (used by --standalone,
+      where the canonical is the sibling NL.txt rather than the Book corpus file).
+    normalize_ws: collapse every whitespace run to a single space on BOTH sides before comparing — a
+      WORD-level tiling, for the custom NL.txt whose line layout differs from the single-line corpus.
+    Book mode leaves both defaulted, so it stays byte-exact and identical."""
+    if canon_text is None:
+        if not os.path.exists(canon_path):
+            return False, [f"canonical source not found: {canon_rel}"]
+        canon_text = open(canon_path, encoding="utf-8").read()
+    canon = canon_text.rstrip("\n")
 
     ordered = sorted(items, key=lambda it: loc_key(it['loc']))
     concat = " ".join(it['text'] for it in ordered)
+    if normalize_ws:
+        canon = " ".join(canon.split())
+        concat = " ".join(concat.split())
     span = f"{len(ordered)} sentences ({ordered[0]['loc']}..{ordered[-1]['loc']}) vs {canon_rel}"
 
     if concat == canon:
@@ -303,9 +313,21 @@ def check_source(path: str) -> int:
 
     # TEXT MAP (faithful.txt criterion 1): all sentences present + concatenation reproduces the
     # original text exactly. Report this FIRST — it's the primary thing this mode verifies.
-    book, prop, *_ = anns[0]['loc'].split(".")
-    canon_rel, canon_path = canon_path_for(book, prop)
-    ok1, lines1 = criterion1_exact(anns, canon_rel, canon_path)
+    if fl.STANDALONE:
+        # Custom path (e.g. accept_refute/…): tile against the sibling NL.txt (the version's own NL
+        # proof), not the Book corpus — and word-level (whitespace-normalized), since NL.txt's line
+        # layout (statement / blank / "new proof here: …") differs from the single-line corpus.
+        nl_path = os.path.join(os.path.dirname(os.path.abspath(path)), "NL.txt")
+        canon_rel = os.path.relpath(nl_path, fl.BOOK_ROOT)
+        if os.path.exists(nl_path):
+            canon_txt = open(nl_path, encoding="utf-8").read().replace("new proof here:", " ")
+            ok1, lines1 = criterion1_exact(anns, canon_rel, None, canon_text=canon_txt, normalize_ws=True)
+        else:
+            ok1, lines1 = False, [f"--standalone: no sibling NL.txt to tile against at {canon_rel}"]
+    else:
+        book, prop, *_ = anns[0]['loc'].split(".")
+        canon_rel, canon_path = canon_path_for(book, prop)
+        ok1, lines1 = criterion1_exact(anns, canon_rel, canon_path)
     rc = report("all sentences present + concatenation reproduces the original text exactly",
                 ok1, lines1)
 
@@ -694,6 +716,7 @@ def check_split(propdir: str) -> int:
     return rc
 
 def main(argv) -> int:
+    argv = fl.consume_standalone_flag(argv)            # `--standalone`: allow a custom (non-Book) path
     if len(argv) >= 2 and argv[0] == "--olean":
         json_path = argv[1]
         focus = None

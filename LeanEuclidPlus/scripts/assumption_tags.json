@@ -159,6 +159,22 @@
       "text": "$CBG$ is equal to $BCF$",
       "type": "\u2220 c:b:g = \u2220 b:c:f",
       "verdict": "closes"
+    },
+    "step4_assumption1": {
+      "closed_by": "linarith",
+      "level": 4,
+      "tag": "valid",
+      "text": "$AF$ is equal to $AG$",
+      "type": "|(a\u2500f)| = |(a\u2500g)|",
+      "verdict": "closes"
+    },
+    "step4_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AB$ to $AC$",
+      "type": "|(a\u2500b)| = |(a\u2500c)|",
+      "verdict": "closes"
     }
   },
   "Book1/Prop07": {
@@ -2639,6 +2655,40 @@
       "text": "$DCA$ cuts (it)",
       "type": "\u2203 DCA : Line, d.onLine DCA \u2227 c.onLine DCA \u2227 a.onLine DCA \u2227 DCA.intersectsCircle ABC",
       "verdict": "hard"
+    }
+  },
+  "accept_refute/1.5/v7": {
+    "step1_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the side $AB$ is equal to the side $AC$",
+      "type": "|(a\u2500b)| = |(a\u2500c)|",
+      "verdict": "closes"
+    },
+    "step2_assumption1": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "the angle $ABC$ together with the angle $CBD$ makes two right-angles",
+      "type": "\u2220 a:b:c + \u2220 c:b:d = \u221f + \u221f",
+      "verdict": "hard"
+    },
+    "step2_assumption2": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "the angle $ACB$ together with the angle $BCE$ makes two right-angles",
+      "type": "\u2220 a:c:b + \u2220 b:c:e = \u221f + \u221f",
+      "verdict": "hard"
+    },
+    "step2_assumption3": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$ABC$ is equal to $ACB$",
+      "type": "\u2220 a:b:c = \u2220 a:c:b",
+      "verdict": "closes"
     }
   }
 }

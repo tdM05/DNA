@@ -1,0 +1,7 @@
+run:   2/5
+host:  cpunode10
+date:  Fri Jul 17 11:02:02 PM EDT 2026
+cap:   3600s   jobs: lake-default
+naive: /u/taddmao/code/autoform/methodology_compare_worktrees/ablated/LeanEuclidPlus  @ e1f8e2181f25d501711d727b7aff087f480efdcc
+mine:  /u/taddmao/code/autoform/methodology_compare_worktrees/full/LeanEuclidPlus  @ e0a7abeb21f75939c640b1d7012967dc060338da
+props: Book1.Prop01.Main Book1.Prop26.Main Book1.Prop43.Main Book1.Prop47.Main Book3.Prop33.Main

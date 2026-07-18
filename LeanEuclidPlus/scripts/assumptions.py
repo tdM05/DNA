@@ -47,6 +47,15 @@ USAGE  (run from LeanEuclidPlus/):
                                                           haves are materialized yet.
   python3 scripts/assumptions.py <propdir> --dry-run    materialize + classify + REPORT only (reverts every
                                                           edit; writes nothing) — the diagnostic.
+  python3 scripts/assumptions.py <propdir> --fix L …    SURGICAL, precondition-FREE: (re)materialize +
+                                                          classify + tag ONLY the `-- @assumption (…)` at
+                                                          the given file LINE number(s) L …, leaving every
+                                                          other have/tag byte-for-byte. Unlike a bare run it
+                                                          does NOT require the fresh-Phase-A state, so it
+                                                          runs on an already-wired/proven Main — the case an
+                                                          @assumption was missed by the prop's original
+                                                          sweep (e.g. added later). Add --dry-run to report
+                                                          without persisting.
 
 LAYOUT (load-bearing): `_assumptions_above` stops scanning at the first non-`@assumption`/`@args`/blank
 line, so the `-- @assumption (…)` comment block MUST stay contiguous directly above the sentence. We
@@ -172,15 +181,25 @@ def have_name(sentence_name, i):
     return f"{sentence_name}_assumption{i}"
 
 
-def materialize(src):
+def materialize(src, targets=None):
     """STEP A: insert one all-`sorry` assumption have above each sentence's `@assumption` block — EVERY
     assumption gets a have, no exceptions (a have redundant with an existing context hyp is fine).
     Bottom-to-top so earlier offsets stay valid. Bodies + valid/gap tags are set later by
-    `apply_verdicts` (STEP B); STEP A only stamps the sorry placeholders + the build-check."""
+    `apply_verdicts` (STEP B); STEP A only stamps the sorry placeholders + the build-check.
+
+    `targets` (used by `--fix`): {sentence_name: set(1-based indices)}. When given, materialize ONLY the
+    selected assumptions of the named sentences (with their REAL block index N in the `stepK_assumptionN`
+    name), skipping every other block — so a surgical fix touches only the requested haves."""
     for name, block_start, indent, assumptions in sorted(sentence_blocks(src), key=lambda b: b[1],
                                                           reverse=True):
+        sel = None if targets is None else targets.get(name)
+        if targets is not None and not sel:
+            continue
         lines = [f"{indent}have {have_name(name, i)} : {typ} := by sorry"
-                 for i, (_text, typ, _override) in enumerate(assumptions, 1)]
+                 for i, (_text, typ, _override) in enumerate(assumptions, 1)
+                 if sel is None or i in sel]
+        if not lines:
+            continue
         src = src[:block_start] + "\n".join(lines) + "\n" + src[block_start:]
     return src
 
@@ -199,6 +218,58 @@ def strip_materialized(src):
     comment blocks intact. Lets a bare run RE-materialize from scratch (reflecting added/removed/retyped
     assumptions) without duplicating — the robust inverse of the old auto-skip."""
     return _ASSUMPTION_HAVE_RE.sub('', _ASSUMPTION_TAG_RE.sub('', src))
+
+
+def strip_named_haves(src, names):
+    """Like `strip_materialized` but for ONLY the given have names (+ their `@assumption_valid`/`@gap` tag
+    directly above). Used by `--fix` so re-materializing a target assumption never duplicates it, while
+    every OTHER prop's materialized have/tag survives untouched."""
+    out = []
+    for line in src.split("\n"):
+        m = _HAVE_HEAD_RE.match(line)
+        if m and m.group(2) in names:
+            if out and out[-1].strip() in ("-- @assumption_valid", "-- @assumption_gap"):
+                out.pop()
+            continue
+        out.append(line)
+    return "\n".join(out)
+
+
+def _offset_to_line(src, offset):
+    """1-based line number of a source offset (matches editor line numbers, so `--fix 59` lands right)."""
+    return src.count("\n", 0, offset) + 1
+
+
+def fix_targets(src, fix_lines):
+    """Map requested 1-based `--fix` line numbers → the assumptions they name. Scans each sentence's
+    contiguous `@assumption` block, numbering its lines 1..N (the same index `materialize`/`have_name` use),
+    and selects the ones whose file line is requested. Returns `(targets, have_names, matched_lines)`:
+      targets      {sentence_name: set(indices)}   — for `materialize(..., targets=…)`
+      have_names   {stepK_assumptionN, …}          — the exact haves to classify/persist/tag
+      matched_lines {int, …}                        — requested lines that hit an `@assumption` (the caller
+                                                      diffs against `fix_lines` to flag typos)."""
+    wanted = set(fix_lines)
+    targets, have_names, matched = {}, set(), set()
+    for name, block_start, _indent, assumptions in sentence_blocks(src):
+        idx, pos = 0, block_start
+        idx_line = {}
+        while pos < len(src) and idx < len(assumptions):
+            eol = src.find("\n", pos)
+            eol = len(src) if eol == -1 else eol
+            line = src[pos:eol]
+            if L.ASSUMPTION_ANNOT.match(line):
+                idx += 1
+                idx_line[idx] = _offset_to_line(src, pos)
+            elif not (L.ARGS_ANNOT.match(line) or L.SUPPRESS_DEPS_ANNOT.match(line) or not line.strip()):
+                break                                 # reached the sentence head — block ended
+            pos = eol + 1
+        sel = {i for i, ln in idx_line.items() if ln in wanted}
+        if sel:
+            targets[name] = sel
+            for i in sel:
+                have_names.add(have_name(name, i))
+                matched.add(idx_line[i])
+    return targets, have_names, matched
 
 
 def _confirm(prompt):
@@ -235,16 +306,22 @@ def _add_import(src, module):
     return src[:pos] + f"\nimport {module}" + src[pos:]
 
 
-def apply_verdicts(src, results):
+def apply_verdicts(src, results, only=None):
     """STEP B persist — IN PLACE on the current source (preserves any manual frame edit, e.g. a `wlog`
     `Hsym` fix). For each materialized `have stepK_assumptionN`, set its body to the WINNING ladder tactic
     (valid) or `:= by sorry` (gap), and put its `-- @assumption_valid`/`-- @assumption_gap` tag directly
     above it (idempotent). Any import a winning tactic needs (e.g. `Mathlib.Tactic.Linarith`) is added to
     Main permanently at the end. Bottom-to-top so offsets stay valid; each body edit is at/after its have
-    head, so earlier haves are unaffected."""
+    head, so earlier haves are unaffected.
+
+    `only` (used by `--fix`): a set of have names — when given, ONLY those haves are (re)persisted/tagged;
+    every other materialized have is left byte-for-byte as-is (critical when the rest of Main is already
+    proven/wired, so we never clobber an existing valid tactic body down to `sorry`)."""
     needed_imports = set()
     for m in reversed(list(_HAVE_HEAD_RE.finditer(src))):
         indent, hn = m.group(1), m.group(2)
+        if only is not None and hn not in only:
+            continue
         rec = results.get(hn) or {}
         valid = rec.get("status") == "valid"
         body = (rec.get("tactic") or "euclid_finish") if valid else "sorry"
@@ -271,17 +348,21 @@ def apply_verdicts(src, results):
     return src
 
 
-def classify_all(propdir, book):
+def classify_all(propdir, book, only=None):
     """For each materialized assumption have, probe the LADDER in order: transiently set its body to each
     rung's tactic (adding that rung's import + solver cap if any), build Main, and stop at the FIRST rung
     that closes. All edits are reverted per-rung via restore_files. Selects haves by NAME (not the node
     model), so a have already carrying a closer body from a prior run is RE-probed (not skipped).
+
+    `only` (used by `--fix`): restrict classification to this set of have names (others are not probed).
 
     Returns ({have_name: record}, {have_name: output_tail}) where record =
     {status: 'valid'|'gap', tactic, level, import, verdict}: tactic/level/import identify the winning rung
     (None on gap); verdict is the last rung's raw verdict (informs the report flag on gaps)."""
     mf = L.main_file(propdir)
     names = [m.group(2) for m in _HAVE_HEAD_RE.finditer(open(mf, encoding="utf-8").read())]
+    if only is not None:
+        names = [n for n in names if n in only]
     results, outputs = {}, {}
     for name in names:
         rec = {"status": "gap", "tactic": None, "level": None, "import": None, "verdict": "error"}
@@ -309,11 +390,14 @@ def classify_all(propdir, book):
     return results, outputs
 
 
-def write_tags(propdir, results, original_src):
+def write_tags(propdir, results, original_src, only=None):
     """Merge this prop's per-assumption tags into scripts/assumption_tags.json (keeping other props).
     Record {tag: valid|gap, closed_by: <tactic>|null, level: <rung>|null, verdict: <raw>, text, type} per
     have. `tag` is what the enforcers read (unchanged: valid/gap); `closed_by`/`level` are the graded
-    triviality measure (post-processable — level 1=rfl … 5=euclid_finish; null on gap)."""
+    triviality measure (post-processable — level 1=rfl … 5=euclid_finish; null on gap).
+
+    `only` (used by `--fix`): a set of have names — when given, MERGE just those into the prop's existing
+    entry (other assumptions' tags are preserved), rather than rebuilding the whole entry from scratch."""
     rel = os.path.relpath(propdir, L.BOOK_ROOT)
     data = {}
     if os.path.exists(TAGS_FILE):
@@ -321,10 +405,12 @@ def write_tags(propdir, results, original_src):
             data = json.load(open(TAGS_FILE, encoding="utf-8"))
         except (ValueError, OSError):
             data = {}
-    entry = {}
+    entry = dict(data.get(rel, {})) if only is not None else {}
     for name, _bs, _indent, assumptions in sentence_blocks(original_src):
         for i, (text, typ, _override) in enumerate(assumptions, 1):
             hn = have_name(name, i)
+            if only is not None and hn not in only:
+                continue
             rec = results.get(hn) or {"status": "gap", "tactic": None, "level": None, "verdict": "error"}
             entry[hn] = {"tag": "valid" if rec["status"] == "valid" else "gap",
                          "closed_by": rec.get("tactic"), "level": rec.get("level"),
@@ -338,12 +424,14 @@ def write_tags(propdir, results, original_src):
     os.replace(tmp, TAGS_FILE)
 
 
-def report(propdir, results, outputs, original_src, dry_run):
+def report(propdir, results, outputs, original_src, dry_run, only=None):
     rel = os.path.relpath(propdir, L.BOOK_ROOT)
     rows = []
     for name, _bs, _indent, assumptions in sentence_blocks(original_src):
         for i, (text, _typ, _override) in enumerate(assumptions, 1):
             hn = have_name(name, i)
+            if only is not None and hn not in only:
+                continue
             rows.append((hn, results.get(hn) or {"status": "gap", "verdict": "error"}, text))
     n = len(rows)
     valid = [(hn, rec, t) for hn, rec, t in rows if rec.get("status") == "valid"]
@@ -412,11 +500,92 @@ def _step_b(propdir, book, original, dry_run):
     return 0
 
 
-def run(propdir, dry_run=False, tag_only=False):
+def _fix(propdir, book, original, fix_lines, dry_run):
+    """`--fix <lines…>` — a SURGICAL repair that (re)materializes + classifies + tags ONLY the
+    `@assumption`(s) at the given file line numbers, and does NOT require the fresh-Phase-A dev state, so it
+    works on an already-wired/proven Main whose OTHER assumption haves + tags must stay untouched (the use
+    case: an `@assumption` added/edited after the prop's original sweep, which a bare re-run can't reach
+    without re-materializing the whole prop). Every non-target have/tag is preserved byte-for-byte; only the
+    named haves are stripped-if-present, re-materialized `:= by sorry`, classified by the ladder, persisted
+    to their winning tactic (or gap), and merged into the tags file."""
+    rel = os.path.relpath(propdir, L.BOOK_ROOT)
+    mf = L.main_file(propdir)
+    targets, have_names, matched = fix_targets(original, fix_lines)
+    unmatched = sorted(set(fix_lines) - matched)
+    if unmatched:
+        print(f"ERROR: --fix line(s) {unmatched} in {rel} are not `-- @assumption (…)` lines. Point --fix "
+              f"at the line number of each `-- @assumption (\"…\", type)` comment you want (re)done.")
+        return 2
+    if not have_names:
+        print(f"ERROR: --fix matched no @assumption lines in {rel}.")
+        return 2
+
+    # Strip only the target haves (if a prior run already materialized them), then re-materialize just those.
+    base = strip_named_haves(original, have_names)
+    open(mf, "w", encoding="utf-8").write(materialize(base, targets=targets))
+    materialized = open(mf, encoding="utf-8").read()
+    print(f"[assumptions] {rel} — --fix: (re)materialized {len(have_names)} target have(s): "
+          f"{', '.join(sorted(have_names))}. All other haves/tags left untouched.")
+
+    # STEP A — build-check that the target haves elaborate in Main.
+    try:
+        ok, out = L.lake_build(L.target_of(mf), wall=L.main_wall(propdir))
+    except BaseException:
+        open(mf, "w", encoding="utf-8").write(original)
+        raise
+    if not ok:
+        if dry_run:
+            open(mf, "w", encoding="utf-8").write(original)
+            print(f"[assumptions] {rel} — --fix DRY-RUN: STEP A build FAILED (target haves break Main). "
+                  f"Reverted.")
+        else:
+            print(f"[assumptions] {rel} — --fix: STEP A build FAILED (target haves broke Main). Sorry "
+                  f"haves LEFT IN PLACE (fail-closed) for you to fix, then re-run.")
+        print(_frame_hint(materialized))
+        for ln in "\n".join((out or "").rstrip().splitlines()[-12:]).splitlines():
+            print(f"    | {ln}")
+        return 1
+
+    # STEP B — classify ONLY the target haves; persist/tag them, leaving every other have byte-for-byte.
+    try:
+        verdicts, outputs = classify_all(propdir, book, only=have_names)
+        disk = open(mf, encoding="utf-8").read()
+        if dry_run:
+            open(mf, "w", encoding="utf-8").write(original)     # pure diagnostic — revert everything
+            report(propdir, verdicts, outputs, disk, dry_run=True, only=have_names)
+            return 0
+        open(mf, "w", encoding="utf-8").write(apply_verdicts(disk, verdicts, only=have_names))
+        ok, out = L.lake_build(L.target_of(mf), wall=L.main_wall(propdir))
+        if not ok:
+            print(f"[assumptions] {rel} — --fix ⚠ STOP: the PERSISTED Main did NOT compile after "
+                  f"classification. Tags NOT written; the persisted Main is LEFT IN PLACE for review. Fix "
+                  f"it, then re-run `--fix {' '.join(map(str, sorted(fix_lines)))}` (or `--tag-only`).")
+            for ln in "\n".join((out or "").rstrip().splitlines()[-12:]).splitlines():
+                print(f"    | {ln}")
+            return 1
+        write_tags(propdir, verdicts, disk, only=have_names)
+        report(propdir, verdicts, outputs, disk, dry_run=False, only=have_names)
+        return 0
+    except BaseException:
+        open(mf, "w", encoding="utf-8").write(original)
+        raise
+
+
+def run(propdir, dry_run=False, tag_only=False, fix_lines=None):
     book = L.book_num(propdir)
     mf = L.main_file(propdir)
     rel = os.path.relpath(propdir, L.BOOK_ROOT)
     original = open(mf, encoding="utf-8").read()
+
+    # --fix: surgical, precondition-FREE (works on a wired/proven Main). Routed before the fresh-Phase-A
+    # gate below precisely because its whole purpose is repairing a prop that is no longer fresh.
+    if fix_lines:
+        if not sentence_blocks(original):
+            print(f"[assumptions] {rel} — no @assumption annotations; nothing to --fix.")
+            return 0
+        print(f"[assumptions] {rel} — --fix mode: bypassing the fresh-Phase-A precondition; touching ONLY "
+              f"the assumption(s) at line(s) {', '.join(map(str, sorted(fix_lines)))}.")
+        return _fix(propdir, book, original, fix_lines, dry_run)
 
     # PRECONDITION: a FRESH Phase-A map — every sentence `:= by sorry`, no helper/step imports. A
     # wired/post-Phase-B Main is the wrong state: materializing into an already-proven frame is
@@ -525,14 +694,27 @@ def main():
                          "STEP A (materialize). Use after a manual frame fix (wlog/Hsym) or to re-classify "
                          "with an updated ladder. Errors if no haves are materialized. NOTE: a plain run on "
                          "an already-materialized prop does this automatically (never re-materializes).")
+    ap.add_argument("--fix", nargs="+", type=int, metavar="LINE",
+                    help="SURGICAL repair: (re)materialize + classify + tag ONLY the `-- @assumption (…)` "
+                         "at the given file LINE number(s), leaving every other have/tag untouched. Unlike "
+                         "a bare run it does NOT require the fresh-Phase-A state, so it works on an "
+                         "already-wired/proven Main (the case: an @assumption missed by the prop's original "
+                         "sweep). E.g. `--fix 59 60`. Combinable with --dry-run; not with --tag-only.")
+    ap.add_argument("--standalone", action="store_true",
+                    help="Build the target via `lake env lean <file>` (a custom path outside any lean_lib, "
+                         "e.g. accept_refute/…) and bypass the Book<N>/Prop<NN> number requirement.")
     args = ap.parse_args()
+    L.set_standalone(args.standalone)
+    if args.fix and args.tag_only:
+        print("ERROR: --fix and --tag-only are mutually exclusive.")
+        return 2
     try:
         propdir = L.propdir_of(args.propdir)
     except L.FaithfulError as e:
         print(f"ERROR: {e}")
         return 2
     with L.prop_lock(propdir):
-        return run(propdir, dry_run=args.dry_run, tag_only=args.tag_only)
+        return run(propdir, dry_run=args.dry_run, tag_only=args.tag_only, fix_lines=args.fix)
 
 
 if __name__ == "__main__":

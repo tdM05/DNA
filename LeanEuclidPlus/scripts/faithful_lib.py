@@ -130,6 +130,30 @@ def resolve(arg):
     return os.path.realpath(arg if os.path.isabs(arg) else os.path.join(BOOK_ROOT, arg))
 
 
+# ── STANDALONE mode: build a single .lean OUTSIDE any lean_lib (custom paths like accept_refute/) ──────
+# OPT-IN ONLY (a `--standalone` flag on the Phase-A scripts). When on: builds go through
+# `lake env lean <file>` instead of `lake build <module>`, and book/prop number parsing returns a
+# sentinel 0 for a path with no Book<N>/Prop<NN> segment. When off (the default), every Book code path
+# is byte-identical — this flips exactly two primitives (number parsing + the build command).
+STANDALONE = False
+
+
+def set_standalone(on=True):
+    global STANDALONE
+    STANDALONE = bool(on)
+
+
+def consume_standalone_flag(argv):
+    """Strip `--standalone` from argv (if present) and enable standalone mode; return the cleaned argv.
+    Call once at the top of a script's main() — downstream book_num/target_of/lake_build then switch
+    modes with no other change to the check logic."""
+    argv = list(argv)
+    if "--standalone" in argv:
+        set_standalone(True)
+        argv = [a for a in argv if a != "--standalone"]
+    return argv
+
+
 def propdir_of(arg):
     """Accept `Book2/Prop04`, `Book2/Prop04/`, or `Book2/Prop04/Main.lean` → absolute prop dir."""
     p = resolve(arg)
@@ -188,6 +212,8 @@ def book_num(propdir):
         m = re.fullmatch(r"Book(\d+)", part)
         if m:
             return int(m.group(1))
+    if STANDALONE:
+        return 0                                        # custom path with no Book<N> segment — sentinel
     raise FaithfulError(f"cannot determine book number from {os.path.relpath(propdir, BOOK_ROOT)}")
 
 
@@ -200,6 +226,8 @@ def prop_num(path):
         m = re.fullmatch(r"Prop(\d+)", part)
         if m:
             return int(m.group(1))
+    if STANDALONE:
+        return 0                                        # custom path with no Prop<NN> segment — sentinel
     raise FaithfulError(f"cannot determine prop number from {os.path.relpath(path, BOOK_ROOT)}")
 
 
@@ -219,7 +247,11 @@ def prop_files(propdir):
 
 def target_of(path):
     """File path → Lean build target: rel to BOOK_ROOT, '/'→'.', drop '.lean'.
-    Book2/Prop04/step27.lean → Book2.Prop04.step27 ; nested step27/big.lean → Book2.Prop04.step27.big."""
+    Book2/Prop04/step27.lean → Book2.Prop04.step27 ; nested step27/big.lean → Book2.Prop04.step27.big.
+    STANDALONE: returns the absolute `.lean` file path unchanged — `lake_build` sees the `.lean`
+    suffix and builds it via `lake env lean <file>` (for paths outside any lean_lib)."""
+    if STANDALONE:
+        return os.path.realpath(path)
     rel = os.path.relpath(os.path.realpath(path), BOOK_ROOT)
     return rel[:-len(".lean")].replace(os.sep, ".")
 
@@ -1450,6 +1482,8 @@ def _invalidate_target(target):
     Best-effort: any failure here is swallowed so it can NEVER mask the real timeout/interrupt result.
     Per-target glob `<base>.*` in both lib/ and ir/ → sibling targets in the same dir are untouched."""
     try:
+        if target.endswith(".lean"):
+            return                                     # standalone `lake env lean` build — no module olean
         rel = target.replace(".", os.sep)              # Book2.Prop03.Main → Book2/Prop03/Main
         base = os.path.basename(rel)
         sub = os.path.dirname(rel)
@@ -1472,8 +1506,12 @@ def _invalidate_target(target):
 
 
 def _lake_build_once(target, wall, env, lock_handlers_proc):
-    """One `lake build <target>` attempt. Returns (ok, output, timed_out)."""
-    proc = subprocess.Popen(["lake", "build", target], cwd=BOOK_ROOT, env=env,
+    """One build attempt. Returns (ok, output, timed_out). A `target` ending in `.lean` is a STANDALONE
+    single-file build (`lake env lean <file>`, for a path outside any lean_lib); otherwise the normal
+    module build (`lake build <module>`). Both run from BOOK_ROOT with the venv on PATH, wall-capped."""
+    cmd = (["lake", "env", "lean", target] if target.endswith(".lean")
+           else ["lake", "build", target])
+    proc = subprocess.Popen(cmd, cwd=BOOK_ROOT, env=env,
                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                             text=True, start_new_session=True)
     lock_handlers_proc[0] = proc                       # expose for the signal handler / killpg

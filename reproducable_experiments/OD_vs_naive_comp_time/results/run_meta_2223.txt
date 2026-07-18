@@ -1,0 +1,9 @@
+host: cpunode10
+date: Fri Jul 17 10:46:46 PM EDT 2026
+cap:  3600s  num_runs: 5  jobs: lake-default
+z3:   /u/taddmao/.venvs/leaneuclid/bin/z3  cvc5: /u/taddmao/.venvs/leaneuclid/bin/cvc5
+
+Model name:                              AMD EPYC 9634 84-Core Processor
+Thread(s) per core:                      2
+Core(s) per socket:                      84
+Socket(s):                               1

@@ -1163,6 +1163,7 @@ def _extract_trace(out, container_file):
 
 # ── CLI ───────────────────────────────────────────────────────────────────────────────────────────
 def main(argv):
+    argv = L.consume_standalone_flag(argv)             # `--standalone`: build a custom path via `lake env lean`
     if not argv:
         print(__doc__)
         return 2
