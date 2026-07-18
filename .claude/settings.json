@@ -86,9 +86,8 @@
       "Write(**/assumption_tags.json)",
       "Edit(**/assumption_tags.json)",
 
-      "Bash(git:*)",
-      "Bash(git)",
-      
+
+
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
