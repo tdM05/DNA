@@ -5,9 +5,9 @@ set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
-theorem helper_1_3_step6 (a d e c₀ c₁ : Point)
-    (step5 : |(a─e)| = |(a─d)| ∧ |(c₀─c₁)| = |(a─d)|) :
+theorem helper_1_3_step6 (a c₀ c₁ d e : Point)
+    (h5 : |(a─e)| = |(a─d)| ∧ |(c₀─c₁)| = |(a─d)|) :
     |(a─e)| = |(c₀─c₁)| := by
-  exact step5.1.trans step5.2.symm
+  euclid_finish
 
 end Elements.Book1

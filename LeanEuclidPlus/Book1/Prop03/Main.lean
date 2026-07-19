@@ -21,7 +21,7 @@ theorem proposition_3 : ∀ (a b c₀ c₁ : Point) (AB C : Line),
   euclid_apply (proposition_2' a c₀ c₁ C) as d
   euclid_sentence "1.3.1"
     "Let the line $AD$, equal to the straight-line $C$, have been placed at  point $A$ [Prop.~1.2]."
-    (step1 : |(a─d)| = |(c₀─c₁)|) := by euclid_apply (helper_1_3_step1 a d c₀ c₁ (by euclid_assumption "" (show |(a─d)| = |(c₀─c₁)|; assumption)))
+    (step1 : |(a─d)| = |(c₀─c₁)|) := by euclid_apply (helper_1_3_step1 a c₀ c₁ d (by euclid_assumption "" (show |(a─d)| = |(c₀─c₁)|; assumption)))
 
   euclid_apply (circle_from_points a d) as DEF
   euclid_apply (intersection_circle_line_between_points DEF AB a b) as e
@@ -34,19 +34,19 @@ theorem proposition_3 : ∀ (a b c₀ c₁ : Point) (AB C : Line),
   -- @assumption ("point $A$ is the center of  circle $DEF$", a.isCentre DEF)
   euclid_sentence "1.3.3"
     "And since  point $A$ is the center of  circle $DEF$, $AE$ is equal to $AD$ [Def.~1.15]."
-    (step3 : |(a─e)| = |(a─d)|) := by euclid_apply (helper_1_3_step3 a d e DEF (by euclid_assumption "point $A$ is the center of  circle $DEF$" (show a.isCentre DEF; assumption)) (by euclid_assumption "" (show e.onCircle DEF; assumption)) (by euclid_assumption "" (show d.onCircle DEF; assumption)))
+    (step3 : |(a─e)| = |(a─d)|) := by euclid_apply (helper_1_3_step3 a d e DEF (by euclid_assumption "point $A$ is the center of  circle $DEF$" (show a.isCentre DEF; assumption)) (by euclid_assumption "" (show d.onCircle DEF; assumption)) (by euclid_assumption "" (show e.onCircle DEF; assumption)))
 
   euclid_sentence "1.3.4"
     "But, $C$ is also equal to $AD$."
-    (step4 : |(c₀─c₁)| = |(a─d)|) := by euclid_apply (helper_1_3_step4 a d c₀ c₁ (by euclid_assumption "" (show |(a─d)| = |(c₀─c₁)|; assumption)))
+    (step4 : |(c₀─c₁)| = |(a─d)|) := by euclid_apply (helper_1_3_step4 a c₀ c₁ d (by euclid_assumption "" (show |(a─d)| = |(c₀─c₁)|; assumption)))
 
   euclid_sentence "1.3.5"
     "Thus, $AE$ and $C$ are each equal to $AD$."
-    (step5 : |(a─e)| = |(a─d)| ∧ |(c₀─c₁)| = |(a─d)|) := by euclid_apply (helper_1_3_step5 a d e c₀ c₁ (by euclid_assumption "" (show |(a─e)| = |(a─d)|; assumption)) (by euclid_assumption "" (show |(c₀─c₁)| = |(a─d)|; assumption)))
+    (step5 : |(a─e)| = |(a─d)| ∧ |(c₀─c₁)| = |(a─d)|) := by euclid_apply (helper_1_3_step5 a c₀ c₁ d e (by euclid_assumption "" (show |(a─e)| = |(a─d)|; assumption)) (by euclid_assumption "" (show |(c₀─c₁)| = |(a─d)|; assumption)))
 
   euclid_sentence "1.3.6"
     "So $AE$ is also equal to $C$ [C.N.~1]."
-    (step6 : |(a─e)| = |(c₀─c₁)|) := by euclid_apply (helper_1_3_step6 a d e c₀ c₁ (by euclid_assumption "" (show |(a─e)| = |(a─d)| ∧ |(c₀─c₁)| = |(a─d)|; assumption)))
+    (step6 : |(a─e)| = |(c₀─c₁)|) := by euclid_apply (helper_1_3_step6 a c₀ c₁ d e (by euclid_assumption "" (show |(a─e)| = |(a─d)| ∧ |(c₀─c₁)| = |(a─d)|; assumption)))
 
   use e
   euclid_conclude_sentence "1.3.7"

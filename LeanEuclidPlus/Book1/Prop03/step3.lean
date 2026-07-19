@@ -8,8 +8,9 @@ namespace Elements.Book1
 theorem helper_1_3_step3 (a d e : Point) (DEF : Circle)
   -- Reasoning hypotheses (from @assumption — keep these types in the signature):
   (hassump1 : a.isCentre DEF)   -- "point $A$ is the center of  circle $DEF$"
-  (he : e.onCircle DEF) (hd : d.onCircle DEF)
+  (h_d : d.onCircle DEF) (h_e : e.onCircle DEF)
   : |(a─e)| = |(a─d)| := by
+  euclid_apply (point_on_circle_onlyif a d e DEF)
   euclid_finish
 
 end Elements.Book1

@@ -5,8 +5,8 @@ set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
-theorem helper_1_3_step4 (a d c₀ c₁ : Point)
-    (step1 : |(a─d)| = |(c₀─c₁)|) : |(c₀─c₁)| = |(a─d)| := by
-  exact step1.symm
+theorem helper_1_3_step4 (a c₀ c₁ d : Point)
+    (hstep1 : |(a─d)| = |(c₀─c₁)|) : |(c₀─c₁)| = |(a─d)| := by
+  euclid_finish
 
 end Elements.Book1
