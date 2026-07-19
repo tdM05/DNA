@@ -32,8 +32,8 @@ BRANCH_ABLATED="ablation_branch"
 BRANCH_MYMETHOD="full_methodology_branch"
 # Pinned MAP-STAGE commits — CANONICAL, per DNA/EXPERIMENT_OPERATOR_GUIDE.md.
 # (The operator resets each prop's Main.lean to ITS map from these; GATE 3 checks it.)
-MAP_REF_ABLATED="3d8e371"
-MAP_REF_MYMETHOD="be22807"
+MAP_REF_ABLATED="fa400f7"
+MAP_REF_MYMETHOD="b98dd2b"
 # CENTRAL results dir — OUTSIDE both worktrees so both arms' runs collect in one place (and other
 # runs' outputs aren't sitting inside the agent's workspace). Same structure: out/<mode>/<label>/<run_id>/.
 OUT_BASE="/h/56/taddmao/code/autoform/DNA/reproducable_experiments/ablation_study/out"
@@ -151,8 +151,17 @@ diff -q "$SELF" "$OTHER_SELF" >/dev/null 2>&1 || {
 if ! git -C "$REPO" show "$MAP_REF:LeanEuclidPlus/$rel/Main.lean" 2>/dev/null | diff -q - "$main" >/dev/null 2>&1; then
   echo "ABORT: $rel/Main.lean does NOT match the map commit $MAP_REF (the '$WANT_BRANCH' map)."
   echo "       Reset it to the map state BY HAND first (see DNA/EXPERIMENT_OPERATOR_GUIDE.md):"
-  echo "         git show $MAP_REF:LeanEuclidPlus/$rel/Main.lean > LeanEuclidPlus/$rel/Main.lean"
-  echo "         find LeanEuclidPlus/$rel -type f ! -name Main.lean -delete"
+  echo "         git rm -rf LeanEuclidPlus/$rel && git checkout $MAP_REF -- LeanEuclidPlus/$rel"
+  exit 1
+fi
+# GATE 3b — file SET: the prop dir must have EXACTLY the map commit's files. A leftover step*.lean
+# from a prior run is NOT caught by the Main.lean diff above, so compare the whole file list too.
+map_files="$(git -C "$REPO" ls-tree --name-only "$MAP_REF" "LeanEuclidPlus/$rel/" | sed 's#.*/##' | sort)"
+now_files="$(find "$LEP/$rel" -maxdepth 1 -type f -printf '%f\n' | sort)"
+if [ "$map_files" != "$now_files" ]; then
+  echo "ABORT: $rel dir does not match the map's file set (leftover or missing files):"
+  echo "       map: $(echo $map_files)  |  now: $(echo $now_files)"
+  echo "       reset it: git rm -rf LeanEuclidPlus/$rel && git checkout $MAP_REF -- LeanEuclidPlus/$rel"
   exit 1
 fi
 

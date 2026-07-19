@@ -23,8 +23,8 @@ PROP="${PROPS[$SLURM_ARRAY_TASK_ID]}"
 ROOT="/h/56/taddmao/code/autoform/methodology_compare_worktrees"
 OUT_BASE="/h/56/taddmao/code/autoform/DNA/reproducable_experiments/ablation_study/out"
 case "$ARM" in
-  my-method) WT="$ROOT/full";    MAP="be22807" ;;
-  ablated)   WT="$ROOT/ablated"; MAP="3d8e371" ;;
+  my-method) WT="$ROOT/full";    MAP="b98dd2b" ;;
+  ablated)   WT="$ROOT/ablated"; MAP="fa400f7" ;;
   *) echo "bad ARM '$ARM'"; exit 1 ;;
 esac
 DRIVER="$WT/reproducable_experiments/ablation_study/run_comparison_experiment.sh"
