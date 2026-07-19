@@ -32,8 +32,8 @@ BRANCH_ABLATED="ablation_branch"
 BRANCH_MYMETHOD="full_methodology_branch"
 # Pinned MAP-STAGE commits — CANONICAL, per DNA/EXPERIMENT_OPERATOR_GUIDE.md.
 # (The operator resets each prop's Main.lean to ITS map from these; GATE 3 checks it.)
-MAP_REF_ABLATED="3d8e371"
-MAP_REF_MYMETHOD="be22807"
+MAP_REF_ABLATED="fa400f7"
+MAP_REF_MYMETHOD="b98dd2b"
 # CENTRAL results dir — OUTSIDE both worktrees so both arms' runs collect in one place (and other
 # runs' outputs aren't sitting inside the agent's workspace). Same structure: out/<mode>/<label>/<run_id>/.
 OUT_BASE="/h/56/taddmao/code/autoform/DNA/reproducable_experiments/ablation_study/out"
@@ -106,11 +106,11 @@ GIVEUP_LINE="Give up ONLY if you judge you are truly stuck — you see no viable
 
 if [ "$MODE" = mymethod ]; then
   # --my-method: verbatim operator-guide "Full" prompt + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. DO NOT LOOK AT ANYTHING OUTSIDE THIS FOLDER. IF YOU DO, YOUR ATTEMPT IS AUTO-FAILED. $CERT_LINE $GIVEUP_LINE"
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE"
 else
   # --ablated: operator-guide "Ablated" prompt + REQUIRED per-sentence backing-file structure (so the
   # skill-less arm produces the same decomposition the eval now checks) + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. REQUIRED STRUCTURE (this is checked — do NOT prove any sentence inline): for each 'euclid_sentence \"…\" (stepK : CLAIM) := by sorry', (1) create a new file LeanEuclidPlus/$rel/stepK.lean holding ONE lemma 'theorem helper_${BOOK}_${PROPNUM}_stepK (…binders…) : CLAIM := by …' that proves that step (euclid_finish is fine INSIDE the helper), taking whatever facts it needs as hypotheses; (2) add 'import Book${BOOK}.Prop${NN}.stepK' at the top of Main.lean; (3) make Main's body just delegate: ':= by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK <objects> <hypothesis-proofs…>)'. Schematic: in Main '(stepK : CLAIM) := by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK o1 o2 h1)', and in stepK.lean 'theorem helper_${BOOK}_${PROPNUM}_stepK (o1 …) (h1 : …) : CLAIM := by euclid_finish'. (How you supply each helper's hypotheses is up to you.) DO NOT LOOK AT ANYTHING OUTSIDE THIS FOLDER. IF YOU DO, YOUR ATTEMPT IS AUTO-FAILED. $CERT_LINE $GIVEUP_LINE"
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. REQUIRED STRUCTURE (this is checked — do NOT prove any sentence inline): for each 'euclid_sentence \"…\" (stepK : CLAIM) := by sorry', (1) create a new file LeanEuclidPlus/$rel/stepK.lean holding ONE lemma 'theorem helper_${BOOK}_${PROPNUM}_stepK (…binders…) : CLAIM := by …' that proves that step (euclid_finish is fine INSIDE the helper), taking whatever facts it needs as hypotheses; (2) add 'import Book${BOOK}.Prop${NN}.stepK' at the top of Main.lean; (3) make Main's body delegate, supplying EVERY hypothesis via euclid_assumption with its type shown — EXACTLY '(by euclid_assumption \"TEXT\" (show TYPE; assumption))', NEVER a bare '(by assumption)'. If a hypothesis has a '-- @assumption (\"NL-TEXT\", TYPE)' line above the sentence, use that NL-TEXT verbatim as the string (so it is clear WHERE that cited fact is used); for the other hypotheses use the empty string \"\". Schematic: in Main '(stepK : CLAIM) := by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK o1 o2 (by euclid_assumption \"the exact @assumption text\" (show TYPE1; assumption)) (by euclid_assumption \"\" (show TYPE2; assumption)))', and in stepK.lean 'theorem helper_${BOOK}_${PROPNUM}_stepK (o1 …) (h1 : TYPE1) (h2 : TYPE2) : CLAIM := by euclid_finish'. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE"
 fi
 
 # Sent on EVERY resume turn — the headless stand-in for the human re-nudging a
@@ -151,8 +151,17 @@ diff -q "$SELF" "$OTHER_SELF" >/dev/null 2>&1 || {
 if ! git -C "$REPO" show "$MAP_REF:LeanEuclidPlus/$rel/Main.lean" 2>/dev/null | diff -q - "$main" >/dev/null 2>&1; then
   echo "ABORT: $rel/Main.lean does NOT match the map commit $MAP_REF (the '$WANT_BRANCH' map)."
   echo "       Reset it to the map state BY HAND first (see DNA/EXPERIMENT_OPERATOR_GUIDE.md):"
-  echo "         git show $MAP_REF:LeanEuclidPlus/$rel/Main.lean > LeanEuclidPlus/$rel/Main.lean"
-  echo "         find LeanEuclidPlus/$rel -type f ! -name Main.lean -delete"
+  echo "         git rm -rf LeanEuclidPlus/$rel && git checkout $MAP_REF -- LeanEuclidPlus/$rel"
+  exit 1
+fi
+# GATE 3b — file SET: the prop dir must have EXACTLY the map commit's files. A leftover step*.lean
+# from a prior run is NOT caught by the Main.lean diff above, so compare the whole file list too.
+map_files="$(git -C "$REPO" ls-tree --name-only "$MAP_REF" "LeanEuclidPlus/$rel/" | sed 's#.*/##' | sort)"
+now_files="$(find "$LEP/$rel" -maxdepth 1 -type f -printf '%f\n' | sort)"
+if [ "$map_files" != "$now_files" ]; then
+  echo "ABORT: $rel dir does not match the map's file set (leftover or missing files):"
+  echo "       map: $(echo $map_files)  |  now: $(echo $now_files)"
+  echo "       reset it: git rm -rf LeanEuclidPlus/$rel && git checkout $MAP_REF -- LeanEuclidPlus/$rel"
   exit 1
 fi
 
