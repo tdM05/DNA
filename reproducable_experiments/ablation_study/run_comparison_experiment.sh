@@ -255,7 +255,7 @@ write_result RUNNING
 echo "--- $rel: starting (budget=$BUDGET_DISP · no time limit · session $sid) ---"
 mb=(); [ "$UNLIMITED" = 1 ] || mb=(--max-budget-usd "$remaining")   # cost cap arg — omitted entirely when unlimited
 out=$(claude -p "$PROMPT" --model "$MODEL" --session-id "$sid" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"})
-echo "$out" > "$OUT/turn0.json"
+echo "$out" > "$OUT/round0.json"
 while true; do
   tc=$(echo "$out" | jq -r '.total_cost_usd // 0')
   spent=$(awk "BEGIN{print $spent+$tc}")
@@ -263,7 +263,7 @@ while true; do
   wall_ms=$(awk "BEGIN{print $wall_ms + $(echo "$out"|jq -r '.duration_ms // 0')}")
   write_result RUNNING
   if [ "$UNLIMITED" = 1 ]; then rem_disp="∞"; else rem_disp="\$$remaining"; fi
-  echo "    $rel round $i: turn=\$$tc cumulative=\$$spent remaining=$rem_disp subtype=$(echo "$out"|jq -r '.subtype')"
+  echo "    $rel round $i: cost=\$$tc cumulative=\$$spent remaining=$rem_disp subtype=$(echo "$out"|jq -r '.subtype')"
   res=$(echo "$out" | jq -r '.result')
   if echo "$res" | grep -qF "$CERT_STRING";   then echo "    (agent signalled DONE)";     stop_reason=done;   break; fi
   if echo "$res" | grep -qF "$GIVEUP_STRING"; then echo "    (agent signalled GIVE UP)";  stop_reason=gaveup; break; fi
@@ -274,7 +274,7 @@ while true; do
   i=$((i+1)); [ "$i" -gt 300 ] && { echo "    (safety backstop — 300 rounds)"; stop_reason=backstop; break; }
   mb=(); [ "$UNLIMITED" = 1 ] || mb=(--max-budget-usd "$remaining")
   out=$(claude -p "$CONTINUE_PROMPT" --resume "$sid" --model "$MODEL" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"})
-  echo "$out" > "$OUT/turn$i.json"
+  echo "$out" > "$OUT/round$i.json"
 done
 kill "$HB" 2>/dev/null; HB=""
 cp "$jsonl" "$OUT/transcript.jsonl" 2>/dev/null

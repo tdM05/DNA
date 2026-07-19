@@ -11,8 +11,8 @@ set -euo pipefail
 # ---- KNOBS (the only thing you change) -------------------------------------
 export ARM="my-method"     # my-method | ablated
 export BOOK=1
-export PROPS="6 3 30 18 27 47 12 20 45 36 31 2 16 24 39 4 17 23 28 42"   # the props to run
-export REPEATS=3           # runs per prop (sequential on its node)
+export PROPS="3"   # the props to run
+export REPEATS=1           # runs per prop (sequential on its node)
 export BUDGET=-1           # -1 = unlimited
 THROTTLE=8                 # max nodes running AT ONCE (the rest queue)
 
