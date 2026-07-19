@@ -20,8 +20,8 @@ ABL="$REPO/reproducable_experiments/ablation_study"
 SLUG="$(echo "$REPO" | sed 's#/#-#g')"
 MEMDIR="$HOME/.claude/projects/${SLUG}/memory"
 HIDDEN="${MEMDIR}.HIDDEN_baseline"
-MAP_REF="c0993e8"    # the clean 'unmapped' commit — reset each prop's Main.lean to ITS map from HERE
-                     # (fixed, NOT HEAD: HEAD drifts as results/experiments get committed on top).
+# MAP_REF (the fixed 'unmapped' map commit to reset each prop's Main.lean from — NOT HEAD, which drifts
+# as results get committed) is set per-mode in the branch guard below: differs between the two arms.
 
 # ---- args ----
 MODE=""; BUDGET=50.00; MODEL=opus; END=48; BOOK=1; PROPONLY=""
@@ -43,15 +43,18 @@ done
 branch="$(git -C "$REPO" rev-parse --abbrev-ref HEAD)"
 if [ "$MODE" = ablated ]; then
   [ "$branch" = ablation_branch ] || { echo "ABORT: --ablated must run on 'ablation_branch' (currently on '$branch')"; exit 1; }
+  MAP_REF="04c4e2a"   # ablation branch's clean 'unmapped' map commit
 else
   [ "$branch" = full_methodology_branch ] || { echo "ABORT: --full must run on 'full_methodology_branch' (currently on '$branch')"; exit 1; }
+  MAP_REF="c0993e8"   # full_methodology branch's clean 'unmapped' map commit
 fi
 
 # ---- LEAK GUARD: deny ALL git for the AGENT so it can't `git show`/`git log` the finished proof out of
 #      history. Add-only + idempotent (inserts the two rules into permissions.deny iff missing, preserving
 #      formatting). The SCRIPT's own `git checkout` is UNAFFECTED — the deny gates only Claude's Bash tool,
 #      not this shell. NOT auto-removed: to restore read-only git, `git checkout -- .claude/settings.json`
-#      (or delete the two lines by hand). ----
+#      (or delete the two lines by hand).  Skipped when a wrapper (run_parallel) already installed it. ----
+if [ -z "${RB_CHILD:-}" ]; then
 python3 - "$REPO/.claude/settings.json" <<'PY'
 import sys
 p = sys.argv[1]
@@ -59,14 +62,20 @@ try:
     s = open(p).read()
 except FileNotFoundError:
     print("!! no %s — skipping git leak-guard" % p); sys.exit(0)
-need = [r for r in ('"Bash(git:*)"', '"Bash(git)"') if r not in s]
+rules = ('"Bash(git:*)"', '"Bash(git)"',                                  # deny git (history has the proofs)
+         '"Read(**/ablation_study/**)"', '"Edit(**/ablation_study/**)"', '"Write(**/ablation_study/**)"')  # + OTHER runs' results (TOOLS only; see bash hook for full coverage)
+need = [r for r in rules if r not in s]
 if not need:
-    print("[leak-guard: git already denied for agent]"); sys.exit(0)
+    print("[leak-guard: git + results-folder already denied for agent]"); sys.exit(0)
 i = s.index('"deny": [') + len('"deny": [')          # top of the deny array
-s = s[:i] + "".join('\n      %s,' % r for r in need) + s[i:]
+block = "".join('\n      %s,' % r for r in need)
+if s[i:].lstrip().startswith(']'):                   # deny array was EMPTY → drop trailing comma (no trailing commas in JSON)
+    block = block.rstrip(',')
+s = s[:i] + block + s[i:]
 open(p, "w").write(s)
-print("[leak-guard: denied git for agent -> %s]" % ", ".join(need))
+print("[leak-guard: denied for agent -> %s]" % ", ".join(need))
 PY
+fi
 
 OUT="$ABL/out/$MODE"; mkdir -p "$OUT"
 if [ -n "$PROPONLY" ]; then
@@ -75,22 +84,24 @@ else
   echo "=== baseline run · mode=$MODE · branch=$branch · Book$BOOK props 1..$END · \$$BUDGET/prop · model=$MODEL ==="
 fi
 
-# ---- hide memory for the whole run (restore on any exit, incl. Ctrl-C / kill) ----
+# ---- hide memory for the whole run — BOTH arms. What's under test is the skills + pipeline + hooks,
+#      NOT the accumulated per-prop answer notes; hiding memory in full mode too keeps it fair. Restore on
+#      any exit (incl. Ctrl-C / kill). A wrapper (run_parallel) that hides ONCE for many children sets
+#      RB_CHILD, so a child skips the hide AND leaves the restore + dashboard cleanup to the wrapper. ----
 HB=""   # background elapsed-heartbeat PID; killed on exit/cancel so it never outlives the run
 restore_mem() {
   [ -n "$HB" ] && kill "$HB" 2>/dev/null
+  [ -z "${RB_CHILD:-}" ] || return 0                    # child: leave shared memory + dashboard to the wrapper
   if [ -d "$HIDDEN" ]; then
     [ -d "$MEMDIR" ] && mv "$MEMDIR" "${MEMDIR}.recreated_junk_$$"
     mv "$HIDDEN" "$MEMDIR" && echo "[memory restored]"
   fi
-  rm -f "$OUT/_current.txt"
+  rm -rf "$OUT/_current.txt" "$OUT/_current.d"
 }
 trap restore_mem EXIT   # fires on normal exit, Ctrl-C (SIGINT), and kill (SIGTERM) — so cancel stays clean
-if [ "$MODE" = ablated ]; then
-  if [ -d "$MEMDIR" ]; then mv "$MEMDIR" "$HIDDEN" && echo "[memory hidden]"
-  else echo "!! memory dir not found ($MEMDIR) — aborting to avoid a leaked run"; exit 1; fi
-else
-  echo "[--full: methodology memory KEPT visible]"   # the full arm USES the memory/skills — do not hide
+if [ -z "${RB_CHILD:-}" ]; then                          # a wrapper hides once for all its children
+  if [ -d "$MEMDIR" ]; then mv "$MEMDIR" "$HIDDEN" && echo "[memory hidden — both arms]"
+  else [ -d "$HIDDEN" ] || { echo "!! memory dir not found ($MEMDIR) and none hidden — aborting to avoid a leaked run"; exit 1; }; fi
 fi
 
 # ---- grade (SAME for both arms): compiles + 0 sorry + map unchanged (texts/statement/claims) +
@@ -135,8 +146,8 @@ run_prop() { # $1 = NN (zero-padded)
   fi
 
   echo "--- $rel: starting (\$$BUDGET budget · no time limit) ---"
-  git -C "$REPO" checkout "$MAP_REF" -- "LeanEuclidPlus/$rel/Main.lean" \
-    || { echo "ABORT $rel: could not reset to its map at $MAP_REF"; return 1; }   # start each attempt from the fixed map commit
+  git -C "$REPO" show "$MAP_REF:LeanEuclidPlus/$rel/Main.lean" > "$LEP/$rel/Main.lean" 2>/dev/null \
+    || { echo "ABORT $rel: could not read its map from $MAP_REF"; return 1; }   # reset from map via git show (NO index lock → parallel-safe)
   grep -q 'sorry' "$LEP/$rel/Main.lean" \
     || { echo "ABORT $rel: HEAD's copy has NO sorry — committed as a full proof, not a map. Refusing to re-attempt it."; return 1; }
   cd "$REPO" || { echo "ABORT $rel: cannot cd to $REPO"; return 1; }
@@ -149,10 +160,12 @@ run_prop() { # $1 = NN (zero-padded)
   while [ -e "$PROJ/$sid.jsonl" ]; do sid="$(python3 -c 'import uuid;print(uuid.uuid4())')"; done
   jsonl="$PROJ/$sid.jsonl"
   local t0; t0=$(date +%s)
-  # heartbeat → _current.txt: the (pre-known) session id + transcript path + elapsed, from t=0.
+  mkdir -p "$OUT/_current.d"
+  # heartbeat → one line for THIS prop in _current.d/, then regen _current.txt = one line per prop.
   ( while :; do e=$(( $(date +%s) - t0 ))
-      printf '%s  session=%s  transcript=%s  elapsed=%dm%02ds  (started %s · Ctrl-C to cancel)\n' \
-        "$rel" "$sid" "$jsonl" $((e/60)) $((e%60)) "$(date -d @"$t0" +%H:%M:%S)" > "$OUT/_current.txt"
+      printf '%-14s RUNNING  %-7s session=%s  %dm%02ds\n' \
+        "$rel" "$MODEL" "$sid" $((e/60)) $((e%60)) > "$OUT/_current.d/$plabel"
+      cat "$OUT"/_current.d/* 2>/dev/null > "$OUT/_current.txt"
       sleep 15; done ) &
   HB=$!
   local spent=0 wall_ms=0 remaining="$BUDGET" out i=0 grade_sec=""
@@ -178,6 +191,9 @@ run_prop() { # $1 = NN (zero-padded)
   grade "$rel" && status=SUCCESS
   grade_sec=$(( $(date +%s) - gt ))                   # compile+checks wall seconds → result.txt
   write_result "$status"
+  printf '%-14s %-8s %-7s session=%s  $%s  compile=%ss\n' \
+    "$rel" "$status" "$MODEL" "$sid" "$spent" "$grade_sec" > "$OUT/_current.d/$plabel"   # final dashboard line
+  cat "$OUT"/_current.d/* 2>/dev/null > "$OUT/_current.txt"
   echo "=== $rel -> $status  (\$$spent · $(( ($(date +%s)-t0)/60 ))m wall) ==="
   [ "$status" = SUCCESS ]
 }
