@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Grade one prop, relaxed (same as run_baseline.sh's grade). PASS/FAIL + compile wall time.
+# Grade one prop (same checks as run_comparison_experiment.sh's grade()). PASS/FAIL + compile wall time.
 # Usage: bash eval.sh <Book> <Prop2digit> [cost_usd] [model]
+# check_faithful/check_steps stay --relaxed (we do NOT force assumption structure); the ONE extra
+# criterion held equal for both arms is the per-sentence backing lemma (check_backing).
 set -uo pipefail
 set +u; source "$HOME/.venvs/leaneuclid/bin/activate" 2>/dev/null; set -u
 B="$1"; NN="$2"; COST="${3:-}"; MODEL="${4:-}"
@@ -10,6 +12,7 @@ rel="Book${B}/Prop${NN}"
 fail=
 [ "$(grep -c sorry "$rel/Main.lean")" -eq 0 ]                                  || fail=sorry
 [ -n "$fail" ] || python3 scripts/check_faithful.py  --relaxed "$rel/Main.lean" >/dev/null 2>&1 || fail=faithful
+[ -n "$fail" ] || python3 scripts/check_backing.py            "$rel/Main.lean" >/dev/null 2>&1 || fail=backing
 [ -n "$fail" ] || python3 scripts/check_signatures.py         "$rel/Main.lean" >/dev/null 2>&1 || fail=signatures
 [ -n "$fail" ] || python3 scripts/check_steps.py     --relaxed "$rel/Main.lean" >/dev/null 2>&1 || fail=steps
 t0=$(date +%s)

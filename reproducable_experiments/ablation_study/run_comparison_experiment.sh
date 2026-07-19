@@ -78,6 +78,7 @@ else
 fi
 
 NN="$(printf '%02d' "$PROP")"
+PROPNUM="$((10#$PROP))"                             # un-padded prop number, for the helper_<book>_<prop>_ name
 rel="Book${BOOK}/Prop${NN}"
 main="$LEP/$rel/Main.lean"
 label="Book${BOOK}_Prop${NN}_${MODEL}"
@@ -105,8 +106,9 @@ if [ "$MODE" = mymethod ]; then
   # --my-method: verbatim operator-guide "Full" prompt + the two completion signals.
   PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. DO NOT LOOK AT ANYTHING OUTSIDE THIS FOLDER. IF YOU DO, YOUR ATTEMPT IS AUTO-FAILED. $CERT_LINE $GIVEUP_LINE"
 else
-  # --ablated: verbatim operator-guide "Ablated" prompt + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Any step that has '-- @assumption' lines must be so that the corresponding euclid_sentence function after the := sorry is a function with the type of this assumption passed in to it. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. DO NOT LOOK AT ANYTHING OUTSIDE THIS FOLDER. IF YOU DO, YOUR ATTEMPT IS AUTO-FAILED. $CERT_LINE $GIVEUP_LINE"
+  # --ablated: operator-guide "Ablated" prompt + REQUIRED per-sentence backing-file structure (so the
+  # skill-less arm produces the same decomposition the eval now checks) + the two completion signals.
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. REQUIRED STRUCTURE (this is checked — do NOT prove any sentence inline): for each 'euclid_sentence \"…\" (stepK : CLAIM) := by sorry', (1) create a new file LeanEuclidPlus/$rel/stepK.lean holding ONE lemma 'theorem helper_${BOOK}_${PROPNUM}_stepK (…binders…) : CLAIM := by …' that proves that step (euclid_finish is fine INSIDE the helper), taking whatever facts it needs as hypotheses; (2) add 'import Book${BOOK}.Prop${NN}.stepK' at the top of Main.lean; (3) make Main's body just delegate: ':= by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK <objects> <hypothesis-proofs…>)'. Schematic: in Main '(stepK : CLAIM) := by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK o1 o2 h1)', and in stepK.lean 'theorem helper_${BOOK}_${PROPNUM}_stepK (o1 …) (h1 : …) : CLAIM := by euclid_finish'. (How you supply each helper's hypotheses is up to you.) DO NOT LOOK AT ANYTHING OUTSIDE THIS FOLDER. IF YOU DO, YOUR ATTEMPT IS AUTO-FAILED. $CERT_LINE $GIVEUP_LINE"
 fi
 
 # Sent on EVERY resume turn — the headless stand-in for the human re-nudging a
@@ -197,15 +199,19 @@ HB=""
 trap '[ -n "$HB" ] && kill "$HB" 2>/dev/null' EXIT
 
 # ============================================================================
-# GRADE (identical for both arms): 0 sorry + faithful (texts/citations/structure)
-# + signature unchanged + claim/@assumption types unchanged + compiles ≤1h.
-# Run ONCE at the end, never fed back to the agent (one-shot, no oracle).
+# GRADE (identical for both arms): 0 sorry + faithful (texts/citations/structure) + per-sentence
+# backing lemma + signature unchanged + claim/@assumption types unchanged + compiles ≤1h. Run ONCE at
+# the end, never fed back to the agent (no oracle).
+# NOTE: check_faithful stays --relaxed (drops the methodology-only bulk-tactic ban + assumption tag
+# gate — we do NOT force assumption structure). The ONE extra faithfulness criterion held equal for
+# both arms is the per-sentence backing lemma (check_backing.py); the full method auto-satisfies it.
 # ============================================================================
 grade() {
   [ -f "$main" ] || return 1
   [ "$(grep -c 'sorry' "$main")" -eq 0 ] || return 1
   ( cd "$LEP" && python3 scripts/check_faithful.py  --relaxed "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
-  ( cd "$LEP" && python3 scripts/check_signatures.py          "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
+  ( cd "$LEP" && python3 scripts/check_backing.py            "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
+  ( cd "$LEP" && python3 scripts/check_signatures.py         "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
   ( cd "$LEP" && python3 scripts/check_steps.py     --relaxed "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
   ( cd "$LEP" && timeout 3600 lake build "${rel//\//.}.Main"                   >/dev/null 2>&1 ) || return 1
   return 0
