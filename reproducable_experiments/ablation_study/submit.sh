@@ -12,7 +12,7 @@ set -euo pipefail
 export ARM="ablated"     # my-method | ablated
 export BOOK=1
 export PROPS="3"   # the props to run
-export REPEATS=1           # runs per prop (sequential on its node)
+export REPEATS=2           # runs per prop (sequential on its node)
 export BUDGET=-1           # -1 = unlimited
 THROTTLE=8                 # max nodes running AT ONCE (the rest queue)
 
