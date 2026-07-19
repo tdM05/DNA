@@ -31,9 +31,12 @@ theorem proposition_5 : ∀ (a b c d e : Point) (AB BC AC : Line),
     "Also, let the straight-lines $FC$ and $GB$ have been joined [Post.~1]. "
     (step3 : c.onLine FC ∧ f.onLine FC ∧ b.onLine GB ∧ g.onLine GB) := by sorry
 
+   -- @assumption_valid
+  have step4_assumption1 : |(a─f)| = |(a─g)| := by linarith
+  -- @assumption_valid
+  have step4_assumption2 : |(a─b)| = |(a─c)| := by assumption
   -- @assumption ("$AF$ is equal to $AG$", |(a─f)| = |(a─g)|)
   -- @assumption ("$AB$ to $AC$", |(a─b)| = |(a─c)|)
-  -- The two "since" facts (AF=AG, AB=AC) assembled into the paired "two sides = two sides" form.
   euclid_sentence "1.5.4"
     "In fact, since $AF$ is equal to $AG$, and $AB$ to $AC$, the two (straight-lines) $FA$, $AC$ are equal to the two (straight-lines) $GA$, $AB$, respectively."
     (step4 : (|(f─a)| = |(g─a)|) ∧ (|(a─c)| = |(a─b)|)) := by sorry
