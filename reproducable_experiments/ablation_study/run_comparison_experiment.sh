@@ -115,7 +115,7 @@ RUNCHAN_LINE="LONG COMMANDS (>10 min): any command you run yourself in your own 
 
 if [ "$MODE" = mymethod ]; then
   # --my-method: verbatim operator-guide "Full" prompt + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. IMPORTANT: run the final 'scripts/check_step.py $rel --all' audit — and any 'check_step.py … --subtree' / '--drive' that will run long — through the long-command <<<RUN>>> channel described below (end your turn with the block and let the runner execute it); do NOT run them yourself in the background and then poll or 'wait for a completion notification', which wastes tokens every turn and will not reliably resume you here. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
 else
   # --ablated: operator-guide "Ablated" prompt + REQUIRED per-sentence backing-file structure (so the
   # skill-less arm produces the same decomposition the eval now checks) + the two completion signals.
