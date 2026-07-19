@@ -31,7 +31,7 @@ theorem proposition_5 : ∀ (a b c d e : Point) (AB BC AC : Line),
     "Also, let the straight-lines $FC$ and $GB$ have been joined [Post.~1]. "
     (step3 : c.onLine FC ∧ f.onLine FC ∧ b.onLine GB ∧ g.onLine GB) := by sorry
 
-  -- @assumption_valid
+   -- @assumption_valid
   have step4_assumption1 : |(a─f)| = |(a─g)| := by linarith
   -- @assumption_valid
   have step4_assumption2 : |(a─b)| = |(a─c)| := by assumption
