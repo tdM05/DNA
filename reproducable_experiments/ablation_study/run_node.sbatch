@@ -23,14 +23,12 @@ PROP="${PROPS[$SLURM_ARRAY_TASK_ID]}"
 ROOT="/h/56/taddmao/code/autoform/methodology_compare_worktrees"
 OUT_BASE="/h/56/taddmao/code/autoform/DNA/reproducable_experiments/ablation_study/out"
 case "$ARM" in
-  my-method) WT="$ROOT/full";    MAP="b98dd2b" ;;
-  ablated)   WT="$ROOT/ablated"; MAP="fa400f7" ;;
+  my-method) WT="$ROOT/full" ;;
+  ablated)   WT="$ROOT/ablated" ;;
   *) echo "bad ARM '$ARM'"; exit 1 ;;
 esac
 DRIVER="$WT/reproducable_experiments/ablation_study/run_comparison_experiment.sh"
 LOGDIR="$OUT_BASE/slurm_logs"; mkdir -p "$LOGDIR"
-NN="$(printf '%02d' "$PROP")"
-PROPDIR="$WT/LeanEuclidPlus/Book${BOOK}/Prop${NN}"
 MEMLOG="$LOGDIR/mem-${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}.log"
 
 echo "=== $(date) · node=$(hostname) · task=$SLURM_ARRAY_TASK_ID · $ARM Book${BOOK}/Prop${PROP} · $REPEATS repeats ==="
@@ -44,10 +42,7 @@ echo "=== $(date) · node=$(hostname) · task=$SLURM_ARRAY_TASK_ID · $ARM Book$
 SAMPLER=$!; trap 'kill "$SAMPLER" 2>/dev/null' EXIT
 
 for r in $(seq 1 "$REPEATS"); do
-  echo "--- repeat $r/$REPEATS: reset Prop${NN} to map $MAP, then run ---"
-  git -C "$WT" show "$MAP:LeanEuclidPlus/Book${BOOK}/Prop${NN}/Main.lean" > "$PROPDIR/Main.lean" \
-    || { echo "ABORT repeat $r: cannot read map"; continue; }
-  find "$PROPDIR" -type f ! -name Main.lean -delete
+  echo "--- repeat $r/$REPEATS: $ARM Book${BOOK}/Prop${PROP} (driver auto-resets to map) ---"
   bash "$DRIVER" --"$ARM" --book "$BOOK" --prop "$PROP" --budget "$BUDGET" || true
 done
 echo "=== $(date) · task $SLURM_ARRAY_TASK_ID done ($ARM Book${BOOK}/Prop${PROP}) ==="

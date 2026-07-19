@@ -13,11 +13,9 @@
 # memory wipe, budget loop, single final grade. Only the task prompt and the
 # per-arm branch/map-commit differ.
 #
-# This script does NOT git-checkout. The operator resets the target prop to its
-# MAP state BY HAND first (see DNA/EXPERIMENT_OPERATOR_GUIDE.md); the script only
-# VERIFIES the working-tree Main.lean matches the pinned map commit (GATE 3), so
-# a run can never silently start from the wrong state. This is deliberate: the
-# operator must know exactly what they are launching.
+# The script AUTO-RESETS the target prop to its pinned map commit (GATE 3): it writes the map's
+# Main.lean and deletes any other files in the prop folder, so a run needs no manual prep and
+# re-running is trivial. CAVEAT: never run the SAME prop in two jobs at once (shared worktree folder).
 #
 # Usage:
 #   bash run_comparison_experiment.sh --ablated   --book 1 --prop 47 [--budget 50] [--model opus]
@@ -144,26 +142,16 @@ diff -q "$SELF" "$OTHER_SELF" >/dev/null 2>&1 || {
   echo "       (diff the two files), then retry."; exit 1; }
 
 # ============================================================================
-# GATE 3 — map-state: the operator must have reset Main.lean to the map commit
-# BY HAND (this script does NOT checkout). Verify it matches, byte-for-byte.
+# GATE 3 — map-state: AUTO-RESET this prop to its map. Write the map's Main.lean and delete every
+# other file in the prop folder, so the run starts from a clean blank map with NO manual prep — and
+# re-running is trivial (just launch again). CAVEAT: never run the SAME prop in two jobs at once —
+# they share this one worktree folder and would clobber each other.
 # ============================================================================
-[ -f "$main" ] || { echo "ABORT: $rel/Main.lean does not exist under $LEP."; exit 1; }
-if ! git -C "$REPO" show "$MAP_REF:LeanEuclidPlus/$rel/Main.lean" 2>/dev/null | diff -q - "$main" >/dev/null 2>&1; then
-  echo "ABORT: $rel/Main.lean does NOT match the map commit $MAP_REF (the '$WANT_BRANCH' map)."
-  echo "       Reset it to the map state BY HAND first (see DNA/EXPERIMENT_OPERATOR_GUIDE.md):"
-  echo "         git rm -rf LeanEuclidPlus/$rel && git checkout $MAP_REF -- LeanEuclidPlus/$rel"
-  exit 1
-fi
-# GATE 3b — file SET: the prop dir must have EXACTLY the map commit's files. A leftover step*.lean
-# from a prior run is NOT caught by the Main.lean diff above, so compare the whole file list too.
-map_files="$(git -C "$REPO" ls-tree --name-only "$MAP_REF" "LeanEuclidPlus/$rel/" | sed 's#.*/##' | sort)"
-now_files="$(find "$LEP/$rel" -maxdepth 1 -type f -printf '%f\n' | sort)"
-if [ "$map_files" != "$now_files" ]; then
-  echo "ABORT: $rel dir does not match the map's file set (leftover or missing files):"
-  echo "       map: $(echo $map_files)  |  now: $(echo $now_files)"
-  echo "       reset it: git rm -rf LeanEuclidPlus/$rel && git checkout $MAP_REF -- LeanEuclidPlus/$rel"
-  exit 1
-fi
+mkdir -p "$LEP/$rel"
+git -C "$REPO" show "$MAP_REF:LeanEuclidPlus/$rel/Main.lean" > "$main" 2>/dev/null \
+  || { echo "ABORT: no $rel/Main.lean in map $MAP_REF (invalid prop?)"; exit 1; }
+find "$LEP/$rel" -maxdepth 1 -type f ! -name Main.lean -delete
+echo "[reset $rel to map $MAP_REF — blank Main.lean, no step files]"
 
 echo "=== comparison experiment · mode=$MODE · branch=$branch · $rel · model=$MODEL · budget=$BUDGET_DISP ==="
 echo "    [gate 1: branch OK]  [gate 2: driver identical to $OTHER_BRANCH copy]  [gate 3: Main.lean == map $MAP_REF]"
