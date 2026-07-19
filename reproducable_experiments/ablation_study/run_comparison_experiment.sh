@@ -51,11 +51,14 @@ SELF="$SELF_DIR/$(basename "$0")"
 REPO="$(cd "$SELF_DIR/../.." && pwd -P)"
 REL_SELF="${SELF#"$REPO"/}"                         # this script's path relative to repo root
 LEP="$REPO/LeanEuclidPlus"
-# Claude derives the project-dir name by replacing EVERY non-alphanumeric char
-# (slashes AND underscores, dots, …) with '-', so the slug must match that or
-# MEMDIR/PROJ point at a dir that doesn't exist.
+# Claude derives the project-dir name by replacing EVERY non-alphanumeric char (slashes, underscores,
+# dots, …) with '-'. SESSIONS/TRANSCRIPTS live under the WORKTREE's slug (used by PROJ, below) — correct.
 SLUG="$(echo "$REPO" | sed 's#[^a-zA-Z0-9]#-#g')"
-MEMDIR="$HOME/.claude/projects/${SLUG}/memory"
+# MEMORY is DIFFERENT: Claude keys it to the GIT REPO ROOT (the main repo), SHARED across all worktrees —
+# resolved via git-common-dir, NOT the worktree cwd. So MEMDIR must use the repo-root slug, else the pre-run
+# wipe targets a nonexistent worktree-slug dir (silent no-op) and the real memory LEAKS into every run.
+MEM_ROOT="$(cd "$REPO" && cd "$(git rev-parse --git-common-dir)/.." && pwd -P)"
+MEMDIR="$HOME/.claude/projects/$(echo "$MEM_ROOT" | sed 's#[^a-zA-Z0-9]#-#g')/memory"
 
 # ---- args ------------------------------------------------------------------
 MODE=""; BOOK=""; PROP=""; BUDGET=50.00; MODEL=opus
