@@ -35,6 +35,15 @@ MAP_REF_MYMETHOD="b98dd2b"
 # CENTRAL results dir — OUTSIDE both worktrees so both arms' runs collect in one place (and other
 # runs' outputs aren't sitting inside the agent's workspace). Same structure: out/<mode>/<label>/<run_id>/.
 OUT_BASE="/h/56/taddmao/code/autoform/DNA/reproducable_experiments/ablation_study/out"
+# Long-command channel: a command the agent runs itself in its shell is force-killed at 10 min. When it
+# instead ends a turn with a `<<<RUN cwd=… >>> … <<<END>>>` block, the DRIVER runs that command here
+# (no per-call time cap — the agent sits idle meanwhile) and feeds the output back on the next resume.
+# This is the headless stand-in for interactive "launch in background, get woken when done": the driver
+# is the supervisor that outlives the turn. The FULL output is fed back (like an interactive tool
+# result); only if it exceeds RUN_MAX_BYTES is it head+tail-trimmed so a runaway log can't break the
+# API request. RUN_MAX_SEC caps one such command.
+RUN_MAX_SEC=36000            # 10h ceiling for one agent-requested command
+RUN_MAX_BYTES=300000         # feed the WHOLE output; head+tail-trim only if larger than this (~75k tok)
 
 # ---- locate self + repo ----------------------------------------------------
 SELF_DIR="$(cd "$(dirname "$0")" && pwd -P)"
@@ -101,20 +110,22 @@ CERT_STRING="$rel of Book${BOOK} that I was assigned to work on, is completely d
 GIVEUP_STRING="$rel of Book${BOOK} that I was assigned to work on: I confirm that I want to stop this attempt because I am not making progress."
 CERT_LINE="When it is completely done, print on its OWN line EXACTLY this and nothing appended: $CERT_STRING"
 GIVEUP_LINE="Give up ONLY if you judge you are truly stuck — you see no viable path forward and continuing would just waste time and money. Do NOT give up merely because the work is slow or takes many steps: steady progress, however slow, means keep going. If you do decide to give up, print on its OWN line EXACTLY this and nothing appended: $GIVEUP_STRING"
+# Long-command channel — how the agent runs a command that would exceed the 10-min per-call limit.
+RUNCHAN_LINE="LONG COMMANDS (>10 min): any command you run yourself in your own shell is force-killed after 10 minutes. If you need to run ANY command that may take longer — a slow build, a long audit/check, anything — do NOT run it yourself. Instead END your turn with (and put NOTHING after) a block in EXACTLY this shape: a line '<<<RUN cwd=RELPATH>>>' where RELPATH is a directory INSIDE this repo relative to the repo root (usually 'LeanEuclidPlus'), then the command on its own line(s), then a line '<<<END>>>'. This is NOT giving up or stopping — the experiment runner just runs that command with NO time limit while you sit idle, then resumes you with its full output so you can keep working. Use it ONLY for genuinely long commands; run short ones normally."
 
 if [ "$MODE" = mymethod ]; then
   # --my-method: verbatim operator-guide "Full" prompt + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE"
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
 else
   # --ablated: operator-guide "Ablated" prompt + REQUIRED per-sentence backing-file structure (so the
   # skill-less arm produces the same decomposition the eval now checks) + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. REQUIRED STRUCTURE (this is checked — do NOT prove any sentence inline): for each 'euclid_sentence \"…\" (stepK : CLAIM) := by sorry', (1) create a new file LeanEuclidPlus/$rel/stepK.lean holding ONE lemma 'theorem helper_${BOOK}_${PROPNUM}_stepK (…binders…) : CLAIM := by …' that proves that step (euclid_finish is fine INSIDE the helper), taking whatever facts it needs as hypotheses; (2) add 'import Book${BOOK}.Prop${NN}.stepK' at the top of Main.lean; (3) make Main's body delegate, supplying EVERY hypothesis via euclid_assumption with its type shown — EXACTLY '(by euclid_assumption \"TEXT\" (show TYPE; assumption))', NEVER a bare '(by assumption)'. If a hypothesis has a '-- @assumption (\"NL-TEXT\", TYPE)' line above the sentence, use that NL-TEXT verbatim as the string (so it is clear WHERE that cited fact is used); for the other hypotheses use the empty string \"\". Schematic: in Main '(stepK : CLAIM) := by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK o1 o2 (by euclid_assumption \"the exact @assumption text\" (show TYPE1; assumption)) (by euclid_assumption \"\" (show TYPE2; assumption)))', and in stepK.lean 'theorem helper_${BOOK}_${PROPNUM}_stepK (o1 …) (h1 : TYPE1) (h2 : TYPE2) : CLAIM := by euclid_finish'. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE"
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. REQUIRED STRUCTURE (this is checked — do NOT prove any sentence inline): for each 'euclid_sentence \"…\" (stepK : CLAIM) := by sorry', (1) create a new file LeanEuclidPlus/$rel/stepK.lean holding ONE lemma 'theorem helper_${BOOK}_${PROPNUM}_stepK (…binders…) : CLAIM := by …' that proves that step (euclid_finish is fine INSIDE the helper), taking whatever facts it needs as hypotheses; (2) add 'import Book${BOOK}.Prop${NN}.stepK' at the top of Main.lean; (3) make Main's body delegate, supplying EVERY hypothesis via euclid_assumption with its type shown — EXACTLY '(by euclid_assumption \"TEXT\" (show TYPE; assumption))', NEVER a bare '(by assumption)'. If a hypothesis has a '-- @assumption (\"NL-TEXT\", TYPE)' line above the sentence, use that NL-TEXT verbatim as the string (so it is clear WHERE that cited fact is used); for the other hypotheses use the empty string \"\". Schematic: in Main '(stepK : CLAIM) := by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK o1 o2 (by euclid_assumption \"the exact @assumption text\" (show TYPE1; assumption)) (by euclid_assumption \"\" (show TYPE2; assumption)))', and in stepK.lean 'theorem helper_${BOOK}_${PROPNUM}_stepK (o1 …) (h1 : TYPE1) (h2 : TYPE2) : CLAIM := by euclid_finish'. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
 fi
 
 # Sent on EVERY resume turn — the headless stand-in for the human re-nudging a
 # stalled interactive session (the "I did 60%, continue?" case). It forbids
 # stopping unless the turn ends with one of the two exact terminal lines.
-CONTINUE_PROMPT="Continue working on the task. You are NOT allowed to stop, pause, or ask for confirmation or permission. The ONLY way you may end your turn is to output, on its own line, EXACTLY one of these two lines verbatim: (1) DONE — \"$CERT_STRING\"  or  (2) GIVE UP — \"$GIVEUP_STRING\". Being slow or taking many steps is NOT a reason to give up — only give up if there is no viable path forward and continuing would just waste time and money. Until you print one of those two lines, keep working on your own."
+CONTINUE_PROMPT="Continue working on the task. You are NOT allowed to stop, pause, or ask for confirmation or permission. The ONLY ways you may end your turn are to output, on its own line: (1) DONE — \"$CERT_STRING\", (2) GIVE UP — \"$GIVEUP_STRING\", or (3) a long-command request block '<<<RUN cwd=…>>> … <<<END>>>' (the runner will execute it with no time limit and resume you with its output). Being slow or taking many steps is NOT a reason to give up — only give up if there is no viable path forward and continuing would just waste time and money. Until you do one of those three things, keep working on your own."
 
 # ============================================================================
 # GATE 1 — branch guard: this worktree must be on the arm's branch.
@@ -272,8 +283,42 @@ while true; do
     [ "$(awk "BEGIN{print ($remaining<=0.05)}")" = 1 ]           && { echo "    (budget exhausted)"; stop_reason=budget; break; }
   fi
   i=$((i+1)); [ "$i" -gt 300 ] && { echo "    (safety backstop — 300 rounds)"; stop_reason=backstop; break; }
+  # Pick the next prompt. If the agent ended its turn with a `<<<RUN cwd=…>>> … <<<END>>>` block, the
+  # DRIVER runs that command with NO per-call time cap (the agent is idle meanwhile) and feeds its FULL
+  # output back; otherwise the normal CONTINUE_PROMPT. This is the headless stand-in for interactive
+  # "launch in background, get woken when done" — the driver is the supervisor that outlives the turn.
+  next_prompt="$CONTINUE_PROMPT"
+  run_block="$(printf '%s' "$res" | sed -n '/<<<RUN/,/<<<END>>>/p')"
+  if printf '%s' "$run_block" | grep -q '<<<RUN' && printf '%s' "$run_block" | grep -q '<<<END>>>'; then
+    runcwd="$(printf '%s' "$run_block" | sed -n 's/.*<<<RUN[[:space:]]*cwd=\([^>]*\)>>>.*/\1/p' | head -1)"
+    runcmd="$(printf '%s' "$run_block" | sed '1d;$d')"                 # drop the <<<RUN>>> / <<<END>>> lines
+    [ -z "$runcwd" ] && runcwd="."
+    abscwd="$( cd "$REPO" && cd "$runcwd" 2>/dev/null && pwd -P )" || abscwd=""
+    case "$abscwd" in "$REPO"|"$REPO"/*) : ;; *) abscwd="" ;; esac     # must stay inside this worktree
+    if [ -n "$abscwd" ]; then
+      runlog="$OUT/run$i.log"
+      echo "    [RUN request -> $runcwd (<=${RUN_MAX_SEC}s, agent idle): $(printf '%s' "$runcmd" | tr '\n' ' ' | cut -c1-80)...]"
+      ( cd "$abscwd" && timeout "$RUN_MAX_SEC" bash -c "$runcmd" ) > "$runlog" 2>&1; rc=$?
+      sz=$(wc -c < "$runlog")
+      if [ "$sz" -le "$RUN_MAX_BYTES" ]; then                          # feed the WHOLE output (default)
+        body="$(cat "$runlog")"
+      else                                                            # only trim a runaway log: head+tail
+        body="$(head -c $((RUN_MAX_BYTES/2)) "$runlog")
+... [middle cut: full output was $sz bytes; showing first & last $((RUN_MAX_BYTES/2)) bytes — see $runlog] ...
+$(tail -c $((RUN_MAX_BYTES/2)) "$runlog")"
+      fi
+      echo "    [RUN done -> exit $rc, ${sz}B output]"
+      next_prompt="Output of your requested command (ran in '$runcwd', exit code $rc):
+$body
+
+$CONTINUE_PROMPT"
+    else
+      echo "    [RUN request REFUSED — cwd '$runcwd' outside repo]"
+      next_prompt="RUN request REFUSED: cwd '$runcwd' is empty or resolves OUTSIDE the repository ($REPO). You may only run commands inside your worktree. $CONTINUE_PROMPT"
+    fi
+  fi
   mb=(); [ "$UNLIMITED" = 1 ] || mb=(--max-budget-usd "$remaining")
-  out=$(claude -p "$CONTINUE_PROMPT" --resume "$sid" --model "$MODEL" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"})
+  out=$(claude -p "$next_prompt" --resume "$sid" --model "$MODEL" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"})
   echo "$out" > "$OUT/round$i.json"
 done
 kill "$HB" 2>/dev/null; HB=""
