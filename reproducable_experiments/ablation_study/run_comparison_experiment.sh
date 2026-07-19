@@ -34,6 +34,9 @@ BRANCH_MYMETHOD="full_methodology_branch"
 # (The operator resets each prop's Main.lean to ITS map from these; GATE 3 checks it.)
 MAP_REF_ABLATED="3d8e371"
 MAP_REF_MYMETHOD="be22807"
+# CENTRAL results dir — OUTSIDE both worktrees so both arms' runs collect in one place (and other
+# runs' outputs aren't sitting inside the agent's workspace). Same structure: out/<mode>/<label>/<run_id>/.
+OUT_BASE="/h/56/taddmao/code/autoform/DNA/reproducable_experiments/ablation_study/out"
 
 # ---- locate self + repo ----------------------------------------------------
 SELF_DIR="$(cd "$(dirname "$0")" && pwd -P)"
@@ -41,7 +44,6 @@ SELF="$SELF_DIR/$(basename "$0")"
 REPO="$(cd "$SELF_DIR/../.." && pwd -P)"
 REL_SELF="${SELF#"$REPO"/}"                         # this script's path relative to repo root
 LEP="$REPO/LeanEuclidPlus"
-ABL="$REPO/reproducable_experiments/ablation_study"
 # Claude derives the project-dir name by replacing EVERY non-alphanumeric char
 # (slashes AND underscores, dots, …) with '-', so the slug must match that or
 # MEMDIR/PROJ point at a dir that doesn't exist.
@@ -157,7 +159,10 @@ fi
 echo "=== comparison experiment · mode=$MODE · branch=$branch · $rel · model=$MODEL · budget=$BUDGET_DISP ==="
 echo "    [gate 1: branch OK]  [gate 2: driver identical to $OTHER_BRANCH copy]  [gate 3: Main.lean == map $MAP_REF]"
 
-OUT="$ABL/out/$MODE/$label"; mkdir -p "$OUT"   # never rm — the wrapper owns unique output dirs; we must not destroy any prior artifact
+# Each invocation is ONE run with a UNIQUE id + start datetime, in its OWN folder under the prop's
+# label dir — so the 3 repeat runs per prop coexist and stay identifiable (never overwrite each other).
+RUN_ID="$(date +%Y%m%d-%H%M%S)-$( (cat /proc/sys/kernel/random/uuid 2>/dev/null || echo $RANDOM$RANDOM) | tr -d - | cut -c1-8)"
+OUT="$OUT_BASE/$MODE/$label/$RUN_ID"; mkdir -p "$OUT"         # <central>/out/<mode>/Book1_Prop47_opus/<datetime>-<id>/
 
 # ============================================================================
 # LEAK GUARD — deny ALL git for the AGENT so it can't `git show`/`git log` the
@@ -244,7 +249,7 @@ write_result() { # $1 = status
 ( while :; do e=$(( $(date +%s) - t0 ))
     printf '%s  %s  %s  session=%s  transcript=%s  elapsed=%dm%02ds  (started %s · Ctrl-C to cancel)\n' \
       "$rel" "$MODE" "$MODEL" "$sid" "$jsonl" $((e/60)) $((e%60)) "$(date -d @"$t0" +%H:%M:%S)" \
-      > "$ABL/out/$MODE/_current.txt"
+      > "$OUT_BASE/$MODE/_current.txt"
     sleep 15; done ) &
 HB=$!
 
@@ -276,6 +281,9 @@ while true; do
 done
 kill "$HB" 2>/dev/null; HB=""
 cp "$jsonl" "$OUT/transcript.jsonl" 2>/dev/null
+# Snapshot the produced Prop folder (Main.lean + step*.lean) INTO the run folder — self-contained, and
+# it survives the next repeat's reset. Kept for later (controlled) build-time experiments on the artifact.
+cp -r "$LEP/$rel" "$OUT/" 2>/dev/null                         # → $OUT/Prop<NN>/
 
 # ---- outcome: give-up ⟹ NOT complete, no grade; anything else ⟹ grade once --
 status=FAIL; grade_sec=0
