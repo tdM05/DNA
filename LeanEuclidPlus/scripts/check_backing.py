@@ -4,12 +4,13 @@
 Enforces the DECOMPOSITION faithfulness criterion that check_faithful's --relaxed mode drops —
 applied IDENTICALLY to the ablated baseline and the full method:
 
-  Every `euclid_sentence … (stepN : T)` in Main delegates to a lemma `helper_<book>_<prop>_stepN`
-  that lives in its OWN file `stepN.lean` (Main imports it and its body references the helper). No
-  inline proof survives this — Euclid's "since X, therefore Y" becomes a real lemma with X in context
-  proving Y. (Further, recursive decomposition INSIDE a step is NOT required — only the top-level
-  per-sentence backing file. Assumptions are NOT enforced here — how each helper's hypotheses are
-  supplied is left to the prover.)
+  (A) Every `euclid_sentence … (stepN : T)` delegates to a lemma `helper_<book>_<prop>_stepN` in its
+      OWN file `stepN.lean` (Main imports it + its body references the helper) — no inline proof.
+      (Recursive decomposition INSIDE a step is NOT required — only the top-level per-sentence file.)
+  (B) Assumption consumption — so both arms read IDENTICALLY: every hypothesis proof uses
+      `euclid_assumption` (never bare `(by assumption)`), each shows its type `(show TYPE; …)`, and
+      each `-- @assumption ("TEXT", TYPE)` is consumed as `euclid_assumption "TEXT" (show TYPE; …)` so
+      the cited NL text marks WHERE the fact is used.
 
 The full method produces this automatically (the wiring pipeline); the ablated arm must reproduce the
 per-sentence lemma structure by hand.
@@ -19,6 +20,34 @@ Exit 0 = all pass · 1 = problems found · 2 = usage/parse error.
 """
 import re, sys, os
 import faithful_lib as fl
+
+
+def _norm(s):
+    return " ".join(s.split())
+
+
+def _helper_call(src, helper):
+    """The balanced-paren `(helper_… args)` delegation call for `helper`, or None. Scoped to THIS
+    helper's name, so a sentence's own call is isolated from surrounding frame code (wlog/reductio
+    branches, which use OTHER helpers + bare `(by assumption)`)."""
+    m = re.search(r'\b' + re.escape(helper) + r'\b', src)
+    if not m:
+        return None
+    i = m.start() - 1
+    while i >= 0 and src[i].isspace():                       # the '(' just before the helper name
+        i -= 1
+    if i < 0 or src[i] != '(':
+        return None
+    depth, j = 0, i
+    while j < len(src):
+        if src[j] == '(':
+            depth += 1
+        elif src[j] == ')':
+            depth -= 1
+            if depth == 0:
+                return src[i:j + 1]
+        j += 1
+    return None
 
 
 def _report(label, problems, n):
@@ -75,6 +104,46 @@ def check_backing(main_rel):
                             f"(the sentence must delegate to its helper, not prove inline)")
     rc = _report("every sentence delegates to helper_<book>_<prop>_stepN in its own file",
                  problems, len(steps))
+
+    # ── (B) assumption consumption — SCOPED to each sentence's OWN helper call (never the wlog /
+    # reductio FRAME around it, which legitimately uses bare `(by assumption)`):
+    #   • every hypothesis proof-arg `(by …)` in the call is `euclid_assumption … (show TYPE; …)`
+    #     — enforced by counting: #`(by …)` == #`show` == #`euclid_assumption`,
+    #   • each `-- @assumption ("TEXT", TYPE)` is consumed as `euclid_assumption "TEXT" (show TYPE; …)`.
+    b_problems = []
+    for m in steps:
+        sname = m.group(2)
+        call = _helper_call(src, fl.helper_name(book, prop, sname))
+        if call is None:
+            continue                                         # part A already reports the missing helper
+        a = len(re.findall(r'\(\s*by\b', call))              # hypothesis proof-args
+        s = len(re.findall(r'\bshow\b', call))               # shows
+        e = len(re.findall(r'\beuclid_assumption\b', call))  # euclid_assumptions
+        if not (a == s == e):
+            b_problems.append(f"{sname}: {a} hypothesis arg(s) `(by …)` but {e} euclid_assumption / {s} show "
+                              f"— every hypothesis must be `(by euclid_assumption \"…\" (show TYPE; assumption))`")
+        # per distinct @assumption TYPE: it must be consumed via euclid_assumption with ONE of its
+        # (non-empty) NL texts + show. Duplicate @assumptions (same type, different phrasing from the
+        # same sentence) are satisfied by any one of their texts — a redundant phrasing isn't required.
+        by_type = {}
+        for text, typ, *_ in (fl._assumptions_above(src, m.start()) or []):
+            by_type.setdefault(_norm(typ), set()).add(text)
+        for typ_n, texts in by_type.items():
+            ok = False
+            for t in texts:
+                if not t:
+                    continue
+                h = re.search(r'euclid_assumption\s*"' + re.escape(t) + r'"\s*\(\s*show\s+(.+?)\s*;',
+                              call, re.DOTALL)
+                if h and _norm(h.group(1)) == typ_n:
+                    ok = True
+                    break
+            if not ok:
+                shown = " / ".join(sorted(repr(t) for t in texts))
+                b_problems.append(f"{sname}: @assumption type `{typ_n}` (NL text {shown}) not consumed as "
+                                  f"`euclid_assumption \"<its NL text>\" (show {typ_n}; assumption)`")
+    rc |= _report("each sentence's helper call supplies every hypothesis via euclid_assumption (show type)",
+                  b_problems, len(steps))
 
     print("  => " + ("ALL PASS" if rc == 0 else "PROBLEMS FOUND") + " (backing mode)")
     return rc
