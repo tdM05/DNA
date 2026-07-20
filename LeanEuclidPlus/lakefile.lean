@@ -27,13 +27,6 @@ lean_lib Book2 {
 lean_lib Book3 {
 }
 
--- upstream baseline for benchmarking (fully isolated: nothing else imports these)
-lean_lib OldBook1 {
-}
-
-lean_lib OldBook1Variants {
-}
-
 
 /-- Reads faithfulness annotations back from a compiled module's `.olean` and dumps them as JSON
 for `scripts/check_faithful.py --olean`.  See `FaithfulExport.lean`. -/

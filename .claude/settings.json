@@ -77,8 +77,6 @@
       "Bash(./scripts/safe_build.sh:*)"
     ],
     "deny": [
-      "Bash(git:*)",
-      "Bash(git)",
       "AskUserQuestion",
       "Bash(lake build:*)",
       "Write(**/step_signatures.json)",

@@ -42,8 +42,14 @@ OUT_BASE="/h/56/taddmao/code/autoform/DNA/reproducable_experiments/ablation_stud
 # is the supervisor that outlives the turn. The FULL output is fed back (like an interactive tool
 # result); only if it exceeds RUN_MAX_BYTES is it head+tail-trimmed so a runaway log can't break the
 # API request. RUN_MAX_SEC caps one such command.
-RUN_MAX_SEC=36000            # 10h ceiling for one agent-requested command
+RUN_MAX_SEC=36000            # 10h ceiling for one agent-requested command (the agent's constant cap)
 RUN_MAX_BYTES=300000         # feed the WHOLE output; head+tail-trim only if larger than this (~75k tok)
+# 12h GLOBAL HARD WALL for the whole run. Completely independent of RUN_MAX_SEC and of the agent loop —
+# the agent always "has" its full 10h RUN cap, and nothing in the round loop knows about this wall. It is
+# enforced by ONE separate background WATCHDOG (spawned near the run start, defined below): it sleeps until
+# t0+12h and, if it fires, saves the run (transcript + PropNN snapshot + result=TIMEOUT, exactly like the
+# manual fixup) and then cancels EVERYTHING (agent + build + driver). No crash. A normal finish reaps it.
+WALL_LIMIT_SEC=${WALL_LIMIT_SEC:-43200}   # 12h default; override via env for a quick test, e.g. WALL_LIMIT_SEC=180
 
 # ---- locate self + repo ----------------------------------------------------
 SELF_DIR="$(cd "$(dirname "$0")" && pwd -P)"
@@ -51,11 +57,14 @@ SELF="$SELF_DIR/$(basename "$0")"
 REPO="$(cd "$SELF_DIR/../.." && pwd -P)"
 REL_SELF="${SELF#"$REPO"/}"                         # this script's path relative to repo root
 LEP="$REPO/LeanEuclidPlus"
-# Claude derives the project-dir name by replacing EVERY non-alphanumeric char
-# (slashes AND underscores, dots, …) with '-', so the slug must match that or
-# MEMDIR/PROJ point at a dir that doesn't exist.
+# Claude derives the project-dir name by replacing EVERY non-alphanumeric char (slashes, underscores,
+# dots, …) with '-'. SESSIONS/TRANSCRIPTS live under the WORKTREE's slug (used by PROJ, below) — correct.
 SLUG="$(echo "$REPO" | sed 's#[^a-zA-Z0-9]#-#g')"
-MEMDIR="$HOME/.claude/projects/${SLUG}/memory"
+# MEMORY is DIFFERENT: Claude keys it to the GIT REPO ROOT (the main repo), SHARED across all worktrees —
+# resolved via git-common-dir, NOT the worktree cwd. So MEMDIR must use the repo-root slug, else the pre-run
+# wipe targets a nonexistent worktree-slug dir (silent no-op) and the real memory LEAKS into every run.
+MEM_ROOT="$(cd "$REPO" && cd "$(git rev-parse --git-common-dir)/.." && pwd -P)"
+MEMDIR="$HOME/.claude/projects/$(echo "$MEM_ROOT" | sed 's#[^a-zA-Z0-9]#-#g')/memory"
 
 # ---- args ------------------------------------------------------------------
 MODE=""; BOOK=""; PROP=""; BUDGET=50.00; MODEL=opus
@@ -115,7 +124,7 @@ RUNCHAN_LINE="LONG COMMANDS (>10 min): any command you run yourself in your own 
 
 if [ "$MODE" = mymethod ]; then
   # --my-method: verbatim operator-guide "Full" prompt + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. IMPORTANT: run the final 'scripts/check_step.py $rel --all' audit — and any 'check_step.py … --subtree' / '--drive' that will run long — through the long-command <<<RUN>>> channel described below (end your turn with the block and let the runner execute it); do NOT run them yourself in the background and then poll or 'wait for a completion notification', which wastes tokens every turn and will not reliably resume you here. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
 else
   # --ablated: operator-guide "Ablated" prompt + REQUIRED per-sentence backing-file structure (so the
   # skill-less arm produces the same decomposition the eval now checks) + the two completion signals.
@@ -208,8 +217,8 @@ PY
 rm -rf "$MEMDIR" && echo "[memory deleted: $MEMDIR]"
 
 # Heartbeat pid — killed on any exit (normal, Ctrl-C, kill) so it never orphans.
-HB=""
-trap '[ -n "$HB" ] && kill "$HB" 2>/dev/null' EXIT
+HB=""; WD=""
+trap '[ -n "$HB" ] && kill "$HB" 2>/dev/null; [ -n "$WD" ] && kill -KILL "$WD" 2>/dev/null' EXIT
 
 # ============================================================================
 # GRADE (identical for both arms): 0 sorry + faithful (texts/citations/structure) + per-sentence
@@ -263,7 +272,28 @@ HB=$!
 
 spent=0; wall_ms=0; remaining="$BUDGET"; i=0; grade_sec=""; stop_reason=""
 write_result RUNNING
-echo "--- $rel: starting (budget=$BUDGET_DISP · no time limit · session $sid) ---"
+# ===== GLOBAL 12h WALL — ONE independent watchdog. It has NOTHING to do with the agent loop, the round
+# structure, or any RUN command; it just sleeps until t0+12h. If it ever fires it (1) saves the run exactly
+# like the manual fixup — copies the transcript, snapshots PropNN, flips result.txt to TIMEOUT — and (2)
+# cancels EVERYTHING: it kills the agent + its build first (leaves→root, TERM then KILL), then the driver.
+# A normal finish reaps it (after the loop + in the EXIT trap) so it can never fire on a completed run.
+_descendants() { local c; for c in $(pgrep -P "$1" 2>/dev/null); do [ "$c" = "$2" ] && continue; echo "$c"; _descendants "$c" "$2"; done; }
+DRIVER_PID=$$
+( self=$BASHPID
+  left=$(( t0 + WALL_LIMIT_SEC - $(date +%s) )); [ "$left" -gt 0 ] && sleep "$left"   # fire at EXACTLY t0+limit
+  echo "    (GLOBAL ${WALL_LIMIT_SEC}s wall hit — watchdog: saving TIMEOUT + cancelling the run)"
+  kill -STOP "$DRIVER_PID" 2>/dev/null                                          # FREEZE the driver first: it can't start a new turn/build, and can't race our result.txt write
+  cp "$jsonl" "$OUT/transcript.jsonl" 2>/dev/null
+  cp -r "$LEP/$rel" "$OUT/" 2>/dev/null
+  sed -i 's/^result: .*/result: TIMEOUT/; s/^stop_reason: .*/stop_reason: timeout_12h/' "$OUT/result.txt" 2>/dev/null
+  pids="$(_descendants "$DRIVER_PID" "$self")"                                  # agent + build subtree (frozen driver still their parent), excluding us
+  for p in $(printf '%s\n' $pids | tac); do kill -TERM "$p" 2>/dev/null; done   # leaves first: let claude tear down its own build
+  sleep 2
+  for p in $pids; do kill -KILL "$p" 2>/dev/null; done                          # force-kill any survivor (z3/cvc5)
+  kill -KILL "$DRIVER_PID" 2>/dev/null                                          # kill the frozen driver last
+) &
+WD=$!
+echo "--- $rel: starting (budget=$BUDGET_DISP · 12h global wall · session $sid) ---"
 mb=(); [ "$UNLIMITED" = 1 ] || mb=(--max-budget-usd "$remaining")   # cost cap arg — omitted entirely when unlimited
 out=$(claude -p "$PROMPT" --model "$MODEL" --session-id "$sid" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"})
 echo "$out" > "$OUT/round0.json"
@@ -321,17 +351,22 @@ $CONTINUE_PROMPT"
   out=$(claude -p "$next_prompt" --resume "$sid" --model "$MODEL" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"})
   echo "$out" > "$OUT/round$i.json"
 done
+[ -n "$WD" ] && kill -KILL "$WD" 2>/dev/null; WD=""   # reap the watchdog FIRST so it can't fire during our normal end-code
 kill "$HB" 2>/dev/null; HB=""
 cp "$jsonl" "$OUT/transcript.jsonl" 2>/dev/null
 # Snapshot the produced Prop folder (Main.lean + step*.lean) INTO the run folder — self-contained, and
 # it survives the next repeat's reset. Kept for later (controlled) build-time experiments on the artifact.
 cp -r "$LEP/$rel" "$OUT/" 2>/dev/null                         # → $OUT/Prop<NN>/
 
-# ---- outcome: give-up ⟹ NOT complete, no grade; anything else ⟹ grade once --
+# ---- outcome: give-up / 12h-timeout ⟹ NOT complete, no grade; anything else ⟹ grade once --
+# (transcript + PropNN snapshot were already copied above, so a TIMEOUT lands exactly like the manual fixup.)
 status=FAIL; grade_sec=0
 if [ "$stop_reason" = gaveup ]; then
   status=GAVEUP
   echo "    (agent gave up — marked NOT complete, grade skipped)"
+elif [ "$stop_reason" = timeout_12h ]; then
+  status=TIMEOUT
+  echo "    (12h wall limit — marked TIMEOUT, grade skipped)"
 else
   gt=$(date +%s)
   grade && status=SUCCESS

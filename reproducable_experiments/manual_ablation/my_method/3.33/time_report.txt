@@ -1,0 +1,15 @@
+transcript: 74e6aedd-851c-4c2e-ba23-0d27ec5ddb54.jsonl
+first event: 2026-07-17T16:44:03.918000+00:00   last event: 2026-07-17T21:49:17.518000+00:00
+TOTAL wall-clock span: 5h05m14s
+walked-away time removed (gaps >5min while waiting on YOU): 0h00m00s
+>>> ACTUAL WORKING TIME (span minus walk-aways, keeps tool/build time): 5h05m14s <<<
+
+biggest WALK-AWAY gaps (before a message you typed):
+
+biggest ACTIVE gaps (kept as work — long tool/build/generation):
+    0h54m51s  starting 2026-07-17T18:50:39.886000+00:00
+    0h23m15s  starting 2026-07-17T20:51:13.371000+00:00
+    0h20m50s  starting 2026-07-17T21:28:27.713000+00:00
+    0h08m44s  starting 2026-07-17T21:19:43.809000+00:00
+    0h03m29s  starting 2026-07-17T18:34:37.256000+00:00
+    0h02m00s  starting 2026-07-17T17:12:34.499000+00:00
