@@ -50,6 +50,12 @@ RUN_MAX_BYTES=300000         # feed the WHOLE output; head+tail-trim only if lar
 # t0+12h and, if it fires, saves the run (transcript + PropNN snapshot + result=TIMEOUT, exactly like the
 # manual fixup) and then cancels EVERYTHING (agent + build + driver). No crash. A normal finish reaps it.
 WALL_LIMIT_SEC=${WALL_LIMIT_SEC:-43200}   # 12h default; override via env for a quick test, e.g. WALL_LIMIT_SEC=180
+# SUBSCRIPTION USAGE RETRY. When `claude -p` returns a usage/rate-limit error (the subscription cap is hit),
+# that round is NOT counted — the driver sleeps RETRY_SLEEP and re-issues the SAME resume (same session) until
+# the quota returns, so no progress is lost. The wait is EXCLUDED from the 12h wall: each wait bumps
+# $OUT/.wall_extra and the watchdog pushes its deadline out by that much, so an outage can't cause a spurious
+# TIMEOUT. Measured wall_sec is unaffected too — it sums real rounds' duration_ms; skipped error rounds add none.
+RETRY_SLEEP=${RETRY_SLEEP:-900}           # 15 min between usage-limit retries (override via env for a test)
 
 # ---- locate self + repo ----------------------------------------------------
 SELF_DIR="$(cd "$(dirname "$0")" && pwd -P)"
@@ -262,6 +268,30 @@ write_result() { # $1 = status
     > "$OUT/result.txt"
 }
 
+# Run a `claude -p …` call ("$@"), transparently retrying on a subscription usage/rate-limit error so no
+# progress is lost. Such a call is NOT counted as a round: we sleep RETRY_SLEEP and re-issue the SAME command
+# until a normal (non-usage-limited) result comes back, then return it in global `out`. Each wait bumps
+# $OUT/.wall_extra so the 12h watchdog excludes the outage. Retry triggers: a non-zero exit code, OR an
+# is_error JSON result whose text names a usage/rate/quota limit (gated on is_error so an agent turn that
+# merely MENTIONS "rate limit" in its own output is never mistaken for one). Bounded ultimately by the
+# node's SLURM --time wall (2 days).
+agent_call() {  # "$@" = the full claude command to run
+  local rc is_err extra
+  while :; do
+    out="$("$@")"; rc=$?
+    is_err="$(printf '%s' "$out" | jq -r '.is_error // empty' 2>/dev/null)"
+    if [ "$rc" -ne 0 ] || { [ "$is_err" = true ] && \
+         printf '%s' "$out" | grep -qiE 'usage limit|rate limit|limit reached|too many requests|(^|[^0-9])429([^0-9]|$)|resets? at|quota'; }; then
+      echo "    ($rel: usage/rate limit hit (rc=$rc) — waiting ${RETRY_SLEEP}s then retrying same resume; NOT counted as a round)"
+      extra="$(cat "$OUT/.wall_extra" 2>/dev/null)"; case "$extra" in ''|*[!0-9]*) extra=0 ;; esac
+      echo $(( extra + RETRY_SLEEP )) > "$OUT/.wall_extra"     # exclude this wait from the 12h wall
+      sleep "$RETRY_SLEEP"
+      continue
+    fi
+    break
+  done
+}
+
 # heartbeat → _current.txt: session id + transcript + elapsed, from t=0.
 ( while :; do e=$(( $(date +%s) - t0 ))
     printf '%s  %s  %s  session=%s  transcript=%s  elapsed=%dm%02ds  (started %s · Ctrl-C to cancel)\n' \
@@ -272,6 +302,7 @@ HB=$!
 
 spent=0; wall_ms=0; remaining="$BUDGET"; i=0; grade_sec=""; stop_reason=""
 write_result RUNNING
+rm -f "$OUT/.wall_extra" 2>/dev/null   # fresh quota-wait accumulator the watchdog adds to its deadline
 # ===== GLOBAL 12h WALL — ONE independent watchdog. It has NOTHING to do with the agent loop, the round
 # structure, or any RUN command; it just sleeps until t0+12h. If it ever fires it (1) saves the run exactly
 # like the manual fixup — copies the transcript, snapshots PropNN, flips result.txt to TIMEOUT — and (2)
@@ -280,7 +311,17 @@ write_result RUNNING
 _descendants() { local c; for c in $(pgrep -P "$1" 2>/dev/null); do [ "$c" = "$2" ] && continue; echo "$c"; _descendants "$c" "$2"; done; }
 DRIVER_PID=$$
 ( self=$BASHPID
-  left=$(( t0 + WALL_LIMIT_SEC - $(date +%s) )); [ "$left" -gt 0 ] && sleep "$left"   # fire at EXACTLY t0+limit
+  # Sleep until t0 + WALL_LIMIT + (quota-wait accumulated so far). The deadline is EXTENDABLE, not fixed:
+  # each usage-limit wait in the loop adds its seconds to .wall_extra. We sleep the exact remaining time, then
+  # re-read .wall_extra — if it grew during the sleep the deadline moved out, so we sleep the delta; else we
+  # fire. With NO outage .wall_extra stays 0, so this is a SINGLE sleep firing at EXACTLY t0+limit (unchanged);
+  # extra wakeups happen only once per real outage, never on a busy tick.
+  while :; do
+    extra="$(cat "$OUT/.wall_extra" 2>/dev/null)"; case "$extra" in ''|*[!0-9]*) extra=0 ;; esac
+    left=$(( t0 + WALL_LIMIT_SEC + extra - $(date +%s) ))
+    [ "$left" -le 0 ] && break
+    sleep "$left"
+  done
   echo "    (GLOBAL ${WALL_LIMIT_SEC}s wall hit — watchdog: saving TIMEOUT + cancelling the run)"
   kill -STOP "$DRIVER_PID" 2>/dev/null                                          # FREEZE the driver first: it can't start a new turn/build, and can't race our result.txt write
   cp "$jsonl" "$OUT/transcript.jsonl" 2>/dev/null
@@ -295,7 +336,7 @@ DRIVER_PID=$$
 WD=$!
 echo "--- $rel: starting (budget=$BUDGET_DISP · 12h global wall · session $sid) ---"
 mb=(); [ "$UNLIMITED" = 1 ] || mb=(--max-budget-usd "$remaining")   # cost cap arg — omitted entirely when unlimited
-out=$(claude -p "$PROMPT" --model "$MODEL" --session-id "$sid" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"})
+agent_call claude -p "$PROMPT" --model "$MODEL" --session-id "$sid" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"}
 echo "$out" > "$OUT/round0.json"
 while true; do
   tc=$(echo "$out" | jq -r '.total_cost_usd // 0')
@@ -348,7 +389,7 @@ $CONTINUE_PROMPT"
     fi
   fi
   mb=(); [ "$UNLIMITED" = 1 ] || mb=(--max-budget-usd "$remaining")
-  out=$(claude -p "$next_prompt" --resume "$sid" --model "$MODEL" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"})
+  agent_call claude -p "$next_prompt" --resume "$sid" --model "$MODEL" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"}
   echo "$out" > "$OUT/round$i.json"
 done
 [ -n "$WD" ] && kill -KILL "$WD" 2>/dev/null; WD=""   # reap the watchdog FIRST so it can't fire during our normal end-code

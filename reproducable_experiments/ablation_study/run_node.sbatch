@@ -3,7 +3,7 @@
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --mem=0
-#SBATCH --time=1-00:00:00
+#SBATCH --time=2-00:00:00
 #SBATCH --job-name=euclid
 #SBATCH --output=/h/56/taddmao/code/autoform/DNA/reproducable_experiments/ablation_study/out/slurm_logs/%x-%A_%a.out
 # ============================================================================
