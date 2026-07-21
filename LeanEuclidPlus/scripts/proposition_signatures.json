@@ -1,602 +1,242 @@
 {
-  "Book/Prop01.lean::proposition_1": {
-    "file": "Book/Prop01.lean",
-    "line": 5,
-    "sig": "∀ (a b : Point) (AB : Line), distinctPointsOnLine a b AB → ∃ c : Point, |(c─a)| = |(a─b)| ∧ |(c─b)| = |(a─b)|"
-  },
-  "Book/Prop01.lean::proposition_1'": {
-    "file": "Book/Prop01.lean",
-    "line": 66,
-    "sig": "∀ (a b x : Point) (AB : Line), distinctPointsOnLine a b AB ∧ ¬(x.onLine AB) → ∃ c : Point, |(c─a)| = |(a─b)| ∧ |(c─b)| = |(a─b)| ∧ (c.opposingSides x AB)"
-  },
-  "Book/Prop02.lean::proposition_2": {
-    "file": "Book/Prop02.lean",
-    "line": 6,
-    "sig": "∀ (a b c : Point) (BC : Line), (distinctPointsOnLine b c BC) ∧ (a ≠ b) → ∃ l : Point, |(a─l)| = |(b─c)|"
-  },
-  "Book/Prop02.lean::proposition_2'": {
-    "file": "Book/Prop02.lean",
-    "line": 29,
-    "sig": "∀ (a b c : Point) (BC : Line), distinctPointsOnLine b c BC → ∃ l : Point, |(a─l)| = |(b─c)|"
-  },
-  "Book/Prop03.lean::proposition_3": {
-    "file": "Book/Prop03.lean",
-    "line": 6,
-    "sig": "∀ (a b c₀ c₁ : Point) (AB C : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c₀ c₁ C ∧ |(a─b)| > |(c₀─c₁)| → ∃ e : Point, between a e b ∧ |(a─e)| = |(c₀─c₁)|"
-  },
-  "Book/Prop04.lean::proposition_4": {
-    "file": "Book/Prop04.lean",
-    "line": 5,
-    "sig": "∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line), formTriangle a b c AB BC AC ∧ formTriangle d e f DE EF DF ∧ |(a─b)| = |(d─e)| ∧ |(a─c)| = |(d─f)| ∧ (∠ b:a:c = ∠ e:d:f) → |(b─c)| = |(e─f)| ∧ (∠ a:b:c = ∠ d:e:f) ∧ (∠ a:c:b = ∠ d:f:e)"
-  },
-  "Book/Prop05.lean::proposition_5": {
-    "file": "Book/Prop05.lean",
-    "line": 7,
-    "sig": "∀ (a b c d e : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (|(a─b)| = |(a─c)|) ∧ (between a b d) ∧ (between a c e) → (∠ a:b:c = ∠ a:c:b) ∧ (∠ c:b:d = ∠ b:c:e)"
-  },
-  "Book/Prop05.lean::proposition_5'": {
-    "file": "Book/Prop05.lean",
-    "line": 26,
-    "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (|(a─b)| = |(a─c)|) → (∠ a:b:c = ∠ a:c:b)"
-  },
-  "Book/Prop06.lean::proposition_6": {
-    "file": "Book/Prop06.lean",
-    "line": 7,
-    "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (∠ a:b:c = ∠ a:c:b) → |(a─b)| = |(a─c)|"
-  },
-  "Book/Prop07.lean::proposition_7": {
-    "file": "Book/Prop07.lean",
-    "line": 6,
-    "sig": "∀ (a b c d : Point) (AB AC CB AD DB : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine a c AC ∧ distinctPointsOnLine c b CB ∧ distinctPointsOnLine a d AD ∧ distinctPointsOnLine d b DB ∧ (c.sameSide d AB) ∧ c ≠ d ∧ (|(a─c)| = |(a─d)|) ∧ (|(c─b)| = |(d─b)|) → False"
-  },
-  "Book/Prop08.lean::proposition_8": {
-    "file": "Book/Prop08.lean",
-    "line": 6,
-    "sig": "∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line), formTriangle a b c AB BC AC ∧ formTriangle d e f DE EF DF ∧ |(a─b)| = |(d─e)| ∧ |(a─c)| = |(d─f)| ∧ |(b─c)| = |(e─f)| → ∠ b:a:c = ∠ e:d:f"
-  },
-  "Book/Prop09.lean::proposition_9": {
-    "file": "Book/Prop09.lean",
-    "line": 10,
-    "sig": "∀ (a b c : Point) (AB AC : Line), formRectilinearAngle b a c AB AC ∧ AB ≠ AC → ∃ f : Point, f ≠ a ∧ (∠ b:a:f = ∠ c:a:f)"
-  },
-  "Book/Prop09.lean::proposition_9'": {
-    "file": "Book/Prop09.lean",
-    "line": 36,
-    "sig": "∀ (a b c : Point) (AB AC : Line), formRectilinearAngle b a c AB AC ∧ AB ≠ AC → ∃ f : Point, (f.sameSide c AB) ∧ (f.sameSide b AC) ∧ (∠ b:a:f = ∠ c:a:f)"
-  },
-  "Book/Prop10.lean::proposition_10": {
-    "file": "Book/Prop10.lean",
-    "line": 8,
-    "sig": "∀ (a b : Point) (AB : Line), distinctPointsOnLine a b AB → ∃ d : Point, (between a d b) ∧ (|(a─d)| = |(d─b)|)"
-  },
-  "Book/Prop11.lean::proposition_11": {
-    "file": "Book/Prop11.lean",
-    "line": 8,
-    "sig": "∀ (a b c : Point) (AB : Line), distinctPointsOnLine a b AB ∧ between a c b → exists f : Point, ¬(f.onLine AB) ∧ (∠ a:c:f = ∟)"
-  },
-  "Book/Prop11.lean::proposition_11'": {
-    "file": "Book/Prop11.lean",
-    "line": 24,
-    "sig": "∀ (a b c x : Point) (AB : Line), (distinctPointsOnLine a b AB) ∧ (between a c b) ∧ ¬(x.onLine AB) → exists f : Point, (f.sameSide x AB) ∧ (∠ a:c:f = ∟)"
-  },
-  "Book/Prop11.lean::proposition_11''": {
-    "file": "Book/Prop11.lean",
-    "line": 41,
-    "sig": "∀ (a b : Point) (AB : Line), distinctPointsOnLine a b AB → exists (f : Point), ¬(f.onLine AB) ∧ (∠ f:a:b = ∟)"
-  },
-  "Book/Prop11.lean::proposition_11'''": {
-    "file": "Book/Prop11.lean",
-    "line": 51,
-    "sig": "∀ (a b x : Point) (AB : Line), ¬(x.onLine AB) ∧ (distinctPointsOnLine a b AB) → exists (f : Point), ¬(f.onLine AB) ∧ (f.opposingSides x AB) ∧ (∠ f:a:b = ∟)"
-  },
-  "Book/Prop12.lean::proposition_12": {
-    "file": "Book/Prop12.lean",
-    "line": 7,
-    "sig": "∀ (a b c : Point) (AB : Line), distinctPointsOnLine a b AB ∧ ¬(c.onLine AB) → exists h : Point, h.onLine AB ∧ (∠ a:h:c = ∟ ∨ ∠ b:h:c = ∟)"
-  },
-  "Book/Prop13.lean::proposition_13": {
-    "file": "Book/Prop13.lean",
-    "line": 6,
-    "sig": "∀ (a b c d : Point) (AB CD : Line), AB ≠ CD ∧ distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ between d b c → ∠ c:b:a + ∠ a:b:d = ∟ + ∟"
-  },
-  "Book/Prop14.lean::proposition_14": {
-    "file": "Book/Prop14.lean",
-    "line": 6,
-    "sig": "∀ (a b c d : Point) (AB BC BD : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine b c BC ∧ distinctPointsOnLine b d BD ∧ (c.opposingSides d AB) ∧ (∠ a:b:c + ∠ a:b:d) = ∟ + ∟ → BC = BD"
-  },
-  "Book/Prop15.lean::proposition_15": {
-    "file": "Book/Prop15.lean",
-    "line": 6,
-    "sig": "∀ (a b c d e : Point) (AB CD : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ e.onLine AB ∧ e.onLine CD ∧ CD ≠ AB ∧ (between d e c) ∧ (between a e b) → (∠ a:e:c = ∠ d:e:b) ∧ (∠ c:e:b = ∠ a:e:d)"
-  },
-  "Book/Prop16.lean::proposition_16": {
-    "file": "Book/Prop16.lean",
-    "line": 9,
-    "sig": "∀ (a b c d : Point) (AB BC AC: Line), formTriangle a b c AB BC AC ∧ (between b c d) → (∠ a:c:d > ∠ c:b:a) ∧ (∠ a:c:d > ∠ b:a:c)"
-  },
-  "Book/Prop17.lean::proposition_17": {
-    "file": "Book/Prop17.lean",
-    "line": 7,
-    "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC → ∠ a:b:c + ∠ b:c:a < ∟ + ∟"
-  },
-  "Book/Prop18.lean::proposition_18": {
-    "file": "Book/Prop18.lean",
-    "line": 8,
-    "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (|(a─c)| > |(a─b)|) → (∠ a:b:c > ∠ b:c:a)"
-  },
-  "Book/Prop19.lean::proposition_19": {
-    "file": "Book/Prop19.lean",
-    "line": 7,
-    "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (∠ a:b:c > ∠ b:c:a) → (|(a─c)| > |(a─b)|)"
-  },
-  "Book/Prop20.lean::proposition_20": {
-    "file": "Book/Prop20.lean",
-    "line": 8,
-    "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC → |(b─a)| + |(a─c)| > |(b─c)|"
-  },
-  "Book/Prop21.lean::proposition_21": {
-    "file": "Book/Prop21.lean",
-    "line": 7,
-    "sig": "∀ (a b c d : Point) (AB BC AC BD DC : Line), formTriangle a b c AB BC AC ∧ (a.sameSide d BC) ∧ (c.sameSide d AB) ∧ (b.sameSide d AC) ∧ distinctPointsOnLine b d BD ∧ distinctPointsOnLine d c DC → (|(b─d)| + |(d─c)| < |(b─a)| + |(a─c)|) ∧ (∠ b:d:c > ∠ b:a:c)"
-  },
-  "Book/Prop22.lean::proposition_22": {
-    "file": "Book/Prop22.lean",
-    "line": 6,
-    "sig": "∀ (a a' b b' c c' : Point) (A B C : Line), distinctPointsOnLine a a' A ∧ distinctPointsOnLine b b' B ∧ distinctPointsOnLine c c' C ∧ (|(a─a')| + |(b─b')| > |(c─c')|) ∧ (|(a─a')| + |(c─c')| > |(b─b')|) ∧ (|(b─b')| + |(c─c')| > |(a─a')|) → ∃ (k f g : Point), (|(f─k)| = |(a─a')|) ∧ (|(f─g)| = |(b─b')|) ∧ (|(k─g)| = |(c─c')|)"
-  },
-  "Book/Prop22.lean::proposition_22'": {
-    "file": "Book/Prop22.lean",
-    "line": 34,
-    "sig": "∀ (a a' b b' c c' f e : Point) (A B C FE : Line), distinctPointsOnLine a a' A ∧ distinctPointsOnLine b b' B ∧ distinctPointsOnLine c c' C ∧ distinctPointsOnLine f e FE ∧ (|(a─a')| + |(b─b')| > |(c─c')|) ∧ (|(a─a')| + |(c─c')| > |(b─b')|) ∧ (|(b─b')| + |(c─c')| > |(a─a')|) → ∃ (k g : Point), g.onLine FE ∧ ¬(between g f e) ∧ (|(f─k)| = |(a─a')|) ∧ (|(f─g)| = |(b─b')|) ∧ (|(k─g)| = |(c─c')|)"
-  },
-  "Book/Prop22.lean::proposition_22''": {
-    "file": "Book/Prop22.lean",
-    "line": 58,
-    "sig": "∀ (a a' b b' c c' f e x : Point) (A B C FE : Line), distinctPointsOnLine a a' A ∧ distinctPointsOnLine b b' B ∧ distinctPointsOnLine c c' C ∧ distinctPointsOnLine f e FE ∧ ¬(x.onLine FE) ∧ (|(a─a')| + |(b─b')| > |(c─c')|) ∧ (|(a─a')| + |(c─c')| > |(b─b')|) ∧ (|(b─b')| + |(c─c')| > |(a─a')|) → ∃ (k g : Point), g.onLine FE ∧ ¬(between g f e) ∧ (k.sameSide x FE) ∧ (|(f─k)| = |(a─a')|) ∧ (|(f─g)| = |(b─b')|) ∧ (|(k─g)| = |(c─c')|)"
-  },
-  "Book/Prop23.lean::proposition_23": {
-    "file": "Book/Prop23.lean",
-    "line": 8,
-    "sig": "∀ (a b c d e : Point) (AB CD CE : Line), distinctPointsOnLine a b AB ∧ formRectilinearAngle d c e CD CE → ∃ f : Point, f ≠ a ∧ (∠ f:a:b = ∠ d:c:e)"
-  },
-  "Book/Prop23.lean::proposition_23'": {
-    "file": "Book/Prop23.lean",
-    "line": 35,
-    "sig": "∀ (a b c d e x : Point) (AB CD CE : Line), distinctPointsOnLine a b AB ∧ formRectilinearAngle d c e CD CE ∧ ¬(x.onLine AB) → ∃ f : Point, f ≠ a ∧ (f.onLine AB ∨ f.sameSide x AB) ∧ (∠ f:a:b = ∠ d:c:e)"
-  },
-  "Book/Prop24.lean::proposition_24": {
-    "file": "Book/Prop24.lean",
-    "line": 51,
-    "sig": "∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line), formTriangle a b c AB BC AC ∧ formTriangle d e f DE EF DF ∧ (|(a─b)| = |(d─e)|) ∧ (|(a─c)| = |(d─f)|) ∧ (∠ b:a:c > ∠ e:d:f) → |(b─c)| > |(e─f)|"
-  },
-  "Book/Prop25.lean::proposition_25": {
-    "file": "Book/Prop25.lean",
-    "line": 7,
-    "sig": "∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line), formTriangle a b c AB BC AC ∧ formTriangle d e f DE EF DF ∧ (|(a─b)| = |(d─e)|) ∧ (|(a─c)| = |(d─f)|) ∧ (|(b─c)| > |(e─f)|) → (∠ b:a:c > ∠ e:d:f)"
-  },
-  "Book/Prop26.lean::proposition_26": {
-    "file": "Book/Prop26.lean",
-    "line": 8,
-    "sig": "∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line), formTriangle a b c AB BC AC ∧ formTriangle d e f DE EF DF ∧ (∠ a:b:c = ∠ d:e:f) ∧ (∠ b:c:a = ∠ e:f:d) ∧ (|(b─c)| = |(e─f)| ∨ |(a─b)| = |(d─e)|) → (|(a─b)| = |(d─e)|) ∧ (|(b─c)| = |(e─f)|) ∧ (|(a─c)| = |(d─f)|) ∧ (∠ b:a:c = ∠ e:d:f)"
-  },
-  "Book/Prop27.lean::proposition_27": {
-    "file": "Book/Prop27.lean",
-    "line": 6,
-    "sig": "∀ (a d e f : Point) (AE FD EF : Line), distinctPointsOnLine a e AE ∧ distinctPointsOnLine f d FD ∧ distinctPointsOnLine e f EF ∧ a.opposingSides d EF ∧ (∠ a:e:f = ∠ e:f:d) → ¬(AE.intersectsLine FD)"
-  },
-  "Book/Prop28.lean::proposition_28": {
-    "file": "Book/Prop28.lean",
-    "line": 8,
-    "sig": "∀ (a b c d e f g h : Point) (AB CD EF : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ distinctPointsOnLine e f EF ∧ (between a g b) ∧ (between c h d) ∧ (between e g h) ∧ (between g h f) ∧ (b.sameSide d EF) ∧ (∠ e:g:b = ∠ g:h:d ∨ ∠ b:g:h + ∠ g:h:d = ∟ + ∟) → ¬(AB.intersectsLine CD)"
-  },
-  "Book/Prop29.lean::proposition_29": {
-    "file": "Book/Prop29.lean",
-    "line": 7,
-    "sig": "∀ (a b c d e f g h : Point) (AB CD EF : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ distinctPointsOnLine e f EF ∧ (between a g b) ∧ (between c h d) ∧ (between e g h) ∧ (between g h f) ∧ (b.sameSide d EF) ∧ ¬(AB.intersectsLine CD) → ∠ a:g:h = ∠ g:h:d ∧ ∠ e:g:b = ∠ g:h:d ∧ ∠ b:g:h + ∠ g:h:d = ∟ + ∟"
-  },
-  "Book/Prop29.lean::proposition_29'": {
-    "file": "Book/Prop29.lean",
-    "line": 31,
-    "sig": "∀ (a b c d e g h : Point) (AB CD EF : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ distinctPointsOnLine g h EF ∧ (between a g b) ∧ (between c h d) ∧ (between e g h) ∧ (b.sameSide d EF) ∧ ¬(AB.intersectsLine CD) → ∠ a:g:h = ∠ g:h:d ∧ ∠ e:g:b = ∠ g:h:d ∧ ∠ b:g:h + ∠ g:h:d = ∟ + ∟"
-  },
-  "Book/Prop29.lean::proposition_29''": {
-    "file": "Book/Prop29.lean",
-    "line": 41,
-    "sig": "∀ (a b d g h : Point) (AB CD GH : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine h d CD ∧ distinctPointsOnLine g h GH ∧ (between a g b) ∧ (b.sameSide d GH) ∧ ¬(AB.intersectsLine CD) → ∠ a:g:h = ∠ g:h:d ∧ ∠ b:g:h + ∠ g:h:d = ∟ + ∟"
-  },
-  "Book/Prop29.lean::proposition_29'''": {
-    "file": "Book/Prop29.lean",
-    "line": 53,
-    "sig": "∀ (a d g h : Point) (AB CD GH : Line), distinctPointsOnLine a g AB ∧ distinctPointsOnLine h d CD ∧ distinctPointsOnLine g h GH ∧ a.opposingSides d GH ∧ ¬(AB.intersectsLine CD) → ∠ a:g:h = ∠ g:h:d"
-  },
-  "Book/Prop29.lean::proposition_29''''": {
-    "file": "Book/Prop29.lean",
-    "line": 63,
-    "sig": "∀ (b d e g h : Point) (AB CD EF : Line), distinctPointsOnLine g b AB ∧ distinctPointsOnLine h d CD ∧ distinctPointsOnLine e h EF ∧ between e g h ∧ b.sameSide d EF ∧ ¬(AB.intersectsLine CD) → ∠ e:g:b = ∠ g:h:d"
-  },
-  "Book/Prop29.lean::proposition_29'''''": {
-    "file": "Book/Prop29.lean",
-    "line": 75,
-    "sig": "∀ (b d g h : Point) (AB CD EF : Line), distinctPointsOnLine g b AB ∧ distinctPointsOnLine h d CD ∧ distinctPointsOnLine g h EF ∧ b.sameSide d EF ∧ ¬(AB.intersectsLine CD) → ∠ b:g:h + ∠ g:h:d = ∟ + ∟"
-  },
-  "Book/Prop30.lean::proposition_30": {
-    "file": "Book/Prop30.lean",
-    "line": 8,
-    "sig": "∀ (AB CD EF : Line), AB ≠ CD ∧ CD ≠ EF ∧ EF ≠ AB ∧ ¬(AB.intersectsLine EF) ∧ ¬(CD.intersectsLine EF) → ¬(AB.intersectsLine CD)"
-  },
-  "Book/Prop31.lean::proposition_31": {
-    "file": "Book/Prop31.lean",
-    "line": 8,
-    "sig": "∀ (a b c : Point) (BC : Line), distinctPointsOnLine b c BC ∧ ¬(a.onLine BC) → ∃ EF : Line, a.onLine EF ∧ ¬(EF.intersectsLine BC)"
-  },
-  "Book/Prop32.lean::proposition_32": {
-    "file": "Book/Prop32.lean",
-    "line": 9,
-    "sig": "∀ (a b c d : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (between b c d) → ∠ a:c:d = ∠ c:a:b + ∠ a:b:c ∧ ∠ a:b:c + ∠ b:c:a + ∠ c:a:b = ∟ + ∟"
-  },
-  "Book/Prop33.lean::proposition_33": {
-    "file": "Book/Prop33.lean",
-    "line": 9,
-    "sig": "∀ (a b c d : Point) (AB CD AC BD : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ distinctPointsOnLine a c AC ∧ distinctPointsOnLine b d BD ∧ (a.sameSide c BD) ∧ ¬(AB.intersectsLine CD) ∧ |(a─b)| = |(c─d)| → AC ≠ BD ∧ ¬(AC.intersectsLine BD) ∧ |(a─c)|= |(b─d)|"
-  },
-  "Book/Prop34.lean::proposition_34": {
-    "file": "Book/Prop34.lean",
-    "line": 8,
-    "sig": "∀ (a b c d : Point) (AB CD AC BD BC : Line), formParallelogram a b c d AB CD AC BD ∧ distinctPointsOnLine b c BC → |(a─b)| = |(c─d)| ∧ |(a─c)| = |(b─d)| ∧ ∠ a:b:d = ∠ a:c:d ∧ ∠ b:a:c = ∠ c:d:b ∧ Triangle.area △ a:b:c = Triangle.area △ d:c:b"
-  },
-  "Book/Prop34.lean::proposition_34'": {
-    "file": "Book/Prop34.lean",
-    "line": 20,
-    "sig": "∀ (a b c d : Point) (AB CD AC BD : Line), formParallelogram a b c d AB CD AC BD → |(a─b)| = |(c─d)| ∧ |(a─c)| = |(b─d)| ∧ ∠ a:b:d = ∠ a:c:d ∧ ∠ b:a:c = ∠ c:d:b"
-  },
-  "Book/Prop35.lean::proposition_35": {
-    "file": "Book/Prop35.lean",
-    "line": 9,
-    "sig": "∀ (a b c d e f g : Point) (AF BC AB CD EB FC : Line), formParallelogram a d b c AF BC AB CD ∧ formParallelogram e f b c AF BC EB FC ∧ between a d e ∧ between d e f ∧ g.onLine CD ∧ g.onLine EB → Triangle.area △a:b:d + Triangle.area △d:b:c = Triangle.area △e:b:c + Triangle.area △ e:c:f"
-  },
-  "Book/Prop35.lean::proposition_35'": {
-    "file": "Book/Prop35.lean",
-    "line": 23,
-    "sig": "∀ (a b c d e f : Point) (AF BC AB CD EB FC : Line), formParallelogram a d b c AF BC AB CD ∧ formParallelogram e f b c AF BC EB FC → Triangle.area △a:b:d + Triangle.area △d:b:c = Triangle.area △e:b:c + Triangle.area △ e:c:f"
-  },
-  "Book/Prop36.lean::proposition_36": {
-    "file": "Book/Prop36.lean",
-    "line": 9,
-    "sig": "∀ (a b c d e f g h : Point) (AH BG AB CD EF HG : Line), formParallelogram a d b c AH BG AB CD ∧ formParallelogram e h f g AH BG EF HG ∧ |(b─c)| = |(f─g)| ∧ (between a d h) ∧ (between a e h) → Triangle.area △ a:b:d + Triangle.area △ d:b:c = Triangle.area △ e:f:h + Triangle.area △ h:f:g"
-  },
-  "Book/Prop36.lean::proposition_36'": {
-    "file": "Book/Prop36.lean",
-    "line": 35,
-    "sig": "∀ (a b c d e f g h : Point) (AH BG AB CD EF HG : Line) , formParallelogram a d b c AH BG AB CD ∧ formParallelogram e h f g AH BG EF HG ∧ |(b─c)| = |(f─g)| → Triangle.area △ a:b:d + Triangle.area △ d:b:c = Triangle.area △ e:f:h + Triangle.area △ h:f:g"
-  },
-  "Book/Prop37.lean::proposition_37": {
-    "file": "Book/Prop37.lean",
-    "line": 9,
-    "sig": "∀ (a b c d : Point) (AB BC AC BD CD AD : Line), formTriangle a b c AB BC AC ∧ formTriangle d b c BD BC CD ∧ distinctPointsOnLine a d AD ∧ ¬(AD.intersectsLine BC) ∧ d.sameSide c AB → Triangle.area △ a:b:c = Triangle.area △ d:b:c"
-  },
-  "Book/Prop37.lean::proposition_37'": {
-    "file": "Book/Prop37.lean",
-    "line": 24,
-    "sig": "∀ (a b c d : Point) (AB BC AC BD CD AD : Line), formTriangle a b c AB BC AC ∧ formTriangle d b c BD BC CD ∧ distinctPointsOnLine a d AD ∧ ¬(AD.intersectsLine BC) → Triangle.area △ a:b:c = Triangle.area △ d:b:c"
-  },
-  "Book/Prop38.lean::proposition_38": {
-    "file": "Book/Prop38.lean",
-    "line": 9,
-    "sig": "∀ (a b c d e f: Point) (AD BF AB AC DE DF : Line), a.onLine AD ∧ d.onLine AD ∧ formTriangle a b c AB BF AC ∧ formTriangle d e f DE BF DF ∧ ¬(AD.intersectsLine BF) ∧ (between b c f) ∧ (between b e f) ∧ |(b─c)| = |(e─f)| → Triangle.area △ a:b:c = Triangle.area △ d:e:f"
-  },
-  "Book/Prop39.lean::proposition_39": {
-    "file": "Book/Prop39.lean",
-    "line": 8,
-    "sig": "∀ (a b c d : Point) (AB BC AC BD CD AD : Line), formTriangle a b c AB BC AC ∧ formTriangle d b c BD BC CD ∧ a.sameSide d BC ∧ (△ a:b:c : ℝ) = (△ d:b:c) ∧ distinctPointsOnLine a d AD → ¬(AD.intersectsLine BC)"
-  },
-  "Book/Prop40.lean::proposition_40": {
-    "file": "Book/Prop40.lean",
-    "line": 8,
-    "sig": "∀ (a b c d e : Point) (AB BC AC CD DE AD : Line), formTriangle a b c AB BC AC ∧ formTriangle d c e CD BC DE ∧ a.sameSide d BC ∧ b ≠ e ∧ |(b─c)| = |(c─e)| ∧ distinctPointsOnLine a d AD ∧ (Triangle.area △ a:b:c = Triangle.area △ d:c:e) → ¬(AD.intersectsLine BC)"
-  },
-  "Book/Prop41.lean::proposition_41": {
-    "file": "Book/Prop41.lean",
-    "line": 8,
-    "sig": "∀ (a b c d e : Point) (AE BC AB CD BE CE : Line), formParallelogram a d b c AE BC AB CD ∧ formTriangle e b c BE BC CE ∧ e.onLine AE ∧ ¬(AE.intersectsLine BC) → (Triangle.area △ a:b:c : ℝ) + (Triangle.area △ a:c:d) = (Triangle.area △ e:b:c) + (Triangle.area △ e :b :c)"
-  },
-  "Book/Prop42.lean::proposition_42": {
-    "file": "Book/Prop42.lean",
-    "line": 11,
-    "sig": "∀ (a b c d₁ d₂ d₃ : Point) (AB BC AC D₁₂ D₂₃: Line), formTriangle a b c AB BC AC ∧ formRectilinearAngle d₁ d₂ d₃ D₁₂ D₂₃ ∧ (∠ d₁:d₂:d₃ : ℝ) > 0 ∧ (∠ d₁:d₂:d₃ : ℝ) < ∟ + ∟ → ∃ (f g e c' : Point) (FG EC EF CG : Line), formParallelogram f g e c' FG EC EF CG ∧ (∠ c':e:f = ∠ d₁:d₂:d₃) ∧ (Triangle.area △ f:e:c' + Triangle.area △ f:c':g = Triangle.area △ a:b:c)"
-  },
-  "Book/Prop42.lean::proposition_42'": {
-    "file": "Book/Prop42.lean",
-    "line": 32,
-    "sig": "∀ (a b c d₁ d₂ d₃ e : Point) (AB BC AC D₁₂ D₂₃: Line), formTriangle a b c AB BC AC ∧ formRectilinearAngle d₁ d₂ d₃ D₁₂ D₂₃ ∧ between b e c ∧ (|(b─e)| = |(e─c)|) ∧ (∠ d₁:d₂:d₃ : ℝ) > 0 ∧ (∠ d₁:d₂:d₃ : ℝ) < ∟ + ∟ → ∃ (f g : Point) (FG EF CG : Line), a.sameSide f BC ∧ formParallelogram f g e c FG BC EF CG ∧ (∠ c:e:f : ℝ) = (∠ d₁:d₂:d₃) ∧ (Triangle.area △ f:e:c : ℝ) + (Triangle.area △ f:c:g) = (Triangle.area △ a:b:c)"
-  },
-  "Book/Prop42.lean::proposition_42''": {
-    "file": "Book/Prop42.lean",
-    "line": 52,
-    "sig": "∀ (a b c d₁ d₂ d₃ h i : Point) (AB BC AC D₁₂ D₂₃ HI : Line), formTriangle a b c AB BC AC ∧ formRectilinearAngle d₁ d₂ d₃ D₁₂ D₂₃ ∧ (∠ d₁:d₂:d₃ : ℝ) > 0 ∧ (∠ d₁:d₂:d₃ : ℝ) < ∟ + ∟ ∧ distinctPointsOnLine h i HI → ∃ (f g j : Point) (FG FI GJ : Line), between h i j ∧ formParallelogram f g i j FG HI FI GJ ∧ (∠ j:i:f : ℝ) = (∠ d₁:d₂:d₃) ∧ (Triangle.area △ f:i:j : ℝ) + (Triangle.area △ f:j:g) = (Triangle.area △ a:b:c)"
-  },
-  "Book/Prop42.lean::proposition_42'''": {
-    "file": "Book/Prop42.lean",
-    "line": 74,
-    "sig": "∀ (a b c d₁ d₂ d₃ h i x : Point) (AB BC AC D₁₂ D₂₃ HI : Line), formTriangle a b c AB BC AC ∧ formRectilinearAngle d₁ d₂ d₃ D₁₂ D₂₃ ∧ ¬(x.onLine HI) ∧ (∠ d₁:d₂:d₃ : ℝ) > 0 ∧ (∠ d₁:d₂:d₃ : ℝ) < ∟ + ∟ ∧ distinctPointsOnLine h i HI → ∃ (f g j : Point) (FG FI GJ : Line), f.sameSide x HI ∧ between h i j ∧ formParallelogram f g i j FG HI FI GJ ∧ (∠ j:i:f : ℝ) = (∠ d₁:d₂:d₃) ∧ (Triangle.area △ f:i:j : ℝ) + (Triangle.area △ f:j:g) = (Triangle.area △ a:b:c)"
-  },
-  "Book/Prop43.lean::proposition_43": {
-    "file": "Book/Prop43.lean",
-    "line": 7,
-    "sig": "∀ (a b c d e f g h k : Point) (AD BC AB CD AC EF GH : Line), formParallelogram a d b c AD BC AB CD ∧ distinctPointsOnLine a c AC ∧ k.onLine AC ∧ between a h d ∧ formParallelogram a h e k AD EF AB GH ∧ formParallelogram k f g c EF BC GH CD → (Triangle.area △ e:b:g + Triangle.area △ e:g:k = Triangle.area △ h:k:f + Triangle.area △ h:f:d)"
-  },
-  "Book/Prop44.lean::proposition_44": {
-    "file": "Book/Prop44.lean",
-    "line": 83,
-    "sig": "∀ (a b c₁ c₂ c₃ d₁ d₂ d₃ : Point) (AB C₁₂ C₂₃ C₃₁ D₁₂ D₂₃ : Line), formTriangle c₁ c₂ c₃ C₁₂ C₂₃ C₃₁ ∧ formRectilinearAngle d₁ d₂ d₃ D₁₂ D₂₃ ∧ distinctPointsOnLine a b AB ∧ (∠ d₁:d₂:d₃ : ℝ) > 0 ∧ (∠ d₁:d₂:d₃ : ℝ) < ∟ + ∟ → ∃ (m l : Point) (BM AL ML : Line), formParallelogram b m a l BM AL AB ML ∧ (∠ a:b:m = ∠ d₁:d₂:d₃) ∧ (Triangle.area △ a:b:m + Triangle.area △ a:l:m = Triangle.area △ c₁:c₂:c₃)"
-  },
-  "Book/Prop44.lean::proposition_44'": {
-    "file": "Book/Prop44.lean",
-    "line": 110,
-    "sig": "∀ (a b c₁ c₂ c₃ d₁ d₂ d₃ x : Point) (AB C₁₂ C₂₃ C₃₁ D₁₂ D₂₃ : Line), formTriangle c₁ c₂ c₃ C₁₂ C₂₃ C₃₁ ∧ formRectilinearAngle d₁ d₂ d₃ D₁₂ D₂₃ ∧ distinctPointsOnLine a b AB ∧ ¬(x.onLine AB) ∧ (∠ d₁:d₂:d₃ : ℝ) > 0 ∧ (∠ d₁:d₂:d₃ : ℝ) < ∟ + ∟ → ∃ (m l : Point) (BM AL ML : Line), Point.opposingSides m x AB ∧ formParallelogram b m a l BM AL AB ML ∧ (∠ a:b:m : ℝ) = (∠ d₁:d₂:d₃) ∧ (Triangle.area △ a:b:m) + (Triangle.area △ a:l:m) = (Triangle.area △ c₁:c₂:c₃)"
-  },
-  "Book/Prop45.lean::proposition_45": {
-    "file": "Book/Prop45.lean",
-    "line": 40,
-    "sig": "∀ (a b c d e₁ e₂ e₃ : Point) (AB BC CD AD DB E₁₂ E₂₃ : Line), formTriangle a b d AB DB AD ∧ formTriangle b c d BC CD DB ∧ a.opposingSides c DB ∧ formRectilinearAngle e₁ e₂ e₃ E₁₂ E₂₃ ∧ ∠ e₁:e₂:e₃ > 0 ∧ ∠ e₁:e₂:e₃ < ∟ + ∟ → ∃ (f l k m : Point) (FL KM FK LM : Line), formParallelogram f l k m FL KM FK LM ∧ (∠ f:k:m = ∠ e₁:e₂:e₃) ∧ (Triangle.area △ f:k:m + Triangle.area △ f:l:m = Triangle.area △ a:b:d + Triangle.area △ d:b:c)"
-  },
-  "Book/Prop46.lean::proposition_46": {
-    "file": "Book/Prop46.lean",
-    "line": 11,
-    "sig": "∀ (a b : Point) (AB : Line), distinctPointsOnLine a b AB → ∃ (d e : Point) (DE AD BE : Line), formParallelogram d e a b DE AB AD BE ∧ |(d─e)| = |(a─b)| ∧ |(a─d)| = |(a─b)| ∧ |(b─e)| = |(a─b)| ∧ (∠ b:a:d = ∟) ∧ (∠ a:d:e = ∟) ∧ (∠ a:b:e = ∟) ∧ (∠ b:e:d = ∟)"
-  },
-  "Book/Prop46.lean::proposition_46'": {
-    "file": "Book/Prop46.lean",
-    "line": 30,
-    "sig": "∀ (a b x : Point) (AB : Line), ¬(x.onLine AB) ∧ distinctPointsOnLine a b AB → ∃ (d e : Point) (DE AD BE : Line), d.opposingSides x AB ∧ formParallelogram d e a b DE AB AD BE ∧ |(d─e)| = |(a─b)| ∧ |(a─d)| = |(a─b)| ∧ |(b─e)| = |(a─b)| ∧ (∠ b:a:d : ℝ) = ∟ ∧ (∠ a:d:e : ℝ) = ∟ ∧ (∠ a:b:e : ℝ) = ∟ ∧ (∠ b:e:d : ℝ) = ∟"
-  },
-  "Book/Prop47.lean::proposition_47": {
-    "file": "Book/Prop47.lean",
-    "line": 274,
-    "sig": "∀ (a b c: Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (∠ b:a:c : ℝ) = ∟ → |(b─c)| * |(b─c)| = |(b─a)| * |(b─a)| + |(a─c)| * |(a─c)|"
-  },
-  "Book/Prop48.lean::proposition_48": {
-    "file": "Book/Prop48.lean",
-    "line": 26,
-    "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ |(b─c)| * |(b─c)| = |(b─a)| * |(b─a)| + |(a─c)| * |(a─c)| → ∠ b:a:c = ∟"
-  },
   "Book1/Prop01/Main.lean::proposition_1": {
     "file": "Book1/Prop01/Main.lean",
-    "line": 17,
+    "line": 5,
     "sig": "∀ (a b : Point) (AB : Line), distinctPointsOnLine a b AB → ∃ c : Point, |(c─a)| = |(a─b)| ∧ |(c─b)| = |(a─b)|"
   },
   "Book1/Prop02/Main.lean::proposition_2": {
     "file": "Book1/Prop02/Main.lean",
-    "line": 21,
+    "line": 6,
     "sig": "∀ (a b c : Point) (BC : Line), (distinctPointsOnLine b c BC) ∧ (a ≠ b) → ∃ l : Point, |(a─l)| = |(b─c)|"
   },
   "Book1/Prop03/Main.lean::proposition_3": {
     "file": "Book1/Prop03/Main.lean",
-    "line": 14,
+    "line": 12,
     "sig": "∀ (a b c₀ c₁ : Point) (AB C : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c₀ c₁ C ∧ |(a─b)| > |(c₀─c₁)| → ∃ e : Point, between a e b ∧ |(a─e)| = |(c₀─c₁)|"
   },
   "Book1/Prop04/Main.lean::proposition_4": {
     "file": "Book1/Prop04/Main.lean",
-    "line": 19,
+    "line": 5,
     "sig": "∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line), formTriangle a b c AB BC AC ∧ formTriangle d e f DE EF DF ∧ |(a─b)| = |(d─e)| ∧ |(a─c)| = |(d─f)| ∧ (∠ b:a:c = ∠ e:d:f) → |(b─c)| = |(e─f)| ∧ (∠ a:b:c = ∠ d:e:f) ∧ (∠ a:c:b = ∠ d:f:e)"
   },
   "Book1/Prop05/Main.lean::proposition_5": {
     "file": "Book1/Prop05/Main.lean",
-    "line": 33,
+    "line": 8,
     "sig": "∀ (a b c d e : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (|(a─b)| = |(a─c)|) ∧ (between a b d) ∧ (between a c e) → (∠ a:b:c = ∠ a:c:b) ∧ (∠ c:b:d = ∠ b:c:e)"
   },
   "Book1/Prop06/Main.lean::proposition_6": {
     "file": "Book1/Prop06/Main.lean",
-    "line": 21,
+    "line": 18,
     "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (∠ a:b:c = ∠ a:c:b) → |(a─b)| = |(a─c)|"
   },
   "Book1/Prop07/Main.lean::proposition_7": {
     "file": "Book1/Prop07/Main.lean",
-    "line": 16,
+    "line": 5,
     "sig": "∀ (a b c d : Point) (AB AC CB AD DB : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine a c AC ∧ distinctPointsOnLine c b CB ∧ distinctPointsOnLine a d AD ∧ distinctPointsOnLine d b DB ∧ (c.sameSide d AB) ∧ c ≠ d ∧ (|(a─c)| = |(a─d)|) ∧ (|(c─b)| = |(d─b)|) → False"
   },
   "Book1/Prop08/Main.lean::proposition_8": {
     "file": "Book1/Prop08/Main.lean",
-    "line": 17,
+    "line": 5,
     "sig": "∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line), formTriangle a b c AB BC AC ∧ formTriangle d e f DE EF DF ∧ |(a─b)| = |(d─e)| ∧ |(a─c)| = |(d─f)| ∧ |(b─c)| = |(e─f)| → ∠ b:a:c = ∠ e:d:f"
   },
   "Book1/Prop09/Main.lean::proposition_9": {
     "file": "Book1/Prop09/Main.lean",
-    "line": 20,
+    "line": 8,
     "sig": "∀ (a b c : Point) (AB AC : Line), formRectilinearAngle b a c AB AC ∧ AB ≠ AC → ∃ f : Point, f ≠ a ∧ (∠ b:a:f = ∠ c:a:f)"
   },
   "Book1/Prop10/Main.lean::proposition_10": {
     "file": "Book1/Prop10/Main.lean",
-    "line": 15,
+    "line": 7,
     "sig": "∀ (a b : Point) (AB : Line), distinctPointsOnLine a b AB → ∃ d : Point, (between a d b) ∧ (|(a─d)| = |(d─b)|)"
   },
   "Book1/Prop11/Main.lean::proposition_11": {
     "file": "Book1/Prop11/Main.lean",
-    "line": 22,
+    "line": 8,
     "sig": "∀ (a b c : Point) (AB : Line), distinctPointsOnLine a b AB ∧ between a c b → exists f : Point, ¬(f.onLine AB) ∧ (∠ a:c:f = ∟)"
   },
   "Book1/Prop12/Main.lean::proposition_12": {
     "file": "Book1/Prop12/Main.lean",
-    "line": 18,
+    "line": 16,
     "sig": "∀ (a b c : Point) (AB : Line), distinctPointsOnLine a b AB ∧ ¬(c.onLine AB) → exists h : Point, h.onLine AB ∧ (∠ a:h:c = ∟ ∨ ∠ b:h:c = ∟) ∧ (∀ (p : Point), p.onLine AB → p ≠ h → ∠ p:h:c = ∟)"
   },
   "Book1/Prop13/Main.lean::proposition_13": {
     "file": "Book1/Prop13/Main.lean",
-    "line": 21,
+    "line": 6,
     "sig": "∀ (a b c d : Point) (AB CD : Line), AB ≠ CD ∧ distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ between d b c → ∠ c:b:a + ∠ a:b:d = ∟ + ∟"
   },
   "Book1/Prop14/Main.lean::proposition_14": {
     "file": "Book1/Prop14/Main.lean",
-    "line": 15,
+    "line": 5,
     "sig": "∀ (a b c d : Point) (AB BC BD : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine b c BC ∧ distinctPointsOnLine b d BD ∧ (c.opposingSides d AB) ∧ (∠ a:b:c + ∠ a:b:d) = ∟ + ∟ → BC = BD"
   },
   "Book1/Prop15/Main.lean::proposition_15": {
     "file": "Book1/Prop15/Main.lean",
-    "line": 16,
+    "line": 5,
     "sig": "∀ (a b c d e : Point) (AB CD : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ e.onLine AB ∧ e.onLine CD ∧ CD ≠ AB ∧ (between d e c) ∧ (between a e b) → (∠ a:e:c = ∠ d:e:b) ∧ (∠ c:e:b = ∠ a:e:d)"
   },
   "Book1/Prop16/Main.lean::proposition_16": {
     "file": "Book1/Prop16/Main.lean",
-    "line": 26,
+    "line": 8,
     "sig": "∀ (a b c d : Point) (AB BC AC: Line), formTriangle a b c AB BC AC ∧ (between b c d) → (∠ a:c:d > ∠ c:b:a) ∧ (∠ a:c:d > ∠ b:a:c)"
   },
   "Book1/Prop17/Main.lean::proposition_17": {
     "file": "Book1/Prop17/Main.lean",
-    "line": 15,
+    "line": 5,
     "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC → ∠ a:b:c + ∠ b:c:a < ∟ + ∟"
   },
   "Book1/Prop18/Main.lean::proposition_18": {
     "file": "Book1/Prop18/Main.lean",
-    "line": 17,
+    "line": 15,
     "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (|(a─c)| > |(a─b)|) → (∠ a:b:c > ∠ b:c:a)"
   },
   "Book1/Prop19/Main.lean::proposition_19": {
     "file": "Book1/Prop19/Main.lean",
-    "line": 16,
+    "line": 5,
     "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (∠ a:b:c > ∠ b:c:a) → (|(a─c)| > |(a─b)|)"
   },
   "Book1/Prop20/Main.lean::proposition_20": {
     "file": "Book1/Prop20/Main.lean",
-    "line": 18,
+    "line": 16,
     "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC → |(b─a)| + |(a─c)| > |(b─c)| ∧ |(a─b)| + |(b─c)| > |(a─c)| ∧ |(b─c)| + |(c─a)| > |(a─b)|"
   },
   "Book1/Prop21/Main.lean::proposition_21": {
     "file": "Book1/Prop21/Main.lean",
-    "line": 20,
+    "line": 5,
     "sig": "∀ (a b c d : Point) (AB BC AC BD DC : Line), formTriangle a b c AB BC AC ∧ (a.sameSide d BC) ∧ (c.sameSide d AB) ∧ (b.sameSide d AC) ∧ distinctPointsOnLine b d BD ∧ distinctPointsOnLine d c DC → (|(b─d)| + |(d─c)| < |(b─a)| + |(a─c)|) ∧ (∠ b:d:c > ∠ b:a:c)"
   },
   "Book1/Prop22/Main.lean::proposition_22": {
     "file": "Book1/Prop22/Main.lean",
-    "line": 27,
+    "line": 6,
     "sig": "∀ (a a' b b' c c' : Point) (A B C : Line), distinctPointsOnLine a a' A ∧ distinctPointsOnLine b b' B ∧ distinctPointsOnLine c c' C ∧ (|(a─a')| + |(b─b')| > |(c─c')|) ∧ (|(a─a')| + |(c─c')| > |(b─b')|) ∧ (|(b─b')| + |(c─c')| > |(a─a')|) → ∃ (k f g : Point), (|(f─k)| = |(a─a')|) ∧ (|(f─g)| = |(b─b')|) ∧ (|(k─g)| = |(c─c')|)"
   },
   "Book1/Prop23/Main.lean::proposition_23": {
     "file": "Book1/Prop23/Main.lean",
-    "line": 18,
+    "line": 7,
     "sig": "∀ (a b c d e : Point) (AB CD CE : Line), distinctPointsOnLine a b AB ∧ formRectilinearAngle d c e CD CE → ∃ f : Point, f ≠ a ∧ (∠ f:a:b = ∠ d:c:e)"
   },
   "Book1/Prop24/Main.lean::proposition_24": {
     "file": "Book1/Prop24/Main.lean",
-    "line": 22,
+    "line": 8,
     "sig": "∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line), formTriangle a b c AB BC AC ∧ formTriangle d e f DE EF DF ∧ (|(a─b)| = |(d─e)|) ∧ (|(a─c)| = |(d─f)|) ∧ (∠ b:a:c > ∠ e:d:f) → |(b─c)| > |(e─f)|"
   },
   "Book1/Prop25/Main.lean::proposition_25": {
     "file": "Book1/Prop25/Main.lean",
-    "line": 16,
+    "line": 5,
     "sig": "∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line), formTriangle a b c AB BC AC ∧ formTriangle d e f DE EF DF ∧ (|(a─b)| = |(d─e)|) ∧ (|(a─c)| = |(d─f)|) ∧ (|(b─c)| > |(e─f)|) → (∠ b:a:c > ∠ e:d:f)"
   },
   "Book1/Prop26/Main.lean::proposition_26": {
     "file": "Book1/Prop26/Main.lean",
-    "line": 51,
+    "line": 9,
     "sig": "∀ (a b c d e f : Point) (AB BC AC DE EF DF : Line), formTriangle a b c AB BC AC ∧ formTriangle d e f DE EF DF ∧ (∠ a:b:c = ∠ d:e:f) ∧ (∠ b:c:a = ∠ e:f:d) ∧ (|(b─c)| = |(e─f)| ∨ |(a─b)| = |(d─e)|) → (|(a─b)| = |(d─e)|) ∧ (|(b─c)| = |(e─f)|) ∧ (|(a─c)| = |(d─f)|) ∧ (∠ b:a:c = ∠ e:d:f)"
   },
   "Book1/Prop27/Main.lean::proposition_27": {
     "file": "Book1/Prop27/Main.lean",
-    "line": 15,
+    "line": 13,
     "sig": "∀ (a d e f : Point) (AE FD EF : Line), distinctPointsOnLine a e AE ∧ distinctPointsOnLine f d FD ∧ distinctPointsOnLine e f EF ∧ a.opposingSides d EF ∧ (∠ a:e:f = ∠ e:f:d) → ¬(AE.intersectsLine FD)"
   },
   "Book1/Prop28/Main.lean::proposition_28": {
     "file": "Book1/Prop28/Main.lean",
-    "line": 17,
+    "line": 5,
     "sig": "∀ (a b c d e f g h : Point) (AB CD EF : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ distinctPointsOnLine e f EF ∧ (between a g b) ∧ (between c h d) ∧ (between e g h) ∧ (between g h f) ∧ (b.sameSide d EF) ∧ (∠ e:g:b = ∠ g:h:d ∨ ∠ b:g:h + ∠ g:h:d = ∟ + ∟) → ¬(AB.intersectsLine CD)"
   },
   "Book1/Prop29/Main.lean::proposition_29": {
     "file": "Book1/Prop29/Main.lean",
-    "line": 27,
+    "line": 7,
     "sig": "∀ (a b c d e f g h : Point) (AB CD EF : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ distinctPointsOnLine e f EF ∧ (between a g b) ∧ (between c h d) ∧ (between e g h) ∧ (between g h f) ∧ (b.sameSide d EF) ∧ ¬(AB.intersectsLine CD) → ∠ a:g:h = ∠ g:h:d ∧ ∠ e:g:b = ∠ g:h:d ∧ ∠ b:g:h + ∠ g:h:d = ∟ + ∟"
   },
   "Book1/Prop30/Main.lean::proposition_30": {
     "file": "Book1/Prop30/Main.lean",
-    "line": 15,
+    "line": 13,
     "sig": "∀ (AB CD EF : Line), AB ≠ CD ∧ CD ≠ EF ∧ EF ≠ AB ∧ ¬(AB.intersectsLine EF) ∧ ¬(CD.intersectsLine EF) → ¬(AB.intersectsLine CD)"
   },
   "Book1/Prop31/Main.lean::proposition_31": {
     "file": "Book1/Prop31/Main.lean",
-    "line": 14,
+    "line": 12,
     "sig": "∀ (a b c : Point) (BC : Line), distinctPointsOnLine b c BC ∧ ¬(a.onLine BC) → ∃ EF : Line, a.onLine EF ∧ ¬(EF.intersectsLine BC)"
   },
   "Book1/Prop32/Main.lean::proposition_32": {
     "file": "Book1/Prop32/Main.lean",
-    "line": 19,
+    "line": 6,
     "sig": "∀ (a b c d : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (between b c d) → ∠ a:c:d = ∠ c:a:b + ∠ a:b:c ∧ ∠ a:b:c + ∠ b:c:a + ∠ c:a:b = ∟ + ∟"
   },
   "Book1/Prop33/Main.lean::proposition_33": {
     "file": "Book1/Prop33/Main.lean",
-    "line": 17,
+    "line": 5,
     "sig": "∀ (a b c d : Point) (AB CD AC BD : Line), distinctPointsOnLine a b AB ∧ distinctPointsOnLine c d CD ∧ distinctPointsOnLine a c AC ∧ distinctPointsOnLine b d BD ∧ (a.sameSide c BD) ∧ ¬(AB.intersectsLine CD) ∧ |(a─b)| = |(c─d)| → AC ≠ BD ∧ ¬(AC.intersectsLine BD) ∧ |(a─c)|= |(b─d)|"
   },
   "Book1/Prop34/Main.lean::proposition_34": {
     "file": "Book1/Prop34/Main.lean",
-    "line": 23,
+    "line": 6,
     "sig": "∀ (a b c d : Point) (AB CD AC BD BC : Line), formParallelogram a b c d AB CD AC BD ∧ distinctPointsOnLine b c BC → |(a─b)| = |(c─d)| ∧ |(a─c)| = |(b─d)| ∧ ∠ a:b:d = ∠ a:c:d ∧ ∠ b:a:c = ∠ c:d:b ∧ Triangle.area △ a:b:c = Triangle.area △ d:c:b"
   },
   "Book1/Prop35/Main.lean::proposition_35": {
     "file": "Book1/Prop35/Main.lean",
-    "line": 21,
+    "line": 5,
     "sig": "∀ (a b c d e f g : Point) (AF BC AB CD EB FC : Line), formParallelogram a d b c AF BC AB CD ∧ formParallelogram e f b c AF BC EB FC ∧ between a d e ∧ between d e f ∧ g.onLine CD ∧ g.onLine EB → Triangle.area △a:b:d + Triangle.area △d:b:c = Triangle.area △e:b:c + Triangle.area △ e:c:f"
   },
   "Book1/Prop36/Main.lean::proposition_36": {
     "file": "Book1/Prop36/Main.lean",
-    "line": 17,
+    "line": 15,
     "sig": "∀ (a b c d e f g h : Point) (AH BG AB CD EF HG : Line), formParallelogram a d b c AH BG AB CD ∧ formParallelogram e h f g AH BG EF HG ∧ |(b─c)| = |(f─g)| ∧ (between a d h) ∧ (between a e h) → Triangle.area △ a:b:d + Triangle.area △ d:b:c = Triangle.area △ e:f:h + Triangle.area △ h:f:g"
   },
   "Book1/Prop37/Main.lean::proposition_37": {
     "file": "Book1/Prop37/Main.lean",
-    "line": 17,
+    "line": 6,
     "sig": "∀ (a b c d : Point) (AB BC AC BD CD AD : Line), formTriangle a b c AB BC AC ∧ formTriangle d b c BD BC CD ∧ distinctPointsOnLine a d AD ∧ ¬(AD.intersectsLine BC) ∧ d.sameSide c AB → Triangle.area △ a:b:c = Triangle.area △ d:b:c"
   },
   "Book1/Prop38/Main.lean::proposition_38": {
     "file": "Book1/Prop38/Main.lean",
-    "line": 17,
+    "line": 6,
     "sig": "∀ (a b c d e f: Point) (AD BF AB AC DE DF : Line), a.onLine AD ∧ d.onLine AD ∧ formTriangle a b c AB BF AC ∧ formTriangle d e f DE BF DF ∧ ¬(AD.intersectsLine BF) ∧ (between b c f) ∧ (between b e f) ∧ |(b─c)| = |(e─f)| → Triangle.area △ a:b:c = Triangle.area △ d:e:f"
   },
   "Book1/Prop39/Main.lean::proposition_39": {
     "file": "Book1/Prop39/Main.lean",
-    "line": 17,
+    "line": 6,
     "sig": "∀ (a b c d : Point) (AB BC AC BD CD AD : Line), formTriangle a b c AB BC AC ∧ formTriangle d b c BD BC CD ∧ a.sameSide d BC ∧ (△ a:b:c : ℝ) = (△ d:b:c) ∧ distinctPointsOnLine a d AD → ¬(AD.intersectsLine BC)"
   },
   "Book1/Prop40/Main.lean::proposition_40": {
     "file": "Book1/Prop40/Main.lean",
-    "line": 15,
+    "line": 6,
     "sig": "∀ (a b c d e : Point) (AB BC AC CD DE AD : Line), formTriangle a b c AB BC AC ∧ formTriangle d c e CD BC DE ∧ a.sameSide d BC ∧ b ≠ e ∧ |(b─c)| = |(c─e)| ∧ distinctPointsOnLine a d AD ∧ (Triangle.area △ a:b:c = Triangle.area △ d:c:e) → ¬(AD.intersectsLine BC)"
   },
   "Book1/Prop41/Main.lean::proposition_41": {
     "file": "Book1/Prop41/Main.lean",
-    "line": 12,
+    "line": 5,
     "sig": "∀ (a b c d e : Point) (AE BC AB CD BE CE : Line), formParallelogram a d b c AE BC AB CD ∧ formTriangle e b c BE BC CE ∧ e.onLine AE ∧ ¬(AE.intersectsLine BC) → (Triangle.area △ a:b:c : ℝ) + (Triangle.area △ a:c:d) = (Triangle.area △ e:b:c) + (Triangle.area △ e :b :c)"
   },
   "Book1/Prop42/Main.lean::proposition_42": {
     "file": "Book1/Prop42/Main.lean",
-    "line": 23,
+    "line": 10,
     "sig": "∀ (a b c d₁ d₂ d₃ : Point) (AB BC AC D₁₂ D₂₃: Line), formTriangle a b c AB BC AC ∧ formRectilinearAngle d₁ d₂ d₃ D₁₂ D₂₃ ∧ (∠ d₁:d₂:d₃ : ℝ) > 0 ∧ (∠ d₁:d₂:d₃ : ℝ) < ∟ + ∟ → ∃ (f g e c' : Point) (FG EC EF CG : Line), formParallelogram f g e c' FG EC EF CG ∧ (∠ c':e:f = ∠ d₁:d₂:d₃) ∧ (Triangle.area △ f:e:c' + Triangle.area △ f:c':g = Triangle.area △ a:b:c)"
   },
   "Book1/Prop43/Main.lean::proposition_43": {
     "file": "Book1/Prop43/Main.lean",
-    "line": 13,
+    "line": 5,
     "sig": "∀ (a b c d e f g h k : Point) (AD BC AB CD AC EF GH : Line), formParallelogram a d b c AD BC AB CD ∧ distinctPointsOnLine a c AC ∧ k.onLine AC ∧ between a h d ∧ formParallelogram a h e k AD EF AB GH ∧ formParallelogram k f g c EF BC GH CD → (Triangle.area △ e:b:g + Triangle.area △ e:g:k = Triangle.area △ h:k:f + Triangle.area △ h:f:d)"
   },
   "Book1/Prop44/Main.lean::proposition_44": {
     "file": "Book1/Prop44/Main.lean",
-    "line": 33,
+    "line": 9,
     "sig": "∀ (a b c₁ c₂ c₃ d₁ d₂ d₃ : Point) (AB C₁₂ C₂₃ C₃₁ D₁₂ D₂₃ : Line), formTriangle c₁ c₂ c₃ C₁₂ C₂₃ C₃₁ ∧ formRectilinearAngle d₁ d₂ d₃ D₁₂ D₂₃ ∧ distinctPointsOnLine a b AB ∧ (∠ d₁:d₂:d₃ : ℝ) > 0 ∧ (∠ d₁:d₂:d₃ : ℝ) < ∟ + ∟ → ∃ (m l : Point) (BM AL ML : Line), formParallelogram b m a l BM AL AB ML ∧ (∠ a:b:m = ∠ d₁:d₂:d₃) ∧ (Triangle.area △ a:b:m + Triangle.area △ a:l:m = Triangle.area △ c₁:c₂:c₃)"
   },
   "Book1/Prop45/Main.lean::proposition_45": {
     "file": "Book1/Prop45/Main.lean",
-    "line": 33,
+    "line": 29,
     "sig": "∀ (a b c d e₁ e₂ e₃ : Point) (AB BC CD AD DB E₁₂ E₂₃ : Line), formTriangle a b d AB DB AD ∧ formTriangle b c d BC CD DB ∧ a.opposingSides c DB ∧ formRectilinearAngle e₁ e₂ e₃ E₁₂ E₂₃ ∧ ∠ e₁:e₂:e₃ > 0 ∧ ∠ e₁:e₂:e₃ < ∟ + ∟ → ∃ (f l k m : Point) (FL KM FK LM : Line), formParallelogram f l k m FL KM FK LM ∧ (∠ f:k:m = ∠ e₁:e₂:e₃) ∧ (Triangle.area △ f:k:m + Triangle.area △ f:l:m = Triangle.area △ a:b:d + Triangle.area △ d:b:c)"
   },
   "Book1/Prop46/Main.lean::proposition_46": {
     "file": "Book1/Prop46/Main.lean",
-    "line": 29,
+    "line": 8,
     "sig": "∀ (a b : Point) (AB : Line), distinctPointsOnLine a b AB → ∃ (d e : Point) (DE AD BE : Line), formParallelogram d e a b DE AB AD BE ∧ |(d─e)| = |(a─b)| ∧ |(a─d)| = |(a─b)| ∧ |(b─e)| = |(a─b)| ∧ (∠ b:a:d = ∟) ∧ (∠ a:d:e = ∟) ∧ (∠ a:b:e = ∟) ∧ (∠ b:e:d = ∟)"
   },
   "Book1/Prop47/Main.lean::proposition_47": {
     "file": "Book1/Prop47/Main.lean",
-    "line": 36,
+    "line": 10,
     "sig": "∀ (a b c: Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ (∠ b:a:c : ℝ) = ∟ → |(b─c)| * |(b─c)| = |(b─a)| * |(b─a)| + |(a─c)| * |(a─c)|"
   },
   "Book1/Prop48/Main.lean::proposition_48": {
     "file": "Book1/Prop48/Main.lean",
-    "line": 24,
+    "line": 7,
     "sig": "∀ (a b c : Point) (AB BC AC : Line), formTriangle a b c AB BC AC ∧ |(b─c)| * |(b─c)| = |(b─a)| * |(b─a)| + |(a─c)| * |(a─c)| → ∠ b:a:c = ∟"
   },
   "Book2/Prop01/Main.lean::proposition_1": {
