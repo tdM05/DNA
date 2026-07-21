@@ -1,0 +1,10 @@
+import SystemE
+
+namespace Elements.Book1
+
+theorem helper_1_27_step5 (b g : Point) (EF : Line)
+    (hBD : ¬(g.sameSide b EF)) :
+    ¬(g.sameSide b EF) := by
+  euclid_finish
+
+end Elements.Book1

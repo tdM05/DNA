@@ -1,0 +1,1 @@
+Book1/Prop45  mymethod  opus  session=c0492b60-4b1c-45e5-9bef-4f56f5178c09  transcript=/u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-full/c0492b60-4b1c-45e5-9bef-4f56f5178c09.jsonl  elapsed=87m06s  (started 21:57:51 · Ctrl-C to cancel)

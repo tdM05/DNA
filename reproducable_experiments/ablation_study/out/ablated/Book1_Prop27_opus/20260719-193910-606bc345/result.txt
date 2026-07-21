@@ -1,0 +1,10 @@
+prop: Book1/Prop27
+mode: ablated
+model: opus
+session_id: 63a94921-fafb-4af9-af61-9677526198fe
+transcript: /u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-ablated/63a94921-fafb-4af9-af61-9677526198fe.jsonl
+cost_usd: 8.4909
+wall_sec: 2592.47
+compile_sec: 2
+stop_reason: done
+result: SUCCESS
