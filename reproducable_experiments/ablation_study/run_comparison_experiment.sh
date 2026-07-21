@@ -23,7 +23,12 @@
 # ============================================================================
 set -uo pipefail
 unset ANTHROPIC_API_KEY
-set +u; source "$HOME/.venvs/leaneuclid/bin/activate"; set -u   # z3/cvc5 on PATH for lake build
+set +u; source "$HOME/.venvs/leaneuclid/bin/activate"; set -u   # z3/cvc5 on PATH (SMT solvers for lake build)
+# lake itself comes from ELAN, not the venv. A non-login SLURM shell does NOT have ~/.elan/bin on PATH
+# (it only arrives via `sbatch --export=ALL` IF the submitting shell happened to have it — fragile). Put
+# it on PATH explicitly so the grade's `lake build` AND the agent's builds always find lake. Fixes the
+# intermittent `timeout: failed to run command 'lake': No such file or directory` grade failures.
+. "$HOME/.elan/env" 2>/dev/null || export PATH="$HOME/.elan/bin:$PATH"
 
 # ---- CONFIG (edit here if branches / map commits move) ---------------------
 BRANCH_ABLATED="ablation_branch"
@@ -130,11 +135,11 @@ RUNCHAN_LINE="LONG COMMANDS (>10 min): any command you run yourself in your own 
 
 if [ "$MODE" = mymethod ]; then
   # --my-method: verbatim operator-guide "Full" prompt + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. IMPORTANT: run the final 'scripts/check_step.py $rel --all' audit — and any 'check_step.py … --subtree' / '--drive' that will run long — through the long-command <<<RUN>>> channel described below (end your turn with the block and let the runner execute it); do NOT run them yourself in the background and then poll or 'wait for a completion notification', which wastes tokens every turn and will not reliably resume you here. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. IMPORTANT: run the final 'scripts/check_step.py $rel --all' audit — and any 'check_step.py … --subtree' / '--drive' that will run long — through the long-command <<<RUN>>> channel described below (end your turn with the block and let the runner execute it); do NOT run them yourself in the background and then poll or 'wait for a completion notification', which wastes tokens every turn and will not reliably resume you here. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. Also do NOT use git in ANY way — no 'git' command at all, whether directly or via cd/&&/;/|/a subshell/an absolute path/any wrapper. ANY git use DISQUALIFIES the attempt — AUTO-FAILED. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
 else
   # --ablated: operator-guide "Ablated" prompt + REQUIRED per-sentence backing-file structure (so the
   # skill-less arm produces the same decomposition the eval now checks) + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. REQUIRED STRUCTURE (this is checked — do NOT prove any sentence inline): for each 'euclid_sentence \"…\" (stepK : CLAIM) := by sorry', (1) create a new file LeanEuclidPlus/$rel/stepK.lean holding ONE lemma 'theorem helper_${BOOK}_${PROPNUM}_stepK (…binders…) : CLAIM := by …' that proves that step (euclid_finish is fine INSIDE the helper), taking whatever facts it needs as hypotheses; (2) add 'import Book${BOOK}.Prop${NN}.stepK' at the top of Main.lean; (3) make Main's body delegate, supplying EVERY hypothesis via euclid_assumption with its type shown — EXACTLY '(by euclid_assumption \"TEXT\" (show TYPE; assumption))', NEVER a bare '(by assumption)'. If a hypothesis has a '-- @assumption (\"NL-TEXT\", TYPE)' line above the sentence, use that NL-TEXT verbatim as the string (so it is clear WHERE that cited fact is used); for the other hypotheses use the empty string \"\". Schematic: in Main '(stepK : CLAIM) := by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK o1 o2 (by euclid_assumption \"the exact @assumption text\" (show TYPE1; assumption)) (by euclid_assumption \"\" (show TYPE2; assumption)))', and in stepK.lean 'theorem helper_${BOOK}_${PROPNUM}_stepK (o1 …) (h1 : TYPE1) (h2 : TYPE2) : CLAIM := by euclid_finish'. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. REQUIRED STRUCTURE (this is checked — do NOT prove any sentence inline): for each 'euclid_sentence \"…\" (stepK : CLAIM) := by sorry', (1) create a new file LeanEuclidPlus/$rel/stepK.lean holding ONE lemma 'theorem helper_${BOOK}_${PROPNUM}_stepK (…binders…) : CLAIM := by …' that proves that step (euclid_finish is fine INSIDE the helper), taking whatever facts it needs as hypotheses; (2) add 'import Book${BOOK}.Prop${NN}.stepK' at the top of Main.lean; (3) make Main's body delegate, supplying EVERY hypothesis via euclid_assumption with its type shown — EXACTLY '(by euclid_assumption \"TEXT\" (show TYPE; assumption))', NEVER a bare '(by assumption)'. If a hypothesis has a '-- @assumption (\"NL-TEXT\", TYPE)' line above the sentence, use that NL-TEXT verbatim as the string (so it is clear WHERE that cited fact is used); for the other hypotheses use the empty string \"\". Schematic: in Main '(stepK : CLAIM) := by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK o1 o2 (by euclid_assumption \"the exact @assumption text\" (show TYPE1; assumption)) (by euclid_assumption \"\" (show TYPE2; assumption)))', and in stepK.lean 'theorem helper_${BOOK}_${PROPNUM}_stepK (o1 …) (h1 : TYPE1) (h2 : TYPE2) : CLAIM := by euclid_finish'. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. Also do NOT use git in ANY way — no 'git' command at all, whether directly or via cd/&&/;/|/a subshell/an absolute path/any wrapper. ANY git use DISQUALIFIES the attempt — AUTO-FAILED. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
 fi
 
 # Sent on EVERY resume turn — the headless stand-in for the human re-nudging a
@@ -234,14 +239,38 @@ trap '[ -n "$HB" ] && kill "$HB" 2>/dev/null; [ -n "$WD" ] && kill -KILL "$WD" 2
 # gate — we do NOT force assumption structure). The ONE extra faithfulness criterion held equal for
 # both arms is the per-sentence backing lemma (check_backing.py); the full method auto-satisfies it.
 # ============================================================================
+# GRADE — runs the 6 gate checks. Sets the global GRADE_FAIL to the name of the FIRST failing check
+# ("" when all pass), and TEES the full stdout+stderr of every check to $OUT/grade.log so a FAIL's
+# EXACT cause is always recoverable from the run folder (nothing is discarded to /dev/null anymore).
 grade() {
-  [ -f "$main" ] || return 1
-  [ "$(grep -c 'sorry' "$main")" -eq 0 ] || return 1
-  ( cd "$LEP" && python3 scripts/check_faithful.py  --relaxed "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
-  ( cd "$LEP" && python3 scripts/check_backing.py            "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
-  ( cd "$LEP" && python3 scripts/check_signatures.py         "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
-  ( cd "$LEP" && python3 scripts/check_steps.py     --relaxed "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
-  ( cd "$LEP" && timeout 3600 lake build "${rel//\//.}.Main"                   >/dev/null 2>&1 ) || return 1
+  local glog="$OUT/grade.log"
+  GRADE_FAIL=""
+  { echo "===== GRADE $(date '+%F %T') · $rel · arm=$MODE · node=$(hostname 2>/dev/null) ====="
+    echo "worktree: $LEP"; echo; } > "$glog"
+
+  [ -f "$main" ] || { GRADE_FAIL="main_missing"; echo "FAIL: $main does not exist" >> "$glog"; return 1; }
+
+  local sc; sc=$(grep -c 'sorry' "$main")
+  { echo "----- [sorry_count] -----"; echo "sorry count = $sc  (must be 0)"; echo; } >> "$glog"
+  [ "$sc" -eq 0 ] || { GRADE_FAIL="sorry(count=$sc)"; echo "FAIL: found $sc 'sorry' in Main" >> "$glog"; return 1; }
+
+  echo "----- [check_faithful] -----" >> "$glog"
+  ( cd "$LEP" && python3 scripts/check_faithful.py  --relaxed "$rel/Main.lean" ) >> "$glog" 2>&1 \
+    || { GRADE_FAIL="check_faithful";   echo ">>> check_faithful FAILED"   >> "$glog"; return 1; }
+  echo "----- [check_backing] -----" >> "$glog"
+  ( cd "$LEP" && python3 scripts/check_backing.py            "$rel/Main.lean" ) >> "$glog" 2>&1 \
+    || { GRADE_FAIL="check_backing";    echo ">>> check_backing FAILED"    >> "$glog"; return 1; }
+  echo "----- [check_signatures] -----" >> "$glog"
+  ( cd "$LEP" && python3 scripts/check_signatures.py         "$rel/Main.lean" ) >> "$glog" 2>&1 \
+    || { GRADE_FAIL="check_signatures"; echo ">>> check_signatures FAILED" >> "$glog"; return 1; }
+  echo "----- [check_steps] -----" >> "$glog"
+  ( cd "$LEP" && python3 scripts/check_steps.py     --relaxed "$rel/Main.lean" ) >> "$glog" 2>&1 \
+    || { GRADE_FAIL="check_steps";      echo ">>> check_steps FAILED"      >> "$glog"; return 1; }
+  echo "----- [lake_build: ${rel//\//.}.Main] -----" >> "$glog"
+  ( cd "$LEP" && timeout 3600 lake build "${rel//\//.}.Main" ) >> "$glog" 2>&1 \
+    || { GRADE_FAIL="lake_build";       echo ">>> lake_build FAILED (nonzero exit or 3600s timeout)" >> "$glog"; return 1; }
+
+  echo "===== ALL CHECKS PASSED =====" >> "$glog"
   return 0
 }
 
@@ -263,8 +292,8 @@ jsonl="$PROJ/$sid.jsonl"
 t0=$(date +%s)
 
 write_result() { # $1 = status
-  printf 'prop: %s\nmode: %s\nmodel: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\ncompile_sec: %s\nstop_reason: %s\nresult: %s\n' \
-    "$rel" "$MODE" "$MODEL" "$sid" "$jsonl" "${spent:-0}" "$(awk "BEGIN{print ${wall_ms:-0}/1000}")" "${grade_sec:-<pending>}" "${stop_reason:-<pending>}" "$1" \
+  printf 'prop: %s\nmode: %s\nmodel: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\ncompile_sec: %s\nstop_reason: %s\nresult: %s\nfail_reason: %s\n' \
+    "$rel" "$MODE" "$MODEL" "$sid" "$jsonl" "${spent:-0}" "$(awk "BEGIN{print ${wall_ms:-0}/1000}")" "${grade_sec:-<pending>}" "${stop_reason:-<pending>}" "$1" "${GRADE_FAIL:--}" \
     > "$OUT/result.txt"
 }
 
@@ -399,14 +428,30 @@ cp "$jsonl" "$OUT/transcript.jsonl" 2>/dev/null
 # it survives the next repeat's reset. Kept for later (controlled) build-time experiments on the artifact.
 cp -r "$LEP/$rel" "$OUT/" 2>/dev/null                         # → $OUT/Prop<NN>/
 
-# ---- outcome: give-up / 12h-timeout ⟹ NOT complete, no grade; anything else ⟹ grade once --
-# (transcript + PropNN snapshot were already copied above, so a TIMEOUT lands exactly like the manual fixup.)
-status=FAIL; grade_sec=0
-if [ "$stop_reason" = gaveup ]; then
-  status=GAVEUP
+# ---- outcome: git-use ⟹ AUTO-FAIL (overrides all); give-up / 12h-timeout ⟹ NOT complete, no grade;
+# anything else ⟹ grade once -- (transcript + PropNN snapshot already copied above, so TIMEOUT lands
+# exactly like the manual fixup.)
+status=FAIL; grade_sec=0; GRADE_FAIL=""
+# GIT LEAK-GUARD — any git use DISQUALIFIES (no gaming the eval), overriding SUCCESS/gaveup/timeout.
+# Scans BOTH channels the agent can run commands through: Bash-tool commands (.command) and <<<RUN>>>
+# payloads (only the RUN region of assistant text, so prompt/reasoning mentions of "git" don't false-trip).
+# Matches a git TOKEN (word-bounded — 'digit'/'legit' don't match); jq decodes \n so cd\ngit is caught too.
+# Any hit ⇒ GRADE_FAIL=git_used + the raw offending commands teed to grade.log (same trace as the checks).
+git_hits="$( { jq -r '.. | .command? // empty' "$OUT/transcript.jsonl" 2>/dev/null
+               jq -r '.. | .text? // empty'    "$OUT/transcript.jsonl" 2>/dev/null | sed -n '/<<<RUN/,/<<<END>>>/p'
+             } | grep -nE '(^|[^A-Za-z0-9_])git([^A-Za-z0-9_]|$)' )"
+if [ -n "$git_hits" ]; then
+  status=FAIL; GRADE_FAIL="git_used"
+  echo "    (AUTO-FAIL: agent used git — DISQUALIFIED, grade skipped; offenders in $OUT/grade.log)"
+  { echo "===== GIT LEAK-GUARD TRIPPED $(date '+%F %T') · $rel · arm=$MODE ====="
+    echo "AUTO-FAIL: the agent ran git. ANY git use disqualifies the attempt (no gaming the eval)."
+    echo "--- offending executed commands (transcript-line : command) ---"
+    printf '%s\n' "$git_hits"; } > "$OUT/grade.log"
+elif [ "$stop_reason" = gaveup ]; then
+  status=GAVEUP; GRADE_FAIL="agent_gaveup"
   echo "    (agent gave up — marked NOT complete, grade skipped)"
 elif [ "$stop_reason" = timeout_12h ]; then
-  status=TIMEOUT
+  status=TIMEOUT; GRADE_FAIL="wall_timeout_12h"
   echo "    (12h wall limit — marked TIMEOUT, grade skipped)"
 else
   gt=$(date +%s)
@@ -414,5 +459,5 @@ else
   grade_sec=$(( $(date +%s) - gt ))
 fi
 write_result "$status"
-echo "=== $rel -> $status  (stop=$stop_reason · \$$spent · $(( ($(date +%s)-t0)/60 ))m wall · compile ${grade_sec}s) ==="
+echo "=== $rel -> $status  (stop=$stop_reason · \$$spent · $(( ($(date +%s)-t0)/60 ))m wall · compile ${grade_sec}s${GRADE_FAIL:+ · fail=$GRADE_FAIL}) · grade.log in $OUT ==="
 [ "$status" = SUCCESS ]
