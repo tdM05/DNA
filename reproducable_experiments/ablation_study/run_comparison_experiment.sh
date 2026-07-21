@@ -23,7 +23,12 @@
 # ============================================================================
 set -uo pipefail
 unset ANTHROPIC_API_KEY
-set +u; source "$HOME/.venvs/leaneuclid/bin/activate"; set -u   # z3/cvc5 on PATH for lake build
+set +u; source "$HOME/.venvs/leaneuclid/bin/activate"; set -u   # z3/cvc5 on PATH (SMT solvers for lake build)
+# lake itself comes from ELAN, not the venv. A non-login SLURM shell does NOT have ~/.elan/bin on PATH
+# (it only arrives via `sbatch --export=ALL` IF the submitting shell happened to have it — fragile). Put
+# it on PATH explicitly so the grade's `lake build` AND the agent's builds always find lake. Fixes the
+# intermittent `timeout: failed to run command 'lake': No such file or directory` grade failures.
+. "$HOME/.elan/env" 2>/dev/null || export PATH="$HOME/.elan/bin:$PATH"
 
 # ---- CONFIG (edit here if branches / map commits move) ---------------------
 BRANCH_ABLATED="ablation_branch"
@@ -50,6 +55,12 @@ RUN_MAX_BYTES=300000         # feed the WHOLE output; head+tail-trim only if lar
 # t0+12h and, if it fires, saves the run (transcript + PropNN snapshot + result=TIMEOUT, exactly like the
 # manual fixup) and then cancels EVERYTHING (agent + build + driver). No crash. A normal finish reaps it.
 WALL_LIMIT_SEC=${WALL_LIMIT_SEC:-43200}   # 12h default; override via env for a quick test, e.g. WALL_LIMIT_SEC=180
+# SUBSCRIPTION USAGE RETRY. When `claude -p` returns a usage/rate-limit error (the subscription cap is hit),
+# that round is NOT counted — the driver sleeps RETRY_SLEEP and re-issues the SAME resume (same session) until
+# the quota returns, so no progress is lost. The wait is EXCLUDED from the 12h wall: each wait bumps
+# $OUT/.wall_extra and the watchdog pushes its deadline out by that much, so an outage can't cause a spurious
+# TIMEOUT. Measured wall_sec is unaffected too — it sums real rounds' duration_ms; skipped error rounds add none.
+RETRY_SLEEP=${RETRY_SLEEP:-900}           # 15 min between usage-limit retries (override via env for a test)
 
 # ---- locate self + repo ----------------------------------------------------
 SELF_DIR="$(cd "$(dirname "$0")" && pwd -P)"
@@ -124,11 +135,11 @@ RUNCHAN_LINE="LONG COMMANDS (>10 min): any command you run yourself in your own 
 
 if [ "$MODE" = mymethod ]; then
   # --my-method: verbatim operator-guide "Full" prompt + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. IMPORTANT: run the final 'scripts/check_step.py $rel --all' audit — and any 'check_step.py … --subtree' / '--drive' that will run long — through the long-command <<<RUN>>> channel described below (end your turn with the block and let the runner execute it); do NOT run them yourself in the background and then poll or 'wait for a completion notification', which wastes tokens every turn and will not reliably resume you here. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean end to end using /faithful-prove skill. As usual make sure --all passes, and please also wire it at the end. IMPORTANT: run the final 'scripts/check_step.py $rel --all' audit — and any 'check_step.py … --subtree' / '--drive' that will run long — through the long-command <<<RUN>>> channel described below (end your turn with the block and let the runner execute it); do NOT run them yourself in the background and then poll or 'wait for a completion notification', which wastes tokens every turn and will not reliably resume you here. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. Also do NOT use git in ANY way — no 'git' command at all, whether directly or via cd/&&/;/|/a subshell/an absolute path/any wrapper. ANY git use DISQUALIFIES the attempt — AUTO-FAILED. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
 else
   # --ablated: operator-guide "Ablated" prompt + REQUIRED per-sentence backing-file structure (so the
   # skill-less arm produces the same decomposition the eval now checks) + the two completion signals.
-  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. REQUIRED STRUCTURE (this is checked — do NOT prove any sentence inline): for each 'euclid_sentence \"…\" (stepK : CLAIM) := by sorry', (1) create a new file LeanEuclidPlus/$rel/stepK.lean holding ONE lemma 'theorem helper_${BOOK}_${PROPNUM}_stepK (…binders…) : CLAIM := by …' that proves that step (euclid_finish is fine INSIDE the helper), taking whatever facts it needs as hypotheses; (2) add 'import Book${BOOK}.Prop${NN}.stepK' at the top of Main.lean; (3) make Main's body delegate, supplying EVERY hypothesis via euclid_assumption with its type shown — EXACTLY '(by euclid_assumption \"TEXT\" (show TYPE; assumption))', NEVER a bare '(by assumption)'. If a hypothesis has a '-- @assumption (\"NL-TEXT\", TYPE)' line above the sentence, use that NL-TEXT verbatim as the string (so it is clear WHERE that cited fact is used); for the other hypotheses use the empty string \"\". Schematic: in Main '(stepK : CLAIM) := by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK o1 o2 (by euclid_assumption \"the exact @assumption text\" (show TYPE1; assumption)) (by euclid_assumption \"\" (show TYPE2; assumption)))', and in stepK.lean 'theorem helper_${BOOK}_${PROPNUM}_stepK (o1 …) (h1 : TYPE1) (h2 : TYPE2) : CLAIM := by euclid_finish'. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
+  PROMPT="Prove LeanEuclidPlus/$rel/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. REQUIRED STRUCTURE (this is checked — do NOT prove any sentence inline): for each 'euclid_sentence \"…\" (stepK : CLAIM) := by sorry', (1) create a new file LeanEuclidPlus/$rel/stepK.lean holding ONE lemma 'theorem helper_${BOOK}_${PROPNUM}_stepK (…binders…) : CLAIM := by …' that proves that step (euclid_finish is fine INSIDE the helper), taking whatever facts it needs as hypotheses; (2) add 'import Book${BOOK}.Prop${NN}.stepK' at the top of Main.lean; (3) make Main's body delegate, supplying EVERY hypothesis via euclid_assumption with its type shown — EXACTLY '(by euclid_assumption \"TEXT\" (show TYPE; assumption))', NEVER a bare '(by assumption)'. If a hypothesis has a '-- @assumption (\"NL-TEXT\", TYPE)' line above the sentence, use that NL-TEXT verbatim as the string (so it is clear WHERE that cited fact is used); for the other hypotheses use the empty string \"\". Schematic: in Main '(stepK : CLAIM) := by euclid_apply (helper_${BOOK}_${PROPNUM}_stepK o1 o2 (by euclid_assumption \"the exact @assumption text\" (show TYPE1; assumption)) (by euclid_assumption \"\" (show TYPE2; assumption)))', and in stepK.lean 'theorem helper_${BOOK}_${PROPNUM}_stepK (o1 …) (h1 : TYPE1) (h2 : TYPE2) : CLAIM := by euclid_finish'. DO NOT read anything OUTSIDE this repository ($REPO), and DO NOT read anything under $REPO/reproducable_experiments/ (that is the experiment harness / eval). Doing either DISQUALIFIES the attempt — AUTO-FAILED. No gaming the eval. Also do NOT use git in ANY way — no 'git' command at all, whether directly or via cd/&&/;/|/a subshell/an absolute path/any wrapper. ANY git use DISQUALIFIES the attempt — AUTO-FAILED. $CERT_LINE $GIVEUP_LINE $RUNCHAN_LINE"
 fi
 
 # Sent on EVERY resume turn — the headless stand-in for the human re-nudging a
@@ -228,14 +239,38 @@ trap '[ -n "$HB" ] && kill "$HB" 2>/dev/null; [ -n "$WD" ] && kill -KILL "$WD" 2
 # gate — we do NOT force assumption structure). The ONE extra faithfulness criterion held equal for
 # both arms is the per-sentence backing lemma (check_backing.py); the full method auto-satisfies it.
 # ============================================================================
+# GRADE — runs the 6 gate checks. Sets the global GRADE_FAIL to the name of the FIRST failing check
+# ("" when all pass), and TEES the full stdout+stderr of every check to $OUT/grade.log so a FAIL's
+# EXACT cause is always recoverable from the run folder (nothing is discarded to /dev/null anymore).
 grade() {
-  [ -f "$main" ] || return 1
-  [ "$(grep -c 'sorry' "$main")" -eq 0 ] || return 1
-  ( cd "$LEP" && python3 scripts/check_faithful.py  --relaxed "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
-  ( cd "$LEP" && python3 scripts/check_backing.py            "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
-  ( cd "$LEP" && python3 scripts/check_signatures.py         "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
-  ( cd "$LEP" && python3 scripts/check_steps.py     --relaxed "$rel/Main.lean" >/dev/null 2>&1 ) || return 1
-  ( cd "$LEP" && timeout 3600 lake build "${rel//\//.}.Main"                   >/dev/null 2>&1 ) || return 1
+  local glog="$OUT/grade.log"
+  GRADE_FAIL=""
+  { echo "===== GRADE $(date '+%F %T') · $rel · arm=$MODE · node=$(hostname 2>/dev/null) ====="
+    echo "worktree: $LEP"; echo; } > "$glog"
+
+  [ -f "$main" ] || { GRADE_FAIL="main_missing"; echo "FAIL: $main does not exist" >> "$glog"; return 1; }
+
+  local sc; sc=$(grep -c 'sorry' "$main")
+  { echo "----- [sorry_count] -----"; echo "sorry count = $sc  (must be 0)"; echo; } >> "$glog"
+  [ "$sc" -eq 0 ] || { GRADE_FAIL="sorry(count=$sc)"; echo "FAIL: found $sc 'sorry' in Main" >> "$glog"; return 1; }
+
+  echo "----- [check_faithful] -----" >> "$glog"
+  ( cd "$LEP" && python3 scripts/check_faithful.py  --relaxed "$rel/Main.lean" ) >> "$glog" 2>&1 \
+    || { GRADE_FAIL="check_faithful";   echo ">>> check_faithful FAILED"   >> "$glog"; return 1; }
+  echo "----- [check_backing] -----" >> "$glog"
+  ( cd "$LEP" && python3 scripts/check_backing.py            "$rel/Main.lean" ) >> "$glog" 2>&1 \
+    || { GRADE_FAIL="check_backing";    echo ">>> check_backing FAILED"    >> "$glog"; return 1; }
+  echo "----- [check_signatures] -----" >> "$glog"
+  ( cd "$LEP" && python3 scripts/check_signatures.py         "$rel/Main.lean" ) >> "$glog" 2>&1 \
+    || { GRADE_FAIL="check_signatures"; echo ">>> check_signatures FAILED" >> "$glog"; return 1; }
+  echo "----- [check_steps] -----" >> "$glog"
+  ( cd "$LEP" && python3 scripts/check_steps.py     --relaxed "$rel/Main.lean" ) >> "$glog" 2>&1 \
+    || { GRADE_FAIL="check_steps";      echo ">>> check_steps FAILED"      >> "$glog"; return 1; }
+  echo "----- [lake_build: ${rel//\//.}.Main] -----" >> "$glog"
+  ( cd "$LEP" && timeout 3600 lake build "${rel//\//.}.Main" ) >> "$glog" 2>&1 \
+    || { GRADE_FAIL="lake_build";       echo ">>> lake_build FAILED (nonzero exit or 3600s timeout)" >> "$glog"; return 1; }
+
+  echo "===== ALL CHECKS PASSED =====" >> "$glog"
   return 0
 }
 
@@ -257,9 +292,33 @@ jsonl="$PROJ/$sid.jsonl"
 t0=$(date +%s)
 
 write_result() { # $1 = status
-  printf 'prop: %s\nmode: %s\nmodel: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\ncompile_sec: %s\nstop_reason: %s\nresult: %s\n' \
-    "$rel" "$MODE" "$MODEL" "$sid" "$jsonl" "${spent:-0}" "$(awk "BEGIN{print ${wall_ms:-0}/1000}")" "${grade_sec:-<pending>}" "${stop_reason:-<pending>}" "$1" \
+  printf 'prop: %s\nmode: %s\nmodel: %s\nsession_id: %s\ntranscript: %s\ncost_usd: %s\nwall_sec: %s\ncompile_sec: %s\nstop_reason: %s\nresult: %s\nfail_reason: %s\n' \
+    "$rel" "$MODE" "$MODEL" "$sid" "$jsonl" "${spent:-0}" "$(awk "BEGIN{print ${wall_ms:-0}/1000}")" "${grade_sec:-<pending>}" "${stop_reason:-<pending>}" "$1" "${GRADE_FAIL:--}" \
     > "$OUT/result.txt"
+}
+
+# Run a `claude -p …` call ("$@"), transparently retrying on a subscription usage/rate-limit error so no
+# progress is lost. Such a call is NOT counted as a round: we sleep RETRY_SLEEP and re-issue the SAME command
+# until a normal (non-usage-limited) result comes back, then return it in global `out`. Each wait bumps
+# $OUT/.wall_extra so the 12h watchdog excludes the outage. Retry triggers: a non-zero exit code, OR an
+# is_error JSON result whose text names a usage/rate/quota limit (gated on is_error so an agent turn that
+# merely MENTIONS "rate limit" in its own output is never mistaken for one). Bounded ultimately by the
+# node's SLURM --time wall (2 days).
+agent_call() {  # "$@" = the full claude command to run
+  local rc is_err extra
+  while :; do
+    out="$("$@")"; rc=$?
+    is_err="$(printf '%s' "$out" | jq -r '.is_error // empty' 2>/dev/null)"
+    if [ "$rc" -ne 0 ] || { [ "$is_err" = true ] && \
+         printf '%s' "$out" | grep -qiE 'usage limit|rate limit|limit reached|too many requests|(^|[^0-9])429([^0-9]|$)|resets? at|quota'; }; then
+      echo "    ($rel: usage/rate limit hit (rc=$rc) — waiting ${RETRY_SLEEP}s then retrying same resume; NOT counted as a round)"
+      extra="$(cat "$OUT/.wall_extra" 2>/dev/null)"; case "$extra" in ''|*[!0-9]*) extra=0 ;; esac
+      echo $(( extra + RETRY_SLEEP )) > "$OUT/.wall_extra"     # exclude this wait from the 12h wall
+      sleep "$RETRY_SLEEP"
+      continue
+    fi
+    break
+  done
 }
 
 # heartbeat → _current.txt: session id + transcript + elapsed, from t=0.
@@ -272,6 +331,7 @@ HB=$!
 
 spent=0; wall_ms=0; remaining="$BUDGET"; i=0; grade_sec=""; stop_reason=""
 write_result RUNNING
+rm -f "$OUT/.wall_extra" 2>/dev/null   # fresh quota-wait accumulator the watchdog adds to its deadline
 # ===== GLOBAL 12h WALL — ONE independent watchdog. It has NOTHING to do with the agent loop, the round
 # structure, or any RUN command; it just sleeps until t0+12h. If it ever fires it (1) saves the run exactly
 # like the manual fixup — copies the transcript, snapshots PropNN, flips result.txt to TIMEOUT — and (2)
@@ -280,7 +340,17 @@ write_result RUNNING
 _descendants() { local c; for c in $(pgrep -P "$1" 2>/dev/null); do [ "$c" = "$2" ] && continue; echo "$c"; _descendants "$c" "$2"; done; }
 DRIVER_PID=$$
 ( self=$BASHPID
-  left=$(( t0 + WALL_LIMIT_SEC - $(date +%s) )); [ "$left" -gt 0 ] && sleep "$left"   # fire at EXACTLY t0+limit
+  # Sleep until t0 + WALL_LIMIT + (quota-wait accumulated so far). The deadline is EXTENDABLE, not fixed:
+  # each usage-limit wait in the loop adds its seconds to .wall_extra. We sleep the exact remaining time, then
+  # re-read .wall_extra — if it grew during the sleep the deadline moved out, so we sleep the delta; else we
+  # fire. With NO outage .wall_extra stays 0, so this is a SINGLE sleep firing at EXACTLY t0+limit (unchanged);
+  # extra wakeups happen only once per real outage, never on a busy tick.
+  while :; do
+    extra="$(cat "$OUT/.wall_extra" 2>/dev/null)"; case "$extra" in ''|*[!0-9]*) extra=0 ;; esac
+    left=$(( t0 + WALL_LIMIT_SEC + extra - $(date +%s) ))
+    [ "$left" -le 0 ] && break
+    sleep "$left"
+  done
   echo "    (GLOBAL ${WALL_LIMIT_SEC}s wall hit — watchdog: saving TIMEOUT + cancelling the run)"
   kill -STOP "$DRIVER_PID" 2>/dev/null                                          # FREEZE the driver first: it can't start a new turn/build, and can't race our result.txt write
   cp "$jsonl" "$OUT/transcript.jsonl" 2>/dev/null
@@ -295,7 +365,7 @@ DRIVER_PID=$$
 WD=$!
 echo "--- $rel: starting (budget=$BUDGET_DISP · 12h global wall · session $sid) ---"
 mb=(); [ "$UNLIMITED" = 1 ] || mb=(--max-budget-usd "$remaining")   # cost cap arg — omitted entirely when unlimited
-out=$(claude -p "$PROMPT" --model "$MODEL" --session-id "$sid" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"})
+agent_call claude -p "$PROMPT" --model "$MODEL" --session-id "$sid" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"}
 echo "$out" > "$OUT/round0.json"
 while true; do
   tc=$(echo "$out" | jq -r '.total_cost_usd // 0')
@@ -348,7 +418,7 @@ $CONTINUE_PROMPT"
     fi
   fi
   mb=(); [ "$UNLIMITED" = 1 ] || mb=(--max-budget-usd "$remaining")
-  out=$(claude -p "$next_prompt" --resume "$sid" --model "$MODEL" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"})
+  agent_call claude -p "$next_prompt" --resume "$sid" --model "$MODEL" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"}
   echo "$out" > "$OUT/round$i.json"
 done
 [ -n "$WD" ] && kill -KILL "$WD" 2>/dev/null; WD=""   # reap the watchdog FIRST so it can't fire during our normal end-code
@@ -358,14 +428,30 @@ cp "$jsonl" "$OUT/transcript.jsonl" 2>/dev/null
 # it survives the next repeat's reset. Kept for later (controlled) build-time experiments on the artifact.
 cp -r "$LEP/$rel" "$OUT/" 2>/dev/null                         # → $OUT/Prop<NN>/
 
-# ---- outcome: give-up / 12h-timeout ⟹ NOT complete, no grade; anything else ⟹ grade once --
-# (transcript + PropNN snapshot were already copied above, so a TIMEOUT lands exactly like the manual fixup.)
-status=FAIL; grade_sec=0
-if [ "$stop_reason" = gaveup ]; then
-  status=GAVEUP
+# ---- outcome: git-use ⟹ AUTO-FAIL (overrides all); give-up / 12h-timeout ⟹ NOT complete, no grade;
+# anything else ⟹ grade once -- (transcript + PropNN snapshot already copied above, so TIMEOUT lands
+# exactly like the manual fixup.)
+status=FAIL; grade_sec=0; GRADE_FAIL=""
+# GIT LEAK-GUARD — any git use DISQUALIFIES (no gaming the eval), overriding SUCCESS/gaveup/timeout.
+# Scans BOTH channels the agent can run commands through: Bash-tool commands (.command) and <<<RUN>>>
+# payloads (only the RUN region of assistant text, so prompt/reasoning mentions of "git" don't false-trip).
+# Matches a git TOKEN (word-bounded — 'digit'/'legit' don't match); jq decodes \n so cd\ngit is caught too.
+# Any hit ⇒ GRADE_FAIL=git_used + the raw offending commands teed to grade.log (same trace as the checks).
+git_hits="$( { jq -r '.. | .command? // empty' "$OUT/transcript.jsonl" 2>/dev/null
+               jq -r '.. | .text? // empty'    "$OUT/transcript.jsonl" 2>/dev/null | sed -n '/<<<RUN/,/<<<END>>>/p'
+             } | grep -nE '(^|[^A-Za-z0-9_])git([^A-Za-z0-9_]|$)' )"
+if [ -n "$git_hits" ]; then
+  status=FAIL; GRADE_FAIL="git_used"
+  echo "    (AUTO-FAIL: agent used git — DISQUALIFIED, grade skipped; offenders in $OUT/grade.log)"
+  { echo "===== GIT LEAK-GUARD TRIPPED $(date '+%F %T') · $rel · arm=$MODE ====="
+    echo "AUTO-FAIL: the agent ran git. ANY git use disqualifies the attempt (no gaming the eval)."
+    echo "--- offending executed commands (transcript-line : command) ---"
+    printf '%s\n' "$git_hits"; } > "$OUT/grade.log"
+elif [ "$stop_reason" = gaveup ]; then
+  status=GAVEUP; GRADE_FAIL="agent_gaveup"
   echo "    (agent gave up — marked NOT complete, grade skipped)"
 elif [ "$stop_reason" = timeout_12h ]; then
-  status=TIMEOUT
+  status=TIMEOUT; GRADE_FAIL="wall_timeout_12h"
   echo "    (12h wall limit — marked TIMEOUT, grade skipped)"
 else
   gt=$(date +%s)
@@ -373,5 +459,5 @@ else
   grade_sec=$(( $(date +%s) - gt ))
 fi
 write_result "$status"
-echo "=== $rel -> $status  (stop=$stop_reason · \$$spent · $(( ($(date +%s)-t0)/60 ))m wall · compile ${grade_sec}s) ==="
+echo "=== $rel -> $status  (stop=$stop_reason · \$$spent · $(( ($(date +%s)-t0)/60 ))m wall · compile ${grade_sec}s${GRADE_FAIL:+ · fail=$GRADE_FAIL}) · grade.log in $OUT ==="
 [ "$status" = SUCCESS ]
