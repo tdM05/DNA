@@ -177,6 +177,16 @@
       "verdict": "closes"
     }
   },
+  "Book1/Prop06": {
+    "step1_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AB$ is unequal to $AC$",
+      "type": "|(a\u2500b)| \u2260 |(a\u2500c)|",
+      "verdict": "closes"
+    }
+  },
   "Book1/Prop07": {
     "step4_assumption1": {
       "closed_by": "assumption",

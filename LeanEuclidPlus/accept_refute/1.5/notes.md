@@ -28,15 +28,23 @@ The three buckets correspond to the sufficient condition:
   **position 3**: claims ∠CBD is a right angle. Refutable (∠CBD is obtuse = 2∟ − base angle). Caught
   mid-proof. Carries `refute_step3 : ¬(∠CBD = ∟)` + `contradiction : False`.
 
-## Incorrect — our method DOES NOT work (mixed step; needs a countermodel)
+## Incorrect — refuted by ROUTE B (mixed step; syntactic countermodel in System E)
 
-- **v4** — asserts the triangle is **equilateral** (`|BC| = |AB|`). This claim is **MIXED**: true in an
-  equilateral isosceles triangle, false otherwise. So it is **neither provable** (can't accept — a
-  non-equilateral isosceles triangle satisfies the hypotheses) **nor refutable** (can't disprove it —
-  an equilateral one does too). Every *other* step in v4 is true, so there is no refutable step to
-  fall back on. The syntactic accept/refute method is **stuck**: rejecting v4 requires an explicit
-  **countermodel** `∃ config, H ∧ |BC| ≠ |AB|` (a concrete non-equilateral isosceles triangle /
-  coordinates) — a semantic argument outside the sufficient condition.
+For a **mixed** step the naive forced-false refute `H → ¬φ` FAILS (φ is true in some admissible
+config). But the step is still refutable if the countermodel `∃ config, H ∧ ¬φ` is *constructible
+inside System E* — **Route B**. By soundness, if System E deduced φ then φ would hold in every
+model of H; a witnessed countermodel proves it does not. The cost is the witness construction,
+which scales with the bad step: cheap when an equilateral base (Euclid I.1) suffices, expensive
+when a non-equilateral triangle is required. `euclid_finish` cannot synthesise these witnesses, so
+each `refute.lean` builds them by hand from the raw construction axioms (no `proposition_1`, hence
+no `sorryAx`). All compiled clean via `lake env lean` + the leaneuclid venv; `#print axioms` shows
+only geometric axioms + standard Lean axioms.
+
+- **v4** — asserts the triangle is **equilateral** (`|BC| = |AB|`). MIXED (true for an equilateral
+  isosceles, false otherwise). The countermodel needs a **non-equilateral** isosceles triangle —
+  the hard case (previously "stuck"). `v4/refute.lean` builds one: `m` between `a,b`; circle
+  `α=(a,|ab|)`, circle `γ=(b,|bm|)`; apex `c = α ∩ γ` gives `|ac|=|ab|` and `|bc|=|bm|<|ab|`.
+  `routeB_refute_step1 : ∃ a b c d e …, H ∧ ¬(|(b─c)| = |(a─b)|)`. **Axiom-clean.**
 
 ## Summary
 
@@ -45,5 +53,5 @@ The three buckets correspond to the sufficient condition:
 | v1 | incorrect | false step 3 (∠CBD = ∟) | **refute** ✓ |
 | v2 | correct  | skips I.13 → 2 gaps (true, deferred) | **accept** ✓ |
 | v3 | incorrect | false step 1 (∠ABC,∠ACB = ∟) | **refute** ✓ |
-| v4 | incorrect | mixed step (equilateral) | **stuck** ✗ (needs countermodel) |
+| v4 | incorrect | mixed step (equilateral) | **Route B** ✓ (non-equilateral countermodel, `refute.lean`) |
 | v5 | correct  | Pappus, fully valid | **accept** ✓ |

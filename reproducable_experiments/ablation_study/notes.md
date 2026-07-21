@@ -145,3 +145,6 @@ For Prop04 of Book2:
   So the true ranking of causes: (1) 1.6× fatter context — split between the loaded skills/memory baseline and the accumulated check_step output — × (2) 1.7× more turns from forced one-step-one-check. Denials and
   codebase-reading are not causes. The one-shot-fighting is real but the weakest contributor.
 
+
+
+july 20, 11:43am is when I cancelled round one of expeirmetns since they took 15+ hours and set time limit to 12h.

@@ -5,9 +5,12 @@ set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
-/- 1.6.8: the triangle DBC is equal to the triangle ACB [Prop.~1.4] — the full SAS congruence
-   conclusion: base |d─c| = |a─b| plus the two remaining angles ∠b:d:c = ∠c:a:b and
-   ∠b:c:d = ∠c:b:a. Same SAS application as step7 (sides + included angle), full conclusion. -/
+/- 1.6.8: the triangle DBC is equal to the triangle ACB [Prop.~1.4], as an AREA equality
+   (Euclid's "the triangle equal to the triangle" = equal magnitude). SAS (`proposition_4`,
+   the same application as step7) puts the full congruence — base |d─c| = |a─b| plus the two
+   remaining angles — into context; `area_congruence` then turns that congruence into the
+   area equality area(△DBC) = area(△ACB). The "lesser to the greater" (whole > part) is the
+   next sentence's job (1.6.9, C.N.5). -/
 theorem helper_1_6_step8 (a b c d : Point) (AB BC AC DC : Line)
     (haAB : a.onLine AB) (hbAB : b.onLine AB) (hab : a ≠ b)
     (hbBC : b.onLine BC) (hcBC : c.onLine BC)
@@ -15,8 +18,9 @@ theorem helper_1_6_step8 (a b c d : Point) (AB BC AC DC : Line)
     (hABneBC : AB ≠ BC) (hBCneAC : BC ≠ AC) (hACneAB : AC ≠ AB)
     (hbda : between b d a) (hdDC : d.onLine DC) (hcDC : c.onLine DC)
     (hbdac : |(b─d)| = |(a─c)|) (hdbc_acb : ∠ d:b:c = ∠ a:c:b) :
-    |(d─c)| = |(a─b)| ∧ (∠ b:d:c = ∠ c:a:b) ∧ (∠ b:c:d = ∠ c:b:a) := by
+    Triangle.area △d:b:c = Triangle.area △a:c:b := by
   euclid_apply (proposition_4 b d c c a b AB DC BC AC AB BC)
-  (try split_ands) <;> assumption
+  euclid_apply (area_congruence d b c a c b)
+  assumption
 
 end Elements.Book1

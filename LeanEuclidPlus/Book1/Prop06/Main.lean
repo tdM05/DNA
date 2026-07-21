@@ -24,19 +24,15 @@ theorem proposition_6 : ∀ (a b c : Point) (AB BC AC : Line),
   euclid_intros
   euclid_intro_sentence "1.6.0"
     "If a triangle has two angles equal to one another then the sides subtending the equal angles will also be equal to one another. Let $ABC$ be a triangle having the angle $ABC$ equal to the angle $ACB$. I say that side $AB$ is also equal to side $AC$. "
-  -- Euclid argues by contradiction: suppose AB ≠ AC; each case is absurd.
   have habsurd : ¬ (|(a─b)| ≠ |(a─c)|) := by
     intro hne
+    -- @assumption_valid
+    have step1_assumption1 : |(a─b)| ≠ |(a─c)| := by assumption
     -- @assumption ("$AB$ is unequal to $AC$", |(a─b)| ≠ |(a─c)|)
     euclid_sentence "1.6.1"
       "For if $AB$ is unequal to $AC$ then one of them is greater."
       (step1 : |(a─b)| > |(a─c)| ∨ |(a─c)| > |(a─b)|) := by euclid_apply (helper_1_6_step1 a b c (by euclid_assumption "$AB$ is unequal to $AC$" (show |(a─b)| ≠ |(a─c)|; assumption)))
-    -- Euclid writes only ONE case ("Let AB be greater"), leaving the other as symmetric.
-    -- `wlog` captures exactly that: assume WLOG AB > AC; the AC > AB case reduces to it by
-    -- the triangle's b↔c symmetry (Hsym applied to the swapped figure) — the case Euclid omits.
     wlog hgt : |(a─b)| > |(a─c)| generalizing b c AB BC AC with Hsym
-    -- reduction: ¬(AB > AC), so by step1 AC > AB; apply the main case (Hsym) to the b↔c-swapped
-    -- triangle (in which the greater side is again "AB"). This closes the case Euclid omits.
     · have swapfig :
           (∠ a:c:b = ∠ a:b:c)
           ∧ (a ≠ c)
@@ -48,7 +44,7 @@ theorem proposition_6 : ∀ (a b c : Point) (AB BC AC : Line),
           ∧ (|(a─c)| > |(a─b)|) := by euclid_apply (helper_1_6_swapfig a b c AB BC AC (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show b.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine AC; assumption)) (by euclid_assumption "" (show a.onLine AC; assumption)) (by euclid_assumption "" (show AB ≠ BC; assumption)) (by euclid_assumption "" (show BC ≠ AC; assumption)) (by euclid_assumption "" (show AC ≠ AB; assumption)) (by euclid_assumption "" (show ∠ a:b:c = ∠ a:c:b; assumption)) (by euclid_assumption "" (show |(a─b)| ≠ |(a─c)|; assumption)) (by euclid_assumption "" (show |(a─b)| > |(a─c)| ∨ |(a─c)| > |(a─b)|; assumption)) (by euclid_assumption "" (show ¬ |(a─b)| > |(a─c)|; assumption)))
       obtain ⟨hang', hac, hACBC, hBCAB, hABAC, hne', hor', hgt'⟩ := swapfig
       exact Hsym c b AC BC AB hang' (by assumption) (by assumption) hac (by assumption)
-        (by assumption) (by assumption) (by assumption) hACBC hBCAB hABAC hne' hor' hgt'
+        (by assumption) (by assumption) (by assumption) hACBC hBCAB hABAC hne' hne' hor' hgt'
     -- Euclid's written case: let AB be the greater.
     · euclid_sentence "1.6.2"
         "Let $AB$ be greater."
@@ -72,10 +68,10 @@ theorem proposition_6 : ∀ (a b c : Point) (AB BC AC : Line),
         (step7 : |(d─c)| = |(a─b)|) := by euclid_apply (helper_1_6_step7 a b c d AB BC AC DC (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show b.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine AC; assumption)) (by euclid_assumption "" (show a.onLine AC; assumption)) (by euclid_assumption "" (show AB ≠ BC; assumption)) (by euclid_assumption "" (show BC ≠ AC; assumption)) (by euclid_assumption "" (show AC ≠ AB; assumption)) (by euclid_assumption "" (show between b d a; assumption)) (by euclid_assumption "" (show d.onLine DC; assumption)) (by euclid_assumption "" (show c.onLine DC; assumption)) (by euclid_assumption "" (show |(b─d)| = |(a─c)|; assumption)) (by euclid_assumption "" (show ∠ d:b:c = ∠ a:c:b; assumption)))
       euclid_sentence "1.6.8"
         "and the triangle $DBC$ will be equal to the triangle $ACB$ [Prop.~1.4], the lesser to the greater."
-        (step8 : |(d─c)| = |(a─b)| ∧ (∠ b:d:c = ∠ c:a:b) ∧ (∠ b:c:d = ∠ c:b:a)) := by euclid_apply (helper_1_6_step8 a b c d AB BC AC DC (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show b.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine AC; assumption)) (by euclid_assumption "" (show a.onLine AC; assumption)) (by euclid_assumption "" (show AB ≠ BC; assumption)) (by euclid_assumption "" (show BC ≠ AC; assumption)) (by euclid_assumption "" (show AC ≠ AB; assumption)) (by euclid_assumption "" (show between b d a; assumption)) (by euclid_assumption "" (show d.onLine DC; assumption)) (by euclid_assumption "" (show c.onLine DC; assumption)) (by euclid_assumption "" (show |(b─d)| = |(a─c)|; assumption)) (by euclid_assumption "" (show ∠ d:b:c = ∠ a:c:b; assumption)))
+        (step8 : Triangle.area △d:b:c = Triangle.area △a:c:b) := by euclid_apply (helper_1_6_step8 a b c d AB BC AC DC (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show b.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine AC; assumption)) (by euclid_assumption "" (show a.onLine AC; assumption)) (by euclid_assumption "" (show AB ≠ BC; assumption)) (by euclid_assumption "" (show BC ≠ AC; assumption)) (by euclid_assumption "" (show AC ≠ AB; assumption)) (by euclid_assumption "" (show between b d a; assumption)) (by euclid_assumption "" (show d.onLine DC; assumption)) (by euclid_assumption "" (show c.onLine DC; assumption)) (by euclid_assumption "" (show |(b─d)| = |(a─c)|; assumption)) (by euclid_assumption "" (show ∠ d:b:c = ∠ a:c:b; assumption)))
       euclid_sentence "1.6.9"
         "The very notion (is) absurd [C.N.~5]."
-        (step9 : False) := by euclid_apply (helper_1_6_step9 a b c d AB BC AC (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show b.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine AC; assumption)) (by euclid_assumption "" (show a.onLine AC; assumption)) (by euclid_assumption "" (show AB ≠ BC; assumption)) (by euclid_assumption "" (show BC ≠ AC; assumption)) (by euclid_assumption "" (show AC ≠ AB; assumption)) (by euclid_assumption "" (show between b d a; assumption)) (by euclid_assumption "" (show |(b─d)| = |(a─c)|; assumption)) (by euclid_assumption "" (show ∠ d:b:c = ∠ a:c:b; assumption)) (by euclid_assumption "" (show |(d─c)| = |(a─b)| ∧ (∠ b:d:c = ∠ c:a:b) ∧ (∠ b:c:d = ∠ c:b:a); assumption)))
+        (step9 : False) := by euclid_apply (helper_1_6_step9 a b c d AB BC AC (by euclid_assumption "" (show a.onLine AB; assumption)) (by euclid_assumption "" (show b.onLine AB; assumption)) (by euclid_assumption "" (show a ≠ b; assumption)) (by euclid_assumption "" (show b.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine BC; assumption)) (by euclid_assumption "" (show c.onLine AC; assumption)) (by euclid_assumption "" (show a.onLine AC; assumption)) (by euclid_assumption "" (show AB ≠ BC; assumption)) (by euclid_assumption "" (show BC ≠ AC; assumption)) (by euclid_assumption "" (show AC ≠ AB; assumption)) (by euclid_assumption "" (show between b d a; assumption)) (by euclid_assumption "" (show |(b─d)| = |(a─c)|; assumption)) (by euclid_assumption "" (show ∠ d:b:c = ∠ a:c:b; assumption)) (by euclid_assumption "" (show Triangle.area △d:b:c = Triangle.area △a:c:b; assumption)))
       exact step9
   euclid_sentence "1.6.10"
     "Thus, $AB$ is not unequal to $AC$."

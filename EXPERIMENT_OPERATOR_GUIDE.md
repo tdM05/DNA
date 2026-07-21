@@ -12,13 +12,15 @@ rm -rf ~/.claude/projects/-h-56-taddmao-code-autoform-DNA/memory
 
 Blank each worktree to its PINNED map-stage commit (`3d8e371` ablated / `be22807` full — NOT HEAD, which drifts as you commit; each restores every prop's map Main.lean + data; `git clean` removes only a prior run's untracked step files — tracked data is never touched):
 ```
-cd ~/code/autoform/methodology_compare_worktrees/ablated
-git checkout 3d8e371 -- LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3
-git clean -fd LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3
+  cd ~/code/autoform/methodology_compare_worktrees/ablated
+  git rm -rf LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3
+  git checkout 3d8e371 -- LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3
+  git clean -fd LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3
 
-cd ~/code/autoform/methodology_compare_worktrees/full
-git checkout be22807 -- LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3
-git clean -fd LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3
+  cd ~/code/autoform/methodology_compare_worktrees/full
+  git rm -rf LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3
+  git checkout be22807 -- LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3
+  git clean -fd LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3
 ```
 
 ## Ablated
