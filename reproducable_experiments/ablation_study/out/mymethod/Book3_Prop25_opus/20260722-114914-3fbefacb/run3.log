@@ -1,0 +1,18 @@
+[check_step --drive] step7 (todo) — running --subtree step7
+
+[check_step --subtree step7] auditing the step7 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step7):
+  ✓ step7: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step7's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step8 (todo) — running --subtree step8
+
+[check_step --subtree step8] auditing the step8 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step8):
+  ⚠ step8: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step8's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step9_assumption1 (todo) — running --subtree step9_assumption1
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step9_assumption1' (Book3/Prop25/Main.lean) has NO backing file 'step9_assumption1.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step9_assumption1 — fix it, then re-run --drive to resume.

@@ -1,0 +1,76 @@
+[check_step --drive] step8 (stale) — running --subtree step8
+
+[check_step --subtree step8] auditing the step8 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step8):
+  ✓ step8: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step8's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step9_assumption1 (todo) — running --subtree step9_assumption1
+
+[check_step --subtree step9_assumption1] auditing the step9_assumption1 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step9_assumption1):
+  ⚠ step9_assumption1: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step9_assumption1's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step9 (todo) — running --subtree step9
+
+[check_step --subtree step9] auditing the step9 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step9):
+  ⚠ step9: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step9's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step10 (todo) — running --subtree step10
+
+[check_step --subtree step10] auditing the step10 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step10):
+  ⚠ step10: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step10's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step11 (todo) — running --subtree step11
+
+[check_step --subtree step11] auditing the step11 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step11):
+  ⚠ step11: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step11's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step12 (todo) — running --subtree step12
+
+[check_step --subtree step12] auditing the step12 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step12):
+  ⚠ step12: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step12's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step13 (todo) — running --subtree step13
+
+[check_step --subtree step13] auditing the step13 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step13):
+  ⚠ step13: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step13's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step14 (todo) — running --subtree step14
+
+[check_step --subtree step14] auditing the step14 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step14):
+  ⚠ step14: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step14's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step15 (todo) — running --subtree step15
+
+[check_step --subtree step15] auditing the step15 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step15):
+  ⚠ step15: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step15's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step16 (todo) — running --subtree step16
+
+[check_step --subtree step16] auditing the step16 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step16):
+  ✗ step16: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book3/Prop25/step16.lean:10:29: unknown identifier 'e.isCentre'
+    ↳ source: theorem helper_3_25_step16 : e.isCentre α₁ ∧ a.onCircle α₁ ∧ b.onCircle α₁ ∧ c.onCircle α₁ := by sorry
+
+error: ././././Book3/Prop25/step16.lean:10:45: unknown identifier 'a.onCircle'
+    ↳ source: theorem helper_3_25_step16 : e.isCentre α₁ ∧ a.onCircle α₁ ∧ b.onCircle α₁ ∧ c.onCircle α₁ := by sorry
+
+error: ././././Book3/Prop25/step16.lean:10:61: unknown identifier 'b.onCircle'
+    ↳ source: theorem helper_3_25_step16 : e.isCentre α₁ ∧ a.onCircle α₁ ∧ b.onCircle α₁ ∧ c.onCircle α₁ := by sorry
+
+error: ././././Book3/Prop25/step16.lean:10:77: unknown identifier 'c.onCircle'
+    ↳ source: theorem helper_3_25_step16 : e.isCentre α₁ ∧ a.onCircle α₁ ∧ b.onCircle α₁ ∧ c.onCircle α₁ := by sorry
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step16 — fix it, then re-run --drive to resume.

@@ -1,0 +1,6 @@
+[check_step --subtree step6] auditing the step6 cone — 2 node(s) in Book2/Prop03 (sub-nodes before step6):
+  ✗ step6_ang: SP FAILED (see below) — deepest failure; fix it first.
+
+[faithful_lib] build of Book2.Prop03.step6 exceeded 45s wall clock — TOO BIG. DECOMPOSE into more backing files; NEVER raise the cap. Last output before the kill (what it was elaborating when it stalled):
+⚠ [814/815] Replayed Book2.Prop03.step6_ang
+warning: ././././Book2/Prop03/step6_ang.lean:9:8: declaration uses 'sorry'

@@ -1,0 +1,5 @@
+[check_step] step5  (sentence in Book2/Prop03/Main.lean)
+  SF ok — `step5`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)
+  SP ok — hyps suppliable (objects: a b c d e f AB CD DE AF BE).
+  P ok (deps pending) — Book2/Prop03/step5.lean (leaf) is itself sorry-free; the only remaining `sorry` (././././Book1/Prop30/Main.lean:5) is in an IMPORTED cited proposition / dependency, NOT in this leaf. That is EXPECTED and OK — the leaf is PROVEN modulo its unproven deps (the same `PASS (with unproven deps)` state Phase-C wire_main accepts). Do NOT drop the citation or try to 'prove it' here — the dep is proven on its own track.
+PASS: step5 CERTIFIED (SF + SP + P (modulo unproven deps — OK)).

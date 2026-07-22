@@ -1,0 +1,18 @@
+[check_step --drive] hAGDB (todo) — running --subtree hAGDB
+
+[check_step --subtree hAGDB] auditing the hAGDB cone — 1 node(s) in Book3/Prop25 (sub-nodes before hAGDB):
+  ✓ hAGDB: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: hAGDB's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] hec (todo) — running --subtree hec
+
+[check_step --subtree hec] auditing the hec cone — 1 node(s) in Book3/Prop25 (sub-nodes before hec):
+  ⚠ hec: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: hec's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step6 (todo) — running --subtree step6
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step6' (Book3/Prop25/Main.lean) has NO backing file 'step6.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step6 — fix it, then re-run --drive to resume.

@@ -1,0 +1,5 @@
+[check_step] step8  (sentence in Book2/Prop03/Main.lean)
+  SF ok — `step8`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)
+  SP ok — hyps suppliable (objects: a b c d e f).
+  P ok — Book2/Prop03/step8.lean (leaf) builds with ZERO sorry.
+PASS: step8 CERTIFIED (SF + SP + P).

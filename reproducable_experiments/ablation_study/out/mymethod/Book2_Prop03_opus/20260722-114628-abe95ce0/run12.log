@@ -1,0 +1,40 @@
+[check_step --subtree step6] auditing the step6 cone — 3 node(s) in Book2/Prop03 (sub-nodes before step6):
+  ✗ step6_para (Book2/Prop03/step6_para.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book2/Prop03/step6_para.lean:33:51: application type mismatch
+    ↳ source: exact ⟨hc_ab, ha_ab, hd_de, hf_de, hc_cd, hd_cd, ha_af, hf_af, haf_ne, hcd_ss, hab_de, hcdaf⟩
+  And.intro ha_af
+argument
+  ha_af
+has type
+  a.onLine AF : Prop
+but is expected to have type
+  distinctPointsOnLine a f AF : Prop
+
+error: ././././Book2/Prop03/step6_para.lean:33:58: application type mismatch
+    ↳ source: exact ⟨hc_ab, ha_ab, hd_de, hf_de, hc_cd, hd_cd, ha_af, hf_af, haf_ne, hcd_ss, hab_de, hcdaf⟩
+  And.intro hf_af
+argument
+  hf_af
+has type
+  f.onLine AF : Prop
+but is expected to have type
+  c.sameSide d AF : Prop
+
+error: ././././Book2/Prop03/step6_para.lean:33:65: application type mismatch
+    ↳ source: exact ⟨hc_ab, ha_ab, hd_de, hf_de, hc_cd, hd_cd, ha_af, hf_af, haf_ne, hcd_ss, hab_de, hcdaf⟩
+  And.intro haf_ne
+argument
+  haf_ne
+has type
+  a ≠ f : Prop
+but is expected to have type
+  ¬AB.intersectsLine DE : Prop
+
+error: ././././Book2/Prop03/step6_para.lean:33:8: invalid constructor ⟨...⟩, expected type must be an inductive type 
+    ↳ source: exact ⟨hc_ab, ha_ab, hd_de, hf_de, hc_cd, hd_cd, ha_af, hf_af, haf_ne, hcd_ss, hab_de, hcdaf⟩
+  CD.intersectsLine AF → False
+
+error: Lean exited with code 1
+
+error: build failed

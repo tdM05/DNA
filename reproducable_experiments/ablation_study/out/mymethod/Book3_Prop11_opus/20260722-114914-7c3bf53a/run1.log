@@ -1,0 +1,7 @@
+REFUSED: `--all` is the FINAL WITNESS, not an exploratory checker — it runs ONLY once the read-only `--status` board is all-green (a full bottom-up build audit is expensive; never run it to HUNT a failure). The board is NOT all-green yet:
+  1/11 Main node(s) not done: step9
+
+  Drive the not-done nodes (cheap, per-node, in order), then re-check the board:
+    python3 scripts/check_step.py Book3/Prop11 --drive
+    python3 scripts/check_step.py Book3/Prop11 --status
+  When --status prints '⟹ --all is GUARANTEED to pass', run --all ONCE as the witness.

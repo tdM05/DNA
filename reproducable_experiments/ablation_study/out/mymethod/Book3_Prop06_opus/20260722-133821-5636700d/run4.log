@@ -1,0 +1,11 @@
+=== faithful-I9wEkD.json — MODE: --olean (compiled, AUTHORITATIVE) ===
+    text reproduction is EXACT; dependency match is BOOK-AWARE + transitive (resolved names)
+--- Book3 Prop 6 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         10 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 0 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (10 sentences (3.6.0..3.6.9) vs Book3/data/texts_proofs/6.txt)
+  [note] not machine-checked: that each step's type honestly captures its sentence (review by hand)
+  => ALL PASS (--olean mode, authoritative)

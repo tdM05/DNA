@@ -1,0 +1,6 @@
+[check_step --drive] step7 (todo) — running --subtree step7
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step7' (Book2/Prop03/Main.lean) has NO backing file 'step7.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step7 — fix it, then re-run --drive to resume.

@@ -1,0 +1,57 @@
+[check_step --drive] step17 (todo) — running --subtree step17
+
+[check_step --subtree step17] auditing the step17 cone — 5 node(s) in Book3/Prop36 (sub-nodes before step17):
+  ✗ step17_fa: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book3/Prop36/step17.lean:19:32: Could not prove: ∠a:f:e = ∟
+    ↳ source: have step17_fa : f ≠ a := by sorry
+
+error: ././././Book3/Prop36/step17.lean:20:536: tactic 'assumption' failed
+a c d e f : Point
+ABC : Circle
+DA EF EC : Line
+ha : a.onCircle ABC
+hc : c.onCircle ABC
+haDA : a.onLine DA
+hdDA : d.onLine DA
+hbdca : between d c a
+hfDA : f.onLine DA
+hfEF : f.onLine EF
+heEC : e.onLine EC
+hcEC : c.onLine EC
+hcentre : e.isCentre ABC
+heEF : e.onLine EF
+hnotDA : ¬e.onLine DA
+hang : ∠a:f:e = ∟ ∨ ∠c:f:e = ∟
+hcDA : c.onLine DA
+hac : a ≠ c
+hafe : ∠a:f:e = ∟
+⊢ ∠c:f:e = ∟
+
+error: ././././Book3/Prop36/step17.lean:20:536: tactic 'assumption' failed
+a c d e f : Point
+ABC : Circle
+DA EF EC : Line
+ha : a.onCircle ABC
+hc : c.onCircle ABC
+haDA : a.onLine DA
+hdDA : d.onLine DA
+hbdca : between d c a
+hfDA : f.onLine DA
+hfEF : f.onLine EF
+heEC : e.onLine EC
+hcEC : c.onLine EC
+hcentre : e.isCentre ABC
+heEF : e.onLine EF
+hnotDA : ¬e.onLine DA
+hang : ∠a:f:e = ∟ ∨ ∠c:f:e = ∟
+hcDA : c.onLine DA
+hac : a ≠ c
+hafe : ∠a:f:e = ∟
+⊢ ∠c:f:e = ∟
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step17 — fix it, then re-run --drive to resume.

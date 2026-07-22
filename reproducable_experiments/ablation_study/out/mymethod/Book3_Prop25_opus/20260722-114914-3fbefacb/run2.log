@@ -1,0 +1,25 @@
+[check_step --drive] hec (stale) — running --subtree hec
+
+[check_step --subtree hec] auditing the hec cone — 1 node(s) in Book3/Prop25 (sub-nodes before hec):
+  ✓ hec: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: hec's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step6 (todo) — running --subtree step6
+
+[check_step --subtree step6] auditing the step6 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step6):
+  ✓ step6: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step6's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step7 (todo) — running --subtree step7
+
+[check_step --subtree step7] auditing the step7 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step7):
+  ✗ step7: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book3/Prop25/step7.lean:10:28: unknown identifier 'e.onLine'
+    ↳ source: theorem helper_3_25_step7 : e.onLine DB := by sorry
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step7 — fix it, then re-run --drive to resume.

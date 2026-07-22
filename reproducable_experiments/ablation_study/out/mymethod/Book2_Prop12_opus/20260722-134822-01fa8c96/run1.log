@@ -1,0 +1,2 @@
+[check_step --all] bottom-up audit of 7 node(s) in Book2/Prop12 (sub-nodes before their parents):
+  ✓ step1: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)

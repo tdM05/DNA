@@ -1,0 +1,4 @@
+[check_step --subtree step6] auditing the step6 cone — 3 node(s) in Book2/Prop03 (sub-nodes before step6):
+  ✗ step6_para (Book2/Prop03/step6_para.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+[faithful_lib] build of Book2.Prop03.step6_para exceeded 45s wall clock — TOO BIG. DECOMPOSE into more backing files; NEVER raise the cap. Last output before the kill (what it was elaborating when it stalled):

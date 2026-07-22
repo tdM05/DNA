@@ -1,0 +1,3 @@
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 9 approved step claim(s) + assumptions unchanged in Book3/Prop11/Main.lean
+OK: all 1 proposition signatures matching 'Book3/Prop11' unchanged

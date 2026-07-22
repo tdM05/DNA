@@ -1,0 +1,4 @@
+[check_step --drive] step23 (todo) — running --subtree step23
+
+[check_step --subtree step23] auditing the step23 cone — 5 node(s) in Book3/Prop36 (sub-nodes before step23):
+  ✓ step23_notDA: SP[isolated] + P (leaf, zero-sorry)

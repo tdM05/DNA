@@ -1,0 +1,105 @@
+[check_step] step7  (sentence in Book2/Prop03/Main.lean)
+  SF ok — `step7`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)
+FAIL (SP — suppliable): wiring `euclid_apply (helper_2_3_step7 a b c d e AB CD BE DE)` in Book2/Prop03/Main.lean did not build.
+  → The wire FULLY applies the helper: objects positionally + one `(by assumption)` per hypothesis binder (zero SMT). SP failed for ONE of these reasons:
+    (a) a HYPOTHESIS is NOT present in the parent context → its `(by assumption)` fails (`tactic 'assumption' failed`). The signature hyp must be a fact the parent ALREADY has. FIX: remove that hyp from the helper signature and DERIVE it inside the helper body (it becomes part of the bounded ≤30s leaf build). Run `--context <node>` to see the atoms in scope;
+    (b) a hypothesis is present but in a DIFFERENT FORM/ORIENTATION than the signature asks (`assumption` is exact up to defeq — distance/angle symmetry and abbrev packaging are NOT definitional) → match the signature to the LITERAL atom the parent has (abbrevs like `formParallelogram` are unfolded to atomic conjuncts in context — take the ATOMS), or derive the reoriented fact in-body;
+    (c) an OBJECT arg name isn't in this parent's scope (`unknown identifier`) → if the helper is reused with DIFFERENT objects per parent, add a `-- @args: <objs in order>` line directly above this node to pass this site's actuals;
+    (d) the build hit the 30s cap → decompose. This is NOT a tooling wall.
+  Build output:
+
+  HINT: a `(by assumption)` failed above — a HYPOTHESIS binder of the helper is not present by type in this parent's context. Run `--context step7` to see the exact atoms in scope, then REMOVE that hyp from the signature and derive it in the helper body (the wire discharges hyps ONLY by `assumption`; every signature hyp must be a fact the parent has verbatim).
+
+error: ././././Book2/Prop03/Main.lean:54:800: tactic 'assumption' failed
+    ↳ source: 
+a b c : Point
+AB : Line
+right : between a c b
+left_1 : a.onLine AB
+left_2 : b.onLine AB
+right_2 : a ≠ b
+d e : Point
+DE CD BE : Line
+left✝¹⁷ : d.onLine DE
+left✝¹⁶ : |(d─e)| = |(c─b)|
+left✝¹⁵ : e.onLine DE
+left✝¹⁴ : |(c─d)| = |(c─b)|
+left✝¹³ : c.onLine AB
+left✝¹² : |(b─e)| = |(c─b)|
+left✝¹¹ : b.onLine AB
+left✝¹⁰ : ∠b:c:d = ∟
+left✝⁹ : d.onLine CD
+left✝⁸ : ∠c:d:e = ∟
+left✝⁷ : c.onLine CD
+left✝⁶ : ∠c:b:e = ∟
+right✝⁴ : ∠b:e:d = ∟
+left✝⁵ : e.onLine BE
+left✝⁴ : d.sameSide c BE
+left✝³ : b.onLine BE
+right✝³ : e ≠ b
+left✝² : ¬DE.intersectsLine AB
+right✝² : ¬CD.intersectsLine BE
+AF : Line
+left✝¹ : a.onLine AF
+right✝¹ : ¬AF.intersectsLine CD
+f : Point
+left✝ : f.onLine AF
+right✝ : f.onLine DE
+step1 : |(c─d)| = |(c─b)| ∧ |(b─e)| = |(c─b)| ∧ |(d─e)| = |(c─b)| ∧ ∠b:c:d = ∟ ∧ ∠c:d:e = ∟ ∧ ∠c:b:e = ∟ ∧ ∠b:e:d = ∟
+step2 : f.onLine DE ∧ between e d f
+step3 : a.onLine AF ∧ ¬AF.intersectsLine CD
+step4 : (△a:f:e).area + (△a:e:b).area = (△a:f:d).area + (△a:d:c).area + ((△c:d:e).area + (△c:e:b).area)
+step5_assumption1 : |(b─e)| = |(c─b)|
+step5 : (△a:f:e).area + (△a:e:b).area = |(a─b)| * |(b─c)|
+step6_assumption1 : |(c─d)| = |(c─b)|
+step6 : (△a:f:d).area + (△a:d:c).area = |(a─c)| * |(c─b)|
+⊢ d ≠ e
+
+error: ././././Book2/Prop03/Main.lean:54:800: tactic 'assumption' failed
+    ↳ source: 
+a b c : Point
+AB : Line
+right : between a c b
+left_1 : a.onLine AB
+left_2 : b.onLine AB
+right_2 : a ≠ b
+d e : Point
+DE CD BE : Line
+left✝¹⁷ : d.onLine DE
+left✝¹⁶ : |(d─e)| = |(c─b)|
+left✝¹⁵ : e.onLine DE
+left✝¹⁴ : |(c─d)| = |(c─b)|
+left✝¹³ : c.onLine AB
+left✝¹² : |(b─e)| = |(c─b)|
+left✝¹¹ : b.onLine AB
+left✝¹⁰ : ∠b:c:d = ∟
+left✝⁹ : d.onLine CD
+left✝⁸ : ∠c:d:e = ∟
+left✝⁷ : c.onLine CD
+left✝⁶ : ∠c:b:e = ∟
+right✝⁴ : ∠b:e:d = ∟
+left✝⁵ : e.onLine BE
+left✝⁴ : d.sameSide c BE
+left✝³ : b.onLine BE
+right✝³ : e ≠ b
+left✝² : ¬DE.intersectsLine AB
+right✝² : ¬CD.intersectsLine BE
+AF : Line
+left✝¹ : a.onLine AF
+right✝¹ : ¬AF.intersectsLine CD
+f : Point
+left✝ : f.onLine AF
+right✝ : f.onLine DE
+step1 : |(c─d)| = |(c─b)| ∧ |(b─e)| = |(c─b)| ∧ |(d─e)| = |(c─b)| ∧ ∠b:c:d = ∟ ∧ ∠c:d:e = ∟ ∧ ∠c:b:e = ∟ ∧ ∠b:e:d = ∟
+step2 : f.onLine DE ∧ between e d f
+step3 : a.onLine AF ∧ ¬AF.intersectsLine CD
+step4 : (△a:f:e).area + (△a:e:b).area = (△a:f:d).area + (△a:d:c).area + ((△c:d:e).area + (△c:e:b).area)
+step5_assumption1 : |(b─e)| = |(c─b)|
+step5 : (△a:f:e).area + (△a:e:b).area = |(a─b)| * |(b─c)|
+step6_assumption1 : |(c─d)| = |(c─b)|
+step6 : (△a:f:d).area + (△a:d:c).area = |(a─c)| * |(c─b)|
+⊢ d ≠ e
+
+error: Lean exited with code 1
+
+error: build failed

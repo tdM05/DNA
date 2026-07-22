@@ -1,0 +1,10 @@
+[check_step --subtree step6] auditing the step6 cone — 3 node(s) in Book2/Prop03 (sub-nodes before step6):
+  ✓ step6_para: SP[isolated] + P (leaf, zero-sorry)
+  ✗ step6_ang (Book2/Prop03/step6_ang.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book2/Prop03/step6_ang.lean:13:35: Could not prove: ¬c.onLine DE
+    ↳ source: have hc_nde : ¬c.onLine DE := by euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

@@ -1,0 +1,33 @@
+[check_step --drive] step23 (todo) — running --subtree step23
+
+[check_step --subtree step23] auditing the step23 cone — 1 node(s) in Book3/Prop36 (sub-nodes before step23):
+  ✗ step23 (Book3/Prop36/step23.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+[faithful_lib] build of Book3.Prop36.step23 exceeded 45s wall clock — TOO BIG. DECOMPOSE into more backing files; NEVER raise the cap. Last output before the kill (what it was elaborating when it stalled):
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [839/861] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [840/861] Replayed Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+⚠ [847/861] Replayed Book1.Prop31.Main
+warning: ././././Book1/Prop31/Main.lean:7:8: declaration uses 'sorry'
+⚠ [848/861] Replayed Book1.Prop41.Main
+warning: ././././Book1/Prop41/Main.lean:5:8: declaration uses 'sorry'
+⚠ [849/861] Replayed Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+⚠ [851/861] Replayed Book1.Prop13.Main
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+⚠ [852/861] Replayed Book1.Prop15.Main
+warning: ././././Book1/Prop15/Main.lean:5:8: declaration uses 'sorry'
+⚠ [853/861] Replayed Book1.Prop29.Main
+warning: ././././Book1/Prop29/Main.lean:7:8: declaration uses 'sorry'
+⚠ [855/861] Replayed Book1.Prop26.Main
+warning: ././././Book1/Prop26/Main.lean:9:8: declaration uses 'sorry'
+⚠ [856/861] Replayed Book1.Prop34.Main
+warning: ././././Book1/Prop34/Main.lean:6:8: declaration uses 'sorry'
+⚠ [858/861] Replayed Book1.Prop46.Main
+warning: ././././Book1/Prop46/Main.lean:8:8: declaration uses 'sorry'
+⚠ [860/861] Replayed Book1.Prop47.Main
+warning: ././././Book1/Prop47/Main.lean:10:8: declaration uses 'sorry'
+
+[check_step --drive] STOPPED at step23 — fix it, then re-run --drive to resume.
