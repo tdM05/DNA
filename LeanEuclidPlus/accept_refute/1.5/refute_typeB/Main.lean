@@ -1,25 +1,18 @@
 import SystemE
 import Mathlib.Tactic.Linarith
 
-set_option systemE.solverTime 30
+
 set_option linter.unusedVariables false
 set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book1
 
-/-! v4 — ROUTE B refutation of the equilateral bad step `|(b─c)| = |(a─b)|` (step1).
 
-    This is the case that was previously "stuck": the step is mixed (true for an equilateral
-    triangle, false otherwise), so the naive refute `H → ¬(|(b─c)| = |(a─b)|)` FAILS, and the
-    countermodel needs a NON-equilateral isosceles triangle — which `euclid_finish` cannot
-    synthesise. We build that countermodel by hand from the raw construction axioms:
-
-      m between a,b; α = circle(a, |ab|); γ = circle(b, |bm|); c = α ∩ γ
-        ⟹ |ac| = |ab|  and  |bc| = |bm| < |ab|   (since |am| > 0)
-
-    so `c` is isosceles-with-vertex-a but strictly short-based: `|bc| ≠ |ab|`. Producing D, E
-    completes the I.5 config. By soundness, System E cannot deduce the equilateral step.
-    Axiom-clean (no sorryAx — see `#print axioms`). -/
+theorem proposition_5_step1 : ∀ (a b c d e : Point) (AB BC AC : Line),
+  formTriangle a b c AB BC AC ∧ (|(a─b)| = |(a─c)|) ∧
+  (between a b d) ∧ (between a c e) →
+  (|(b─c)| = |(a─b)|) := by
+  sorry
 
 theorem routeB_refute_step1 :
     ∃ (a b c d e : Point) (AB BC AC : Line),
@@ -77,5 +70,32 @@ theorem routeB_refute_step1 :
   · linarith
 
 #print axioms routeB_refute_step1
+
+theorem proposition_5 : ∀ (a b c d e : Point) (AB BC AC : Line),
+  formTriangle a b c AB BC AC ∧ (|(a─b)| = |(a─c)|) ∧
+  (between a b d) ∧ (between a c e) →
+  (∠ a:b:c = ∠ a:c:b) ∧ (∠ c:b:d = ∠ b:c:e) := by
+  euclid_intros
+  euclid_intro_sentence "1.5.0"
+    "For isosceles triangles, the angles at the base are equal to one another, and if the equal sides are produced then the angles under the base will be equal to one another. Let $ABC$ be an isosceles triangle having the side $AB$ equal to the side $AC$, and let the straight-lines $BD$ and $CE$ have been produced in a straight-line with $AB$ and $AC$ (respectively) [Post.~2]. I say that the angle $ABC$ is equal to $ACB$, and (angle) $CBD$  to $BCE$. "
+
+  -- @assumption ("the side $AB$ is equal to the side $AC$", |(a─b)| = |(a─c)|)
+  euclid_sentence "1.5.1"
+    "Since the side $AB$ is equal to the side $AC$, and the base $AC$ is equal to the side $AB$, the side $BC$ is equal to the side $AB$. "
+    (step1 : |(b─c)| = |(a─b)|) := by sorry
+
+  -- @contradiction
+  have contradiction : False := by
+    obtain ⟨a', b', c', d', e', AB', BC', AC', hft, hab_ac, hbd, hce, hbc_ne⟩ :=
+      routeB_refute_step1
+    exact hbc_ne (proposition_5_step1 a' b' c' d' e' AB' BC' AC' ⟨hft, hab_ac, hbd, hce⟩)
+
+  euclid_sentence "1.5.4"
+    "Thus, the angles at the base are equal to one another, and the angles under the base are equal to one another."
+    (step4 : (∠ a:b:c = ∠ a:c:b) ∧ (∠ c:b:d = ∠ b:c:e)) := by sorry
+
+  exact step4
+  euclid_conclude_sentence "1.5.5"
+    "(Which is) the very thing it was required to show."
 
 end Elements.Book1

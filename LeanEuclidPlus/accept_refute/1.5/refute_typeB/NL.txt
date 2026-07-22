@@ -1,0 +1,3 @@
+For isosceles triangles, the angles at the base are equal to one another, and if the equal sides are produced then the angles under the base will be equal to one another. Let $ABC$ be an isosceles triangle having the side $AB$ equal to the side $AC$, and let the straight-lines $BD$ and $CE$ have been produced in a straight-line with $AB$ and $AC$ (respectively) [Post.~2]. I say that the angle $ABC$ is equal to $ACB$, and (angle) $CBD$  to $BCE$.
+
+new proof here: Since the side $AB$ is equal to the side $AC$, and the base $AC$ is equal to the side $AB$, the side $BC$ is equal to the side $AB$. Thus, the angles at the base are equal to one another, and the angles under the base are equal to one another. (Which is) the very thing it was required to show.
