@@ -1,0 +1,45 @@
+===== GRADE 2026-07-22 00:30:10 · Book1/Prop06 · arm=mymethod · node=cpu076 =====
+worktree: /weka/scratch/liby99_lcs/tadd/code/autoform/methodology_compare_worktrees/full/LeanEuclidPlus
+
+----- [sorry_count] -----
+sorry count = 0  (must be 0)
+
+----- [check_faithful] -----
+=== Main.lean — MODE: source/regex (no build) ===
+    quick offline sanity check (text is EXACT; dependency match is number-only, not book-aware)
+  [PASS] sentence locators are contiguous with no duplicates
+         13 sentences
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (13 sentences (1.6.0..1.6.12) vs Book1/data/texts_proofs/6.txt)
+  [PASS] every cited [Prop.~B.M] is a Main construction (`… as …`) or deferred to Phase B (construction-aware, number-only)
+         1 construction prop(s) in Main: proposition_3
+         1 proof-internal citation(s) deferred to Phase B (their step helpers must cite these): 1.4
+  [PASS] @assumption text is a normalized substring of its owning sentence
+         1 annotation(s) checked
+  [PASS] no euclid_sentence has a vacuous `True` claim
+         11 sentence claim(s) are non-trivial
+  [PASS] euclid_intro/conclude_sentence bracket the proof (leading / trailing only)
+         placement OK
+  [note] not machine-checked: that each step's type honestly captures its sentence (review by hand)
+  => ALL PASS (source/regex mode)
+----- [check_backing] -----
+=== Prop06/Main.lean — MODE: backing (source, no build) ===
+  [PASS] every sentence delegates to helper_<book>_<prop>_stepN in its own file
+         11 checked
+  [PASS] each sentence's helper call supplies every hypothesis via euclid_assumption (show type)
+         11 checked
+  => ALL PASS (backing mode)
+----- [check_signatures] -----
+OK: all 1 proposition signatures matching 'Book1/Prop06/Main.lean' unchanged
+----- [check_steps] -----
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 11 approved step claim(s) + assumptions unchanged in Book1/Prop06/Main.lean
+----- [lake_build: Book1.Prop06.Main] -----
+⚠ [786/810] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+⚠ [788/810] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [795/810] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+Build completed successfully.
+===== ALL CHECKS PASSED =====
