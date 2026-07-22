@@ -1,0 +1,115 @@
+[check_step --drive] step24 (todo) — running --subtree step24
+
+[check_step --subtree step24] auditing the step24 cone — 4 node(s) in Book3/Prop36 (sub-nodes before step24):
+  ✓ step24_df: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step24_tri: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step24_p47: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✗ step24: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book3/Prop36/Main.lean:149:647: tactic 'assumption' failed
+    ↳ source: 
+a b c d : Point
+ABC : Circle
+DB : Line
+left : a.onCircle ABC
+left_1 : c.onCircle ABC
+left_3✝ : ¬d.insideCircle ABC
+right_3 : ¬d.onCircle ABC
+left_3 : between d c a
+left_4 : d.onLine DB
+left_5 : b.onLine DB
+left_6 : b.onCircle ABC
+right_6 : ¬DB.intersectsCircle ABC
+DA : Line
+left✝⁹ : d.onLine DA
+right✝⁷ : a.onLine DA
+hnotthrough : ¬∃ f, f.isCentre ABC ∧ f.onLine DA
+e : Point
+h step13 : e.isCentre ABC
+f : Point
+left✝⁸ : f.onLine DA
+left✝⁷ : ∠a:f:e = ∟ ∨ ∠c:f:e = ∟
+right✝⁶ : ∀ (p : Point), p.onLine DA → p ≠ f → ∠p:f:e = ∟
+EF : Line
+left✝⁶ : e.onLine EF
+right✝⁵ : f.onLine EF
+EB : Line
+left✝⁵ : f.onLine DA
+left✝⁴ : e.onLine EB
+right✝⁴ : b.onLine EB
+right✝³ : ∠a:f:e = ∟ ∨ ∠c:f:e = ∟
+left✝³ : e.onLine EF
+left✝² : f.onLine EF
+right✝² : e ≠ f
+EC : Line
+left✝¹ : e.onLine EC
+right✝¹ : c.onLine EC
+ED : Line
+left✝ : e.onLine ED
+right✝ : d.onLine ED
+step15 : distinctPointsOnLine e b EB ∧ distinctPointsOnLine e c EC ∧ distinctPointsOnLine e d ED
+step16 : ∠e:b:d = ∟
+step17_assumption1 : e.isCentre ABC ∧ e.onLine EF ∧ ¬e.onLine DA ∧ (∠a:f:e = ∟ ∨ ∠c:f:e = ∟)
+step17 step18 step19_assumption1 step19 : |(a─f)| = |(f─c)|
+step20 : |(d─a)| * |(d─c)| + |(f─c)| * |(f─c)| = |(f─d)| * |(f─d)|
+step21 step22 : |(d─a)| * |(d─c)| + |(f─c)| * |(f─c)| + |(e─f)| * |(e─f)| = |(f─d)| * |(f─d)| + |(e─f)| * |(e─f)|
+step23_assumption1 : ∠e:f:c = ∟
+step23 : |(e─c)| * |(e─c)| = |(f─c)| * |(f─c)| + |(e─f)| * |(e─f)|
+⊢ d.outsideCircle ABC
+
+error: ././././Book3/Prop36/Main.lean:149:647: tactic 'assumption' failed
+    ↳ source: 
+a b c d : Point
+ABC : Circle
+DB : Line
+left : a.onCircle ABC
+left_1 : c.onCircle ABC
+left_3✝ : ¬d.insideCircle ABC
+right_3 : ¬d.onCircle ABC
+left_3 : between d c a
+left_4 : d.onLine DB
+left_5 : b.onLine DB
+left_6 : b.onCircle ABC
+right_6 : ¬DB.intersectsCircle ABC
+DA : Line
+left✝⁹ : d.onLine DA
+right✝⁷ : a.onLine DA
+hnotthrough : ¬∃ f, f.isCentre ABC ∧ f.onLine DA
+e : Point
+h step13 : e.isCentre ABC
+f : Point
+left✝⁸ : f.onLine DA
+left✝⁷ : ∠a:f:e = ∟ ∨ ∠c:f:e = ∟
+right✝⁶ : ∀ (p : Point), p.onLine DA → p ≠ f → ∠p:f:e = ∟
+EF : Line
+left✝⁶ : e.onLine EF
+right✝⁵ : f.onLine EF
+EB : Line
+left✝⁵ : f.onLine DA
+left✝⁴ : e.onLine EB
+right✝⁴ : b.onLine EB
+right✝³ : ∠a:f:e = ∟ ∨ ∠c:f:e = ∟
+left✝³ : e.onLine EF
+left✝² : f.onLine EF
+right✝² : e ≠ f
+EC : Line
+left✝¹ : e.onLine EC
+right✝¹ : c.onLine EC
+ED : Line
+left✝ : e.onLine ED
+right✝ : d.onLine ED
+step15 : distinctPointsOnLine e b EB ∧ distinctPointsOnLine e c EC ∧ distinctPointsOnLine e d ED
+step16 : ∠e:b:d = ∟
+step17_assumption1 : e.isCentre ABC ∧ e.onLine EF ∧ ¬e.onLine DA ∧ (∠a:f:e = ∟ ∨ ∠c:f:e = ∟)
+step17 step18 step19_assumption1 step19 : |(a─f)| = |(f─c)|
+step20 : |(d─a)| * |(d─c)| + |(f─c)| * |(f─c)| = |(f─d)| * |(f─d)|
+step21 step22 : |(d─a)| * |(d─c)| + |(f─c)| * |(f─c)| + |(e─f)| * |(e─f)| = |(f─d)| * |(f─d)| + |(e─f)| * |(e─f)|
+step23_assumption1 : ∠e:f:c = ∟
+step23 : |(e─c)| * |(e─c)| = |(f─c)| * |(f─c)| + |(e─f)| * |(e─f)|
+⊢ d.outsideCircle ABC
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step24 — fix it, then re-run --drive to resume.

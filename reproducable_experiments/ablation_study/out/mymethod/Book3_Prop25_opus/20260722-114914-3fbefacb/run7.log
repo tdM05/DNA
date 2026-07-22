@@ -1,0 +1,51 @@
+[check_step --drive] step12 (stale) — running --subtree step12
+
+[check_step --subtree step12] auditing the step12 cone — 3 node(s) in Book3/Prop25 (sub-nodes before step12):
+  ✓ step12_tri1: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step12_tri2: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step12: SP[isolated] + Combine (container)
+
+PASS: step12's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step13 (stale) — running --subtree step13
+
+[check_step --subtree step13] auditing the step13 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step13):
+  ✓ step13: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step13's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step14 (stale) — running --subtree step14
+
+[check_step --subtree step14] auditing the step14 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step14):
+  ✓ step14: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step14's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step15 (stale) — running --subtree step15
+
+[check_step --subtree step15] auditing the step15 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step15):
+  ✓ step15: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step15's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step16 (todo) — running --subtree step16
+
+[check_step --subtree step16] auditing the step16 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step16):
+  ✓ step16: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step16's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step17 (todo) — running --subtree step17
+
+[check_step --subtree step17] auditing the step17 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step17):
+  ✗ step17: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book3/Prop25/step17.lean:10:29: unknown identifier 'a.onCircle'
+    ↳ source: theorem helper_3_25_step17 : a.onCircle α₁ ∧ b.onCircle α₁ ∧ c.onCircle α₁ := by sorry
+
+error: ././././Book3/Prop25/step17.lean:10:45: unknown identifier 'b.onCircle'
+    ↳ source: theorem helper_3_25_step17 : a.onCircle α₁ ∧ b.onCircle α₁ ∧ c.onCircle α₁ := by sorry
+
+error: ././././Book3/Prop25/step17.lean:10:61: unknown identifier 'c.onCircle'
+    ↳ source: theorem helper_3_25_step17 : a.onCircle α₁ ∧ b.onCircle α₁ ∧ c.onCircle α₁ := by sorry
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step17 — fix it, then re-run --drive to resume.

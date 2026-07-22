@@ -1,0 +1,3 @@
+[check_step --drive] step16 (stale) — running --subtree step16
+
+[check_step --subtree step16] auditing the step16 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step16):

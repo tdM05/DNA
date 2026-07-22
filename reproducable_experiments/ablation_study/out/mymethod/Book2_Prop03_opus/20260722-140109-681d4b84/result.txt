@@ -3,9 +3,9 @@ mode: mymethod
 model: opus
 session_id: 44cb7bfb-72d7-47d4-8af0-ce6f94c49178
 transcript: /home/liby99/.claude/projects/-weka-scratch-liby99-lcs-tadd-code-autoform-methodology-compare-worktrees-full/44cb7bfb-72d7-47d4-8af0-ce6f94c49178.jsonl
-cost_usd: 0
-wall_sec: 0
-compile_sec: <pending>
-stop_reason: <pending>
-result: RUNNING
+cost_usd: 13.4634
+wall_sec: 4001.49
+compile_sec: 3
+stop_reason: done
+result: SUCCESS
 fail_reason: -

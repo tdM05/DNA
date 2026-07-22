@@ -1,0 +1,11 @@
+prop: Book3/Prop11
+mode: mymethod
+model: opus
+session_id: ea9450f4-9ad8-4aa5-86d5-152a712ecf9c
+transcript: /home/liby99/.claude/projects/-weka-scratch-liby99-lcs-tadd-code-autoform-methodology-compare-worktrees-full/ea9450f4-9ad8-4aa5-86d5-152a712ecf9c.jsonl
+cost_usd: 15.5675
+wall_sec: 3864.78
+compile_sec: 2
+stop_reason: done
+result: SUCCESS
+fail_reason: -

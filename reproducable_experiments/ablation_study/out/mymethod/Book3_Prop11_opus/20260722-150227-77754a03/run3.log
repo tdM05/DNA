@@ -1,0 +1,37 @@
+[check_step --drive] step4 (stale) — running --subtree step4
+
+[check_step --subtree step4] auditing the step4 cone — 1 node(s) in Book3/Prop11 (sub-nodes before step4):
+  ✓ step4: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step4's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop11 --all` ONCE at the very end.
+[check_step --drive] step5 (stale) — running --subtree step5
+
+[check_step --subtree step5] auditing the step5 cone — 1 node(s) in Book3/Prop11 (sub-nodes before step5):
+  ✓ step5: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step5's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop11 --all` ONCE at the very end.
+[check_step --drive] step6 (stale) — running --subtree step6
+
+[check_step --subtree step6] auditing the step6 cone — 1 node(s) in Book3/Prop11 (sub-nodes before step6):
+  ✓ step6: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step6's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop11 --all` ONCE at the very end.
+[check_step --drive] step7 (stale) — running --subtree step7
+
+[check_step --subtree step7] auditing the step7 cone — 1 node(s) in Book3/Prop11 (sub-nodes before step7):
+  ✓ step7: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step7's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop11 --all` ONCE at the very end.
+[check_step --drive] step_nhout (stale) — running --subtree step_nhout
+
+[check_step --subtree step_nhout] auditing the step_nhout cone — 1 node(s) in Book3/Prop11 (sub-nodes before step_nhout):
+  ✗ step_nhout (Book3/Prop11/step_nhout.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book3/Prop11/step_nhout.lean:20:2: Could not prove: False
+    ↳ source: euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step_nhout — fix it, then re-run --drive to resume.

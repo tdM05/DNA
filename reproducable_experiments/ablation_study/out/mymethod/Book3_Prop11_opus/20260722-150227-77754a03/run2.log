@@ -1,0 +1,8 @@
+[check_step --drive] step3 (stale) — running --subtree step3
+
+[check_step --subtree step3] auditing the step3 cone — 1 node(s) in Book3/Prop11 (sub-nodes before step3):
+  ✓ step3: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step3's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop11 --all` ONCE at the very end.
+[check_step --drive] all Main nodes done.
+  whole-prop checks still failing: criterion-3 deps — fix before --all.

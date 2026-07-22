@@ -1,0 +1,93 @@
+===== GRADE 2026-07-22 16:45:08 · Book1/Prop45 · arm=mymethod · node=cpu043 =====
+worktree: /weka/scratch/liby99_lcs/tadd/code/autoform/methodology_compare_worktrees/full/LeanEuclidPlus
+
+----- [sorry_count] -----
+sorry count = 0  (must be 0)
+
+----- [check_faithful] -----
+=== Main.lean — MODE: source/regex (no build) ===
+    quick offline sanity check (text is EXACT; dependency match is number-only, not book-aware)
+  [PASS] sentence locators are contiguous with no duplicates
+         23 sentences
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (23 sentences (1.45.0..1.45.22) vs Book1/data/texts_proofs/45.txt)
+  [PASS] every cited [Prop.~B.M] is a Main construction (`… as …`) or deferred to Phase B (construction-aware, number-only)
+         2 construction prop(s) in Main: proposition_42, proposition_44
+         9 proof-internal citation(s) deferred to Phase B (their step helpers must cite these): 1.14 (×2), 1.29 (×3), 1.30, 1.33, 1.34 (×2)
+  [PASS] @assumption text is a normalized substring of its owning sentence
+         6 annotation(s) checked
+  [PASS] no euclid_sentence has a vacuous `True` claim
+         21 sentence claim(s) are non-trivial
+  [PASS] euclid_intro/conclude_sentence bracket the proof (leading / trailing only)
+         placement OK
+  [note] not machine-checked: that each step's type honestly captures its sentence (review by hand)
+  => ALL PASS (source/regex mode)
+----- [check_backing] -----
+=== Prop45/Main.lean — MODE: backing (source, no build) ===
+  [PASS] every sentence delegates to helper_<book>_<prop>_stepN in its own file
+         21 checked
+  [PASS] each sentence's helper call supplies every hypothesis via euclid_assumption (show type)
+         21 checked
+  => ALL PASS (backing mode)
+----- [check_signatures] -----
+OK: all 1 proposition signatures matching 'Book1/Prop45/Main.lean' unchanged
+----- [check_steps] -----
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 21 approved step claim(s) + assumptions unchanged in Book1/Prop45/Main.lean
+----- [lake_build: Book1.Prop45.Main] -----
+⚠ [786/895] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+⚠ [788/895] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [797/895] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [824/895] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [826/895] Replayed Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [827/895] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [828/895] Replayed Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [830/895] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [831/895] Replayed Book1.Prop20.Main
+warning: ././././Book1/Prop20/Main.lean:6:8: declaration uses 'sorry'
+⚠ [832/895] Replayed Book1.Prop22.Main
+warning: ././././Book1/Prop22/Main.lean:6:8: declaration uses 'sorry'
+⚠ [834/895] Replayed Book1.Prop23.Main
+warning: ././././Book1/Prop23/Main.lean:7:8: declaration uses 'sorry'
+⚠ [839/895] Replayed Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+⚠ [846/895] Replayed Book1.Prop31.Main
+warning: ././././Book1/Prop31/Main.lean:7:8: declaration uses 'sorry'
+⚠ [847/895] Replayed Book1.Prop38.Main
+warning: ././././Book1/Prop38/Main.lean:6:8: declaration uses 'sorry'
+⚠ [848/895] Replayed Book1.Prop41.Main
+warning: ././././Book1/Prop41/Main.lean:5:8: declaration uses 'sorry'
+⚠ [849/895] Replayed Book1.Prop42.Main
+warning: ././././Book1/Prop42/Main.lean:10:8: declaration uses 'sorry'
+⚠ [851/895] Replayed Book1.Prop15.Main
+warning: ././././Book1/Prop15/Main.lean:5:8: declaration uses 'sorry'
+⚠ [852/895] Replayed Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+⚠ [854/895] Replayed Book1.Prop13.Main
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+⚠ [855/895] Replayed Book1.Prop29.Main
+warning: ././././Book1/Prop29/Main.lean:7:8: declaration uses 'sorry'
+⚠ [857/895] Replayed Book1.Prop30.Main
+warning: ././././Book1/Prop30/Main.lean:5:8: declaration uses 'sorry'
+⚠ [858/895] Replayed Book1.Prop43.Main
+warning: ././././Book1/Prop43/Main.lean:5:8: declaration uses 'sorry'
+⚠ [859/895] Replayed Book1.Prop44.Main
+warning: ././././Book1/Prop44/Main.lean:9:8: declaration uses 'sorry'
+⚠ [870/895] Replayed Book1.Prop14.Main
+warning: ././././Book1/Prop14/Main.lean:5:8: declaration uses 'sorry'
+⚠ [878/895] Replayed Book1.Prop26.Main
+warning: ././././Book1/Prop26/Main.lean:9:8: declaration uses 'sorry'
+⚠ [879/895] Replayed Book1.Prop34.Main
+warning: ././././Book1/Prop34/Main.lean:6:8: declaration uses 'sorry'
+⚠ [886/895] Replayed Book1.Prop33.Main
+warning: ././././Book1/Prop33/Main.lean:5:8: declaration uses 'sorry'
+Build completed successfully.
+===== ALL CHECKS PASSED =====
