@@ -1,0 +1,12 @@
+[check_step --drive] hFEB_int (todo) — running --subtree hFEB_int
+
+[check_step --subtree hFEB_int] auditing the hFEB_int cone — 1 node(s) in Book3/Prop06 (sub-nodes before hFEB_int):
+  ✓ hFEB_int: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: hFEB_int's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop06 --all` ONCE at the very end.
+[check_step --drive] step3 (todo) — running --subtree step3
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step3' (Book3/Prop06/Main.lean) has NO backing file 'step3.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step3 — fix it, then re-run --drive to resume.

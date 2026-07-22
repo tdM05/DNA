@@ -1,0 +1,3 @@
+[check_step --all] bottom-up audit of 9 node(s) in Book3/Prop06 (sub-nodes before their parents):
+  ✓ hFEB_int: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step1: SP[isolated] + P (leaf, zero-sorry)

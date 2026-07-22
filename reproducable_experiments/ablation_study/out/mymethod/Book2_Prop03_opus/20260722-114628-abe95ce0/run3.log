@@ -1,0 +1,2 @@
+[check_step] step4  (sentence in Book2/Prop03/Main.lean)
+  SF ok — `step4`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)

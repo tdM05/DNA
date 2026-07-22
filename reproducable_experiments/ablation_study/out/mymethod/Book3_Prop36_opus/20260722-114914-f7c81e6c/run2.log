@@ -1,0 +1,64 @@
+[check_step --drive] step3 (todo) — running --subtree step3
+
+[check_step --subtree step3] auditing the step3 cone — 1 node(s) in Book3/Prop36 (sub-nodes before step3):
+  ✗ step3: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book3/Prop36/Main.lean:42:436: tactic 'assumption' failed
+    ↳ source: 
+a b c d : Point
+ABC : Circle
+DB : Line
+left : a.onCircle ABC
+left_1 : c.onCircle ABC
+left_3✝ : ¬d.insideCircle ABC
+right_3 : ¬d.onCircle ABC
+left_3 : between d c a
+left_4 : d.onLine DB
+left_5 : b.onLine DB
+left_6 : b.onCircle ABC
+right_6 : ¬DB.intersectsCircle ABC
+DA : Line
+left✝¹ : d.onLine DA
+right✝¹ : a.onLine DA
+f : Point
+hfcenter : f.isCentre ABC
+hfDA : f.onLine DA
+FB : Line
+left✝ : f.onLine FB
+right✝ : b.onLine FB
+step2_assumption1 : f.isCentre ABC
+step2 : distinctPointsOnLine f b FB
+⊢ d.outsideCircle ABC
+
+error: ././././Book3/Prop36/Main.lean:42:436: tactic 'assumption' failed
+    ↳ source: 
+a b c d : Point
+ABC : Circle
+DB : Line
+left : a.onCircle ABC
+left_1 : c.onCircle ABC
+left_3✝ : ¬d.insideCircle ABC
+right_3 : ¬d.onCircle ABC
+left_3 : between d c a
+left_4 : d.onLine DB
+left_5 : b.onLine DB
+left_6 : b.onCircle ABC
+right_6 : ¬DB.intersectsCircle ABC
+DA : Line
+left✝¹ : d.onLine DA
+right✝¹ : a.onLine DA
+f : Point
+hfcenter : f.isCentre ABC
+hfDA : f.onLine DA
+FB : Line
+left✝ : f.onLine FB
+right✝ : b.onLine FB
+step2_assumption1 : f.isCentre ABC
+step2 : distinctPointsOnLine f b FB
+⊢ d.outsideCircle ABC
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step3 — fix it, then re-run --drive to resume.
