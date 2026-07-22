@@ -1,0 +1,120 @@
+left_2✝ : a.onLine AB
+left_3 : b.onLine AB
+right_3 : a ≠ b
+left_2 : b.onLine BC
+left_4 : c.onLine BC
+left_5 : c.onLine AC
+left_6 : a.onLine AC
+left_7 : AB ≠ BC
+left_8 : BC ≠ AC
+right_8 : AC ≠ AB
+hne : |(a─b)| ≠ |(a─c)|
+step1 : |(a─b)| > |(a─c)| ∨ |(a─c)| > |(a─b)|
+hgt step2 : |(a─b)| > |(a─c)|
+d : Point
+left✝² : between b d a
+right✝² : |(b─d)| = |(a─c)|
+DC : Line
+left✝¹ : between b d a
+right✝¹ : |(b─d)| = |(a─c)|
+left✝ : d.onLine DC
+right✝ : c.onLine DC
+step4 : d.onLine DC ∧ c.onLine DC
+step5 : |(d─b)| = |(a─c)| ∧ |(b─c)| = |(c─b)|
+step6 : ∠d:b:c = ∠a:c:b
+step7 : |(d─c)| = |(a─b)|
+⊢ |(d─b)| = |(a─c)|
+error: ././././Book1/Prop06/Main.lean:130:62: tactic 'assumption' failed
+a b c : Point
+AB BC AC : Line
+right : ∠a:b:c = ∠a:c:b
+left_2✝ : a.onLine AB
+left_3 : b.onLine AB
+right_3 : a ≠ b
+left_2 : b.onLine BC
+left_4 : c.onLine BC
+left_5 : c.onLine AC
+left_6 : a.onLine AC
+left_7 : AB ≠ BC
+left_8 : BC ≠ AC
+right_8 : AC ≠ AB
+hne : |(a─b)| ≠ |(a─c)|
+step1 : |(a─b)| > |(a─c)| ∨ |(a─c)| > |(a─b)|
+hgt step2 : |(a─b)| > |(a─c)|
+d : Point
+left✝² : between b d a
+right✝² : |(b─d)| = |(a─c)|
+DC : Line
+left✝¹ : between b d a
+right✝¹ : |(b─d)| = |(a─c)|
+left✝ : d.onLine DC
+right✝ : c.onLine DC
+step4 : d.onLine DC ∧ c.onLine DC
+step5 : |(d─b)| = |(a─c)| ∧ |(b─c)| = |(c─b)|
+step6 : ∠d:b:c = ∠a:c:b
+step7 : |(d─c)| = |(a─b)|
+⊢ |(b─c)| = |(c─b)|
+error: ././././Book1/Prop06/Main.lean:129:62: tactic 'assumption' failed
+a b c : Point
+AB BC AC : Line
+right : ∠a:b:c = ∠a:c:b
+left_2✝ : a.onLine AB
+left_3 : b.onLine AB
+right_3 : a ≠ b
+left_2 : b.onLine BC
+left_4 : c.onLine BC
+left_5 : c.onLine AC
+left_6 : a.onLine AC
+left_7 : AB ≠ BC
+left_8 : BC ≠ AC
+right_8 : AC ≠ AB
+hne : |(a─b)| ≠ |(a─c)|
+step1 : |(a─b)| > |(a─c)| ∨ |(a─c)| > |(a─b)|
+hgt step2 : |(a─b)| > |(a─c)|
+d : Point
+left✝² : between b d a
+right✝² : |(b─d)| = |(a─c)|
+DC : Line
+left✝¹ : between b d a
+right✝¹ : |(b─d)| = |(a─c)|
+left✝ : d.onLine DC
+right✝ : c.onLine DC
+step4 : d.onLine DC ∧ c.onLine DC
+step5 : |(d─b)| = |(a─c)| ∧ |(b─c)| = |(c─b)|
+step6 : ∠d:b:c = ∠a:c:b
+step7 : |(d─c)| = |(a─b)|
+⊢ |(d─b)| = |(a─c)|
+error: ././././Book1/Prop06/Main.lean:130:62: tactic 'assumption' failed
+a b c : Point
+AB BC AC : Line
+right : ∠a:b:c = ∠a:c:b
+left_2✝ : a.onLine AB
+left_3 : b.onLine AB
+right_3 : a ≠ b
+left_2 : b.onLine BC
+left_4 : c.onLine BC
+left_5 : c.onLine AC
+left_6 : a.onLine AC
+left_7 : AB ≠ BC
+left_8 : BC ≠ AC
+right_8 : AC ≠ AB
+hne : |(a─b)| ≠ |(a─c)|
+step1 : |(a─b)| > |(a─c)| ∨ |(a─c)| > |(a─b)|
+hgt step2 : |(a─b)| > |(a─c)|
+d : Point
+left✝² : between b d a
+right✝² : |(b─d)| = |(a─c)|
+DC : Line
+left✝¹ : between b d a
+right✝¹ : |(b─d)| = |(a─c)|
+left✝ : d.onLine DC
+right✝ : c.onLine DC
+step4 : d.onLine DC ∧ c.onLine DC
+step5 : |(d─b)| = |(a─c)| ∧ |(b─c)| = |(c─b)|
+step6 : ∠d:b:c = ∠a:c:b
+step7 : |(d─c)| = |(a─b)|
+⊢ |(b─c)| = |(c─b)|
+error: Lean exited with code 1
+Some builds logged failures:
+- Book1.Prop06.Main
+error: build failed

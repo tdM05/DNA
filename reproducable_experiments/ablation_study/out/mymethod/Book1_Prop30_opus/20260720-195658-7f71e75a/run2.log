@@ -1,0 +1,56 @@
+[check_step --drive] step7 (stale) — running --subtree step7
+
+[check_step --subtree step7] auditing the step7 cone — 1 node(s) in Book1/Prop30 (sub-nodes before step7):
+  ✓ step7: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step7's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop30 --all` ONCE at the very end.
+[check_step --drive] step7_othercases (stale) — running --subtree step7_othercases
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step7_othercases' (Book1/Prop30/Main.lean) has NO backing file 'step7_othercases.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step7_othercases — fix it, then re-run --drive to resume.
+===== CONTEXT step7_othercases =====
+[check_step --context] hypotheses available at node 'step7_othercases' (in Book1/Prop30/Main.lean):
+
+AB CD EF : Line
+left : AB ≠ CD
+left_1 : CD ≠ EF
+left_2 : EF ≠ AB
+left_3 : ¬AB.intersectsLine EF
+right_3 : ¬CD.intersectsLine EF
+a✝ : AB.intersectsLine CD
+g : Point
+h✝ : g.onLine AB
+k : Point
+left_4 : g ≠ k
+right_4 : k.onLine CD
+GK : Line
+left✝⁶ : g.onLine GK
+right✝⁶ : k.onLine GK
+h : Point
+left✝⁵ : h.onLine EF
+right✝⁵ : h.onLine GK
+a : Point
+left_5 : g ≠ a
+right_5 : a.onLine AB
+b : Point
+left✝⁴ : b.onLine AB
+right✝⁴ : between a g b
+e : Point
+left✝³ : e.onLine EF
+right✝³ : e.sameSide a GK
+f : Point
+left✝² : f.onLine EF
+right✝² : between e h f
+c : Point
+left✝¹ : c.onLine CD
+right✝¹ : c.sameSide a GK
+d : Point
+left✝ : d.onLine CD
+right✝ : between c k d
+step1 : AB.intersectsLine GK ∧ EF.intersectsLine GK ∧ CD.intersectsLine GK
+hc : ¬between g h k
+⊢ ¬AB.intersectsLine CD
+
+NOTE: this is the LITERAL local context. `euclid_apply (helper…); euclid_finish` can also discharge facts NOT listed here (between/sameSide/distinctness derived by SMT). The authoritative suppliability test is SP (`check_step <node>`), not this list — do not over-decompose because something isn't shown.

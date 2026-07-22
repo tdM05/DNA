@@ -1,0 +1,35 @@
+⚠ [786/809] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+⚠ [789/809] Replayed Book1.Prop03.step3
+warning: ././././Book1/Prop03/step3.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop03/step3.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop03/step3.lean:6:49: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [793/809] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [798/809] Replayed Book1.Prop06.step5
+warning: ././././Book1/Prop06/step5.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [802/809] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [804/809] Replayed Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:30:5: unused variable `step2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop03/Main.lean:54:5: unused variable `step5`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [805/809] Built Book1.Prop06.step9
+warning: ././././Book1/Prop06/step9.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop06/step9.lean:6:24: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+✔ [806/809] Built Book1.Prop06.step7
+✔ [807/809] Built Book1.Prop06.step8
+✖ [808/809] Building Book1.Prop06.step6
+trace: .> LEAN_PATH=././.lake/packages/batteries/.lake/build/lib:././.lake/packages/Qq/.lake/build/lib:././.lake/packages/aesop/.lake/build/lib:././.lake/packages/proofwidgets/.lake/build/lib:././.lake/packages/Cli/.lake/build/lib:././.lake/packages/importGraph/.lake/build/lib:././.lake/packages/mathlib/.lake/build/lib:././.lake/packages/smt/.lake/build/lib:././.lake/packages/checkdecls/.lake/build/lib:././.lake/build/lib LD_LIBRARY_PATH=././.lake/packages/batteries/.lake/build/lib:././.lake/packages/smt/.lake/build/lib:././.lake/build/lib /h/56/taddmao/.elan/toolchains/leanprover--lean4---v4.8.0-rc2/bin/lean -DrelaxedAutoImplicit=true ././././Book1/Prop06/step6.lean -R ./././. -o ././.lake/build/lib/Book1/Prop06/step6.olean -i ././.lake/build/lib/Book1/Prop06/step6.ilean -c ././.lake/build/ir/Book1/Prop06/step6.c --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Init-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-CodeAction-Attr-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-CodeAction-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Lean-Position-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-CodeAction-Deprecated-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Tactic-Alias-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-AssocList-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Nat-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Classes-SatisfiesM-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Monadic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Classes-BEq-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Control-ForInStep-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Control-ForInStep-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Lean-Meta-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Tactic-Init-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Init-Attach-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Init-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Tactic-SeqFocus-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Util-ProofWanted-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Nat-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-WF-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Data-Sexp-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Dsl-Sexp-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Term-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Commands-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Solver-1.so --json
+error: ././././Book1/Prop06/step6.lean:10:2: failed
+error: Lean exited with code 1
+Some builds logged failures:
+- Book1.Prop06.step6
+error: build failed

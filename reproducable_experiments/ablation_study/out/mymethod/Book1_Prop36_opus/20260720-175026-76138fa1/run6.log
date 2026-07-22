@@ -1,0 +1,16 @@
+  (waived by @suppress_deps_check) sentence 1.36.6: Fitzpatrick brackets [Prop.1.34], but 1.34 concerns properties OF a parallelogram, not that a figure IS one. EBCH-is-a-parallelogram follows from Prop 1.33 (the equal-and-parallel joins EB, HC established in sentence 1.36.5 via proposition_33) plus the definition of parallelogram (step6 assembles it definitionally). Heath's edition cites [I.33] here; the genuine dependency Prop 1.33 is discharged in sentence 1.36.5's cone.
+  (waived by @suppress_deps_check) sentence 1.36.8: EFGH=EBCH is Prop 1.35 (parallelograms on the common base EH between the same parallels AH, BG) — 'for the same reasons' as sentence 1.36.7, which is [Prop.1.35]. Discharged in step8 via proposition_35', whose olean closure transitively applies proposition_34' (so gate-C credits [1.34]); the number-only source check cannot follow imports. Fitzpatrick brackets [Prop.1.34]; Heath's edition cites [I.35] here.
+[check_step --all] bottom-up audit of 11 node(s) / 12 call-site(s) in Book1/Prop36 (sub-nodes before their parents):
+  ✓ step1: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step2: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step2_assumption2: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step3: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step4: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step5_ss: SP[isolated] [2 call sites] + P (leaf, zero-sorry)
+  ✓ step5: SP[isolated] + Combine (container)
+  ✓ step6: SP[isolated] + Combine (container)
+  ✓ step7: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step8: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step9: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: all 11 node(s) certified — every call site supplies its hyps (isolated SP, no SMT), every container's combine is certified by its OWN combine-check, and Main has no stray sorry. (Leaf dependencies left as `sorry` are tolerated — see any ⚠ above.) Run `python3 scripts/wire_main.py Book1/Prop36`.

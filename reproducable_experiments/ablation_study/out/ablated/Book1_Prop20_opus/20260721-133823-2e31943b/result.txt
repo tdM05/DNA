@@ -3,9 +3,9 @@ mode: ablated
 model: opus
 session_id: deb026a5-c970-440b-825a-abc542da75bc
 transcript: /u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-ablated/deb026a5-c970-440b-825a-abc542da75bc.jsonl
-cost_usd: 3.39436
-wall_sec: 797.624
+cost_usd: 4.80598
+wall_sec: 1202.77
 compile_sec: <pending>
-stop_reason: <pending>
-result: RUNNING
+stop_reason: timeout_12h
+result: TIMEOUT
 fail_reason: -

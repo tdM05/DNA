@@ -1,0 +1,14 @@
+[check_step --all] bottom-up audit of 11 node(s) / 12 call-site(s) in Book1/Prop20 (sub-nodes before their parents):
+  ✓ step1: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step2: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step3: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step4: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step5: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step6: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step7: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step8: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step9_triineq: SP[isolated] [2 call sites] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step9: SP[isolated] + Combine (container)
+  ✓ step10: SP[isolated] + Combine (container)
+
+PASS: all 11 node(s) certified — every call site supplies its hyps (isolated SP, no SMT), every container's combine is certified by its OWN combine-check, and Main has no stray sorry. (Leaf dependencies left as `sorry` are tolerated — see any ⚠ above.) Run `python3 scripts/wire_main.py Book1/Prop20`.

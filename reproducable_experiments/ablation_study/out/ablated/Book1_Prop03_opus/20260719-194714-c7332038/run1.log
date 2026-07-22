@@ -1,0 +1,22 @@
+⚠ [786/796] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+⚠ [788/796] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+✔ [790/796] Built Book1.Prop03.step5
+✔ [791/796] Built Book1.Prop03.step6
+✔ [792/796] Built Book1.Prop03.step1
+✔ [793/796] Built Book1.Prop03.step2
+✔ [794/796] Built Book1.Prop03.step4
+⚠ [795/796] Built Book1.Prop03.step3
+warning: ././././Book1/Prop03/step3.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop03/step3.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop03/step3.lean:6:49: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [796/796] Built Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:30:5: unused variable `step2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop03/Main.lean:54:5: unused variable `step5`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+Build completed successfully.

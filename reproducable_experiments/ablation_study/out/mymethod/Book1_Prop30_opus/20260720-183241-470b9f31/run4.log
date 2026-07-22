@@ -1,0 +1,20 @@
+[check_step --subtree step7_othercases] auditing the step7_othercases cone — 17 node(s) in Book1/Prop30 (sub-nodes before step7_othercases):
+  ✓ step7_othercases_ghne: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_hkne: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_abgk: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_cdgk: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_efgk: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_aoff: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_coff: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_doff: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_foff: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_ang1: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step7_othercases_ang2: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step7_othercases_hhf: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_opp: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_cases: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_othercases_angG: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step7_othercases_angK: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step7_othercases: SP[isolated] + Combine (container)
+
+PASS: step7_othercases's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop30 --all` ONCE at the very end.

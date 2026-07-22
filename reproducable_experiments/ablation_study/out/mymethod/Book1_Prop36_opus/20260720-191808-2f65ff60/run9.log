@@ -1,0 +1,191 @@
+[check_step --drive] step5 (stale) — running --subtree step5
+
+[check_step --subtree step5] auditing the step5 cone — 2 node(s) in Book1/Prop36 (sub-nodes before step5):
+  ✓ step5_ss: SP[isolated] + P (leaf, zero-sorry)
+  ✗ step5: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book1/Prop36/Main.lean:41:1411: tactic 'assumption' failed
+    ↳ source: 
+a b c d e f g h : Point
+AH BG AB CD EF HG : Line
+left_1 : a.onLine AH
+left_2 : d.onLine AH
+left_3 : b.onLine BG
+left_4 : c.onLine BG
+left_5 : a.onLine AB
+left_6 : b.onLine AB
+left_8✝ : d.onLine CD
+left_9 : c.onLine CD
+right_9 : d ≠ c
+left_8 : a.sameSide b CD
+left_10 : ¬AH.intersectsLine BG
+right_10 : ¬AB.intersectsLine CD
+left_11✝ : e.onLine AH
+left_12 : h.onLine AH
+left_13 : f.onLine BG
+left_14 : g.onLine BG
+left_15 : e.onLine EF
+left_16 : f.onLine EF
+left_18✝ : h.onLine HG
+left_19 : g.onLine HG
+right_19 : h ≠ g
+left_18 : e.sameSide f HG
+left_20 : ¬AH.intersectsLine BG
+right_20 : ¬EF.intersectsLine HG
+left_11 : |(b─c)| = |(f─g)|
+left_21 : between a d h
+right_21 : between a e h
+BE : Line
+left✝¹ : b.onLine BE
+right✝¹ : e.onLine BE
+CH : Line
+left✝ : c.onLine CH
+right✝ : h.onLine CH
+step1 : distinctPointsOnLine b e BE ∧ distinctPointsOnLine c h CH
+step2_assumption1 : |(b─c)| = |(f─g)|
+step2_assumption2 : |(f─g)| = |(e─h)|
+step2 : |(b─c)| = |(e─h)|
+step3 : ¬BG.intersectsLine AH
+step4 : distinctPointsOnLine e b BE ∧ distinctPointsOnLine h c CH
+⊢ distinctPointsOnLine e b BE
+
+error: ././././Book1/Prop36/Main.lean:41:1484: tactic 'assumption' failed
+    ↳ source: 
+a b c d e f g h : Point
+AH BG AB CD EF HG : Line
+left_1 : a.onLine AH
+left_2 : d.onLine AH
+left_3 : b.onLine BG
+left_4 : c.onLine BG
+left_5 : a.onLine AB
+left_6 : b.onLine AB
+left_8✝ : d.onLine CD
+left_9 : c.onLine CD
+right_9 : d ≠ c
+left_8 : a.sameSide b CD
+left_10 : ¬AH.intersectsLine BG
+right_10 : ¬AB.intersectsLine CD
+left_11✝ : e.onLine AH
+left_12 : h.onLine AH
+left_13 : f.onLine BG
+left_14 : g.onLine BG
+left_15 : e.onLine EF
+left_16 : f.onLine EF
+left_18✝ : h.onLine HG
+left_19 : g.onLine HG
+right_19 : h ≠ g
+left_18 : e.sameSide f HG
+left_20 : ¬AH.intersectsLine BG
+right_20 : ¬EF.intersectsLine HG
+left_11 : |(b─c)| = |(f─g)|
+left_21 : between a d h
+right_21 : between a e h
+BE : Line
+left✝¹ : b.onLine BE
+right✝¹ : e.onLine BE
+CH : Line
+left✝ : c.onLine CH
+right✝ : h.onLine CH
+step1 : distinctPointsOnLine b e BE ∧ distinctPointsOnLine c h CH
+step2_assumption1 : |(b─c)| = |(f─g)|
+step2_assumption2 : |(f─g)| = |(e─h)|
+step2 : |(b─c)| = |(e─h)|
+step3 : ¬BG.intersectsLine AH
+step4 : distinctPointsOnLine e b BE ∧ distinctPointsOnLine h c CH
+⊢ distinctPointsOnLine h c CH
+
+error: ././././Book1/Prop36/Main.lean:41:1411: tactic 'assumption' failed
+    ↳ source: 
+a b c d e f g h : Point
+AH BG AB CD EF HG : Line
+left_1 : a.onLine AH
+left_2 : d.onLine AH
+left_3 : b.onLine BG
+left_4 : c.onLine BG
+left_5 : a.onLine AB
+left_6 : b.onLine AB
+left_8✝ : d.onLine CD
+left_9 : c.onLine CD
+right_9 : d ≠ c
+left_8 : a.sameSide b CD
+left_10 : ¬AH.intersectsLine BG
+right_10 : ¬AB.intersectsLine CD
+left_11✝ : e.onLine AH
+left_12 : h.onLine AH
+left_13 : f.onLine BG
+left_14 : g.onLine BG
+left_15 : e.onLine EF
+left_16 : f.onLine EF
+left_18✝ : h.onLine HG
+left_19 : g.onLine HG
+right_19 : h ≠ g
+left_18 : e.sameSide f HG
+left_20 : ¬AH.intersectsLine BG
+right_20 : ¬EF.intersectsLine HG
+left_11 : |(b─c)| = |(f─g)|
+left_21 : between a d h
+right_21 : between a e h
+BE : Line
+left✝¹ : b.onLine BE
+right✝¹ : e.onLine BE
+CH : Line
+left✝ : c.onLine CH
+right✝ : h.onLine CH
+step1 : distinctPointsOnLine b e BE ∧ distinctPointsOnLine c h CH
+step2_assumption1 : |(b─c)| = |(f─g)|
+step2_assumption2 : |(f─g)| = |(e─h)|
+step2 : |(b─c)| = |(e─h)|
+step3 : ¬BG.intersectsLine AH
+step4 : distinctPointsOnLine e b BE ∧ distinctPointsOnLine h c CH
+⊢ distinctPointsOnLine e b BE
+
+error: ././././Book1/Prop36/Main.lean:41:1484: tactic 'assumption' failed
+    ↳ source: 
+a b c d e f g h : Point
+AH BG AB CD EF HG : Line
+left_1 : a.onLine AH
+left_2 : d.onLine AH
+left_3 : b.onLine BG
+left_4 : c.onLine BG
+left_5 : a.onLine AB
+left_6 : b.onLine AB
+left_8✝ : d.onLine CD
+left_9 : c.onLine CD
+right_9 : d ≠ c
+left_8 : a.sameSide b CD
+left_10 : ¬AH.intersectsLine BG
+right_10 : ¬AB.intersectsLine CD
+left_11✝ : e.onLine AH
+left_12 : h.onLine AH
+left_13 : f.onLine BG
+left_14 : g.onLine BG
+left_15 : e.onLine EF
+left_16 : f.onLine EF
+left_18✝ : h.onLine HG
+left_19 : g.onLine HG
+right_19 : h ≠ g
+left_18 : e.sameSide f HG
+left_20 : ¬AH.intersectsLine BG
+right_20 : ¬EF.intersectsLine HG
+left_11 : |(b─c)| = |(f─g)|
+left_21 : between a d h
+right_21 : between a e h
+BE : Line
+left✝¹ : b.onLine BE
+right✝¹ : e.onLine BE
+CH : Line
+left✝ : c.onLine CH
+right✝ : h.onLine CH
+step1 : distinctPointsOnLine b e BE ∧ distinctPointsOnLine c h CH
+step2_assumption1 : |(b─c)| = |(f─g)|
+step2_assumption2 : |(f─g)| = |(e─h)|
+step2 : |(b─c)| = |(e─h)|
+step3 : ¬BG.intersectsLine AH
+step4 : distinctPointsOnLine e b BE ∧ distinctPointsOnLine h c CH
+⊢ distinctPointsOnLine h c CH
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step5 — fix it, then re-run --drive to resume.

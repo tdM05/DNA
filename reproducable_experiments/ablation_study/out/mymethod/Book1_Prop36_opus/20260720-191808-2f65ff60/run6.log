@@ -1,0 +1,9 @@
+[check_step --provable] step5_ss  (Book1/Prop36/step5.lean)
+FAIL (P — provable): Book1/Prop36/step5_ss.lean did not build (or hit the 30s cap — decompose into more `have`+backing files).
+
+error: ././././Book1/Prop36/step5_ss.lean:19:4: Could not prove: ¬e.onLine CH
+    ↳ source: euclid_apply (pasch_2 h e a CH)
+
+error: Lean exited with code 1
+
+error: build failed

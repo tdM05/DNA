@@ -1,0 +1,9 @@
+===== pAMB =====
+exit=0
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+warning: ././././Book1/Prop15/Main.lean:5:8: declaration uses 'sorry'
+ALLDONE

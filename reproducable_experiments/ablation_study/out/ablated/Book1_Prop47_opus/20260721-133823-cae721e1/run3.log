@@ -1,0 +1,11 @@
+===== step11 START =====
+===== step11 EXIT=124 =====
+===== step8 START =====
+===== step8 EXIT=124 =====
+== TAIL ==
+===== step11 START =====
+⚠ [786/787] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+===== step11 EXIT=124 =====
+===== step8 START =====
+===== step8 EXIT=124 =====

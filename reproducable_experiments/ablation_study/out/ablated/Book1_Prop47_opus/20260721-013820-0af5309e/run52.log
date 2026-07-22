@@ -1,0 +1,9 @@
+===== Book1Variants.Prop46 unlimited =====
+exit=124
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 46:40.14
+=== last modules ===
+[857/873] Replayed Book1.Prop31.step2
+[858/873] Replayed Book1.Prop31.step3
+[860/873] Replayed Book1.Prop26.Main
+[861/873] Replayed Book1.Prop34.Main
+ALLDONE

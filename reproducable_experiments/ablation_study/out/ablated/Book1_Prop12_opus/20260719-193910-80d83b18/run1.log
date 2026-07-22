@@ -1,0 +1,60 @@
+⚠ [817/835] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+✔ [819/835] Built Book1.Prop12.step1
+✔ [820/835] Built Book1.Prop12.step2
+✔ [821/835] Built Book1.Prop12.step3
+⚠ [822/835] Built Book1.Prop12.step7
+warning: ././././Book1/Prop12/step7.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step7.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step7.lean:6:49: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [823/835] Built Book1.Prop12.step9
+warning: ././././Book1/Prop12/step9.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step9.lean:6:26: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step9.lean:6:45: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [824/835] Built Book1.Prop12.step6
+warning: ././././Book1/Prop12/step6.lean:6:30: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [825/835] Built Book1.Prop12.step10
+warning: ././././Book1/Prop12/step10.lean:7:5: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step10.lean:7:26: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step10.lean:7:45: unused variable `h4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step10.lean:8:5: unused variable `h5`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step10.lean:8:24: unused variable `h6`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [826/835] Built Book1.Prop12.step11
+warning: ././././Book1/Prop12/step11.lean:7:5: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step11.lean:7:24: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [827/835] Built Book1.Prop12.step4
+warning: ././././Book1/Prop12/step4.lean:9:5: unused variable `h7`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step4.lean:9:26: unused variable `h8`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step4.lean:9:45: unused variable `h9`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop12/step4.lean:10:5: unused variable `h10`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [828/835] Built Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:6:8: declaration uses 'sorry'
+✔ [829/835] Built Book1.Prop12.step8
+⚠ [830/835] Built Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [831/835] Built Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+✔ [832/835] Built Book1Variants.Prop05
+✔ [833/835] Built Book1Variants.Prop09
+⚠ [834/835] Built Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+✔ [835/835] Built Book1.Prop12.Main
+Build completed successfully.

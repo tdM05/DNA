@@ -1,0 +1,14 @@
+[check_step --all] bottom-up audit of 8 node(s) in Book1/Prop30 (sub-nodes before their parents):
+  ✓ step1: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step2: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step3: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step4: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step5: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step6: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step7_othercases: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: all 8 node(s) certified — every call site supplies its hyps (isolated SP, no SMT), every container's combine is certified by its OWN combine-check, and Main has no stray sorry. (Leaf dependencies left as `sorry` are tolerated — see any ⚠ above.) Run `python3 scripts/wire_main.py Book1/Prop30`.
+[wire_main] wiring: rewrote 8 node body(ies) across Book1/Prop30; 30s caps deleted (→ 300s default).
+[wire_main] building Book1.Prop30.Main once (uncapped, no wall timeout)…
+PASS (with unproven deps): Book1.Prop30.Main built green. Main is fully wired (no literal `sorry` in Main), but a `declaration uses 'sorry'` warning means it transitively depends on a backing file still left `:= by sorry`. Phase C wiring committed. Now run the authoritative checks: scripts/check_faithful.sh, check_steps.py, check_signatures.py.

@@ -1,0 +1,61 @@
+⚠ [812/836] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+⚠ [814/836] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [818/836] Replayed Book1.Prop03.step3
+warning: ././././Book1/Prop03/step3.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop03/step3.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop03/step3.lean:6:49: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [822/836] Replayed Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:30:5: unused variable `step2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [823/836] Replayed Book1.Prop20.step1
+warning: ././././Book1/Prop20/step1.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step1.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step1.lean:7:5: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step1.lean:7:24: unused variable `h4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step1.lean:7:43: unused variable `h5`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [825/836] Replayed Book1.Prop20.step3
+warning: ././././Book1/Prop20/step3.lean:7:5: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step3.lean:8:5: unused variable `h4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step3.lean:8:24: unused variable `h5`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step3.lean:8:44: unused variable `h6`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [826/836] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [827/836] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [828/836] Replayed Book1.Prop20.step4
+warning: ././././Book1/Prop20/step4.lean:7:5: unused variable `h_da`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step4.lean:9:24: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step4.lean:9:43: unused variable `h4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [829/836] Replayed Book1.Prop20.step5
+warning: ././././Book1/Prop20/step5.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step5.lean:6:26: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step5.lean:8:5: unused variable `h4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step5.lean:8:24: unused variable `h5`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop20/step5.lean:8:43: unused variable `h6`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [830/836] Replayed Book1.Prop19.Main
+warning: ././././Book1/Prop19/Main.lean:5:8: declaration uses 'sorry'
+⚠ [831/836] Replayed Book1.Prop20.step7
+warning: ././././Book1/Prop20/step7.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

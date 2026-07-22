@@ -1,0 +1,3 @@
+[wire_main] wiring: rewrote 12 node body(ies) across Book1/Prop20; 30s caps deleted (→ 300s default).
+[wire_main] building Book1.Prop20.Main once (uncapped, no wall timeout)…
+PASS (with unproven deps): Book1.Prop20.Main built green. Main is fully wired (no literal `sorry` in Main), but a `declaration uses 'sorry'` warning means it transitively depends on a backing file still left `:= by sorry`. Phase C wiring committed. Now run the authoritative checks: scripts/check_faithful.sh, check_steps.py, check_signatures.py.

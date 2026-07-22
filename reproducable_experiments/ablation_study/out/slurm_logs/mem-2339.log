@@ -1,0 +1,46 @@
+21:57:30  Committed_AS=2G / CommitLimit=500G  MemAvail=492G  claude_procs=0
+0
+21:58:00  Committed_AS=70G / CommitLimit=500G  MemAvail=492G  claude_procs=1
+21:58:30  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+21:59:00  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+21:59:30  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=2
+22:00:00  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:00:30  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:01:00  Committed_AS=71G / CommitLimit=500G  MemAvail=491G  claude_procs=2
+22:01:30  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:02:00  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:02:30  Committed_AS=2G / CommitLimit=500G  MemAvail=491G  claude_procs=0
+0
+22:03:00  Committed_AS=69G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:03:31  Committed_AS=69G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:04:01  Committed_AS=69G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:04:31  Committed_AS=69G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:05:01  Committed_AS=69G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:05:31  Committed_AS=69G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:06:01  Committed_AS=69G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:06:31  Committed_AS=69G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:07:01  Committed_AS=69G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:07:31  Committed_AS=2G / CommitLimit=500G  MemAvail=491G  claude_procs=0
+0
+22:08:01  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:08:31  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:09:01  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:09:31  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:10:01  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:10:32  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:11:02  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:11:32  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:12:02  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:12:32  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:13:02  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:13:32  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:14:02  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:14:32  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:15:02  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:15:32  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:16:02  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:16:32  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:17:02  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:17:32  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:18:02  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1
+22:18:33  Committed_AS=70G / CommitLimit=500G  MemAvail=491G  claude_procs=1

@@ -1,0 +1,587 @@
+  -- world=naive  root=/u/taddmao/code/autoform/methodology_compare_worktrees/ablated/LeanEuclidPlus
+✔ [2/786] Built SystemE.Theory.Sorts.Primitives
+✔ [758/786] Built SystemE.Meta.Tactics.Formalization.Export
+✔ [759/786] Built SystemE.Meta.Smt.ELang
+✔ [760/786] Built SystemE.Meta.Smt.EuclidTheory
+✔ [761/786] Built SystemE.Meta.Tactics.Util
+✔ [762/786] Built SystemE.Theory.Sorts.Segments
+✔ [763/786] Built SystemE.Theory.Sorts.Angles
+✔ [764/786] Built SystemE.Meta.Tactics.Intros
+✔ [765/786] Built SystemE.Theory.Sorts.Triangles
+✔ [766/786] Built SystemE.Theory.Sorts
+✔ [767/786] Built SystemE.Theory.Relations
+✔ [768/786] Built SystemE.Theory.Inferences.Diagrammatic
+✔ [769/786] Built SystemE.Theory.Inferences.Superposition
+✔ [770/786] Built SystemE.Theory.Inferences.Metric
+✔ [771/786] Built SystemE.Theory.Inferences.Transfer
+✔ [772/786] Built SystemE.Theory.Constructions.Points
+✔ [773/786] Built SystemE.Theory.Constructions.LinesAndCircles
+✔ [774/786] Built SystemE.Meta.Smt.Esmt
+✔ [775/786] Built SystemE.Theory.Inferences
+✔ [776/786] Built SystemE.Theory.Constructions.Intersections
+✔ [777/786] Built SystemE.Theory.Constructions
+✔ [778/786] Built SystemE.Meta.Smt.Translator
+✔ [779/786] Built SystemE.Theory
+✔ [780/786] Built SystemE.Meta.Smt.Solver
+✔ [781/786] Built SystemE.Smt
+✔ [782/786] Built SystemE.Meta.Tactics.Solve
+✔ [783/786] Built SystemE.Meta.Tactics.Faithful
+✔ [784/786] Built SystemE.Tactics
+✔ [785/786] Built SystemE
+Build completed successfully.
+===== Book1.Prop01.Main =====
+⚠ [786/786] Built Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:58:5: unused variable `step8`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop01/Main.lean:62:5: unused variable `step9`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop01/Main.lean:66:5: unused variable `step10`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+Build completed successfully.
+===== Book1.Prop26.Main =====
+⚠ [810/826] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:58:5: unused variable `step8`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop01/Main.lean:62:5: unused variable `step9`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop01/Main.lean:66:5: unused variable `step10`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [813/826] Built Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [814/826] Built Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+✔ [815/826] Built Book1Variants.Prop01
+⚠ [816/826] Built Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [817/826] Built Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+✔ [818/826] Built Book1Variants.Prop02
+⚠ [819/826] Built Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:6:8: declaration uses 'sorry'
+⚠ [820/826] Built Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [821/826] Built Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+✔ [822/826] Built Book1Variants.Prop05
+✔ [823/826] Built Book1Variants.Prop09
+⚠ [824/826] Built Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [825/826] Built Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+⚠ [826/826] Built Book1.Prop26.Main
+warning: ././././Book1/Prop26/Main.lean:65:11: unused variable `step8`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop26/Main.lean:191:7: unused variable `step41`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+Build completed successfully.
+===== Book1.Prop43.Main =====
+⚠ [812/813] Built Book1.Prop34.Main
+warning: ././././Book1/Prop34/Main.lean:6:8: declaration uses 'sorry'
+⚠ [813/813] Built Book1.Prop43.Main
+warning: ././././Book1/Prop43/Main.lean:48:5: unused variable `step4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+Build completed successfully.
+===== Book1.Prop47.Main =====
+⚠ [786/848] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [787/848] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [788/848] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:58:5: unused variable `step8`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop01/Main.lean:62:5: unused variable `step9`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop01/Main.lean:66:5: unused variable `step10`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [790/848] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [792/848] Replayed Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:6:8: declaration uses 'sorry'
+⚠ [819/848] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [821/848] Replayed Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [822/848] Replayed Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [824/848] Replayed Book1.Prop34.Main
+warning: ././././Book1/Prop34/Main.lean:6:8: declaration uses 'sorry'
+⚠ [825/848] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [826/848] Replayed Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+⚠ [827/848] Replayed Book1.Prop26.Main
+warning: ././././Book1/Prop26/Main.lean:65:11: unused variable `step8`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop26/Main.lean:191:7: unused variable `step41`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [828/848] Built Book1.Prop17.Main
+warning: ././././Book1/Prop17/Main.lean:5:8: declaration uses 'sorry'
+⚠ [829/848] Built Book1.Prop27.Main
+warning: ././././Book1/Prop27/Main.lean:5:8: declaration uses 'sorry'
+⚠ [830/848] Built Book1.Prop15.Main
+warning: ././././Book1/Prop15/Main.lean:5:8: declaration uses 'sorry'
+⚠ [831/848] Built Book1.Prop14.Main
+warning: ././././Book1/Prop14/Main.lean:5:8: declaration uses 'sorry'
+⚠ [832/848] Built Book1.Prop41.Main
+warning: ././././Book1/Prop41/Main.lean:5:8: declaration uses 'sorry'
+⚠ [833/848] Built Book1.Prop20.Main
+warning: ././././Book1/Prop20/Main.lean:6:8: declaration uses 'sorry'
+⚠ [834/848] Built Book1.Prop30.Main
+warning: ././././Book1/Prop30/Main.lean:5:8: declaration uses 'sorry'
+⚠ [835/848] Built Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+⚠ [836/848] Built Book1.Prop22.Main
+warning: ././././Book1/Prop22/Main.lean:6:8: declaration uses 'sorry'
+✔ [837/848] Built Book1Variants.Prop11
+✔ [838/848] Built Book1Variants.Prop22
+⚠ [839/848] Built Book1.Prop13.Main
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+⚠ [840/848] Built Book1.Prop29.Main
+warning: ././././Book1/Prop29/Main.lean:7:8: declaration uses 'sorry'
+⚠ [841/848] Built Book1.Prop23.Main
+warning: ././././Book1/Prop23/Main.lean:7:8: declaration uses 'sorry'
+✔ [842/848] Built Book1Variants.Prop29
+✔ [843/848] Built Book1Variants.Prop34
+✔ [844/848] Built Book1Variants.Prop23
+⚠ [845/848] Built Book1.Prop31.Main
+warning: ././././Book1/Prop31/Main.lean:7:8: declaration uses 'sorry'
+⚠ [846/848] Built Book1.Prop46.Main
+warning: ././././Book1/Prop46/Main.lean:8:8: declaration uses 'sorry'
+✔ [847/848] Built Book1Variants.Prop46
+⚠ [848/848] Built Book1.Prop47.Main
+warning: ././././Book1/Prop47/Main.lean:88:5: unused variable `step7`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop47/Main.lean:187:5: unused variable `step15`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+Build completed successfully.
+===== Book3.Prop33.Main =====
+⚠ [786/839] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [787/839] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:58:5: unused variable `step8`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop01/Main.lean:62:5: unused variable `step9`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop01/Main.lean:66:5: unused variable `step10`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [814/839] Replayed Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [815/839] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [816/839] Replayed Book1.Prop27.Main
+warning: ././././Book1/Prop27/Main.lean:5:8: declaration uses 'sorry'
+⚠ [818/839] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [820/839] Replayed Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:6:8: declaration uses 'sorry'
+⚠ [821/839] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [823/839] Replayed Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [825/839] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [826/839] Replayed Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+⚠ [828/839] Replayed Book1.Prop13.Main
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+⚠ [829/839] Replayed Book1.Prop20.Main
+warning: ././././Book1/Prop20/Main.lean:6:8: declaration uses 'sorry'
+⚠ [830/839] Replayed Book1.Prop22.Main
+warning: ././././Book1/Prop22/Main.lean:6:8: declaration uses 'sorry'
+⚠ [832/839] Replayed Book1.Prop23.Main
+warning: ././././Book1/Prop23/Main.lean:7:8: declaration uses 'sorry'
+⚠ [834/839] Replayed Book1.Prop31.Main
+warning: ././././Book1/Prop31/Main.lean:7:8: declaration uses 'sorry'
+⚠ [835/839] Built Book3.Prop16.Main
+warning: ././././Book3/Prop16/Main.lean:5:8: declaration uses 'sorry'
+⚠ [836/839] Built Book3.Prop19.Main
+warning: ././././Book3/Prop19/Main.lean:5:8: declaration uses 'sorry'
+⚠ [837/839] Built Book1.Prop32.Main
+warning: ././././Book1/Prop32/Main.lean:6:8: declaration uses 'sorry'
+⚠ [838/839] Built Book3.Prop32.Main
+warning: ././././Book3/Prop32/Main.lean:7:8: declaration uses 'sorry'
+⚠ [839/839] Built Book3.Prop33.Main
+warning: ././././Book3/Prop33/Main.lean:123:7: unused variable `step2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop33/Main.lean:200:7: unused variable `step15`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop33/Main.lean:285:7: unused variable `step24`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop33/Main.lean:454:7: unused variable `step40`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+Build completed successfully.
+  -- world=mine  root=/u/taddmao/code/autoform/methodology_compare_worktrees/full/LeanEuclidPlus
+✔ [2/786] Built SystemE.Theory.Sorts.Primitives
+✔ [758/786] Built SystemE.Meta.Tactics.Formalization.Export
+✔ [759/786] Built SystemE.Meta.Smt.ELang
+✔ [760/786] Built SystemE.Meta.Smt.EuclidTheory
+✔ [761/786] Built SystemE.Meta.Tactics.Util
+✔ [762/786] Built SystemE.Theory.Sorts.Segments
+✔ [763/786] Built SystemE.Theory.Sorts.Angles
+✔ [764/786] Built SystemE.Meta.Tactics.Intros
+✔ [765/786] Built SystemE.Theory.Sorts.Triangles
+✔ [766/786] Built SystemE.Theory.Sorts
+✔ [767/786] Built SystemE.Theory.Relations
+✔ [768/786] Built SystemE.Theory.Constructions.LinesAndCircles
+✔ [769/786] Built SystemE.Theory.Inferences.Metric
+✔ [770/786] Built SystemE.Theory.Inferences.Transfer
+✔ [771/786] Built SystemE.Theory.Inferences.Superposition
+✔ [772/786] Built SystemE.Theory.Constructions.Points
+✔ [773/786] Built SystemE.Theory.Inferences.Diagrammatic
+✔ [774/786] Built SystemE.Meta.Smt.Esmt
+✔ [775/786] Built SystemE.Theory.Constructions.Intersections
+✔ [776/786] Built SystemE.Theory.Inferences
+✔ [777/786] Built SystemE.Theory.Constructions
+✔ [778/786] Built SystemE.Meta.Smt.Translator
+✔ [779/786] Built SystemE.Theory
+✔ [780/786] Built SystemE.Meta.Smt.Solver
+✔ [781/786] Built SystemE.Smt
+✔ [782/786] Built SystemE.Meta.Tactics.Solve
+✔ [783/786] Built SystemE.Meta.Tactics.Faithful
+✔ [784/786] Built SystemE.Tactics
+✔ [785/786] Built SystemE
+Build completed successfully.
+===== Book1.Prop01.Main =====
+✔ [786/796] Built Book1.Prop01.step2
+✔ [787/796] Built Book1.Prop01.step7
+✔ [788/796] Built Book1.Prop01.step8
+✔ [789/796] Built Book1.Prop01.step9
+✔ [790/796] Built Book1.Prop01.step1
+✔ [791/796] Built Book1.Prop01.step6
+✔ [792/796] Built Book1.Prop01.step10
+✔ [793/796] Built Book1.Prop01.step3
+✔ [794/796] Built Book1.Prop01.step5
+✔ [795/796] Built Book1.Prop01.step4
+✔ [796/796] Built Book1.Prop01.Main
+Build completed successfully.
+===== Book1.Prop26.Main =====
+⚠ [823/876] Built Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [824/876] Built Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+✔ [825/876] Built Book1.Prop26.step1
+✔ [826/876] Built Book1.Prop26.step2
+✔ [827/876] Built Book1.Prop26.step3
+✔ [828/876] Built Book1.Prop26.step4
+✔ [829/876] Built Book1.Prop26.step8
+✔ [830/876] Built Book1Variants.Prop01
+✔ [831/876] Built Book1.Prop26.step12
+✔ [832/876] Built Book1.Prop26.step13
+✔ [833/876] Built Book1.Prop26.step14
+✔ [834/876] Built Book1.Prop26.step9
+✔ [835/876] Built Book1.Prop26.step10
+✔ [836/876] Built Book1.Prop26.step16
+⚠ [837/876] Built Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+✔ [838/876] Built Book1.Prop26.step15
+✔ [839/876] Built Book1.Prop26.step19
+✔ [840/876] Built Book1.Prop26.step24
+✔ [841/876] Built Book1.Prop26.step25
+✔ [842/876] Built Book1.Prop26.step26
+✔ [843/876] Built Book1.Prop26.step31
+✔ [844/876] Built Book1.Prop26.step33
+✔ [845/876] Built Book1.Prop26.step11
+✔ [846/876] Built Book1.Prop26.step32
+✔ [847/876] Built Book1.Prop26.step35
+✔ [848/876] Built Book1.Prop26.step27
+✔ [849/876] Built Book1.Prop26.step36
+✔ [850/876] Built Book1.Prop26.step37
+✔ [851/876] Built Book1.Prop26.step39
+✔ [852/876] Built Book1.Prop26.step38
+✔ [853/876] Built Book1.Prop26.h_sym
+✔ [854/876] Built Book1.Prop26.h_sym2
+✔ [855/876] Built Book1.Prop26.step17
+⚠ [856/876] Built Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+✔ [857/876] Built Book1.Prop26.step18
+✔ [858/876] Built Book1.Prop26.step5
+✔ [859/876] Built Book1.Prop26.step28
+✔ [860/876] Built Book1.Prop26.step40
+✔ [861/876] Built Book1.Prop26.step41
+✔ [862/876] Built Book1.Prop26.step42
+✔ [863/876] Built Book1.Prop26.step6
+✔ [864/876] Built Book1.Prop26.step30
+✔ [865/876] Built Book1.Prop26.step7
+✔ [866/876] Built Book1.Prop26.step29
+✔ [867/876] Built Book1Variants.Prop02
+⚠ [868/876] Built Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:6:8: declaration uses 'sorry'
+⚠ [869/876] Built Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [870/876] Built Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+✔ [871/876] Built Book1Variants.Prop05
+✔ [872/876] Built Book1Variants.Prop09
+⚠ [873/876] Built Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [874/876] Built Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+✔ [875/876] Built Book1.Prop26.step34
+✔ [876/876] Built Book1.Prop26.Main
+Build completed successfully.
+===== Book1.Prop43.Main =====
+✔ [812/823] Built Book1.Prop43.step4
+✔ [813/823] Built Book1.Prop43.step5
+⚠ [814/823] Built Book1.Prop34.Main
+warning: ././././Book1/Prop34/Main.lean:6:8: declaration uses 'sorry'
+✔ [815/823] Built Book1.Prop43.step6_Ld
+✔ [816/823] Built Book1.Prop43.step6_Rd
+✔ [817/823] Built Book1.Prop43.step1
+✔ [818/823] Built Book1.Prop43.step2
+✔ [819/823] Built Book1.Prop43.step3
+✔ [820/823] Built Book1.Prop43.step6_right
+✔ [821/823] Built Book1.Prop43.step6_left
+✔ [822/823] Built Book1.Prop43.step6
+✔ [823/823] Built Book1.Prop43.Main
+Build completed successfully.
+===== Book1.Prop47.Main =====
+⚠ [786/980] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [787/980] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [800/980] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [802/980] Replayed Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:6:8: declaration uses 'sorry'
+⚠ [829/980] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [831/980] Replayed Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [832/980] Replayed Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [834/980] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [835/980] Replayed Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+⚠ [877/980] Replayed Book1.Prop34.Main
+warning: ././././Book1/Prop34/Main.lean:6:8: declaration uses 'sorry'
+⚠ [878/980] Built Book1.Prop27.Main
+warning: ././././Book1/Prop27/Main.lean:5:8: declaration uses 'sorry'
+⚠ [879/980] Built Book1.Prop15.Main
+warning: ././././Book1/Prop15/Main.lean:5:8: declaration uses 'sorry'
+⚠ [880/980] Built Book1.Prop41.Main
+warning: ././././Book1/Prop41/Main.lean:5:8: declaration uses 'sorry'
+⚠ [881/980] Built Book1.Prop14.Main
+warning: ././././Book1/Prop14/Main.lean:5:8: declaration uses 'sorry'
+✔ [882/980] Built Book1.Prop47.step1
+✔ [883/980] Built Book1.Prop47.step2
+✔ [884/980] Built Book1.Prop47.step4
+✔ [885/980] Built Book1.Prop47.step6_opp
+✔ [886/980] Built Helpers.Pasch
+✔ [887/980] Built Book1.Prop47.step8_ecBD
+✔ [888/980] Built Book1.Prop47.step3
+✔ [889/980] Built Book1.Prop47.step7
+✔ [890/980] Built Book1.Prop47.step8_bcAL_cross
+✔ [891/980] Built Book1.Prop47.step6_sum
+✔ [892/980] Built Book1.Prop47.step8_A
+✔ [893/980] Built Book1.Prop47.step10
+⚠ [894/980] Built Book1.Prop17.Main
+warning: ././././Book1/Prop17/Main.lean:5:8: declaration uses 'sorry'
+✔ [895/980] Built Book1.Prop47.step8_C
+✔ [896/980] Built Book1.Prop47.step15
+✔ [897/980] Built Book1.Prop47.step9
+✔ [898/980] Built Book1.Prop47.step16
+✔ [899/980] Built Book1.Prop47.step17_A
+✔ [900/980] Built Book1.Prop47.step19_par
+✔ [901/980] Built Book1.Prop47.step20_gb_par
+✔ [902/980] Built Book1.Prop47.step20_hc_par
+✔ [903/980] Built Book1.Prop47.hALDE_dAL
+✔ [904/980] Built Book1.Prop47.step8_D_pab
+✔ [905/980] Built Book1.Prop47.step21
+✔ [906/980] Built Book1.Prop47.step8_D_abp
+✔ [907/980] Built Book1.Prop47.step17_C
+⚠ [908/980] Built Book1.Prop20.Main
+warning: ././././Book1/Prop20/Main.lean:6:8: declaration uses 'sorry'
+✔ [909/980] Built Book1.Prop47.step13_tri
+✔ [910/980] Built Book1.Prop47.hALDE_neq
+✔ [911/980] Built Book1.Prop47.step11_T1
+✔ [912/980] Built Book1.Prop47.step17_D_pac
+✔ [913/980] Built Helpers.SameSide
+✔ [914/980] Built Book1.Prop47.step17_D_acp
+✔ [915/980] Built Book1.Prop47.step17_cl_tri
+✔ [916/980] Built Book1.Prop47.step11_T2
+✔ [917/980] Built Book1.Prop47.step14_tri
+✔ [918/980] Built Book1.Prop47.step17_area_T1
+✔ [919/980] Built Book1.Prop47.step17_area_T2
+✔ [920/980] Built Book1.Prop47.step17_hc_tri
+✔ [921/980] Built Book1.Prop47.step20_hc
+✔ [922/980] Built Book1.Prop47.hALBC
+✔ [923/980] Built Book1.Prop47.step20_gb
+⚠ [924/980] Built Book1.Prop30.Main
+warning: ././././Book1/Prop30/Main.lean:5:8: declaration uses 'sorry'
+⚠ [925/980] Built Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+✔ [926/980] Built Book1.Prop47.step8_ahBC
+✔ [927/980] Built Book1.Prop47.step17_agCK
+✔ [928/980] Built Book1.Prop47.step8_ahBF
+✔ [929/980] Built Book1.Prop47.step8_ahBD
+✔ [930/980] Built Book1.Prop47.step17_agCE
+✔ [931/980] Built Book1.Prop47.step18_bmc
+⚠ [932/980] Built Book1.Prop22.Main
+warning: ././././Book1/Prop22/Main.lean:6:8: declaration uses 'sorry'
+✔ [933/980] Built Book1.Prop47.step8_agBC
+✔ [934/980] Built Book1.Prop47.step5
+✔ [935/980] Built Book1.Prop47.step6
+✔ [936/980] Built Book1.Prop47.step8_gfAB
+✔ [937/980] Built Book1.Prop47.hALDE
+✔ [938/980] Built Book1.Prop47.step14_par
+✔ [939/980] Built Book1.Prop47.step17_hkAC
+✔ [940/980] Built Book1.Prop47.step8_B
+✔ [941/980] Built Book1.Prop47.step11_foffBC
+✔ [942/980] Built Book1.Prop47.step17_hc_par
+✔ [943/980] Built Book1.Prop47.step20
+✔ [944/980] Built Book1.Prop47.step17_koffBC
+✔ [945/980] Built Book1.Prop47.step17_B
+✔ [946/980] Built Book1.Prop47.hoffBD
+✔ [947/980] Built Book1.Prop47.step13_par
+✔ [948/980] Built Book1.Prop47.step17_cl_par
+✔ [949/980] Built Book1.Prop47.step8_D
+✔ [950/980] Built Helpers.Parallel
+✔ [951/980] Built Book1.Prop47.step17_D
+✔ [952/980] Built Book1.Prop47.step19
+✔ [953/980] Built Book1.Prop47.step14
+✔ [954/980] Built Book1.Prop47.step17_cl
+✔ [955/980] Built Book1.Prop47.step17_hc
+✔ [956/980] Built Book1.Prop47.step11
+✔ [957/980] Built Book1.Prop47.step8_dle
+✔ [958/980] Built Book1.Prop47.step13
+✔ [959/980] Built Book1.Prop47.step12
+✔ [960/980] Built Book1.Prop47.step17_area
+✔ [961/980] Built Book1Variants.Prop11
+✔ [962/980] Built Book1Variants.Prop22
+⚠ [963/980] Built Book1.Prop13.Main
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+⚠ [964/980] Built Book1.Prop29.Main
+warning: ././././Book1/Prop29/Main.lean:7:8: declaration uses 'sorry'
+✔ [965/980] Built Book1.Prop47.step8_bcAL_bmc
+⚠ [966/980] Built Book1.Prop23.Main
+warning: ././././Book1/Prop23/Main.lean:7:8: declaration uses 'sorry'
+✔ [967/980] Built Book1Variants.Prop29
+✔ [968/980] Built Book1Variants.Prop34
+✔ [969/980] Built Book1.Prop47.step8_bcAL_perp
+✔ [970/980] Built Book1Variants.Prop23
+⚠ [971/980] Built Book1.Prop31.Main
+warning: ././././Book1/Prop31/Main.lean:7:8: declaration uses 'sorry'
+⚠ [972/980] Built Book1.Prop32.Main
+warning: ././././Book1/Prop32/Main.lean:6:8: declaration uses 'sorry'
+⚠ [973/980] Built Book1.Prop46.Main
+warning: ././././Book1/Prop46/Main.lean:8:8: declaration uses 'sorry'
+✔ [974/980] Built Book1.Prop47.step8_bcAL
+✔ [975/980] Built Book1Variants.Prop46
+✔ [976/980] Built Book1.Prop47.step8
+✔ [977/980] Built Book1.Prop47.step17_ang
+✔ [978/980] Built Book1.Prop47.step18
+✔ [979/980] Built Book1.Prop47.step17
+✔ [980/980] Built Book1.Prop47.Main
+Build completed successfully.
+===== Book3.Prop33.Main =====
+⚠ [798/919] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [800/919] Replayed Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:6:8: declaration uses 'sorry'
+⚠ [801/919] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [828/919] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [830/919] Replayed Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [831/919] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [832/919] Replayed Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [834/919] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [835/919] Replayed Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+⚠ [836/919] Replayed Book1.Prop20.Main
+warning: ././././Book1/Prop20/Main.lean:6:8: declaration uses 'sorry'
+⚠ [837/919] Replayed Book1.Prop22.Main
+warning: ././././Book1/Prop22/Main.lean:6:8: declaration uses 'sorry'
+⚠ [839/919] Replayed Book1.Prop23.Main
+warning: ././././Book1/Prop23/Main.lean:7:8: declaration uses 'sorry'
+⚠ [841/919] Replayed Book1.Prop27.Main
+warning: ././././Book1/Prop27/Main.lean:5:8: declaration uses 'sorry'
+⚠ [842/919] Replayed Book1.Prop31.Main
+warning: ././././Book1/Prop31/Main.lean:7:8: declaration uses 'sorry'
+⚠ [843/919] Replayed Book1.Prop32.Main
+warning: ././././Book1/Prop32/Main.lean:6:8: declaration uses 'sorry'
+✔ [844/919] Built Book3.Prop33.step4
+✔ [845/919] Built Book3.Prop33.step2
+⚠ [846/919] Built Book3.Prop16.Main
+warning: ././././Book3/Prop16/Main.lean:5:8: declaration uses 'sorry'
+✔ [847/919] Built Book3.Prop33.step1
+⚠ [848/919] Built Book3.Prop19.Main
+warning: ././././Book3/Prop19/Main.lean:5:8: declaration uses 'sorry'
+✔ [849/919] Built Book3.Prop33.step6
+✔ [850/919] Built Book3.Prop33.step11
+✔ [851/919] Built Book3.Prop33.step12
+✔ [852/919] Built Book3.Prop33.step10
+✔ [853/919] Built Book3.Prop33.step3_ray
+✔ [854/919] Built Book3.Prop33.step7
+✔ [855/919] Built Book3.Prop33.step14_ed0
+✔ [856/919] Built Book3.Prop33.step14_fgcirc
+✔ [857/919] Built Book3.Prop33.step14_ebAD
+✔ [858/919] Built Book3.Prop33.step15
+✔ [859/919] Built Book3.Prop33.step16
+✔ [860/919] Built Book3.Prop33.step17
+✔ [861/919] Built Book3.Prop33.step3_btw
+✔ [862/919] Built Book3.Prop33.hafg_btw
+✔ [863/919] Built Book3.Prop33.hga
+✔ [864/919] Built Book3.Prop33.step20
+✔ [865/919] Built Book3.Prop33.step21
+✔ [866/919] Built Book3.Prop33.hafg_ray
+✔ [867/919] Built Book3.Prop33.step14_eoppd
+✔ [868/919] Built Book3.Prop33.step19
+✔ [869/919] Built Book3.Prop33.step14_ed0side
+✔ [870/919] Built Book3.Prop33.step23
+✔ [871/919] Built Book3.Prop33.step25
+✔ [872/919] Built Book3.Prop33.step26
+✔ [873/919] Built Book3.Prop33.step29
+✔ [874/919] Built Book3.Prop33.step30
+✔ [875/919] Built Book3.Prop33.step32
+✔ [876/919] Built Book3.Prop33.step36
+✔ [877/919] Built Book3.Prop33.step37
+✔ [878/919] Built Book3.Prop33.hABAE
+✔ [879/919] Built Book3.Prop33.step28
+✔ [880/919] Built Book3.Prop33.step41
+✔ [881/919] Built Book3.Prop33.step24
+✔ [882/919] Built Book3.Prop33.step14_c2
+✔ [883/919] Built Book3.Prop33.step33
+✔ [884/919] Built Book3.Prop33.step40
+✔ [885/919] Built Book3.Prop33.step42
+✔ [886/919] Built Book3.Prop33.hfa
+✔ [887/919] Built Book3.Prop33.hb_circ_2
+✔ [888/919] Built Book3.Prop33.hFGcirc
+✔ [889/919] Built Book3.Prop33.h_dee_ray
+✔ [890/919] Built Book3.Prop33.hb_circ_eq
+✔ [891/919] Built Book3.Prop33.h_dee_btw
+✔ [892/919] Built Book3.Prop33.hdaq_ray
+✔ [893/919] Built Book3.Prop33.hgb
+✔ [894/919] Built Book3.Prop33.he_off
+✔ [895/919] Built Book3.Prop33.hdaq_btw
+✔ [896/919] Built Book3.Prop33.hh_straddle
+✔ [897/919] Built Book3.Prop33.hpfa
+✔ [898/919] Built Book3.Prop33.step13
+✔ [899/919] Built Book3.Prop33.step3
+✔ [900/919] Built Book3.Prop33.step22
+✔ [901/919] Built Book3.Prop33.hafg
+✔ [902/919] Built Book3.Prop33.step23_assumption1
+✔ [903/919] Built Book3.Prop33.step8
+✔ [904/919] Built Book3.Prop33.step34
+✔ [905/919] Built Book3.Prop33.heb
+✔ [906/919] Built Book3.Prop33.h_dee
+✔ [907/919] Built Book3.Prop33.hdaq
+⚠ [908/919] Built Book3.Prop32.Main
+warning: ././././Book3/Prop32/Main.lean:7:8: declaration uses 'sorry'
+✔ [909/919] Built Book3.Prop33.step5
+✔ [910/919] Built Book3.Prop33.step9
+✔ [911/919] Built Book3.Prop33.step31
+✔ [912/919] Built Book3.Prop33.step35
+✔ [913/919] Built Book3.Prop33.hb_circ
+✔ [914/919] Built Book3.Prop33.step38
+✔ [915/919] Built Book3.Prop33.step39
+✔ [916/919] Built Book3.Prop33.step14
+✔ [917/919] Built Book3.Prop33.hfaq
+✔ [918/919] Built Book3.Prop33.hFG_int_AE
+✔ [919/919] Built Book3.Prop33.Main
+Build completed successfully.

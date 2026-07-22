@@ -1,0 +1,114 @@
+⚠ [786/854] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+⚠ [788/854] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [792/854] Replayed Book1.Prop03.step3
+warning: ././././Book1/Prop03/step3.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop03/step3.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop03/step3.lean:6:49: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [796/854] Replayed Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:30:5: unused variable `step2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [797/854] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [824/854] Replayed Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+⚠ [826/854] Replayed Book1.Prop13.Main
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+⚠ [827/854] Replayed Book1.Prop15.Main
+warning: ././././Book1/Prop15/Main.lean:5:8: declaration uses 'sorry'
+⚠ [830/854] Replayed Book1.Prop27.step1
+warning: ././././Book1/Prop27/step1.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop27/step1.lean:7:5: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop27/step1.lean:7:24: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop27/step1.lean:8:5: unused variable `h4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop27/step1.lean:8:24: unused variable `h5`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop27/step1.lean:9:5: unused variable `h6`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop27/step1.lean:9:24: unused variable `h7`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [832/854] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [833/854] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [835/854] Replayed Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [836/854] Replayed Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [838/854] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [839/854] Replayed Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+⚠ [843/854] Replayed Book1.Prop29.Main
+warning: ././././Book1/Prop29/Main.lean:7:8: declaration uses 'sorry'
+⚠ [844/854] Replayed Book1.Prop27.step4
+warning: ././././Book1/Prop27/step4.lean:7:43: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop27/step4.lean:8:43: unused variable `h6`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop27/step4.lean:8:62: unused variable `h7`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop27/step4.lean:10:5: unused variable `h10`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop27/step4.lean:10:27: unused variable `h11`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [845/854] Built Book1.Prop30.step1
+warning: ././././Book1/Prop30/step1.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:6:24: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:6:43: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:6:62: unused variable `h4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:7:5: unused variable `h5`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:7:24: unused variable `h6`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:7:43: unused variable `h7`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:8:5: unused variable `h8`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:8:24: unused variable `h9`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:8:43: unused variable `h10`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:8:63: unused variable `h11`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+✖ [846/854] Building Book1.Prop30.step7_othercases
+trace: .> LEAN_PATH=././.lake/packages/batteries/.lake/build/lib:././.lake/packages/Qq/.lake/build/lib:././.lake/packages/aesop/.lake/build/lib:././.lake/packages/proofwidgets/.lake/build/lib:././.lake/packages/Cli/.lake/build/lib:././.lake/packages/importGraph/.lake/build/lib:././.lake/packages/mathlib/.lake/build/lib:././.lake/packages/smt/.lake/build/lib:././.lake/packages/checkdecls/.lake/build/lib:././.lake/build/lib LD_LIBRARY_PATH=././.lake/packages/batteries/.lake/build/lib:././.lake/packages/smt/.lake/build/lib:././.lake/build/lib /h/56/taddmao/.elan/toolchains/leanprover--lean4---v4.8.0-rc2/bin/lean -DrelaxedAutoImplicit=true ././././Book1/Prop30/step7_othercases.lean -R ./././. -o ././.lake/build/lib/Book1/Prop30/step7_othercases.olean -i ././.lake/build/lib/Book1/Prop30/step7_othercases.ilean -c ././.lake/build/ir/Book1/Prop30/step7_othercases.c --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Init-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-CodeAction-Attr-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-CodeAction-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Lean-Position-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-CodeAction-Deprecated-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Tactic-Alias-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-AssocList-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Nat-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Classes-SatisfiesM-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Monadic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Classes-BEq-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Control-ForInStep-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Control-ForInStep-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Lean-Meta-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Tactic-Init-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Init-Attach-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Init-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Tactic-SeqFocus-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Util-ProofWanted-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Nat-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-WF-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Data-Sexp-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Dsl-Sexp-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Term-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Commands-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Solver-1.so --json
+error: ././././Book1/Prop30/step7_othercases.lean:9:2: failed
+error: Lean exited with code 1
+⚠ [847/854] Built Book1.Prop30.step6
+warning: ././././Book1/Prop30/step6.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step6.lean:6:28: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step6.lean:6:49: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step6.lean:7:5: unused variable `h4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step6.lean:7:24: unused variable `h5`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [848/854] Built Book1.Prop30.step2
+warning: ././././Book1/Prop30/step2.lean:7:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step2.lean:8:5: unused variable `h5`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step2.lean:10:5: unused variable `h13`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [849/854] Built Book1.Prop30.step3
+warning: ././././Book1/Prop30/step3.lean:10:27: unused variable `h11`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step3.lean:10:51: unused variable `h12`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step3.lean:11:5: unused variable `h13`
+note: this linter can be disabled with `set_option linter.unusedVariables false`

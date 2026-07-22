@@ -1,0 +1,13 @@
+[check_step --drive] step5 (stale) — running --subtree step5
+
+[check_step --subtree step5] auditing the step5 cone — 2 node(s) in Book1/Prop36 (sub-nodes before step5):
+  ✓ step5_ss: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step5: SP[isolated] + Combine (container)
+
+PASS: step5's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop36 --all` ONCE at the very end.
+[check_step --drive] step6 (stale) — running --subtree step6
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step6' (Book1/Prop36/Main.lean) has NO backing file 'step6.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step6 — fix it, then re-run --drive to resume.

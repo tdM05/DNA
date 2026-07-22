@@ -1,0 +1,14 @@
+[check_step --drive] step6 (stale) — running --subtree step6
+
+[check_step --subtree step6] auditing the step6 cone — 2 node(s) in Book1/Prop36 (sub-nodes before step6):
+  ✓ step5_ss: SP[isolated] + P (leaf, zero-sorry)
+  ✗ step6 (Book1/Prop36/step6.lean): COMBINE FAILED — the combine did not close from the sub-node claim-types (or hit the 30s cap → factor the combine).
+
+error: ././././Book1/Prop36/step6.lean:30:8: unknown identifier 'hpara'
+    ↳ source: exact hpara
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step6 — fix it, then re-run --drive to resume.

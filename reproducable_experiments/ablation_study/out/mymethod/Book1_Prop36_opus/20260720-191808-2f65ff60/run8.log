@@ -1,0 +1,2 @@
+[check_step --provable] step5_ss  (Book1/Prop36/step5.lean)
+  P ok — Book1/Prop36/step5_ss.lean (leaf) builds with ZERO sorry.

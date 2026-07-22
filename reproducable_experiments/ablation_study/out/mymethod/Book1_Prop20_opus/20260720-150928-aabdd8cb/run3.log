@@ -1,0 +1,13 @@
+[check_step --subtree step10] auditing the step10 cone — 10 node(s) in Book1/Prop20 (sub-nodes before step10):
+  ✓ step9_triineq_qpd: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step9_triineq_base: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step9_triineq_gt1: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step9_triineq_side_hdpq: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step9_triineq_side_hrpq: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step9_triineq_side_hqdr: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step9_triineq_side_form: SP[isolated] + Combine (container)
+  ✓ step9_triineq_side: SP[isolated] + Combine (container)
+  ✓ step9_triineq: SP[isolated] + Combine (container)
+  ✓ step10: SP[isolated] + Combine (container)
+
+PASS: step10's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop20 --all` ONCE at the very end.

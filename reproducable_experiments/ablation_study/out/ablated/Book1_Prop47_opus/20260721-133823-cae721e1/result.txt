@@ -3,9 +3,9 @@ mode: ablated
 model: opus
 session_id: 6c5869fd-8bdf-4306-8635-2679ca172981
 transcript: /u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-ablated/6c5869fd-8bdf-4306-8635-2679ca172981.jsonl
-cost_usd: 8.00444
-wall_sec: 1777.69
+cost_usd: 11.9208
+wall_sec: 2392.21
 compile_sec: <pending>
-stop_reason: <pending>
-result: RUNNING
+stop_reason: timeout_12h
+result: TIMEOUT
 fail_reason: -

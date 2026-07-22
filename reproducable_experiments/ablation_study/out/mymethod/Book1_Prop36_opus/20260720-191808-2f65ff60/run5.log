@@ -1,0 +1,4 @@
+[check_step --provable] step5_ss  (Book1/Prop36/step5.lean)
+FAIL (P — provable): Book1/Prop36/step5_ss.lean did not build (or hit the 30s cap — decompose into more `have`+backing files).
+
+[faithful_lib] build of Book1.Prop36.step5_ss exceeded 45s wall clock — TOO BIG. DECOMPOSE into more backing files; NEVER raise the cap. Last output before the kill (what it was elaborating when it stalled):
