@@ -1,3 +1,14 @@
 [check_step --drive] step16 (stale) — running --subtree step16
 
 [check_step --subtree step16] auditing the step16 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step16):
+  ✓ step16: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step16's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step19 (stale) — running --subtree step19
+
+[check_step --subtree step19] auditing the step19 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step19):
+  ✓ step19: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step19's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] all Main nodes done.
+  ⟹ check_step --all is GUARANTEED to pass. Run it ONCE as the final witness, then Phase C.

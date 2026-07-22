@@ -1,0 +1,3 @@
+[check_step --all] bottom-up audit of 41 node(s) in Book3/Prop36 (sub-nodes before their parents):
+  ✓ step1: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step2: SP[isolated] + P (leaf, zero-sorry)
