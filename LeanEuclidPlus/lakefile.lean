@@ -31,6 +31,11 @@ lean_lib OldBook1Variants {
 lean_lib Book2 {
 }
 
+-- unfaithful (compiling) Book 2 proofs from commit 78d740cc, kept as a reference
+-- source.  Isolated: nothing co-imports it (it shares Elements.Book2 names).
+lean_lib Book2Unfaithful {
+}
+
 lean_lib Book3 {
 }
 
