@@ -27,6 +27,11 @@ lean_lib Book2 {
 lean_lib Book3 {
 }
 
+-- unfaithful (compiling) Book 2 proofs from commit 78d740cc, kept as a reference
+-- source.  Isolated: nothing co-imports it (it shares Elements.Book2 names).
+lean_lib Book2Unfaithful {
+}
+
 -- upstream baseline for benchmarking (fully isolated: nothing else imports these)
 lean_lib OldBook1 {
 }

@@ -1,0 +1,64 @@
+===== GRADE 2026-07-22 11:50:21 · Book3/Prop06 · arm=ablated · node=cpunode6 =====
+worktree: /h/56/taddmao/code/autoform/methodology_compare_worktrees/ablated/LeanEuclidPlus
+
+----- [sorry_count] -----
+sorry count = 0  (must be 0)
+
+----- [check_faithful] -----
+=== Main.lean — MODE: source/regex (no build) ===
+    quick offline sanity check (text is EXACT; dependency match is number-only, not book-aware)
+  [PASS] sentence locators are contiguous with no duplicates
+         10 sentences
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (10 sentences (3.6.0..3.6.9) vs Book3/data/texts_proofs/6.txt)
+  [PASS] every cited [Prop.~B.M] is a Main construction (`… as …`) or deferred to Phase B (construction-aware, number-only)
+         0 construction prop(s) in Main: (none)
+  [PASS] @assumption text is a normalized substring of its owning sentence
+         3 annotation(s) checked
+  [PASS] no euclid_sentence has a vacuous `True` claim
+         8 sentence claim(s) are non-trivial
+  [PASS] euclid_intro/conclude_sentence bracket the proof (leading / trailing only)
+         placement OK
+  [note] not machine-checked: that each step's type honestly captures its sentence (review by hand)
+  => ALL PASS (source/regex mode)
+----- [check_backing] -----
+=== Prop06/Main.lean — MODE: backing (source, no build) ===
+  [PASS] every sentence delegates to helper_<book>_<prop>_stepN in its own file
+         8 checked
+  [PASS] each sentence's helper call supplies every hypothesis via euclid_assumption (show type)
+         8 checked
+  => ALL PASS (backing mode)
+----- [check_signatures] -----
+OK: all 1 proposition signatures matching 'Book3/Prop06/Main.lean' unchanged
+----- [check_steps] -----
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 8 approved step claim(s) + assumptions unchanged in Book3/Prop06/Main.lean
+----- [lake_build: Book3.Prop06.Main] -----
+⚠ [789/794] Replayed Book3.Prop06.step4
+warning: ././././Book3/Prop06/step4.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step4.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step4.lean:6:49: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [790/794] Replayed Book3.Prop06.step5
+warning: ././././Book3/Prop06/step5.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step5.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step5.lean:6:49: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [792/794] Replayed Book3.Prop06.step7
+warning: ././././Book3/Prop06/step7.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step7.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step7.lean:7:5: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step7.lean:7:27: unused variable `h4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [794/794] Replayed Book3.Prop06.Main
+warning: ././././Book3/Prop06/Main.lean:53:7: unused variable `step3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+Build completed successfully.
+===== ALL CHECKS PASSED =====

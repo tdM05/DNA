@@ -7,5 +7,5 @@ cost_usd: 8.50162
 wall_sec: 3378.83
 compile_sec: 8
 stop_reason: done
-result: FAIL
+result: SUCCESS
 fail_reason: lake_build

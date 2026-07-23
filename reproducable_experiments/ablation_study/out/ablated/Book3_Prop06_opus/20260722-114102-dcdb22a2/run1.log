@@ -1,0 +1,32 @@
+✔ [786/794] Built Book3.Prop06.step1
+✔ [787/794] Built Book3.Prop06.step6
+✔ [788/794] Built Book3.Prop06.step2
+✔ [789/794] Built Book3.Prop06.step3
+⚠ [790/794] Built Book3.Prop06.step4
+warning: ././././Book3/Prop06/step4.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step4.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step4.lean:6:49: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [791/794] Built Book3.Prop06.step5
+warning: ././././Book3/Prop06/step5.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step5.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step5.lean:6:49: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+✔ [792/794] Built Book3.Prop06.step8
+⚠ [793/794] Built Book3.Prop06.step7
+warning: ././././Book3/Prop06/step7.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step7.lean:6:27: unused variable `h2`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step7.lean:7:5: unused variable `h3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book3/Prop06/step7.lean:7:27: unused variable `h4`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [794/794] Built Book3.Prop06.Main
+warning: ././././Book3/Prop06/Main.lean:53:7: unused variable `step3`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+Build completed successfully.
