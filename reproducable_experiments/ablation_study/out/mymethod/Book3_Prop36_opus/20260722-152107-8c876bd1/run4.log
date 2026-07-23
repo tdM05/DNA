@@ -1,0 +1,502 @@
+=== faithful-9QXO4G.json — MODE: --olean (compiled, AUTHORITATIVE) ===
+    text reproduction is EXACT; dependency match is BOOK-AWARE + transitive (resolved names)
+--- Book1 Prop 1 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         12 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 0 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (12 sentences (1.1.0..1.1.11) vs Book1/data/texts_proofs/1.txt)
+--- Book1 Prop 2 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         15 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 1 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (15 sentences (1.2.0..1.2.14) vs Book1/data/texts_proofs/2.txt)
+--- Book1 Prop 3 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         8 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 1 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (8 sentences (1.3.0..1.3.7) vs Book1/data/texts_proofs/3.txt)
+--- Book1 Prop 4 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         13 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 0 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (13 sentences (1.4.0..1.4.12) vs Book1/data/texts_proofs/4.txt)
+--- Book1 Prop 5 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         25 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.5.17 (Book1.Prop05.Main:103) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop05.Main (construction) nor inside its helper cone (node `step17`)
+         1.5.8 (Book1.Prop05.Main:58) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop05.Main (construction) nor inside its helper cone (node `step8`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (25 sentences (1.5.0..1.5.24) vs Book1/data/texts_proofs/5.txt)
+--- Book1 Prop 6 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         13 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 2 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (13 sentences (1.6.0..1.6.12) vs Book1/data/texts_proofs/6.txt)
+--- Book1 Prop 7 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         11 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.7.7 (Book1.Prop07.Main:44) cites [Prop.~1.5] but no `proposition_5` of Book 1 is applied `… as …` in Book1.Prop07.Main (construction) nor inside its helper cone (node `step7`)
+         1.7.4 (Book1.Prop07.Main:29) cites [Prop.~1.5] but no `proposition_5` of Book 1 is applied `… as …` in Book1.Prop07.Main (construction) nor inside its helper cone (node `step4`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (11 sentences (1.7.0..1.7.10) vs Book1/data/texts_proofs/7.txt)
+--- Book1 Prop 8 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         12 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.8.7 (Book1.Prop08.Main:67) cites [Prop.~1.7] but no `proposition_7` of Book 1 is applied `… as …` in Book1.Prop08.Main (construction) nor inside its helper cone (node `step7`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (12 sentences (1.8.0..1.8.11) vs Book1/data/texts_proofs/8.txt)
+--- Book1 Prop 9 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         11 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.9.9 (Book1.Prop09.Main:60) cites [Prop.~1.8] but no `proposition_8` of Book 1 is applied `… as …` in Book1.Prop09.Main (construction) nor inside its helper cone (node `step9`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (11 sentences (1.9.0..1.9.10) vs Book1/data/texts_proofs/9.txt)
+--- Book1 Prop 10 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         8 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.10.6 (Book1.Prop10.Main:45) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop10.Main (construction) nor inside its helper cone (node `step6`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (8 sentences (1.10.0..1.10.7) vs Book1/data/texts_proofs/10.txt)
+--- Book1 Prop 11 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         13 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.11.8 (Book1.Prop11.Main:54) cites [Prop.~1.8] but no `proposition_8` of Book 1 is applied `… as …` in Book1.Prop11.Main (construction) nor inside its helper cone (node `step8`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (13 sentences (1.11.0..1.11.12) vs Book1/data/texts_proofs/11.txt)
+--- Book1 Prop 12 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         13 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 2 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (13 sentences (1.12.0..1.12.12) vs Book1/data/texts_proofs/12.txt)
+--- Book1 Prop 13 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         14 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 1 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (14 sentences (1.13.0..1.13.13) vs Book1/data/texts_proofs/13.txt)
+--- Book1 Prop 14 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         12 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.14.2 (Book1.Prop14.Main:26) cites [Prop.~1.13] but no `proposition_13` of Book 1 is applied `… as …` in Book1.Prop14.Main (construction) nor inside its helper cone (node `step2`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (12 sentences (1.14.0..1.14.11) vs Book1/data/texts_proofs/14.txt)
+--- Book1 Prop 15 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         9 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.15.2 (Book1.Prop15.Main:23) cites [Prop.~1.13] but no `proposition_13` of Book 1 is applied `… as …` in Book1.Prop15.Main (construction) nor inside its helper cone (node `step2`)
+         1.15.1 (Book1.Prop15.Main:16) cites [Prop.~1.13] but no `proposition_13` of Book 1 is applied `… as …` in Book1.Prop15.Main (construction) nor inside its helper cone (node `step1`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (9 sentences (1.15.0..1.15.8) vs Book1/data/texts_proofs/15.txt)
+--- Book1 Prop 16 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         16 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.16.10 (Book1.Prop16.Main:66) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop16.Main (construction) nor inside its helper cone (node `step10`)
+         1.16.7 (Book1.Prop16.Main:54) cites [Prop.~1.15] but no `proposition_15` of Book 1 is applied `… as …` in Book1.Prop16.Main (construction) nor inside its helper cone (node `step7`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (16 sentences (1.16.0..1.16.15) vs Book1/data/texts_proofs/16.txt)
+--- Book1 Prop 17 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         10 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.17.5 (Book1.Prop17.Main:32) cites [Prop.~1.13] but no `proposition_13` of Book 1 is applied `… as …` in Book1.Prop17.Main (construction) nor inside its helper cone (node `step5`)
+         1.17.2 (Book1.Prop17.Main:20) cites [Prop.~1.16] but no `proposition_16` of Book 1 is applied `… as …` in Book1.Prop17.Main (construction) nor inside its helper cone (node `step2`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (10 sentences (1.17.0..1.17.9) vs Book1/data/texts_proofs/17.txt)
+--- Book1 Prop 20 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         12 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.20.6 (Book1.Prop20.Main:44) cites [Prop.~1.19] but no `proposition_19` of Book 1 is applied `… as …` in Book1.Prop20.Main (construction) nor inside its helper cone (node `step6`)
+         1.20.4 (Book1.Prop20.Main:33) cites [Prop.~1.5] but no `proposition_5` of Book 1 is applied `… as …` in Book1.Prop20.Main (construction) nor inside its helper cone (node `step4`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (12 sentences (1.20.0..1.20.11) vs Book1/data/texts_proofs/20.txt)
+--- Book1 Prop 22 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         18 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 1 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (18 sentences (1.22.0..1.22.17) vs Book1/data/texts_proofs/22.txt)
+--- Book1 Prop 23 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         8 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.23.6 (Book1.Prop23.Main:51) cites [Prop.~1.8] but no `proposition_8` of Book 1 is applied `… as …` in Book1.Prop23.Main (construction) nor inside its helper cone (node `step6`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (8 sentences (1.23.0..1.23.7) vs Book1/data/texts_proofs/23.txt)
+--- Book1 Prop 24 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         14 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.24.10 (Book1.Prop24.Main:70) cites [Prop.~1.19] but no `proposition_19` of Book 1 is applied `… as …` in Book1.Prop24.Main (construction) nor inside its helper cone (node `step10`)
+         1.24.7 (Book1.Prop24.Main:55) cites [Prop.~1.5] but no `proposition_5` of Book 1 is applied `… as …` in Book1.Prop24.Main (construction) nor inside its helper cone (node `step7`)
+         1.24.6 (Book1.Prop24.Main:48) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop24.Main (construction) nor inside its helper cone (node `step6`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (14 sentences (1.24.0..1.24.13) vs Book1/data/texts_proofs/24.txt)
+--- Book1 Prop 26 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         44 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.26.42 (Book1.Prop26.Main:178) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop26.Main (construction) nor inside its helper cone (node `step42`)
+         1.26.34 (Book1.Prop26.Main:152) cites [Prop.~1.16] but no `proposition_16` of Book 1 is applied `… as …` in Book1.Prop26.Main (construction) nor inside its helper cone (node `step34`)
+         1.26.30 (Book1.Prop26.Main:140) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop26.Main (construction) nor inside its helper cone (node `step30`)
+         1.26.18 (Book1.Prop26.Main:89) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop26.Main (construction) nor inside its helper cone (node `step18`)
+         1.26.7 (Book1.Prop26.Main:54) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop26.Main (construction) nor inside its helper cone (node `step7`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (44 sentences (1.26.0..1.26.43) vs Book1/data/texts_proofs/26.txt)
+--- Book1 Prop 27 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         10 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 1 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (10 sentences (1.27.0..1.27.9) vs Book1/data/texts_proofs/27.txt)
+--- Book1 Prop 29 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         19 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.29.16 (Book1.Prop29.Main:77) cites [Prop.~1.13] but no `proposition_13` of Book 1 is applied `… as …` in Book1.Prop29.Main (construction) nor inside its helper cone (node `step16`)
+         1.29.12 (Book1.Prop29.Main:65) cites [Prop.~1.15] but no `proposition_15` of Book 1 is applied `… as …` in Book1.Prop29.Main (construction) nor inside its helper cone (node `step12`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (19 sentences (1.29.0..1.29.18) vs Book1/data/texts_proofs/29.txt)
+--- Book1 Prop 31 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         7 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.31.5 (Book1.Prop31.Main:38) cites [Prop.~1.27] but no `proposition_27` of Book 1 is applied `… as …` in Book1.Prop31.Main (construction) nor inside its helper cone (node `step5`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (7 sentences (1.31.0..1.31.6) vs Book1/data/texts_proofs/31.txt)
+--- Book1 Prop 34 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         18 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.34.15 (Book1.Prop34.Main:94) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop34.Main (construction) nor inside its helper cone (node `step15`)
+         1.34.4 (Book1.Prop34.Main:42) cites [Prop.~1.26] but no `proposition_26` of Book 1 is applied `… as …` in Book1.Prop34.Main (construction) nor inside its helper cone (node `step4`)
+         1.34.2 (Book1.Prop34.Main:31) cites [Prop.~1.29] but no `proposition_29` of Book 1 is applied `… as …` in Book1.Prop34.Main (construction) nor inside its helper cone (node `step2`)
+         1.34.1 (Book1.Prop34.Main:21) cites [Prop.~1.29] but no `proposition_29` of Book 1 is applied `… as …` in Book1.Prop34.Main (construction) nor inside its helper cone (node `step1`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (18 sentences (1.34.0..1.34.17) vs Book1/data/texts_proofs/34.txt)
+--- Book1 Prop 41 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         6 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.41.3 (Book1.Prop41.Main:30) cites [Prop.~1.34] but no `proposition_34` of Book 1 is applied `… as …` in Book1.Prop41.Main (construction) nor inside its helper cone (node `step3`)
+         1.41.2 (Book1.Prop41.Main:23) cites [Prop.~1.37] but no `proposition_37` of Book 1 is applied `… as …` in Book1.Prop41.Main (construction) nor inside its helper cone (node `step2`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (6 sentences (1.41.0..1.41.5) vs Book1/data/texts_proofs/41.txt)
+--- Book1 Prop 46 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         21 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.46.15 (Book1.Prop46.Main:83) cites [Prop.~1.34] but no `proposition_34` of Book 1 is applied `… as …` in Book1.Prop46.Main (construction) nor inside its helper cone (node `step15`)
+         1.46.12 (Book1.Prop46.Main:71) cites [Prop.~1.29] but no `proposition_29` of Book 1 is applied `… as …` in Book1.Prop46.Main (construction) nor inside its helper cone (node `step12`)
+         1.46.7 (Book1.Prop46.Main:49) cites [Prop.~1.34] but no `proposition_34` of Book 1 is applied `… as …` in Book1.Prop46.Main (construction) nor inside its helper cone (node `step7`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (21 sentences (1.46.0..1.46.20) vs Book1/data/texts_proofs/46.txt)
+--- Book1 Prop 47 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         23 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         1.47.14 (Book1.Prop47.Main:108) cites [Prop.~1.41] but no `proposition_41` of Book 1 is applied `… as …` in Book1.Prop47.Main (construction) nor inside its helper cone (node `step14`)
+         1.47.13 (Book1.Prop47.Main:100) cites [Prop.~1.41] but no `proposition_41` of Book 1 is applied `… as …` in Book1.Prop47.Main (construction) nor inside its helper cone (node `step13`)
+         1.47.12 (Book1.Prop47.Main:91) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book1.Prop47.Main (construction) nor inside its helper cone (node `step12`)
+         1.47.5 (Book1.Prop47.Main:51) cites [Prop.~1.14] but no `proposition_14` of Book 1 is applied `… as …` in Book1.Prop47.Main (construction) nor inside its helper cone (node `step5`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (23 sentences (1.47.0..1.47.22) vs Book1/data/texts_proofs/47.txt)
+--- Book2 Prop 6 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         18 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         2.6.7 (Book2.Prop06.Main:57) cites [Prop.~1.43] but no `proposition_43` of Book 1 is applied `… as …` in Book2.Prop06.Main (construction) nor inside its helper cone (node `step7`)
+         2.6.6 (Book2.Prop06.Main:52) cites [Prop.~1.36] but no `proposition_36` of Book 1 is applied `… as …` in Book2.Prop06.Main (construction) nor inside its helper cone (node `step6`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (18 sentences (2.6.0..2.6.17) vs Book2/data/texts_proofs/6.txt)
+--- Book3 Prop 1 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         22 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.1.11 (Book3.Prop01.Main:88) cites [Prop.~1.8] but no `proposition_8` of Book 1 is applied `… as …` in Book3.Prop01.Main (construction) nor inside its helper cone (node `step11`)
+         2 sentence(s) waived by @suppress_deps_check:
+             3.1.5: Same source bracket typo as 3.1.2: [Prop.~1.9] cited for cutting the straight-line CE in half, but segment-bisection is I.10 (1.9 is angle-bisection) — the construction applies proposition_10.
+             3.1.2: Source edition (Fitzpatrick) brackets this segment-bisection as [Prop.~1.9], but 1.9 is angle-bisection; bisecting a straight-line is I.10 — the faithful construction applies proposition_10. Editorial bracket typo in the source, not ours.
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (22 sentences (3.1.0..3.1.21) vs Book3/data/texts_proofs/1.txt)
+--- Book3 Prop 2 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         17 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.2.9 (Book3.Prop02.Main:62) cites [Prop.~1.19] but no `proposition_19` of Book 1 is applied `… as …` in Book3.Prop02.Main (construction) nor inside its helper cone (node `step9`)
+         3.2.7 (Book3.Prop02.Main:51) cites [Prop.~1.5] but no `proposition_5` of Book 1 is applied `… as …` in Book3.Prop02.Main (construction) nor inside its helper cone (node `step7`)
+         3.2.6 (Book3.Prop02.Main:47) cites [Prop.~1.16] but no `proposition_16` of Book 1 is applied `… as …` in Book3.Prop02.Main (construction) nor inside its helper cone (node `step6`)
+         3.2.5 (Book3.Prop02.Main:40) cites [Prop.~1.5] but no `proposition_5` of Book 1 is applied `… as …` in Book3.Prop02.Main (construction) nor inside its helper cone (node `step5`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (17 sentences (3.2.0..3.2.16) vs Book3/data/texts_proofs/2.txt)
+--- Book3 Prop 3 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         15 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.3.12 (Book3.Prop03.Main:89) cites [Prop.~1.26] but no `proposition_26` of Book 1 is applied `… as …` in Book3.Prop03.Main (construction) nor inside its helper cone (node `step12`)
+         3.3.9 (Book3.Prop03.Main:73) cites [Prop.~1.5] but no `proposition_5` of Book 1 is applied `… as …` in Book3.Prop03.Main (construction) nor inside its helper cone (node `step9`)
+         3.3.4 (Book3.Prop03.Main:43) cites [Prop.~1.8] but no `proposition_8` of Book 1 is applied `… as …` in Book3.Prop03.Main (construction) nor inside its helper cone (node `step4`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (15 sentences (3.3.0..3.3.14) vs Book3/data/texts_proofs/3.txt)
+--- Book3 Prop 4 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         13 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.4.7 (Book3.Prop04.Main:50) cites [Prop.~3.3] but no `proposition_3` of Book 3 is applied `… as …` in Book3.Prop04.Main (construction) nor inside its helper cone (node `step7`)
+         3.4.5 (Book3.Prop04.Main:39) cites [Prop.~3.3] but no `proposition_3` of Book 3 is applied `… as …` in Book3.Prop04.Main (construction) nor inside its helper cone (node `step5`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (13 sentences (3.4.0..3.4.12) vs Book3/data/texts_proofs/4.txt)
+--- Book3 Prop 5 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         11 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 0 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (11 sentences (3.5.0..3.5.10) vs Book3/data/texts_proofs/5.txt)
+--- Book3 Prop 6 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         10 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 0 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (10 sentences (3.6.0..3.6.9) vs Book3/data/texts_proofs/6.txt)
+--- Book3 Prop 7 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         30 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.7.21 (Book3.Prop07.Main:161) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book3.Prop07.Main (construction) nor inside its helper cone (node `step21`)
+         3.7.18 (Book3.Prop07.Main:143) cites [Prop.~1.23] but no `proposition_23` of Book 1 is applied `… as …` in Book3.Prop07.Main (construction) nor inside its helper cone (node `step18`)
+         3.7.10 (Book3.Prop07.Main:112) cites [Prop.~1.20] but no `proposition_20` of Book 1 is applied `… as …` in Book3.Prop07.Main (construction) nor inside its helper cone (node `step10`)
+         3.7.8 (Book3.Prop07.Main:88) cites [Prop.~1.24] but no `proposition_24` of Book 1 is applied `… as …` in Book3.Prop07.Main (construction) nor inside its helper cone (node `step8`)
+         3.7.2 (Book3.Prop07.Main:55) cites [Prop.~1.20] but no `proposition_20` of Book 1 is applied `… as …` in Book3.Prop07.Main (construction) nor inside its helper cone (node `step2`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (30 sentences (3.7.0..3.7.29) vs Book3/data/texts_proofs/7.txt)
+--- Book3 Prop 8 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         34 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.8.26 (Book3.Prop08.Main:189) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book3.Prop08.Main (construction) nor inside its helper cone (node `step26`)
+         3.8.23 (Book3.Prop08.Main:171) cites [Prop.~1.23] but no `proposition_23` of Book 1 is applied `… as …` in Book3.Prop08.Main (construction) nor inside its helper cone (node `step23`)
+         3.8.8 (Book3.Prop08.Main:94) cites [Prop.~1.24] but no `proposition_24` of Book 1 is applied `… as …` in Book3.Prop08.Main (construction) nor inside its helper cone (node `step8`)
+         3.8.5 (Book3.Prop08.Main:76) cites [Prop.~1.20] but no `proposition_20` of Book 1 is applied `… as …` in Book3.Prop08.Main (construction) nor inside its helper cone (node `step5`)
+         1 sentence(s) waived by @suppress_deps_check:
+             3.8.15: source cites [Prop.~1.21] (internal lines < two sides) but I.21 requires m.sameSide k LD which is the @euclid_gap (K inside triangle MLD not provable without figure assumption); formal proof uses proposition_24 via angle comparison
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (34 sentences (3.8.0..3.8.33) vs Book3/data/texts_proofs/8.txt)
+--- Book3 Prop 9 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         14 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.9.5 (Book3.Prop09.Main:75) cites [Prop.~1.8] but no `proposition_8` of Book 1 is applied `… as …` in Book3.Prop09.Main (construction) nor inside its helper cone (node `step5`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (14 sentences (3.9.0..3.9.13) vs Book3/data/texts_proofs/9.txt)
+--- Book3 Prop 10 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         14 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.10.11 (Book3.Prop10.Main:85) cites [Prop.~3.5] but no `proposition_5` of Book 3 is applied `… as …` in Book3.Prop10.Main (construction) nor inside its helper cone (node `step11`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (14 sentences (3.10.0..3.10.13) vs Book3/data/texts_proofs/10.txt)
+--- Book3 Prop 11 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         11 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 1 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (11 sentences (3.11.0..3.11.10) vs Book3/data/texts_proofs/11.txt)
+--- Book3 Prop 12 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         12 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.12.7 (Book3.Prop12.Main:57) cites [Prop.~1.20] but no `proposition_20` of Book 1 is applied `… as …` in Book3.Prop12.Main (construction) nor inside its helper cone (node `step7`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (12 sentences (3.12.0..3.12.11) vs Book3/data/texts_proofs/12.txt)
+--- Book3 Prop 13 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         21 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.13.15 (Book3.Prop13.Main:92) cites [Prop.~3.2] but no `proposition_2` of Book 3 is applied `… as …` in Book3.Prop13.Main (construction) nor inside its helper cone (node `step15`)
+         3.13.4 (Book3.Prop13.Main:33) cites [Prop.~3.11] but no `proposition_11` of Book 3 is applied `… as …` in Book3.Prop13.Main (construction) nor inside its helper cone (node `step4`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (21 sentences (3.13.0..3.13.20) vs Book3/data/texts_proofs/13.txt)
+--- Book3 Prop 14 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         27 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.14.21 (Book3.Prop14.Main:155) cites [Prop.~1.47] but no `proposition_47` of Book 1 is applied `… as …` in Book3.Prop14.Main (construction) nor inside its helper cone (node `step21`)
+         3.14.20 (Book3.Prop14.Main:151) cites [Prop.~1.47] but no `proposition_47` of Book 1 is applied `… as …` in Book3.Prop14.Main (construction) nor inside its helper cone (node `step20`)
+         3.14.11 (Book3.Prop14.Main:101) cites [Prop.~1.47] but no `proposition_47` of Book 1 is applied `… as …` in Book3.Prop14.Main (construction) nor inside its helper cone (node `step11`)
+         3.14.10 (Book3.Prop14.Main:94) cites [Prop.~1.47] but no `proposition_47` of Book 1 is applied `… as …` in Book3.Prop14.Main (construction) nor inside its helper cone (node `step10`)
+         3.14.4 (Book3.Prop14.Main:61) cites [Prop.~3.3] but no `proposition_3` of Book 3 is applied `… as …` in Book3.Prop14.Main (construction) nor inside its helper cone (node `step4`)
+         3.14.2 (Book3.Prop14.Main:42) cites [Prop.~1.12] but no `proposition_12` of Book 1 is applied `… as …` in Book3.Prop14.Main (construction) nor inside its helper cone (node `step2`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (27 sentences (3.14.0..3.14.26) vs Book3/data/texts_proofs/14.txt)
+--- Book3 Prop 15 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         16 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.15.11 (Book3.Prop15.Main:95) cites [Prop.~1.24] but no `proposition_24` of Book 1 is applied `… as …` in Book3.Prop15.Main (construction) nor inside its helper cone (node `step11`)
+         3.15.8 (Book3.Prop15.Main:76) cites [Prop.~1.20] but no `proposition_20` of Book 1 is applied `… as …` in Book3.Prop15.Main (construction) nor inside its helper cone (node `step8`)
+         3.15.6 (Book3.Prop15.Main:65) cites [Prop.~3.14] but no `proposition_14` of Book 3 is applied `… as …` in Book3.Prop15.Main (construction) nor inside its helper cone (node `step6`)
+         3.15.4 (Book3.Prop15.Main:50) cites [Prop.~1.11] but no `proposition_11` of Book 1 is applied `… as …` in Book3.Prop15.Main (construction) nor inside its helper cone (node `step4`)
+         3.15.3 (Book3.Prop15.Main:39) cites [Prop.~1.3] but no `proposition_3` of Book 1 is applied `… as …` in Book3.Prop15.Main (construction) nor inside its helper cone (node `step3`)
+         3.15.1 (Book3.Prop15.Main:26) cites [Prop.~1.12] but no `proposition_12` of Book 1 is applied `… as …` in Book3.Prop15.Main (construction) nor inside its helper cone (node `step1`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (16 sentences (3.15.0..3.15.15) vs Book3/data/texts_proofs/15.txt)
+--- Book3 Prop 16 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         27 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.16.15 (Book3.Prop16.Main:87) cites [Prop.~1.19] but no `proposition_19` of Book 1 is applied `… as …` in Book3.Prop16.Main (construction) nor inside its helper cone (node `step15`)
+         3.16.14 (Book3.Prop16.Main:78) cites [Prop.~1.12] but no `proposition_12` of Book 1 is applied `… as …` in Book3.Prop16.Main (construction) nor inside its helper cone (node `step14`)
+         3.16.7 (Book3.Prop16.Main:43) cites [Prop.~1.17] but no `proposition_17` of Book 1 is applied `… as …` in Book3.Prop16.Main (construction) nor inside its helper cone (node `step7`)
+         3.16.3 (Book3.Prop16.Main:31) cites [Prop.~1.5] but no `proposition_5` of Book 1 is applied `… as …` in Book3.Prop16.Main (construction) nor inside its helper cone (node `step3`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (27 sentences (3.16.0..3.16.26) vs Book3/data/texts_proofs/16.txt)
+--- Book3 Prop 17 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         20 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.17.13 (Book3.Prop17.Main:97) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book3.Prop17.Main (construction) nor inside its helper cone (node `step13`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (20 sentences (3.17.0..3.17.19) vs Book3/data/texts_proofs/17.txt)
+--- Book3 Prop 18 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         11 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.18.3 (Book3.Prop18.Main:37) cites [Prop.~1.19] but no `proposition_19` of Book 1 is applied `… as …` in Book3.Prop18.Main (construction) nor inside its helper cone (node `step3`)
+         3.18.2 (Book3.Prop18.Main:30) cites [Prop.~1.17] but no `proposition_17` of Book 1 is applied `… as …` in Book3.Prop18.Main (construction) nor inside its helper cone (node `step2`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (11 sentences (3.18.0..3.18.10) vs Book3/data/texts_proofs/18.txt)
+--- Book3 Prop 19 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         11 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.19.3 (Book3.Prop19.Main:32) cites [Prop.~3.18] but no `proposition_18` of Book 3 is applied `… as …` in Book3.Prop19.Main (construction) nor inside its helper cone (node `step3`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (11 sentences (3.19.0..3.19.10) vs Book3/data/texts_proofs/19.txt)
+--- Book3 Prop 20 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         14 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.20.4 (Book3.Prop20.Main:37) cites [Prop.~1.32] but no `proposition_32` of Book 1 is applied `… as …` in Book3.Prop20.Main (construction) nor inside its helper cone (node `step4`)
+         3.20.2 (Book3.Prop20.Main:29) cites [Prop.~1.5] but no `proposition_5` of Book 1 is applied `… as …` in Book3.Prop20.Main (construction) nor inside its helper cone (node `step2`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (14 sentences (3.20.0..3.20.13) vs Book3/data/texts_proofs/20.txt)
+--- Book3 Prop 21 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         7 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.21.3 (Book3.Prop21.Main:38) cites [Prop.~3.20] but no `proposition_20` of Book 3 is applied `… as …` in Book3.Prop21.Main (construction) nor inside its helper cone (node `step3`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (7 sentences (3.21.0..3.21.6) vs Book3/data/texts_proofs/21.txt)
+--- Book3 Prop 22 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         11 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.22.4 (Book3.Prop22.Main:36) cites [Prop.~3.21] but no `proposition_21` of Book 3 is applied `… as …` in Book3.Prop22.Main (construction) nor inside its helper cone (node `step4`)
+         3.22.3 (Book3.Prop22.Main:29) cites [Prop.~3.21] but no `proposition_21` of Book 3 is applied `… as …` in Book3.Prop22.Main (construction) nor inside its helper cone (node `step3`)
+         3.22.2 (Book3.Prop22.Main:22) cites [Prop.~1.32] but no `proposition_32` of Book 1 is applied `… as …` in Book3.Prop22.Main (construction) nor inside its helper cone (node `step2`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (11 sentences (3.22.0..3.22.10) vs Book3/data/texts_proofs/22.txt)
+--- Book3 Prop 23 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         7 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.23.5 (Book3.Prop23.Main:41) cites [Prop.~1.16] but no `proposition_16` of Book 1 is applied `… as …` in Book3.Prop23.Main (construction) nor inside its helper cone (node `step5`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (7 sentences (3.23.0..3.23.6) vs Book3/data/texts_proofs/23.txt)
+--- Book3 Prop 25 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         25 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 8 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (25 sentences (3.25.0..3.25.24) vs Book3/data/texts_proofs/25.txt)
+--- Book3 Prop 32 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         17 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.32.13 (Book3.Prop32.Main:95) cites [Prop.~1.13] but no `proposition_13` of Book 1 is applied `… as …` in Book3.Prop32.Main (construction) nor inside its helper cone (node `step13`)
+         3.32.12 (Book3.Prop32.Main:91) cites [Prop.~3.22] but no `proposition_22` of Book 3 is applied `… as …` in Book3.Prop32.Main (construction) nor inside its helper cone (node `step12`)
+         3.32.7 (Book3.Prop32.Main:68) cites [Prop.~1.32] but no `proposition_32` of Book 1 is applied `… as …` in Book3.Prop32.Main (construction) nor inside its helper cone (node `step7`)
+         1 sentence(s) waived by @suppress_deps_check:
+             3.32.6: III.31 is skipped (its horn-angle segment addendum is not formalizable in System E); the semicircle right angle is re-derived in step6 from I.5 + I.32.
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (17 sentences (3.32.0..3.32.16) vs Book3/data/texts_proofs/32.txt)
+--- Book3 Prop 33 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         44 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.33.39 (Book3.Prop33.Main:307) cites [Prop.~3.32] but no `proposition_32` of Book 3 is applied `… as …` in Book3.Prop33.Main (construction) nor inside its helper cone (node `step39`)
+         3.33.35 (Book3.Prop33.Main:285) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book3.Prop33.Main (construction) nor inside its helper cone (node `step35`)
+         3.33.14 (Book3.Prop33.Main:124) cites [Prop.~3.32] but no `proposition_32` of Book 3 is applied `… as …` in Book3.Prop33.Main (construction) nor inside its helper cone (node `step14`)
+         3.33.9 (Book3.Prop33.Main:95) cites [Prop.~1.4] but no `proposition_4` of Book 1 is applied `… as …` in Book3.Prop33.Main (construction) nor inside its helper cone (node `step9`)
+         1 sentence(s) waived by @suppress_deps_check:
+             3.33.23: III.31 is skipped (its horn-angle segment addendum is not formalizable in System E); the semicircle right angle is re-derived in step23_assumption1 from I.5 + I.32 (as in Book3/Prop32/step6).
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (44 sentences (3.33.0..3.33.43) vs Book3/data/texts_proofs/33.txt)
+--- Book3 Prop 34 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         7 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 1 citation(s) resolve to the cited book+number
+         1 sentence(s) waived by @suppress_deps_check:
+             3.34.3: source cites [Prop.~1.32] (exterior-angle) but this is the alternate-segment theorem, Euclid III.32 = proposition_32
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (7 sentences (3.34.0..3.34.6) vs Book3/data/texts_proofs/34.txt)
+--- Book3 Prop 35 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         21 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.35.11 (Book3.Prop35.Main:88) cites [Prop.~1.47] but no `proposition_47` of Book 1 is applied `… as …` in Book3.Prop35.Main (construction) nor inside its helper cone (node `step11`)
+         3.35.10 (Book3.Prop35.Main:84) cites [Prop.~1.47] but no `proposition_47` of Book 1 is applied `… as …` in Book3.Prop35.Main (construction) nor inside its helper cone (node `step10`)
+         3.35.7 (Book3.Prop35.Main:72) cites [Prop.~2.5] but no `proposition_5` of Book 2 is applied `… as …` in Book3.Prop35.Main (construction) nor inside its helper cone (node `step7`)
+         3.35.5 (Book3.Prop35.Main:61) cites [Prop.~3.3] but no `proposition_3` of Book 3 is applied `… as …` in Book3.Prop35.Main (construction) nor inside its helper cone (node `step5`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (21 sentences (3.35.0..3.35.20) vs Book3/data/texts_proofs/35.txt)
+--- Book3 Prop 36 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         33 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 10 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (33 sentences (3.36.0..3.36.32) vs Book3/data/texts_proofs/36.txt)
+--- Book3 Prop 37 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         20 sentences
+  [FAIL] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         3.37.12 (Book3.Prop37.Main:88) cites [Prop.~1.8] but no `proposition_8` of Book 1 is applied `… as …` in Book3.Prop37.Main (construction) nor inside its helper cone (node `step12`)
+         3.37.5 (Book3.Prop37.Main:58) cites [Prop.~3.36] but no `proposition_36` of Book 3 is applied `… as …` in Book3.Prop37.Main (construction) nor inside its helper cone (node `step5`)
+         3.37.4 (Book3.Prop37.Main:48) cites [Prop.~3.18] but no `proposition_18` of Book 3 is applied `… as …` in Book3.Prop37.Main (construction) nor inside its helper cone (node `step4`)
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (20 sentences (3.37.0..3.37.19) vs Book3/data/texts_proofs/37.txt)
+  [note] not machine-checked: that each step's type honestly captures its sentence (review by hand)
+  => FAILED (--olean mode, authoritative)
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 30 approved step claim(s) + assumptions unchanged in Book3/Prop36/Main.lean
+OK: all 1 proposition signatures matching 'Book3/Prop36' unchanged
