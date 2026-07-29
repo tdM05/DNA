@@ -1,7 +1,0 @@
-===== step13 (timeout 1200s) =====
-exit=124
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 20:00.10
-===== p2 (timeout 1000s) =====
-exit=124
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 16:40.11
-ALLDONE
