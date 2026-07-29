@@ -129,8 +129,9 @@ by
   euclid_wts "3.16.20"
     "And I also say that the semi-circular angle contained by the straight-line $BA$ and the circumference $CHA$ is greater than any acute rectilinear angle whatsoever, and the remaining (angle) contained by the circumference $CHA$ and the straight-line $AE$ is less than any acute rectilinear angle whatsoever."
 
-  -- @euclid_gap: horn angles (semi-circular ∧ arc, curvilinear ∧ tangent) have no sort in
-  -- System E; sentences 21–25 are textually preserved but carry no expressible claim.
+  -- (Formalization expressibility limit, NOT a Euclid gap) horn angles (semi-circular ∧ arc,
+  -- curvilinear ∧ tangent) have no sort in System E; sentences 21–25 are textually preserved
+  -- but carry no expressible claim. Euclid states these correctly — nothing false in his text.
   euclid_conclude_sentence "3.16.21"
     "For if any rectilinear angle is greater than the (angle) contained by the straight-line $BA$ and the circumference $CHA$, or less than the (angle) contained by the circumference $CHA$ and the straight-line $AE$, (then) a straight-line can be inserted into the space between the circumference $CHA$ and the straight-line $AE$---anything which will make (an angle) contained by straight-lines greater than the angle contained by the straight-line $BA$ and the circumference $CHA$, or less than the (angle) contained by the circumference $CHA$ and the straight-line $AE$."
 

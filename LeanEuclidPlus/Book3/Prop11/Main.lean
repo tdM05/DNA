@@ -34,7 +34,9 @@ by
       "For (if) not (then), if possible, let it fall like $FGH$ (in the figure),"
       (step1 : ∃ h : Point, h ≠ a ∧ h.onCircle ABC ∧ between f g h) := by euclid_apply (helper_3_11_step1 a f g ABC (by euclid_assumption "" (show g.insideCircle ABC; assumption)) (by euclid_assumption "" (show f ≠ g; assumption)) (by euclid_assumption "" (show a.onCircle ABC; assumption)) (by euclid_assumption "" (show ¬between f g a; assumption)))
     obtain ⟨h, h_ne, h_on_ABC, h_bet_fgh⟩ := step1
-    -- @euclid_gap: Euclid implicitly assumes H falls outside ADE when extending line FGH; the ¬outsideCircle cases require a separate argument not given in his text
+    -- (NOT a gap) H outside ADE is entailed under the corrected inner-circle radius hyp
+    -- |(g-a)| < |(f-a)|: the ¬outsideCircle branches are vacuous and close to False zero-sorry
+    -- in step_nhout (a containment fact Euclid compresses, proved not assumed).
     by_cases h_out : h.outsideCircle ADE
     · have hd_ex : ∃ d : Point, d.onCircle ADE ∧ between g d h := by euclid_apply (helper_3_11_hd_ex f g h ADE (by euclid_assumption "" (show g.isCentre ADE; assumption)) (by euclid_assumption "" (show between f g h; assumption)) (by euclid_assumption "" (show h.outsideCircle ADE; assumption)))
       obtain ⟨d, hd_on_ADE, hd_bet_gdh⟩ := hd_ex

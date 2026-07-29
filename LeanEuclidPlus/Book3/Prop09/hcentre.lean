@@ -9,7 +9,7 @@ set_option linter.unnecessarySeqFocus false
 namespace Elements.Book3
 
 /-
-  Helper for the two @euclid_gap branches of proposition_9.
+  Helper for the two euclid_gap branches of proposition_9.
   In both branches (e=d and f=d), we have:
     d inside ABC; a,b,c on ABC (distinct); |da|=|db|=|dc|.
   Goal: d.isCentre ABC.

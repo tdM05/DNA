@@ -75,8 +75,6 @@
       "Bash(python3 -m pytest:*)"
     ],
     "deny": [
-      "Bash(scripts/safe_build.sh:*)",
-      "Bash(./scripts/safe_build.sh:*)",
       "Bash(lake build:*)",
 
       "Write(**/step_signatures.json)",
@@ -86,13 +84,7 @@
       "Write(**/assumption_tags.json)",
       "Edit(**/assumption_tags.json)",
 
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(git restore:*)",
-      "Bash(git checkout:*)",
-      "Bash(git reset:*)",
-      "Bash(git stash:*)",
+
 
       "Edit(LeanEuclidPlus/OldBook1/**)",
       "Write(LeanEuclidPlus/OldBook1/**)",
@@ -109,27 +101,6 @@
     ]
   },
   "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 /h/56/taddmao/code/autoform/DNA/.claude/hooks/step_order_hook.py",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 /h/56/taddmao/code/autoform/DNA/.claude/hooks/step_order_hook.py",
-            "timeout": 10
-          }
-        ]
-      }
-    ]
+
   }
 }

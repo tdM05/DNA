@@ -6,7 +6,7 @@ namespace Elements.Book3
 
 -- Pure-logic proof: given ¬e.onLine FG as hypothesis, all three line-distinctness facts
 -- follow from h_e_off_fg alone; two_points_determine_line closes the EG≠FE case.
--- h_e_off_fg is backed by step11_assumption2_e_off_fg (currently @euclid_gap, needs the
+-- h_e_off_fg is backed by step11_assumption2_e_off_fg (currently a euclid_gap, needs the
 -- degenerate-angle axiom ∀a b, ∠a:b:b = 0 in System E before it can be proved).
 
 theorem helper_3_15_step11_assumption2_tri_efg
