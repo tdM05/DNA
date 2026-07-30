@@ -72,10 +72,11 @@
       "Bash(python scripts/scaffold_step.py:*)",
       "Bash(python3 scripts/scaffold_step.py:*)",
       "Bash(python -m pytest:*)",
-      "Bash(python3 -m pytest:*)"
+      "Bash(python3 -m pytest:*)",
+      "Bash(scripts/safe_build.sh:*)",
+      "Bash(./scripts/safe_build.sh:*)"
     ],
     "deny": [
-      "Bash(lake build:*)",
 
       "Write(**/step_signatures.json)",
       "Edit(**/step_signatures.json)",
@@ -101,6 +102,27 @@
     ]
   },
   "hooks": {
-
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/step_order_hook.py\"",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/step_order_hook.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
   }
 }

@@ -9,6 +9,36 @@ It contains the Lean artifacts, the pipeline (**Pistis**, whose fill stage is th
 > turnkey. Reproducing the Lean build requires the toolchain in `LeanEuclidPlus/` (Lean 4
 > `v4.8.0-rc2`, Z3, cvc5); the agent runs additionally require Claude Code + model access.
 
+## Getting started
+
+**1. Lean toolchain + solvers.** Install [`elan`](https://github.com/leanprover/elan) (it reads
+`LeanEuclidPlus/lean-toolchain` and pulls Lean `v4.8.0-rc2` automatically), and install **Z3**
+(4.15.4) and **cvc5** (1.3.4) so both are on `PATH`. See `LeanEuclidPlus/README.md` for the
+upstream setup notes.
+
+**2. Build System E and a proof (verifies the artifacts):**
+```bash
+cd LeanEuclidPlus
+lake exe cache get                 # fetch the prebuilt mathlib cache
+lake build SystemE                 # compile the System E theory (~minutes)
+lake build Book1.Prop06.Main       # one faithful proof, end-to-end
+# lake build Book Book2 Book3      # everything (long)
+```
+
+**3. Python (only for plots + running the pipeline live).** The checker/pipeline scripts and the
+survey server use just the standard library. A small venv is needed only to regenerate the RQ2/RQ3
+plots from the shipped CSVs:
+```bash
+python3 -m venv .venv && . .venv/bin/activate
+pip install -r requirements.txt    # matplotlib, numpy, pandas
+```
+(`requirements.lock.txt` is the full original-environment freeze, kept for reference only — not
+needed for reproduction. Driving the agent live additionally needs `anthropic` + Claude Code.)
+
+**4. Inspect the pipeline without building.** From `LeanEuclidPlus/`:
+`python3 scripts/find.py --concludes "onCircle"` (search the fact DB),
+`python3 scripts/check_faithful.py --split Book1/Prop01` (structural faithfulness check).
+
 ## Layout
 
 | Path | What it is |
