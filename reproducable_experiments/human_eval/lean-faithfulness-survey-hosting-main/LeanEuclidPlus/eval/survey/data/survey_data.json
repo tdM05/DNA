@@ -1,7 +1,7 @@
 {
   "version": 1,
   "generated_from": {
-    "leaneuclid_plus": "/home/user2/DNA/LeanEuclidPlus",
+    "leaneuclid_plus": "/home/user2/Pistis/LeanEuclidPlus",
     "leaneuclid": "/home/user2/LeanEuclid"
   },
   "methods": [
@@ -734,7 +734,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop01/Main.lean",
@@ -2472,7 +2472,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop02/Main.lean",
@@ -4369,7 +4369,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop03/Main.lean",
@@ -5443,7 +5443,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop04/Main.lean",
@@ -8337,7 +8337,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop05/Main.lean",
@@ -13302,7 +13302,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop06/Main.lean",
@@ -15770,7 +15770,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop07/Main.lean",
@@ -18542,7 +18542,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop08/Main.lean",
@@ -21248,7 +21248,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop09/Main.lean",
@@ -23276,7 +23276,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop10/Main.lean",
@@ -24939,7 +24939,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop11/Main.lean",
@@ -27418,7 +27418,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop12/Main.lean",
@@ -29149,7 +29149,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop13/Main.lean",
@@ -31243,7 +31243,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop14/Main.lean",
@@ -32634,7 +32634,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop15/Main.lean",
@@ -34491,7 +34491,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop16/Main.lean",
@@ -37305,7 +37305,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop17/Main.lean",
@@ -38806,7 +38806,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop18/Main.lean",
@@ -40158,7 +40158,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop19/Main.lean",
@@ -41631,7 +41631,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop20/Main.lean",
@@ -43660,7 +43660,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop21/Main.lean",
@@ -46301,7 +46301,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop22/Main.lean",
@@ -49111,7 +49111,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop23/Main.lean",
@@ -51164,7 +51164,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop24/Main.lean",
@@ -56325,7 +56325,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop25/Main.lean",
@@ -58469,7 +58469,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop26/Main.lean",
@@ -64312,7 +64312,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop27/Main.lean",
@@ -66137,7 +66137,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop28/Main.lean",
@@ -68976,7 +68976,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop29/Main.lean",
@@ -71735,7 +71735,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop30/Main.lean",
@@ -74970,7 +74970,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop31/Main.lean",
@@ -76218,7 +76218,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop32/Main.lean",
@@ -78328,7 +78328,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop33/Main.lean",
@@ -80345,7 +80345,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop34/Main.lean",
@@ -83239,7 +83239,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop35/Main.lean",
@@ -86849,7 +86849,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop36/Main.lean",
@@ -90015,7 +90015,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop37/Main.lean",
@@ -92051,7 +92051,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop38/Main.lean",
@@ -94712,7 +94712,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop39/Main.lean",
@@ -96958,7 +96958,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop40/Main.lean",
@@ -98597,7 +98597,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop41/Main.lean",
@@ -100470,7 +100470,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop42/Main.lean",
@@ -103412,7 +103412,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop43/Main.lean",
@@ -107271,7 +107271,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop44/Main.lean",
@@ -113099,7 +113099,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop45/Main.lean",
@@ -118705,7 +118705,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop46/Main.lean",
@@ -122710,7 +122710,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop47/Main.lean",
@@ -133621,7 +133621,7 @@
           "id": "new_method",
           "label": "Formalization B",
           "available": true,
-          "root": "/home/user2/DNA/LeanEuclidPlus",
+          "root": "/home/user2/Pistis/LeanEuclidPlus",
           "files": [
             {
               "path": "Book1/Prop48/Main.lean",

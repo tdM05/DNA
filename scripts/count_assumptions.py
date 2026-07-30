@@ -16,7 +16,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parent.parent          # .../DNA
+REPO = Path(__file__).resolve().parent.parent          # .../Pistis
 LEP = REPO / "LeanEuclidPlus"
 TAGS_JSON = LEP / "scripts" / "assumption_tags.json"
 

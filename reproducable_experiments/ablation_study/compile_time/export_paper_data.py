@@ -22,9 +22,9 @@ summary_by_arm.dat     one row per arm: #proofs compiled, median/max/total compi
 """
 import os, glob, csv, re, statistics
 
-BASE     = "/home/user/code/autoform/DNA/reproducable_experiments/ablation_study/compile_time"
+BASE     = "/home/user/code/autoform/Pistis/reproducable_experiments/ablation_study/compile_time"
 RES_DIR  = os.path.join(BASE, "results")
-DATA_DIR = "/home/user/code/autoform/DNA/paper/data/ablation/compile"
+DATA_DIR = "/home/user/code/autoform/Pistis/paper/data/ablation/compile"
 ARMS     = ["mymethod", "ablated"]
 K_RUNS   = 3          # ablation attempts per (arm, prop) -> one bar each in the fig
 

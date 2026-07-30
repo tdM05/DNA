@@ -26,7 +26,7 @@
 # accumulate and a killed job keeps completed passes.
 set -uo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO="$(cd "$HERE/../../.." && pwd)"                 # …/DNA
+REPO="$(cd "$HERE/../../.." && pwd)"                 # …/Pistis
 LAKE="$REPO/LeanEuclidPlus"
 OUT="$HERE/../out"                                   # ablation_study/out/<arm>/<label>/<run>/PropNN
 RESULTS="$HERE/results"

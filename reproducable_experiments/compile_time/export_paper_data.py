@@ -22,9 +22,9 @@ summary_by_world.dat   one row per world: compiled count, median/max over ok run
 """
 import os, glob, csv, statistics
 
-BASE     = "/home/user/code/autoform/DNA/reproducable_experiments/compile_time"
+BASE     = "/home/user/code/autoform/Pistis/reproducable_experiments/compile_time"
 RES_DIR  = os.path.join(BASE, "results")
-DATA_DIR = "/home/user/code/autoform/DNA/paper/data/compile"
+DATA_DIR = "/home/user/code/autoform/Pistis/paper/data/compile"
 WORLDS   = ["new", "old"]
 
 

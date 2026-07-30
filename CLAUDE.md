@@ -1,4 +1,4 @@
-# DNA / LeanEuclidPlus
+# Pistis / LeanEuclidPlus
 
 Formalizing Euclid's *Elements* in System E (LeanEuclidPlus). Proofs are checked by an SMT
 backend behind `euclid_finish` / `euclid_assert` / `euclid_apply`.
@@ -196,10 +196,10 @@ Every other Book-2 prop is at a varying/in-progress state — follow the skills'
 ## Tool & shell hygiene (applies to ALL work here — avoids wasted turns and permission prompts)
 
 - **⛔ RUN EVERY COMMAND BARE FROM THE REPO ROOT — NEVER prefix with `cd …` and NEVER chain with `&&`,
-  `;`, or pipes.** The session cwd is ALREADY the repo root (`…/DNA`), and git + the `scripts/…` tools
+  `;`, or pipes.** The session cwd is ALREADY the repo root (`…/Pistis`), and git + the `scripts/…` tools
   work from anywhere in the repo, so a leading `cd` is pointless AND harmful. Permissions match the WHOLE
   command string: `git log …` matches the `Bash(git log:*)` allow rule and runs silently, but
-  `cd /…/DNA && git log …` matches NEITHER `cd:*` NOR `git log:*` → it pops a permission prompt for a
+  `cd /…/Pistis && git log …` matches NEITHER `cd:*` NOR `git log:*` → it pops a permission prompt for a
   read-only command that's already allowed. Same for `cd … && python3 scripts/…`. So: just
   `git log …` / `git show …` / `python3 scripts/check_step.py …`, never wrapped. (`scripts/check_*` and
   `wire_main` also run bare — no pipes, no `timeout` wrapper; read what they print.)

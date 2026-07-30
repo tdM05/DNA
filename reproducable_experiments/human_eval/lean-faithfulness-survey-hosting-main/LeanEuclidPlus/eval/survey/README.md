@@ -70,7 +70,7 @@ The survey can display source files without building both Lean projects, but liv
 For `LeanEuclidPlus`:
 
 ```bash
-cd /home/user2/DNA/LeanEuclidPlus
+cd /home/user2/Pistis/LeanEuclidPlus
 lake exe cache get
 lake build Book1.Prop06.Main
 ```
@@ -98,7 +98,7 @@ or create `eval/survey/data/reviewers.txt` with one reviewer code per line. Line
 Run the server on a compute node, not a login node, especially if reviewers will click Lean lines:
 
 ```bash
-cd /home/user2/DNA/LeanEuclidPlus
+cd /home/user2/Pistis/LeanEuclidPlus
 python3 eval/survey/server.py --host 127.0.0.1 --port 8765
 ```
 

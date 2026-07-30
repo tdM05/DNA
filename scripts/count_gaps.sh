@@ -37,7 +37,7 @@
 # USAGE:  bash scripts/count_gaps.sh          # summary + per-line listing
 #         bash scripts/count_gaps.sh --quiet  # summary counts only
 #
-# Run from the repo root (…/DNA). Read-only; mutates nothing.
+# Run from the repo root (…/Pistis). Read-only; mutates nothing.
 
 set -euo pipefail
 
@@ -50,7 +50,7 @@ BOOK_DIRS=(LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3)
 # Sanity: refuse to run from the wrong directory rather than silently report 0.
 for d in "${BOOK_DIRS[@]}"; do
   if [[ ! -d "$d" ]]; then
-    echo "ERROR: '$d' not found. Run this from the repo root (…/DNA)." >&2
+    echo "ERROR: '$d' not found. Run this from the repo root (…/Pistis)." >&2
     exit 1
   fi
 done

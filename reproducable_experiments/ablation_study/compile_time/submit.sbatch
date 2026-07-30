@@ -5,11 +5,11 @@
 #SBATCH --exclusive
 #SBATCH --nodes=1
 #SBATCH --time=3-00:00:00
-#SBATCH --output=/home/user/code/autoform/DNA/reproducable_experiments/ablation_study/compile_time/slurm_output/%x_%j.out
-#SBATCH --error=/home/user/code/autoform/DNA/reproducable_experiments/ablation_study/compile_time/slurm_err/%x_%j.err
+#SBATCH --output=/home/user/code/autoform/Pistis/reproducable_experiments/ablation_study/compile_time/slurm_output/%x_%j.out
+#SBATCH --error=/home/user/code/autoform/Pistis/reproducable_experiments/ablation_study/compile_time/slurm_err/%x_%j.err
 set -uo pipefail
 # SLURM copies this script to /var/spool/slurmd/...; BASH_SOURCE would point there, so hardcode.
-HERE="/home/user/code/autoform/DNA/reproducable_experiments/ablation_study/compile_time"
+HERE="/home/user/code/autoform/Pistis/reproducable_experiments/ablation_study/compile_time"
 export PATH="/home/user/.venvs/euclid/bin:$PATH"   # z3, cvc5
 export CAP="${CAP:-3600}" NUM_RUNS="${NUM_RUNS:-3}"
 mkdir -p "$HERE/results"

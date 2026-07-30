@@ -8,7 +8,7 @@ real script's __file__ resolves correctly.
 """
 import sys, os, subprocess
 
-here = os.path.dirname(os.path.abspath(__file__))          # DNA/scripts/
+here = os.path.dirname(os.path.abspath(__file__))          # Pistis/scripts/
 lean = os.path.realpath(os.path.join(here, "..", "LeanEuclidPlus"))
 real = os.path.join(lean, "scripts", "check_faithful.py")
 result = subprocess.run([sys.executable, real] + sys.argv[1:], cwd=lean)

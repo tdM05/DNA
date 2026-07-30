@@ -41,7 +41,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 sys.path.insert(0, os.path.dirname(__file__))
 import faithful_lib as L
 
-REPO_ROOT = os.path.dirname(L.BOOK_ROOT)          # the DNA repo root (holds .claude/ + CLAUDE.md)
+REPO_ROOT = os.path.dirname(L.BOOK_ROOT)          # the Pistis repo root (holds .claude/ + CLAUDE.md)
 REG_DIR = os.path.join(L.BOOK_ROOT, ".lake", "faithful_runs")   # live-run registry (git-ignored)
 DEFAULT_TIMEOUT = 3 * 60 * 60                       # 3h per session wall (a prove session can be long)
 

@@ -39,7 +39,7 @@ MAP_REF_ABLATED="fa400f7"
 MAP_REF_MYMETHOD="b98dd2b"
 # CENTRAL results dir — OUTSIDE both worktrees so both arms' runs collect in one place (and other
 # runs' outputs aren't sitting inside the agent's workspace). Same structure: out/<mode>/<label>/<run_id>/.
-OUT_BASE="/home/user/code/autoform/DNA/reproducable_experiments/ablation_study/out"
+OUT_BASE="/home/user/code/autoform/Pistis/reproducable_experiments/ablation_study/out"
 # Long-command channel: a command the agent runs itself in its shell is force-killed at 10 min. When it
 # instead ends a turn with a `<<<RUN cwd=… >>> … <<<END>>>` block, the DRIVER runs that command here
 # (no per-call time cap — the agent sits idle meanwhile) and feeds the output back on the next resume.

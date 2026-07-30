@@ -1,6 +1,6 @@
 # RQ1 — Human Evaluation (survey data + hosting app)
 
-The double-blind human study behind **RQ1** (§5): 14 formal-methods reviewers, independent of
+The double-blind human study behind **RQ1** (Evaluation section): 14 formal-methods reviewers, independent of
 the authors, compared anonymized **Pistis** and **LeanEuclid** formalizations of Book I
 propositions. Reviewers are identified only by opaque codes (e.g. `R-26WCS8WR`) — no names or
 emails appear anywhere.

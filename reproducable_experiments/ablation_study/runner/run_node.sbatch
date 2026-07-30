@@ -5,7 +5,7 @@
 #SBATCH --mem=100G
 #SBATCH --time=2-00:00:00
 #SBATCH --job-name=euclid
-#SBATCH --output=/home/user/code/autoform/DNA/reproducable_experiments/ablation_study/out/slurm_logs/%x-%A_%a.out
+#SBATCH --output=/home/user/code/autoform/Pistis/reproducable_experiments/ablation_study/out/slurm_logs/%x-%A_%a.out
 # ============================================================================
 # WORKER — do NOT run or edit this directly. `submit.sh` sets the knobs
 # (ARM/BOOK/PROPS/REPEATS/BUDGET, passed in via --export) and submits it as a
@@ -21,7 +21,7 @@ N=${#PROPS[@]}
 PROP="${PROPS[$SLURM_ARRAY_TASK_ID]}"
 
 ROOT="/home/user/code/autoform/methodology_compare_worktrees"
-OUT_BASE="/home/user/code/autoform/DNA/reproducable_experiments/ablation_study/out"
+OUT_BASE="/home/user/code/autoform/Pistis/reproducable_experiments/ablation_study/out"
 case "$ARM" in
   my-method) WT="$ROOT/full" ;;
   ablated)   WT="$ROOT/ablated" ;;

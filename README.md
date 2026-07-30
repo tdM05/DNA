@@ -38,7 +38,7 @@ inspect artifacts, run the checkers, or regenerate plots.)
 
 **4. Inspect the pipeline without building.** From `LeanEuclidPlus/`:
 `python3 scripts/find.py --concludes "onCircle"` (search the fact DB),
-`python3 scripts/check_faithful.py --split Book1/Prop01` (structural faithfulness check).
+`python3 scripts/check_faithful.py Book1/Prop01/Main.lean` (faithfulness check on a proof).
 
 ## Layout
 
@@ -46,12 +46,12 @@ inspect artifacts, run the checkers, or regenerate plots.)
 |------|-----------|
 | `LeanEuclidPlus/` | The Lean project: **the faithful proof artifacts** (Books I–III, `Book*/Prop*/`), the System E theory (`SystemE/`), and the pipeline scripts (`scripts/`). |
 | `LeanEuclidPlus/scripts/` | The **OrderDecompose** tooling: `check_step.py` (per-node SF/SP/P verification), `wire_main.py`, `assumptions.py` (assumption-gap detection), `find.py`, and the faithfulness checkers. |
-| `.claude/` | The agent harness: `skills/` (the Map/Fill instructions the LLM follows) and `hooks/` (guards against rewriting the faithful structure / "cheating"). |
+| `.claude/` | The agent harness: `skills/` (the LLM's instructions for each pipeline stage — `faithful-split`/`faithful-map`/`faithful-signature` for the Map stage, `faithful-prove`/`prove-euclid` for the OrderDecompose fill stage, `faithful-assumptions` for the assumption phase) and `hooks/` (`step_order_hook.py` enforces OrderDecompose's in-order iteration; `bash_hygiene.py` blocks shortcuts/"cheating"). |
 | `reproducable_experiments/human_eval/` | **RQ1** — the double-blind human study (response CSVs + survey app). |
 | `reproducable_experiments/ablation_study/` | **RQ2** — the fill-stage ablation (Pistis vs. bare LLM). |
 | `reproducable_experiments/compile_time/` | **RQ3** — compile-time benchmark vs. LeanEuclid. |
 | `diagrams/` | Generator for the interactive proof-map visualizer (see `diagrams/README.md`). A ready-to-open `map.html` is **pre-generated in every `LeanEuclidPlus/Book*/Prop*/` folder** — open one in a browser to see that proposition's faithful sentence↔step map. |
-| `CLAUDE.md` | Full operator guide for the pipeline (the authoritative how-to). |
+| `CLAUDE.md` | The project instructions the coding agent (Claude Code). |
 
 ## Mapping to the paper's claims
 
@@ -67,10 +67,17 @@ inspect artifacts, run the checkers, or regenerate plots.)
   produces the paper's plots from those.
 - **RQ3 (compile time)** → `reproducable_experiments/compile_time/` (`run_timing.sh`,
   `plot_results.ipynb`, `README.md`).
-- **Gaps & refutations (RQ4)** → marked in the Lean source; grep `@euclid_gap`,
+- **Gaps & refutations (RQ4)** → **gaps** are marked in the Lean source: grep `@euclid_gap`,
   `@assumption_gap`, and `@suppress_deps_check` under `LeanEuclidPlus/Book*/`.
+  **Accept / refute examples** live in `LeanEuclidPlus/accept_refute/1.5/` (Prop I.5): `refute_typeA_*`
+  and `refute_typeB` are the two refutation forms, `accept/` is an *alternative* NL proof (a different
+  proof of I.5 from Euclid's own) that the method accepts, and `accept_assump_gap/` is an accepted
+  proof that still carries an assumption gap. The accept/refute notions are defined in the paper's
+  Methodology section ("Acceptance, Refute, and Gaps") and analyzed qualitatively in RQ4
+  ("Qual. Analysis of Refutations and Gaps"); the appendix section "Further Refutation Examples"
+  walks through these exact folders.
 
-## Source code ↔ paper correspondence
+## Source code ↔ paper correspondence for OrderDecompose
 
 The new-method source implements the **OrderDecompose** algorithm (paper Algorithm 1) and the
 faithfulness conditions (paper Table 1). Each file carries an explanatory module docstring; the
@@ -79,31 +86,22 @@ Infrastructure Scripts** tables). The key correspondences:
 
 | Source file | Paper reference |
 |-------------|-----------------|
-| `LeanEuclidPlus/scripts/check_step.py` | The SF/SP/P checks and in-order `--drive`/`--all` audit — OrderDecompose (Alg. 1, lines 5/16/18/20); enforces Order + Soundness. |
+| `LeanEuclidPlus/scripts/check_step.py` | Runs the three per-step checks of OrderDecompose (Alg. 1): **SF** = *sufficient* (the step's claim, backing `sorry`, still closes its container — Alg. line 18), **SP** = *suppliable* (every hypothesis it needs is already in the parent context, `InContext` — Alg. lines 5/19; this enforces the **Order** condition), **P** = *provable* (the leaf lemma builds isolated with zero `sorry`, `Decomp` — Alg. line 6; enforces **Soundness**). `--drive`/`--all` run this bottom-up over the whole proof in source order. |
 | `LeanEuclidPlus/scripts/find.py` | Backs `CreateHypothesis` / `CreateLemmas` (Alg. 1) and citation-dependency (Citation condition). |
 | `LeanEuclidPlus/scripts/scaffold_step.py` | `CreateHypothesis` skeleton emitter (Alg. 1). |
-| `LeanEuclidPlus/scripts/assumptions.py` | Assumption-gap tagging stage (Methodology §; appendix tactic-ladder table). |
+| `LeanEuclidPlus/scripts/assumptions.py` | Assumption-gap tagging stage (Methodology; appendix tactic-ladder table). |
 | `LeanEuclidPlus/scripts/check_faithful.py`, `check_steps.py`, `check_signatures.py` | Enforce Coverage / Citation / claim-type + signature immutability (Table 1). |
-| `.claude/skills/faithful-*` | The Map and Fill stages (Methodology §). |
+| `.claude/skills/faithful-*` | The Map and Fill stages (Methodology). |
 | `.claude/hooks/step_order_hook.py` | Hard-enforces the in-order iteration of OrderDecompose (Alg. 1, line 1). |
 
 Bulk agent transcripts are trimmed to a few representative matched pairs (see
 `ablation_study/runner/README.md`); all participant data is anonymized to opaque reviewer codes.
 
-## Built on LeanEuclid
+## Built on LeanEuclid and System E
 
-This work builds on **LeanEuclid** (Murphy, Yang, Sun, Li, Anandkumar, Si — *Autoformalizing
-Euclidean Geometry*, ICML 2024), which implements Avigad et al.'s **System E** (2009) in Lean and
-uses SMT solvers for diagrammatic reasoning. LeanEuclid faithfully formalized **Book I** of the
-*Elements*; we extend that to **Books I–III** and replace hand-formalization with the automated,
-oracle-guided **Pistis** pipeline. `LeanEuclidPlus/SystemE/` is the System E implementation
-(carried over, with additions noted in the paper); the `Book*/` proofs and the `scripts/` +
-`.claude/` pipeline are this work's contribution.
-
-```bibtex
-@inproceedings{murphy2024leaneuclid,
-  title={Autoformalizing {Euclidean} Geometry},
-  author={Murphy, Logan and Yang, Kaiyu and Sun, Jialiang and Li, Zhaoyu and Anandkumar, Anima and Si, Xujie},
-  booktitle={International Conference on Machine Learning (ICML)}, year={2024}
-}
-```
+This package builds on **LeanEuclid** and its Lean implementation of the **System E** formalism for
+Euclidean geometry (which uses SMT solvers for diagrammatic reasoning). `LeanEuclidPlus/SystemE/` is
+the System E implementation, carried over with additions; the prior work faithfully formalized
+**Book I** of the *Elements*, and this package extends the effort to **Books I–III** and replaces
+hand-formalization with the automated, oracle-guided **Pistis** pipeline (the `Book*/` proofs and the
+`scripts/` + `.claude/` tooling). See the main paper for full citations and comparison.

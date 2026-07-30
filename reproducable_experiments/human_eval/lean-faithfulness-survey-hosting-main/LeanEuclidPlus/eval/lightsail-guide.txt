@@ -68,13 +68,13 @@
 
   Then either clone from GitHub:
 
-  git clone YOUR_REPO_URL DNA
+  git clone YOUR_REPO_URL Pistis
 
   or copy from this machine using rsync/scp.
 
   Important: the survey expects both formalization roots:
 
-  /opt/lean-survey/DNA/LeanEuclidPlus
+  /opt/lean-survey/Pistis/LeanEuclidPlus
   /opt/lean-survey/LeanEuclid
 
   So copy/clone Method A too:
@@ -108,7 +108,7 @@
   Step 7: Build Both Lean Projects
   Method B:
 
-  cd /opt/lean-survey/DNA/LeanEuclidPlus
+  cd /opt/lean-survey/Pistis/LeanEuclidPlus
   PATH="/opt/lean-survey/solver-venv/bin:$HOME/.elan/bin:$PATH" lake build Book1
 
   Method A:
@@ -121,7 +121,7 @@
   Step 8: Create survey.env                                                                                                                            
   On the VM:                                                                                                                                           
                                                                                                                                                        
-  cd /opt/lean-survey/DNA/LeanEuclidPlus                                                                                                         
+  cd /opt/lean-survey/Pistis/LeanEuclidPlus                                                                                                         
   nano eval/survey/survey.env                                                                                                                          
 
   Use something like:
@@ -161,8 +161,8 @@
   [Service]
   Type=simple
   User=ubuntu
-  WorkingDirectory=/opt/lean-survey/DNA/LeanEuclidPlus
-  ExecStart=/opt/lean-survey/DNA/LeanEuclidPlus/eval/survey/launch_survey.sh
+  WorkingDirectory=/opt/lean-survey/Pistis/LeanEuclidPlus
+  ExecStart=/opt/lean-survey/Pistis/LeanEuclidPlus/eval/survey/launch_survey.sh
   Restart=always
   RestartSec=5
 

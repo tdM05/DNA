@@ -28,7 +28,7 @@ import sys, json, re, os
 
 # The repo root (LeanEuclidPlus/) — same canonicalization as faithful_lib.py
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-_REPO_ROOT = os.path.realpath(os.path.join(_SCRIPT_DIR, "..", ".."))  # DNA/
+_REPO_ROOT = os.path.realpath(os.path.join(_SCRIPT_DIR, "..", ".."))  # Pistis/
 _LEAN_ROOT = os.path.join(_REPO_ROOT, "LeanEuclidPlus")
 
 

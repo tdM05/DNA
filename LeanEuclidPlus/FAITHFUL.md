@@ -2,7 +2,7 @@
 
 **Goal:** make each Book-2 prop FAITHFUL — every Euclid sentence ↔ one checkable Lean step — and be
 **mechanically certain** it's correct. Run everything from `LeanEuclidPlus/`; launch Claude from the
-repo root `DNA/`. Each prop is a folder: `Book2/PropNN/Main.lean` (the proposition + its
+repo root `Pistis/`. Each prop is a folder: `Book2/PropNN/Main.lean` (the proposition + its
 `euclid_sentence`s) and `Book2/PropNN/stepN.lean` (one backing file per sentence, plus any
 sub-files a hard step decomposes into).
 

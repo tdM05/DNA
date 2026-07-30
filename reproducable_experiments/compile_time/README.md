@@ -41,7 +41,7 @@ branch), so the **10-min wall is the sole cutoff**. Same uncapped SMT + same wal
 ## Run
 
 ```bash
-cd /home/user/code/autoform/DNA
+cd /home/user/code/autoform/Pistis
 sbatch reproducable_experiments/compile_time/submit.sbatch
 ```
 
