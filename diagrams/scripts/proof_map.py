@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-proof_map.py  --  render a LeanEuclidPlus proposition as a multi-level HTML map.
+proof_map.py  --  render a LeanEuclidF proposition as a multi-level HTML map.
 
 Design principles:
   • Lines are NEVER wrapped (white-space: pre) — one source line = one screen line.
@@ -12,14 +12,14 @@ Design principles:
   • Assumptions folded by default: [N hyps ▸] badge, click to expand.
   • Bezier connectors redraw automatically after any slider change or toggle.
 
-USAGE (run from LeanEuclidPlus/ or repo root)
+USAGE (run from LeanEuclidF/ or repo root)
   python3 diagrams/scripts/proof_map.py --prop Book2/Prop02
   python3 diagrams/scripts/proof_map.py --prop Book2/Prop02 -o out.html
 
 SAVING AS PNG (headless, uses Playwright)
   1. Open map.html in a browser, arrange cards, then click "Save layout".
      This downloads map_layout.json — move it into the prop folder:
-       mv ~/Downloads/map_layout.json LeanEuclidPlus/Book2/Prop02/
+       mv ~/Downloads/map_layout.json LeanEuclidF/Book2/Prop02/
   2. Run --png or --all_layouts:
        python3 diagrams/scripts/proof_map.py --prop Book2/Prop02 --png
          Reads map_layout.json → writes map.png
@@ -1746,7 +1746,7 @@ def main():
 
     propdir = args.prop
     if not os.path.isdir(propdir):
-        alt = os.path.join("LeanEuclidPlus", propdir)
+        alt = os.path.join("LeanEuclidF", propdir)
         if os.path.isdir(alt): propdir = alt
         else: sys.exit(f"folder not found: {args.prop}")
 

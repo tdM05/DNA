@@ -1,24 +1,24 @@
 # Proof-map visualizer
 
-`scripts/proof_map.py` renders a faithful LeanEuclidPlus proof as an interactive HTML **map**:
+`scripts/proof_map.py` renders a faithful LeanEuclidF proof as an interactive HTML **map**:
 one card per Euclid sentence, with its backing `have`/`stepN.lean` lemmas nested as children, so
 the sentence-to-formal-step structure is visible and navigable. It is a **visualization aid for
 inspecting the artifacts** — not part of the proving pipeline.
 
 > **Pre-generated for every proposition.** A ready-to-open `map.html` already ships in each
-> `LeanEuclidPlus/Book<N>/Prop<NN>/` folder — just open one in a browser, no toolchain or Python
+> `LeanEuclidF/Book<N>/Prop<NN>/` folder — just open one in a browser, no toolchain or Python
 > needed. The steps below are only for regenerating them.
 
 ## Generate a map
 
-Run from the repo root (or `LeanEuclidPlus/`):
+Run from the repo root (or `LeanEuclidF/`):
 
 ```bash
 python3 diagrams/scripts/proof_map.py --prop Book1/Prop06        # -> Book1/Prop06/map.html
 python3 diagrams/scripts/proof_map.py --prop Book2/Prop02 -o out.html
 ```
 
-`--prop` takes `Book<N>/Prop<NN>`; it is resolved under `LeanEuclidPlus/` automatically. The map is
+`--prop` takes `Book<N>/Prop<NN>`; it is resolved under `LeanEuclidF/` automatically. The map is
 built by reading `Main.lean` and each `stepN.lean` backing file directly (following the
 `stepN` ↔ `stepN.lean` naming law), so the card nesting reflects the proof's actual backing-lemma
 structure.

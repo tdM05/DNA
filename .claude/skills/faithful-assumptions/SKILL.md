@@ -1,7 +1,7 @@
 ---
 name: faithful-assumptions
 description: >
-  REPAIR a Euclid prop (LeanEuclidPlus) that the automated assumption SWEEP flagged — a prop that EXITED 1.
+  REPAIR a Euclid prop (LeanEuclidF) that the automated assumption SWEEP flagged — a prop that EXITED 1.
   You are NOT the thing that first runs the assumption phase: the human runs `scripts/assumptions.py` as a
   no-LLM batch/loop, which materializes a `have` per `@assumption` and classifies every premise by a ladder
   (rfl → assumption → simp[zetaDelta] → linarith → nlinarith → euclid_finish@30s), tagging valid/gap. Most
@@ -82,4 +82,4 @@ uses — hard-failed by `--all`'s #1 FORCE / #3 PARITY anyway, so it is never ev
   ones (`ptImg b = e`) stay gaps for Phase B. See the `euclid-superposition-img-simp-zetadelta` memory.
 - Related: `/faithful-map` (produces the `@assumption` annotations) → sweep → THIS (repair flagged props) →
   `/faithful-prove` (proves the gap haves). Mechanism: the `assumption-classification-ladder` +
-  `assumption-phase-design` memories + `LeanEuclidPlus/FAITHFUL.md`.
+  `assumption-phase-design` memories + `LeanEuclidF/FAITHFUL.md`.

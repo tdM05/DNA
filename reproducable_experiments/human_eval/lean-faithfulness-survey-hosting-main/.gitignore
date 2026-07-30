@@ -3,16 +3,16 @@ __pycache__/
 *.pyc
 
 # Runtime survey state and secrets
-LeanEuclidPlus/eval/survey/survey.env
-LeanEuclidPlus/eval/survey/server.pid
-LeanEuclidPlus/eval/survey/server.log
-LeanEuclidPlus/eval/survey/cloudflared.log
-LeanEuclidPlus/eval/survey/data/responses.sqlite3
-LeanEuclidPlus/eval/survey/data/responses.sqlite3-*
-LeanEuclidPlus/eval/survey/data/responses.sqlite3.*
-LeanEuclidPlus/eval/survey/data/admin_password.sha256
-LeanEuclidPlus/eval/survey/data/reviewers.txt
-LeanEuclidPlus/eval/survey/exports/
+LeanEuclidF/eval/survey/survey.env
+LeanEuclidF/eval/survey/server.pid
+LeanEuclidF/eval/survey/server.log
+LeanEuclidF/eval/survey/cloudflared.log
+LeanEuclidF/eval/survey/data/responses.sqlite3
+LeanEuclidF/eval/survey/data/responses.sqlite3-*
+LeanEuclidF/eval/survey/data/responses.sqlite3.*
+LeanEuclidF/eval/survey/data/admin_password.sha256
+LeanEuclidF/eval/survey/data/reviewers.txt
+LeanEuclidF/eval/survey/exports/
 
 # Local solver environments
 solver-venv*/

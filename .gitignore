@@ -1,11 +1,11 @@
-LeanEuclidPlus/scripts/proposition_signatures.json
-LeanEuclidPlus/book2.json
+LeanEuclidF/scripts/proposition_signatures.json
+LeanEuclidF/book2.json
 experiments/
-LeanEuclidPlus/scripts/step_signatures.json
+LeanEuclidF/scripts/step_signatures.json
 
 # Faithful-pipeline agent transcripts (run_faithful.py). The `cost/` JSON ledger IS committed;
 # the full streamed agent traces under `runs/` are large/noisy and stay local-only.
-LeanEuclidPlus/Book*/Prop*/runs/
+LeanEuclidF/Book*/Prop*/runs/
 
 
 # Claude Code auto-generated runtime lock (harness rewrites it constantly; not source)
@@ -16,8 +16,8 @@ LeanEuclidPlus/Book*/Prop*/runs/
 
 # Temporary files
 tmp/
-LeanEuclidPlus/tmp/
-LeanEuclidPlus/ground_truth_validation
+LeanEuclidF/tmp/
+LeanEuclidF/ground_truth_validation
 .vscode/
 
 # Experiment outputs (autoformalization --result_dir_name dirs)
@@ -39,12 +39,12 @@ ProofNetHard/outputs/
 ProofNetHard/result/
 ProofNetHard/lean-env/
 
-# LeanEuclidPlus build files
-LeanEuclidPlus/.lake/
-LeanEuclidPlus/E3/_tmp/
-LeanEuclidPlus/E3/_out/
-LeanEuclidPlus/build/
-LeanEuclidPlus/lake-packages/
+# LeanEuclidF build files
+LeanEuclidF/.lake/
+LeanEuclidF/E3/_tmp/
+LeanEuclidF/E3/_out/
+LeanEuclidF/build/
+LeanEuclidF/lake-packages/
 LeanEuclid_DSL/.lake/
 LeanEuclid_DSL/build/
 LeanEuclid_DSL/lake-packages/
@@ -52,11 +52,11 @@ LeanEuclid_DSL/E3/_tmp/
 LeanEuclid_DSL/E3/_out/
 
 # local libraries and executables
-LeanEuclidPlus/lib/
-LeanEuclidPlus/include/
-LeanEuclidPlus/bin/
-LeanEuclidPlus/scripts/cvc5/
-LeanEuclidPlus/scripts/z3/
+LeanEuclidF/lib/
+LeanEuclidF/include/
+LeanEuclidF/bin/
+LeanEuclidF/scripts/cvc5/
+LeanEuclidF/scripts/z3/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

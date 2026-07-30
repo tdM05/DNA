@@ -2,7 +2,7 @@
 name: prove-euclid
 description: >
   Prove or repair a LeanEuclid / System E proof (Book 1, Book 2 of Euclid's Elements,
-  in LeanEuclidPlus). Use whenever a euclid_finish / euclid_assert times out or "Could not
+  in LeanEuclidF). Use whenever a euclid_finish / euclid_assert times out or "Could not
   prove", when filling a sorry in a PropNN.lean / HelperNN_*.lean, or when formalizing a new
   proposition. This skill encodes a decision procedure that prevents the slow "restate-and-hope"
   thrashing that wastes hours; follow it from the first hard step, not after getting stuck.
@@ -46,7 +46,7 @@ STRUCTURE only, never to copy a hand-built chain a lemma now covers.)
 
 ## ENVIRONMENT
 
-- **Work from the `LeanEuclidPlus/` directory** (`<repo>/LeanEuclidPlus/`). All `scripts/...` paths
+- **Work from the `LeanEuclidF/` directory** (`<repo>/LeanEuclidF/`). All `scripts/...` paths
   and `lake` targets below are relative to it. `Book/` = Book 1, `Book2/` = Book 2.
 - **`euclid_finish` shells out to the SMT solvers `z3` and `cvc5` by bare name** — they live only in
   the project venv `~/.venvs/euclid/bin`. `check_step.py` puts that venv bin on PATH itself, so

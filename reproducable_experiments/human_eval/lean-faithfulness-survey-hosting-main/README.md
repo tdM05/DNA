@@ -5,7 +5,7 @@ This repository is a deployable copy of the faithfulness survey website and the 
 Layout:
 
 ```text
-LeanEuclidPlus/        # Formalization B and the survey web server
+LeanEuclidF/        # Formalization B and the survey web server
 LeanEuclid/            # Formalization A
 deploy/               # systemd and Caddy templates
 ```
@@ -13,10 +13,10 @@ deploy/               # systemd and Caddy templates
 The survey server lives at:
 
 ```text
-LeanEuclidPlus/eval/survey/server.py
+LeanEuclidF/eval/survey/server.py
 ```
 
-Run it from `LeanEuclidPlus/` with:
+Run it from `LeanEuclidF/` with:
 
 ```bash
 eval/survey/launch_survey.sh
@@ -25,15 +25,15 @@ eval/survey/launch_survey.sh
 The launch script loads:
 
 ```text
-LeanEuclidPlus/eval/survey/survey.env
+LeanEuclidF/eval/survey/survey.env
 ```
 
 That file is intentionally not committed because it contains deployment secrets.
 
 ## Important Runtime Assumptions
 
-- `LeanEuclidPlus/` and `LeanEuclid/` must stay as sibling directories.
-- `LeanEuclidPlus/eval/survey/data/survey_data.json` uses relative roots:
+- `LeanEuclidF/` and `LeanEuclid/` must stay as sibling directories.
+- `LeanEuclidF/eval/survey/data/survey_data.json` uses relative roots:
   - Formalization A: `../LeanEuclid`
   - Formalization B: `.`
 - The Python server should bind to `127.0.0.1:8765`.
@@ -157,7 +157,7 @@ This is cvc5 version 1.2.2-dev.159.82ff0f2f3
 Build method B:
 
 ```bash
-cd /opt/lean-faithfulness-survey-hosting/LeanEuclidPlus
+cd /opt/lean-faithfulness-survey-hosting/LeanEuclidF
 PATH="/opt/method-b-solver/bin:$HOME/.elan/bin:$PATH" lake build Book1
 ```
 
@@ -175,7 +175,7 @@ Do not skip these builds. The live survey can start Lean servers on demand, but 
 ### 5. Configure The Survey Environment
 
 ```bash
-cd /opt/lean-faithfulness-survey-hosting/LeanEuclidPlus
+cd /opt/lean-faithfulness-survey-hosting/LeanEuclidF
 cp eval/survey/survey.env.example eval/survey/survey.env
 nano eval/survey/survey.env
 ```
@@ -203,7 +203,7 @@ LEAN_SURVEY_PATH_EXTENSIONS_LEANEUCLID_PLUS=/opt/method-b-solver/bin
 ### 6. Smoke-Test Locally
 
 ```bash
-cd /opt/lean-faithfulness-survey-hosting/LeanEuclidPlus
+cd /opt/lean-faithfulness-survey-hosting/LeanEuclidF
 eval/survey/launch_survey.sh
 ```
 
@@ -285,14 +285,14 @@ Use the admin password, create a reviewer code, return to the main page, and tes
 Created at runtime and intentionally ignored:
 
 ```text
-LeanEuclidPlus/eval/survey/survey.env
-LeanEuclidPlus/eval/survey/data/responses.sqlite3
-LeanEuclidPlus/eval/survey/data/reviewers.txt
-LeanEuclidPlus/eval/survey/server.log
-LeanEuclidPlus/eval/survey/server.pid
+LeanEuclidF/eval/survey/survey.env
+LeanEuclidF/eval/survey/data/responses.sqlite3
+LeanEuclidF/eval/survey/data/reviewers.txt
+LeanEuclidF/eval/survey/server.log
+LeanEuclidF/eval/survey/server.pid
 ```
 
-The admin password is configured through `LeanEuclidPlus/eval/survey/survey.env` or service environment variables and should not be committed.
+The admin password is configured through `LeanEuclidF/eval/survey/survey.env` or service environment variables and should not be committed.
 
 ## Current Survey Behavior
 
@@ -324,13 +324,13 @@ sudo journalctl -u lean-survey -f
 Export responses:
 
 ```bash
-cd /opt/lean-faithfulness-survey-hosting/LeanEuclidPlus
+cd /opt/lean-faithfulness-survey-hosting/LeanEuclidF
 python3 eval/survey/export_responses.py
 ```
 
 Rebuild survey data after changing Lean files or rubric:
 
 ```bash
-cd /opt/lean-faithfulness-survey-hosting/LeanEuclidPlus
+cd /opt/lean-faithfulness-survey-hosting/LeanEuclidF
 python3 eval/survey/extract_survey_data.py
 ```

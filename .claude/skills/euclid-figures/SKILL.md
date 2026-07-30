@@ -2,7 +2,7 @@
 name: euclid-figures
 description: >
   Reference of recurring System-E figure-reasoning proof RECIPES for Book-2 rectangle-decomposition
-  proofs (LeanEuclidPlus): the goal-shapes that come up over and over — sameSide, point-off-a-line,
+  proofs (LeanEuclidF): the goal-shapes that come up over and over — sameSide, point-off-a-line,
   line-distinctness, betweenness via pasch, formParallelogram/formTriangle assembly, rectangle/sum
   area, and the parallel/angle props. Consult it from `prove-euclid`'s P step when you hit one of these
   shapes. For off-line / sameSide / area-recast / right-angle it points at an importable `Helpers/`
@@ -17,7 +17,7 @@ This is **half library, half recipe book — and the split matters.**
 - For the **off-line (Family 1)**, **line-distinctness (Family 2)**, **sameSide (Family 3)**,
   **area-recast (Family 6)**, **right-angle-from-co-interior (Family 7)**, **parallel-transitivity
   (Family 7)**, and **corresponding-angles (Family 7)** shapes, there is
-  now an **importable lemma** in `LeanEuclidPlus/Helpers/{OffLine,SameSide,Area,RightAngle,Parallel,Angle,Pasch}.lean`.
+  now an **importable lemma** in `LeanEuclidF/Helpers/{OffLine,SameSide,Area,RightAngle,Parallel,Angle,Pasch}.lean`.
   These shapes turned out NOT to be irreducibly figure-specific: each needs only 3–5 LOCAL atomic
   incidence facts (`p.onLine L`, `¬(p.onLine L)`, `p≠q`, `¬(L.intersectsLine M)`, …) — exactly what the
   parent already supplies — so a generic lemma takes those atoms as hypotheses and does NOT thread the

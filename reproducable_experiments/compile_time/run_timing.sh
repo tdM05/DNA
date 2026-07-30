@@ -7,7 +7,7 @@
 # job keeps completed runs.
 set -uo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LAKE="$(cd "$HERE/../../LeanEuclidPlus" && pwd)"
+LAKE="$(cd "$HERE/../../LeanEuclidF" && pwd)"
 RESULTS="$HERE/results"
 CAP="${CAP:-3600}"; NUM_RUNS="${NUM_RUNS:-5}"; HOST="$(hostname -s)"
 mkdir -p "$RESULTS"; cd "$LAKE"

@@ -8,11 +8,11 @@
 # line printed so nothing is hidden behind a raw count.
 #
 # WHAT IT COUNTS (only inside the *authoritative* proof trees):
-#   LeanEuclidPlus/Book1/  Book2/  Book3/
+#   LeanEuclidF/Book1/  Book2/  Book3/
 #
 # WHAT IT EXCLUDES (and why):
 #   - OldBook1/, OldBook1Variants/  : frozen benchmark baseline, off-limits (see CLAUDE.md)
-#   - LeanEuclidPlus/accept_refute/ : test fixtures, not real propositions
+#   - LeanEuclidF/accept_refute/ : test fixtures, not real propositions
 #   - anything outside Book1/2/3    : Helpers/, SystemE/, etc. carry no gap markers
 #
 # MARKER SEMANTICS (per CLAUDE.md):
@@ -45,7 +45,7 @@ QUIET=0
 [[ "${1:-}" == "--quiet" ]] && QUIET=1
 
 # The authoritative proof trees. OldBook1* and accept_refute/ are intentionally absent.
-BOOK_DIRS=(LeanEuclidPlus/Book1 LeanEuclidPlus/Book2 LeanEuclidPlus/Book3)
+BOOK_DIRS=(LeanEuclidF/Book1 LeanEuclidF/Book2 LeanEuclidF/Book3)
 
 # Sanity: refuse to run from the wrong directory rather than silently report 0.
 for d in "${BOOK_DIRS[@]}"; do
@@ -65,7 +65,7 @@ matches () {
 # per-book breakdown of a marker's matches
 per_book () {
   local marker="$1"
-  matches "$marker" | grep -oE 'LeanEuclidPlus/Book[0-9]+' | sort | uniq -c
+  matches "$marker" | grep -oE 'LeanEuclidF/Book[0-9]+' | sort | uniq -c
 }
 
 report () {
@@ -98,8 +98,8 @@ report "@suppress_deps_check" "source-edition citation gaps — a distinct gap t
 echo "=================================================================="
 echo "Cross-check: any markers OUTSIDE Book1/2/3 (should be fixtures/none):"
 for m in "@euclid_gap" "@assumption_gap" "@suppress_deps_check"; do
-  n="$(grep -rn --include='*.lean' -F -- "$m" LeanEuclidPlus/ 2>/dev/null \
-        | grep -vE 'LeanEuclidPlus/Book[123]/' | grep -c . || true)"
+  n="$(grep -rn --include='*.lean' -F -- "$m" LeanEuclidF/ 2>/dev/null \
+        | grep -vE 'LeanEuclidF/Book[123]/' | grep -c . || true)"
   echo "   ${m}: ${n} outside Book1/2/3"
 done
 echo "=================================================================="

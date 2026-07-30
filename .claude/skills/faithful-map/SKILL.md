@@ -1,7 +1,7 @@
 ---
 name: faithful-map
 description: >
-  Phase A of making a Euclid proof faithful (LeanEuclidPlus, Book 1 & 2): turn the sentence split into
+  Phase A of making a Euclid proof faithful (LeanEuclidF, Book 1 & 2): turn the sentence split into
   `Book<N>/PropNN/Main.lean`'s claim types, ONE sentence at a time, INTERACTIVELY. Prerequisite:
   `/faithful-split` has produced `split.json` (verified by `check_faithful.py --split`). This skill
   stamps a placeholder `Main.lean` (`(stepN : True)` + `@assumption TODO`, text from split.json so tiling

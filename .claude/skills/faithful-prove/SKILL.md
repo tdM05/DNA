@@ -1,7 +1,7 @@
 ---
 name: faithful-prove
 description: >
-  PHASE B of making a Euclid proof faithful (LeanEuclidPlus, Book 2): prove each Euclid sentence's
+  PHASE B of making a Euclid proof faithful (LeanEuclidF, Book 2): prove each Euclid sentence's
   step, IN ISOLATION, using the recursive SF/SP/P atom and the `check_step.py` script. Main's sentence
   bodies stay `:= by sorry` the whole time; the SCRIPT does all wiring/trace_state transiently — you
   only ever write proof bodies and add `have`+backing-file decompositions. Use AFTER the sentence map
@@ -110,7 +110,7 @@ script wires + imports it) — NEVER hand-write a pipeline `euclid_apply` or a p
 > ADD the import and continue — never abandon the tactic thinking it's unavailable.
 
 > **THE LIBRARY EXCEPTION — `Helpers/` lemmas are applied INLINE, by you, with a PERMANENT import.**
-> `LeanEuclidPlus/Helpers/{OffLine,SameSide,Area,RightAngle,Parallel}.lean` holds pre-proved generic
+> `LeanEuclidF/Helpers/{OffLine,SameSide,Area,RightAngle,Parallel}.lean` holds pre-proved generic
 > lemmas for the recurring off-line / sameSide / area-recast / right-angle / parallel-transitivity facts
 > (see `euclid-figures`). Unlike a pipeline backing file, a library lemma is NOT a `have`-node and NOT
 > script-wired: you write `import Helpers.OffLine` (it stays — different prefix, never flagged) and

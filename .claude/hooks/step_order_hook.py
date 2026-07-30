@@ -26,10 +26,10 @@ Determining the frontier:
 """
 import sys, json, re, os
 
-# The repo root (LeanEuclidPlus/) — same canonicalization as faithful_lib.py
+# The repo root (LeanEuclidF/) — same canonicalization as faithful_lib.py
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 _REPO_ROOT = os.path.realpath(os.path.join(_SCRIPT_DIR, "..", ".."))  # Pistis/
-_LEAN_ROOT = os.path.join(_REPO_ROOT, "LeanEuclidPlus")
+_LEAN_ROOT = os.path.join(_REPO_ROOT, "LeanEuclidF")
 
 
 def deny(reason):
@@ -174,7 +174,7 @@ def main():
     file_path = os.path.realpath(file_path)
 
     # Only gate files in Book*/Prop*/ directories
-    # Check if this is under LeanEuclidPlus/Book*/Prop*/
+    # Check if this is under LeanEuclidF/Book*/Prop*/
     rel = None
     try:
         rel = os.path.relpath(file_path, _LEAN_ROOT)

@@ -1,2 +1,2 @@
 bash: -c: line 2: syntax error near unexpected token `>'
-bash: -c: line 2: `<<<RUN cwd=LeanEuclidPlus>>>'
+bash: -c: line 2: `<<<RUN cwd=LeanEuclidF>>>'

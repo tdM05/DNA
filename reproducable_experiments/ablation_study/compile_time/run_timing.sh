@@ -27,7 +27,7 @@
 set -uo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(cd "$HERE/../../.." && pwd)"                 # …/Pistis
-LAKE="$REPO/LeanEuclidPlus"
+LAKE="$REPO/LeanEuclidF"
 OUT="$HERE/../out"                                   # ablation_study/out/<arm>/<label>/<run>/PropNN
 RESULTS="$HERE/results"
 CAP="${CAP:-3600}"; NUM_RUNS="${NUM_RUNS:-3}"; HOST="$(hostname -s)"
@@ -86,7 +86,7 @@ measure() {  # $1 csv  $2 arm  $3 label(Book1_Prop06)  $4 run_id  (uses $LOGF; t
 
   # REVERT: drop the swapped-in folder, restore the repo's tracked proof exactly
   rm -rf "$target"
-  git -C "$REPO" checkout HEAD -- "LeanEuclidPlus/$book/$prop"
+  git -C "$REPO" checkout HEAD -- "LeanEuclidF/$book/$prop"
 
   printf '%s,%s,%s,%s\n' "$label" "$run_id" "$dt" "$st" | tee -a "$out"
   return 0

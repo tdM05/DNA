@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PreToolUse(Bash) hygiene gate for the Pistis / LeanEuclidPlus repo.
+"""PreToolUse(Bash) hygiene gate for the Pistis / LeanEuclidF repo.
 
 WHY: CLAUDE.md reserves Bash for read-only git + the `scripts/check_*` / `wire_main` pipeline +
 a few path helpers, and says "read files with Read, search with Grep/Glob — never shell out to

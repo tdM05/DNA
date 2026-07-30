@@ -8,18 +8,18 @@
 
       "Bash",
 
-      "Edit(LeanEuclidPlus/Book/**)",
-      "Write(LeanEuclidPlus/Book/**)",
-      "Edit(LeanEuclidPlus/Book2/**)",
-      "Write(LeanEuclidPlus/Book2/**)",
+      "Edit(LeanEuclidF/Book/**)",
+      "Write(LeanEuclidF/Book/**)",
+      "Edit(LeanEuclidF/Book2/**)",
+      "Write(LeanEuclidF/Book2/**)",
 
       "Bash(lake env:*)",
       "Bash(lake exe faithful_export:*)",
       "Bash(mkdir:*)",
       "Bash(rm:*)",
 
-      "Edit(LeanEuclidPlus/Book1/**)",
-      "Write(LeanEuclidPlus/Book1/**)",
+      "Edit(LeanEuclidF/Book1/**)",
+      "Write(LeanEuclidF/Book1/**)",
 
       "Edit(.claude/skills/faithful-patterns/**)",
       "Write(.claude/skills/faithful-patterns/**)",
@@ -87,18 +87,18 @@
 
 
 
-      "Edit(LeanEuclidPlus/OldBook1/**)",
-      "Write(LeanEuclidPlus/OldBook1/**)",
-      "Edit(LeanEuclidPlus/OldBook1Variants/**)",
-      "Write(LeanEuclidPlus/OldBook1Variants/**)",
-      "Edit(LeanEuclidPlus/OldBook1.lean)",
-      "Write(LeanEuclidPlus/OldBook1.lean)",
-      "Edit(LeanEuclidPlus/OldBook1Variants.lean)",
-      "Write(LeanEuclidPlus/OldBook1Variants.lean)"
+      "Edit(LeanEuclidF/OldBook1/**)",
+      "Write(LeanEuclidF/OldBook1/**)",
+      "Edit(LeanEuclidF/OldBook1Variants/**)",
+      "Write(LeanEuclidF/OldBook1Variants/**)",
+      "Edit(LeanEuclidF/OldBook1.lean)",
+      "Write(LeanEuclidF/OldBook1.lean)",
+      "Edit(LeanEuclidF/OldBook1Variants.lean)",
+      "Write(LeanEuclidF/OldBook1Variants.lean)"
     ],
     "ask": [
-      "Edit(LeanEuclidPlus/SystemE/**)",
-      "Write(LeanEuclidPlus/SystemE/**)"
+      "Edit(LeanEuclidF/SystemE/**)",
+      "Write(LeanEuclidF/SystemE/**)"
     ]
   },
   "hooks": {

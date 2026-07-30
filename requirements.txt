@@ -1,6 +1,6 @@
 # Minimal dependencies to reproduce this package's results.
 #
-# The core pipeline scripts (LeanEuclidPlus/scripts/*.py, .claude/hooks/*.py) and the
+# The core pipeline scripts (LeanEuclidF/scripts/*.py, .claude/hooks/*.py) and the
 # survey server use only the Python standard library -- no third-party packages needed.
 #
 # These three are needed ONLY to regenerate the plots in the RQ2/RQ3 notebooks

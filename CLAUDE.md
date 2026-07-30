@@ -1,11 +1,11 @@
-# Pistis / LeanEuclidPlus
+# Pistis / LeanEuclidF
 
-Formalizing Euclid's *Elements* in System E (LeanEuclidPlus). Proofs are checked by an SMT
+Formalizing Euclid's *Elements* in System E (LeanEuclidF). Proofs are checked by an SMT
 backend behind `euclid_finish` / `euclid_assert` / `euclid_apply`.
 
 ## Proving / repairing Euclid proofs — READ THIS FIRST
 
-When working on any `LeanEuclidPlus/Book*/PropNN.lean` or `HelperNN_*.lean` — proving a theorem,
+When working on any `LeanEuclidF/Book*/PropNN.lean` or `HelperNN_*.lean` — proving a theorem,
 filling a `sorry`, or fixing a `euclid_finish` timeout / "Could not prove" — **use the
 `prove-euclid` skill** ([.claude/skills/prove-euclid/SKILL.md](.claude/skills/prove-euclid/SKILL.md)).
 
@@ -36,7 +36,7 @@ other Book-2 prop is at a varying/in-progress state — not a reference.)
 ## Making proofs faithful
 
 **Human operator guide (the simple "what do I do" loop):**
-[LeanEuclidPlus/FAITHFUL.md](LeanEuclidPlus/FAITHFUL.md) — read this first if you're driving the process.
+[LeanEuclidF/FAITHFUL.md](LeanEuclidF/FAITHFUL.md) — read this first if you're driving the process.
 
 To make a proof FAITHFUL (annotate it with `euclid_sentence`s so it follows Euclid's sentence
 structure — e.g. "make Book2/PropNN faithful") the pipeline is **A → gate → Assumption → B → gate → C**
@@ -234,7 +234,7 @@ Every other Book-2 prop is at a varying/in-progress state — follow the skills'
     agent-Write/Edit-denied so only the script writes it.
   - **read-only git**: `status`/`diff`/`log`/`show`/`branch`/`blame`/`ls-files` (git mutations are
     denied by policy — the human owns git, it's the safety net).
-  - **path/shell helpers**: `cd LeanEuclidPlus` (the one allowed cd — see the bare-command rule above),
+  - **path/shell helpers**: `cd LeanEuclidF` (the one allowed cd — see the bare-command rule above),
     `pwd`, `mkdir`, `realpath`/`dirname`/`basename`, `echo`, `lake env`/`lake exe faithful_export`.
   If you genuinely need something off this list, ASK the human to add it to the allowlist + hook rather
   than working around the denial.

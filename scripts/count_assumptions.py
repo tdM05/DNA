@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Count @assumption tags across LeanEuclidPlus.
+"""Count @assumption tags across LeanEuclidF.
 
 Reports, from the inline `.lean` comment tags (the source of truth) and the
 `scripts/assumption_tags.json` sidecar:
@@ -17,7 +17,7 @@ from collections import Counter
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent          # .../Pistis
-LEP = REPO / "LeanEuclidPlus"
+LEP = REPO / "LeanEuclidF"
 TAGS_JSON = LEP / "scripts" / "assumption_tags.json"
 
 DECL_RE = re.compile(r"--\s*@assumption\s*\(")
@@ -26,7 +26,7 @@ GAP_RE = re.compile(r"--\s*@assumption_gap\b")
 
 
 def prop_key(path: Path) -> str:
-    """e.g. .../LeanEuclidPlus/Book2/Prop04/Main.lean -> Book2/Prop04"""
+    """e.g. .../LeanEuclidF/Book2/Prop04/Main.lean -> Book2/Prop04"""
     rel = path.relative_to(LEP)
     return "/".join(rel.parts[:2])
 

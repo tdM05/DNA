@@ -14,9 +14,9 @@ emails appear anywhere.
     preferred_method_id, …`). 381 judgments.
   - `method_id`: `new_method` = Pistis, `leaneuclid` = the baseline.
 - **`lean-faithfulness-survey-hosting-main/`** — the survey web app the reviewers used:
-  `LeanEuclidPlus/eval/survey/` holds the server (`server.py`), the web UI (`web/`), the rubric
+  `LeanEuclidF/eval/survey/` holds the server (`server.py`), the web UI (`web/`), the rubric
   and rendered proofs shown to reviewers (`data/survey_data.json`), and the extraction scripts.
-  The bundled `LeanEuclid/` and `LeanEuclidPlus/Book*` trees are the exact proof sources the app
+  The bundled `LeanEuclid/` and `LeanEuclidF/Book*` trees are the exact proof sources the app
   rendered, kept so the survey is self-contained. `deploy/` holds example service configs
   (`*.example` — no real secrets).
 
