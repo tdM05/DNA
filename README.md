@@ -13,8 +13,9 @@ It contains the Lean artifacts, the pipeline (**Pistis**, whose fill stage is th
 
 **1. Lean toolchain + solvers.** Install [`elan`](https://github.com/leanprover/elan) (it reads
 `LeanEuclidPlus/lean-toolchain` and pulls Lean `v4.8.0-rc2` automatically), and install **Z3**
-(4.15.4) and **cvc5** (1.3.4) so both are on `PATH`. See `LeanEuclidPlus/README.md` for the
-upstream setup notes.
+`4.15.4` ([release](https://github.com/Z3Prover/z3/releases/tag/z3-4.15.4)) and **cvc5** `1.3.4`
+([release](https://github.com/cvc5/cvc5/releases/tag/cvc5-1.3.4)) so both are on `PATH`. These are
+the exact solver versions used for all reported results.
 
 **2. Build System E and a proof (verifies the artifacts):**
 ```bash
@@ -88,3 +89,21 @@ Infrastructure Scripts** tables). The key correspondences:
 
 Bulk agent transcripts are trimmed to a few representative matched pairs (see
 `ablation_study/runner/README.md`); all participant data is anonymized to opaque reviewer codes.
+
+## Built on LeanEuclid
+
+This work builds on **LeanEuclid** (Murphy, Yang, Sun, Li, Anandkumar, Si — *Autoformalizing
+Euclidean Geometry*, ICML 2024), which implements Avigad et al.'s **System E** (2009) in Lean and
+uses SMT solvers for diagrammatic reasoning. LeanEuclid faithfully formalized **Book I** of the
+*Elements*; we extend that to **Books I–III** and replace hand-formalization with the automated,
+oracle-guided **Pistis** pipeline. `LeanEuclidPlus/SystemE/` is the System E implementation
+(carried over, with additions noted in the paper); the `Book*/` proofs and the `scripts/` +
+`.claude/` pipeline are this work's contribution.
+
+```bibtex
+@inproceedings{murphy2024leaneuclid,
+  title={Autoformalizing {Euclidean} Geometry},
+  author={Murphy, Logan and Yang, Kaiyu and Sun, Jialiang and Li, Zhaoyu and Anandkumar, Anima and Si, Xujie},
+  booktitle={International Conference on Machine Learning (ICML)}, year={2024}
+}
+```

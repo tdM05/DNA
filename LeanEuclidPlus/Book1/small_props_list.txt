@@ -1,3 +1,0 @@
-8, 14, 31, 26, 32, 15, 48, 20, 1, 21
-
-Start with the pipeline on props 8, and 14.

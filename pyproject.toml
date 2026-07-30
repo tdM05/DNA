@@ -21,20 +21,13 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Mathematics",
 ]
 
+# The pipeline scripts and survey server use only the Python standard library; the only
+# third-party packages are for regenerating the RQ2/RQ3 plots from the shipped CSVs.
+# See requirements.txt.
 dependencies = [
-    # LLM inference backends (afkit.inference_*)
-    "openai>=1.102.0",
-    "aioboto3>=15.0.0",
-    "boto3>=1.38.23",
-    "python-dotenv",
-    # equivalence/validation checker needs smt-portfolio on PATH for the Lean SMT build
-    "smt-portfolio",
-    # pipeline driver (AutoFormalization/statement)
-    "json5>=0.12.0",
-    "tqdm",
-    "joblib",
-    "psutil",
-    "typing-extensions",
+    "matplotlib",
+    "numpy",
+    "pandas",
 ]
 
 [project.optional-dependencies]
@@ -44,11 +37,6 @@ develop = [
     "mypy>=1.16.1",
     "pylint",
 ]
-
-[project.urls]
-Homepage = "https://github.com/your-org/afkit"
-Repository = "https://github.com/your-org/afkit"
-Documentation = "https://github.com/your-org/afkit#readme"
 
 # No importable package ships here — the pipeline is a set of scripts run directly
 # (python3 scripts/<name>.py). This project exists to pin dependencies + tool config.
