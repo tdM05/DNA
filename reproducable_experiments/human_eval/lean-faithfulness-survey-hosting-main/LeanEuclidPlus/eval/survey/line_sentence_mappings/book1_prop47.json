@@ -1,0 +1,611 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop47",
+  "mappings": [
+    {
+      "id": "book1_prop47-leaneuclid-claim",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The theorem statement formalizes the right-triangle hypothesis and the desired Pythagorean equality."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-squares",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 21,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The three applications of Prop. 1.46 construct the squares on AB, AC, and BC."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-parallel-al",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 61,
+          "end_line": 64
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Prop. 1.31 constructs AL through A parallel to BD, with intersections naming the cut points."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-join-lines",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 65,
+          "end_line": 66
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The lines through A,D and F,C are introduced as the joined segments AD and FC."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-ca-ag",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7",
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 67,
+          "end_line": 67
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Prop. 1.14 uses the two right angles at A to prove CA is straight-on to AG."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-ba-ah",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 68,
+          "end_line": 68
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The same Prop. 1.14 argument proves BA is straight-on to AH."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-angle-addition",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 69,
+          "end_line": 70
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "These assertions combine equality of right angles with angle addition to obtain the whole-angle equality."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-sas",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s12",
+        "s13",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 71,
+          "end_line": 72
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Prop. 1.4 applies SAS from the equal sides and included angle, yielding equality of AD and FC and equal triangle areas."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-bl-double",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s15",
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 73,
+          "end_line": 73
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Prop. 1.41 proves parallelogram BL is double triangle ABD on the same base and parallels."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-gb-double",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s17",
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 74,
+          "end_line": 74
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Prop. 1.41 proves square GB is double triangle FBC on the same base and parallels."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-doubles",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s19"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 75,
+          "end_line": 75
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The area assertion identifies the two equal doubles, giving BL equal to GB."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-similar-side",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s20"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 76,
+          "end_line": 85
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The joined AE and BK and the symmetric SAS and Prop. 1.41 area steps establish CL equal to HC."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-whole-square",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s21"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 89,
+          "end_line": 91
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The parallelogram decomposition of BDEC combines BL=GB and CL=HC into equality of the whole square with the two squares."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-square-areas",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s22"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 86,
+          "end_line": 88
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The rectangle-area applications convert the constructed squares on BC, BA, and AC into side-square areas."
+    },
+    {
+      "id": "book1_prop47-leaneuclid-final",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s23",
+        "s24",
+        "s25"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop47.lean",
+          "start_line": 92,
+          "end_line": 92
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The final automation derives and closes the stated Pythagorean equality."
+    },
+    {
+      "id": "book1_prop47_new_method_merged_book1_prop47_new_statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s24",
+        "s2"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 36,
+          "end_line": 38
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement is the general Pythagorean proposition for right triangles. / The quantified points and hypothesis introduce the right triangle ABC with right angle BAC."
+    },
+    {
+      "id": "book1_prop47-new-squares",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4",
+        "s22"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 41,
+          "end_line": 49
+        },
+        {
+          "file": "Book1/Prop47/step1.lean",
+          "start_line": 20,
+          "end_line": 28
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The three square constructions and helper package the side equalities and right angles for the squares on BC, AB, and AC."
+    },
+    {
+      "id": "book1_prop47-new-parallel-al",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 52,
+          "end_line": 55
+        },
+        {
+          "file": "Book1/Prop47/step2.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The code draws AL through A parallel to BD and records the needed parallel alternative."
+    },
+    {
+      "id": "book1_prop47-new-join-lines",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 57,
+          "end_line": 59
+        },
+        {
+          "file": "Book1/Prop47/step3.lean",
+          "start_line": 19,
+          "end_line": 23
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The joined lines AD and FC are constructed and verified as lines through distinct endpoint pairs."
+    },
+    {
+      "id": "book1_prop47-new-ca-ag",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7",
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 61,
+          "end_line": 65
+        },
+        {
+          "file": "Book1/Prop47/step4.lean",
+          "start_line": 7,
+          "end_line": 12
+        },
+        {
+          "file": "Book1/Prop47/step5.lean",
+          "start_line": 8,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper first packages the two right adjacent angles and then Proposition 14 proves C, A, and G are collinear in order."
+    },
+    {
+      "id": "book1_prop47-new-ba-ah",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 67,
+          "end_line": 67
+        },
+        {
+          "file": "Book1/Prop47/step6.lean",
+          "start_line": 8,
+          "end_line": 17
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The analogous Proposition 14 helper proves B, A, and H are collinear in order."
+    },
+    {
+      "id": "book1_prop47-new-angle-add",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 69,
+          "end_line": 75
+        },
+        {
+          "file": "Book1/Prop47/step7.lean",
+          "start_line": 7,
+          "end_line": 12
+        },
+        {
+          "file": "Book1/Prop47/step8.lean",
+          "start_line": 13,
+          "end_line": 44
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The right-angle equality is added to angle ABC and the helper derives equality of the whole angles DBA and FBC."
+    },
+    {
+      "id": "book1_prop47-new-side-equalities",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 77,
+          "end_line": 81
+        },
+        {
+          "file": "Book1/Prop47/step9.lean",
+          "start_line": 7,
+          "end_line": 12
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The square side equalities are rewritten into the side-pair equalities needed for SAS."
+    },
+    {
+      "id": "book1_prop47-new-angle-repeat",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 83,
+          "end_line": 83
+        },
+        {
+          "file": "Book1/Prop47/step10.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The helper records the already-proved equality of angles DBA and FBC."
+    },
+    {
+      "id": "book1_prop47-new-sas-result",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 85,
+          "end_line": 87
+        },
+        {
+          "file": "Book1/Prop47/step11.lean",
+          "start_line": 23,
+          "end_line": 30
+        },
+        {
+          "file": "Book1/Prop47/step12.lean",
+          "start_line": 23,
+          "end_line": 30
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Proposition 4 is applied to obtain equality of the corresponding base and equality of the triangle areas."
+    },
+    {
+      "id": "book1_prop47-new-bl-double",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s15",
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 89,
+          "end_line": 95
+        },
+        {
+          "file": "Book1/Prop47/step13.lean",
+          "start_line": 21,
+          "end_line": 26
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The intersection point and Proposition 41 establish that the BL parallelogram area is twice triangle ABD."
+    },
+    {
+      "id": "book1_prop47-new-gb-double",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s17",
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 97,
+          "end_line": 100
+        },
+        {
+          "file": "Book1/Prop47/step14.lean",
+          "start_line": 22,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Proposition 41 establishes that the square GB area is twice triangle FBC."
+    },
+    {
+      "id": "book1_prop47-new-doubles-equal",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s19"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 102,
+          "end_line": 107
+        },
+        {
+          "file": "Book1/Prop47/step15.lean",
+          "start_line": 7,
+          "end_line": 13
+        },
+        {
+          "file": "Book1/Prop47/step16.lean",
+          "start_line": 7,
+          "end_line": 16
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The equality of triangles is lifted to equality of their doubles, yielding equality of BL and GB areas."
+    },
+    {
+      "id": "book1_prop47-new-symmetric-cl-hc",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s20"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 109,
+          "end_line": 112
+        },
+        {
+          "file": "Book1/Prop47/step17.lean",
+          "start_line": 38,
+          "end_line": 62
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The joined AE and BK support the symmetric proof that parallelogram CL equals square HC."
+    },
+    {
+      "id": "book1_prop47_new_method_merged_book1_prop47_new_whole_square_area",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s21",
+        "s3",
+        "s23",
+        "s25"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop47/Main.lean",
+          "start_line": 114,
+          "end_line": 125
+        },
+        {
+          "file": "Book1/Prop47/step18.lean",
+          "start_line": 36,
+          "end_line": 80
+        },
+        {
+          "file": "Book1/Prop47/step19.lean",
+          "start_line": 18,
+          "end_line": 28
+        },
+        {
+          "file": "Book1/Prop47/step20.lean",
+          "start_line": 26,
+          "end_line": 41
+        },
+        {
+          "file": "Book1/Prop47/step21.lean",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The area decomposition of BDEC and the two square-area computations are combined into the final sum equality. / The final named equality is exactly the claimed result, and it is returned as the theorem proof."
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+data/responses.sqlite3
+data/responses.sqlite3-*
+data/responses.sqlite3.*
+data/admin_password.sha256
+data/reviewers.txt
+line_sentence_mappings/generated/
+exports/
+survey.env

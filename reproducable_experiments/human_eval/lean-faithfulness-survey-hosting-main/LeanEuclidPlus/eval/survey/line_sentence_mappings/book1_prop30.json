@@ -1,0 +1,348 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop30",
+  "mappings": [
+    {
+      "id": "book1_prop30-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop30.lean",
+          "start_line": 8,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement encodes the general claim, the hypotheses that AB and CD are parallel to EF, and the desired conclusion that AB is parallel to CD."
+    },
+    {
+      "id": "book1_prop30-leaneuclid-transversal",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop30.lean",
+          "start_line": 13,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The code chooses points on AB and CD, forms GK through them, and intersects GK with EF, making GK fall across all three lines."
+    },
+    {
+      "id": "book1_prop30-leaneuclid-angle-agk-ghf",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop30.lean",
+          "start_line": 25,
+          "end_line": 25
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This applies Proposition 1.29 to AB and EF with transversal GK to obtain the angle equality corresponding to AGK equals GHF."
+    },
+    {
+      "id": "book1_prop30-leaneuclid-angle-ghf-gkd",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop30.lean",
+          "start_line": 26,
+          "end_line": 26
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This applies Proposition 1.29 to EF and CD with transversal GK to obtain the angle equality corresponding to GHF equals GKD."
+    },
+    {
+      "id": "book1_prop30-leaneuclid-prop27-main",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7",
+        "s8",
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop30.lean",
+          "start_line": 27,
+          "end_line": 28
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The final application of Proposition 1.27 packages the remembered first equality, transitivity to AGK equals GKD, the alternate-angle configuration, and the conclusion that AB is parallel to CD."
+    },
+    {
+      "id": "book1_prop30-leaneuclid-omitted-cases",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop30.lean",
+          "start_line": 30,
+          "end_line": 38
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The two non-Euclidean order cases repeat the same Proposition 1.29 and Proposition 1.27 argument with adjusted point orderings."
+    },
+    {
+      "id": "book1_prop30-new-method-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop30/Main.lean",
+          "start_line": 15,
+          "end_line": 17
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The theorem statement formalizes the given parallels to EF and the claimed parallelism of AB and CD."
+    },
+    {
+      "id": "book1_prop30-new-method-transversal",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop30/Main.lean",
+          "start_line": 20,
+          "end_line": 31
+        },
+        {
+          "file": "Book1/Prop30/step1.lean",
+          "start_line": 7,
+          "end_line": 37
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The main proof constructs GK and the helper verifies that GK intersects AB, EF, and CD."
+    },
+    {
+      "id": "book1_prop30-new-method-angle-agk-ghf",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop30/Main.lean",
+          "start_line": 36,
+          "end_line": 38
+        },
+        {
+          "file": "Book1/Prop30/step2.lean",
+          "start_line": 8,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Proposition 29 to the parallel lines AB and EF cut by GK, yielding angle AGK equal to GHF."
+    },
+    {
+      "id": "book1_prop30-new-method-angle-ghf-gkd",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop30/Main.lean",
+          "start_line": 40,
+          "end_line": 42
+        },
+        {
+          "file": "Book1/Prop30/step3.lean",
+          "start_line": 8,
+          "end_line": 26
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Proposition 29 to the parallel lines EF and CD cut by GK, yielding angle GHF equal to GKD."
+    },
+    {
+      "id": "book1_prop30-new-method-restated-angle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop30/Main.lean",
+          "start_line": 44,
+          "end_line": 44
+        },
+        {
+          "file": "Book1/Prop30/step4.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The formal step restates the already proved equality between angle AGK and angle GHF."
+    },
+    {
+      "id": "book1_prop30-new-method-transitive-angle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop30/Main.lean",
+          "start_line": 46,
+          "end_line": 46
+        },
+        {
+          "file": "Book1/Prop30/step5.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper composes the two angle equalities to prove angle AGK equal to angle GKD."
+    },
+    {
+      "id": "book1_prop30-new-method-alternate-angles",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop30/Main.lean",
+          "start_line": 48,
+          "end_line": 48
+        },
+        {
+          "file": "Book1/Prop30/step6.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The opposing-side condition formalizes that the equal angles lie alternately with respect to the transversal GK."
+    },
+    {
+      "id": "book1_prop30-new-method-conclusion",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop30/Main.lean",
+          "start_line": 50,
+          "end_line": 52
+        },
+        {
+          "file": "Book1/Prop30/step7.lean",
+          "start_line": 8,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The proof applies Proposition 27 to the alternate equal angles and concludes that AB does not intersect CD."
+    },
+    {
+      "id": "book1_prop30-new-method-omitted-cases",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5",
+        "s6",
+        "s8",
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop30/Main.lean",
+          "start_line": 54,
+          "end_line": 55
+        },
+        {
+          "file": "Book1/Prop30/step7_othercases.lean",
+          "start_line": 16,
+          "end_line": 50
+        },
+        {
+          "file": "Book1/Prop30/step7_othercases_opp.lean",
+          "start_line": 7,
+          "end_line": 13
+        },
+        {
+          "file": "Book1/Prop30/step7_othercases_c2_ang1.lean",
+          "start_line": 8,
+          "end_line": 21
+        },
+        {
+          "file": "Book1/Prop30/step7_othercases_c2_ang2.lean",
+          "start_line": 8,
+          "end_line": 22
+        },
+        {
+          "file": "Book1/Prop30/step7_othercases_c2_ang.lean",
+          "start_line": 7,
+          "end_line": 20
+        },
+        {
+          "file": "Book1/Prop30/step7_othercases_c2.lean",
+          "start_line": 8,
+          "end_line": 20
+        },
+        {
+          "file": "Book1/Prop30/step7_othercases_c3_ang1.lean",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "file": "Book1/Prop30/step7_othercases_c3_ang2.lean",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "file": "Book1/Prop30/step7_othercases_c3_ang.lean",
+          "start_line": 7,
+          "end_line": 28
+        },
+        {
+          "file": "Book1/Prop30/step7_othercases_c3.lean",
+          "start_line": 8,
+          "end_line": 22
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper files prove the same angle-equality and Proposition 27 conclusion for the transversal order cases omitted from Euclid's diagrammatic proof."
+    }
+  ]
+}

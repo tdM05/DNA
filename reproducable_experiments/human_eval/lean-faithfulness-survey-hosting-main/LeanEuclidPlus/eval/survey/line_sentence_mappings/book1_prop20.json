@@ -1,0 +1,320 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop20",
+  "mappings": [
+    {
+      "id": "book1_prop20-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop20.lean",
+          "start_line": 8,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The theorem states the triangle hypothesis and the proved side-sum inequality for one of the three asserted cases."
+    },
+    {
+      "id": "book1_prop20-leaneuclid-construction",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop20.lean",
+          "start_line": 12,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines extend BA, construct AD equal to AC by Prop. 1.3, and join D to C."
+    },
+    {
+      "id": "book1_prop20-leaneuclid-isosceles-angle",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop20.lean",
+          "start_line": 15,
+          "end_line": 15
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Prop. 1.5 gives equality of the base angles in triangle ADC from AD equal to AC."
+    },
+    {
+      "id": "book1_prop20-leaneuclid-angle-greater",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop20.lean",
+          "start_line": 16,
+          "end_line": 16
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The angle-sum fact makes angle BCD greater than angle ADC."
+    },
+    {
+      "id": "book1_prop20-leaneuclid-greater-side",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop20.lean",
+          "start_line": 17,
+          "end_line": 17
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Prop. 1.19 converts the greater angle in triangle DCB into the greater opposite side DB over BC."
+    },
+    {
+      "id": "book1_prop20-leaneuclid-final-inequality",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop20.lean",
+          "start_line": 18,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The final automation uses AD equal to AC and the prior DB greater than BC to derive BA plus AC greater than BC."
+    },
+    {
+      "id": "book1_prop20-new-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop20/Main.lean",
+          "start_line": 18,
+          "end_line": 22
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The theorem states a triangle ABC and all three triangle inequalities asserted in the proposition."
+    },
+    {
+      "id": "book1_prop20-new-construction",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop20/Main.lean",
+          "start_line": 25,
+          "end_line": 32
+        },
+        {
+          "file": "Book1/Prop20/step1.lean",
+          "start_line": 7,
+          "end_line": 17
+        },
+        {
+          "file": "Book1/Prop20/step2.lean",
+          "start_line": 7,
+          "end_line": 9
+        },
+        {
+          "file": "Book1/Prop20/step3.lean",
+          "start_line": 7,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The main proof constructs D by extending BA, copies AC to AD, joins DC, and the helpers establish the resulting betweenness, equality, and distinctness facts needed for that construction."
+    },
+    {
+      "id": "book1_prop20-new-base-angles",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop20/Main.lean",
+          "start_line": 34,
+          "end_line": 36
+        },
+        {
+          "file": "Book1/Prop20/step4.lean",
+          "start_line": 8,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines use AD equal to AC and Proposition 1.5 to obtain equality of angles ADC and ACD."
+    },
+    {
+      "id": "book1_prop20-new-angle-greater",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop20/Main.lean",
+          "start_line": 38,
+          "end_line": 38
+        },
+        {
+          "file": "Book1/Prop20/step5.lean",
+          "start_line": 7,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies the angle-sum relation to show angle BCD is greater than angle ADC."
+    },
+    {
+      "id": "book1_prop20-new-greater-side",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop20/Main.lean",
+          "start_line": 40,
+          "end_line": 42
+        },
+        {
+          "file": "Book1/Prop20/step6.lean",
+          "start_line": 8,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines use the greater-angle fact in triangle DCB and Proposition 1.19 to prove DB greater than BC."
+    },
+    {
+      "id": "book1_prop20-new-equal-side-recalled",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop20/Main.lean",
+          "start_line": 44,
+          "end_line": 44
+        },
+        {
+          "file": "Book1/Prop20/step7.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The equality DA equals AC is restated for use in the final arithmetic step."
+    },
+    {
+      "id": "book1_prop20-new-first-inequality",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop20/Main.lean",
+          "start_line": 46,
+          "end_line": 46
+        },
+        {
+          "file": "Book1/Prop20/step8.lean",
+          "start_line": 8,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper combines BA plus AD equals BD, DB greater than BC, and AD equals AC to conclude BA plus AC greater than BC."
+    },
+    {
+      "id": "book1_prop20-new-similar-second",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop20/Main.lean",
+          "start_line": 48,
+          "end_line": 48
+        },
+        {
+          "file": "Book1/Prop20/step9.lean",
+          "start_line": 10,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This helper repeats the same construction-and-angle argument for AB plus BC greater than CA."
+    },
+    {
+      "id": "book1_prop20-new-similar-third",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop20/Main.lean",
+          "start_line": 50,
+          "end_line": 50
+        },
+        {
+          "file": "Book1/Prop20/step10.lean",
+          "start_line": 10,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This helper repeats the same construction-and-angle argument for BC plus CA greater than AB."
+    },
+    {
+      "id": "book1_prop20-new-final",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12",
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop20/Main.lean",
+          "start_line": 52,
+          "end_line": 52
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The final line packages the three established inequalities as the proposition's required conclusion."
+    }
+  ]
+}

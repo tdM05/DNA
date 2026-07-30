@@ -1,0 +1,551 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop46",
+  "mappings": [
+    {
+      "id": "book1_prop46-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s19",
+        "s20"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop46.lean",
+          "start_line": 11,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement specifies the construction of a square on the given line AB by asserting existence of a parallelogram with equal sides and right angles."
+    },
+    {
+      "id": "book1_prop46-leaneuclid-draw-right-angle",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop46.lean",
+          "start_line": 17,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines draw the perpendicular from A and construct AD equal to AB, matching the two construction clauses of the sentence."
+    },
+    {
+      "id": "book1_prop46-leaneuclid-draw-parallels",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop46.lean",
+          "start_line": 21,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The two applications of Proposition 31 construct the parallels through D and B, and their intersection gives point E."
+    },
+    {
+      "id": "book1_prop46-leaneuclid-parallelogram-sides",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7",
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop46.lean",
+          "start_line": 24,
+          "end_line": 24
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Proposition 34 on the constructed figure supplies the parallelogram consequences, including equality of opposite sides and angles."
+    },
+    {
+      "id": "book1_prop46-leaneuclid-angle-sum",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop46.lean",
+          "start_line": 25,
+          "end_line": 25
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Proposition 29 gives the two-right-angle sum for the transversal across the parallel lines."
+    },
+    {
+      "id": "book1_prop46-leaneuclid-opposite-angles",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s15",
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop46.lean",
+          "start_line": 26,
+          "end_line": 26
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "A second use of Proposition 34 supplies equality of opposite angles, used to transfer right angles to ABE and BED."
+    },
+    {
+      "id": "book1_prop46-leaneuclid-assemble-square",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8",
+        "s9",
+        "s10",
+        "s13",
+        "s14",
+        "s17",
+        "s18",
+        "s19",
+        "s20",
+        "s21"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop46.lean",
+          "start_line": 27,
+          "end_line": 28
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The final witness and automated finish combine the constructed equalities and right-angle facts into the required square on AB."
+    },
+    {
+      "id": "book1_prop46-new_method-s1-s3-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 29,
+          "end_line": 32
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the problem for a given straight line AB and states the constructed square data to be produced."
+    },
+    {
+      "id": "book1_prop46-new_method-s4-right-angle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 35,
+          "end_line": 38
+        },
+        {
+          "file": "Book1/Prop46/step1.lean",
+          "start_line": 8,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "These lines construct the perpendicular through A and normalize the right angle to the orientation used later."
+    },
+    {
+      "id": "book1_prop46-new_method-s4-equal-ad-ab",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 40,
+          "end_line": 43
+        },
+        {
+          "file": "Book1/Prop46/step2.lean",
+          "start_line": 7,
+          "end_line": 8
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "These lines construct D on the perpendicular and record AD equal to AB."
+    },
+    {
+      "id": "book1_prop46-new_method-s5-de",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 45,
+          "end_line": 46
+        },
+        {
+          "file": "Book1/Prop46/step3.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "These lines draw DE through D parallel to AB and preserve its incidence and parallelism facts."
+    },
+    {
+      "id": "book1_prop46-new_method-s5-be-e",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 48,
+          "end_line": 50
+        },
+        {
+          "file": "Book1/Prop46/step4.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "These lines draw BE through B parallel to AD and introduce E as the intersection with DE."
+    },
+    {
+      "id": "book1_prop46-new_method-s6",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 52,
+          "end_line": 52
+        },
+        {
+          "file": "Book1/Prop46/step5.lean",
+          "start_line": 10,
+          "end_line": 62
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper proves from the constructed parallels and incidences that ADEB forms a parallelogram."
+    },
+    {
+      "id": "book1_prop46-new_method-s7-ab-de",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 54,
+          "end_line": 54
+        },
+        {
+          "file": "Book1/Prop46/step6.lean",
+          "start_line": 8,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Applying Proposition 34 to the parallelogram gives equality of AB and DE."
+    },
+    {
+      "id": "book1_prop46-new_method-s7-ad-be",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 56,
+          "end_line": 56
+        },
+        {
+          "file": "Book1/Prop46/step7.lean",
+          "start_line": 8,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Applying Proposition 34 to the parallelogram gives equality of AD and BE."
+    },
+    {
+      "id": "book1_prop46-new_method-s8",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 58,
+          "end_line": 58
+        },
+        {
+          "file": "Book1/Prop46/step8.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "This reverses the constructed equality AD = AB into AB = AD."
+    },
+    {
+      "id": "book1_prop46-new_method-s9",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 60,
+          "end_line": 60
+        },
+        {
+          "file": "Book1/Prop46/step9.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper chains the side equalities to show BA, AD, DE, and EB are equal."
+    },
+    {
+      "id": "book1_prop46-new_method-s10",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 62,
+          "end_line": 62
+        },
+        {
+          "file": "Book1/Prop46/step10.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The equilateral side-chain is carried forward as the formal content of the parallelogram being equilateral."
+    },
+    {
+      "id": "book1_prop46-new_method-s12",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 66,
+          "end_line": 66
+        },
+        {
+          "file": "Book1/Prop46/step12.lean",
+          "start_line": 10,
+          "end_line": 44
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper applies Proposition 29 to transversal AD across the parallels AB and DE to obtain the two-right-angles sum."
+    },
+    {
+      "id": "book1_prop46-new_method-s13",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 68,
+          "end_line": 68
+        },
+        {
+          "file": "Book1/Prop46/step13.lean",
+          "start_line": 7,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper transfers the originally constructed right angle to angle BAD."
+    },
+    {
+      "id": "book1_prop46-new_method-s14",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 70,
+          "end_line": 70
+        },
+        {
+          "file": "Book1/Prop46/step14.lean",
+          "start_line": 8,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Subtracting the known right angle BAD from the two-right-angles sum proves ADE is right."
+    },
+    {
+      "id": "book1_prop46-new_method-s15",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 72,
+          "end_line": 73
+        },
+        {
+          "file": "Book1/Prop46/step15.lean",
+          "start_line": 8,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "This records Proposition 34 for parallelogram ADEB, including equality of opposite sides and opposite angles."
+    },
+    {
+      "id": "book1_prop46-new_method-s16",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 75,
+          "end_line": 75
+        },
+        {
+          "file": "Book1/Prop46/step16.lean",
+          "start_line": 8,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Using opposite angle equalities and the two established right angles, the helper proves ABE and BED are right."
+    },
+    {
+      "id": "book1_prop46-new_method-s17",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s17"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 77,
+          "end_line": 77
+        },
+        {
+          "file": "Book1/Prop46/step17.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "This bundles all four right-angle facts, formalizing that ADEB is right-angled."
+    },
+    {
+      "id": "book1_prop46-new_method-s18",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 79,
+          "end_line": 79
+        },
+        {
+          "file": "Book1/Prop46/step18.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "This carries forward the previously proved equilateral side-chain."
+    },
+    {
+      "id": "book1_prop46-new_method-s19",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s19"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 81,
+          "end_line": 82
+        },
+        {
+          "file": "Book1/Prop46/step19.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper combines equilateral and right-angled facts, matching the definition-level proof that ADEB is a square."
+    },
+    {
+      "id": "book1_prop46-new_method-s20",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s20"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop46/Main.lean",
+          "start_line": 84,
+          "end_line": 85
+        },
+        {
+          "file": "Book1/Prop46/hbe.lean",
+          "start_line": 7,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The final equality for BE and the witness tuple package the constructed square with AB as one of its sides."
+    }
+  ]
+}

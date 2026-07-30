@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop33",
+  "mappings": [
+    {
+      "id": "book1_prop33-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop33.lean",
+          "start_line": 9,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement packages the proposition, hypotheses about equal parallel AB and CD joined by AC and BD, and the claimed equality and parallelism of AC and BD."
+    },
+    {
+      "id": "book1_prop33-leaneuclid-join-bc",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop33.lean",
+          "start_line": 16,
+          "end_line": 16
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Constructs the line BC from points b and c."
+    },
+    {
+      "id": "book1_prop33-leaneuclid-alt-angles-ab-cd",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop33.lean",
+          "start_line": 17,
+          "end_line": 17
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Applies Proposition 1.29 to the parallel lines AB and CD cut by BC to obtain the alternate angle equality."
+    },
+    {
+      "id": "book1_prop33-leaneuclid-sas-results",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7",
+        "s8",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop33.lean",
+          "start_line": 18,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "A single application of Proposition 1.4 uses the side-angle-side data and yields the corresponding equal base, triangle equality, and remaining angle equality, including the shown equality of AC and BD."
+    },
+    {
+      "id": "book1_prop33-leaneuclid-parallel-ac-bd",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop33.lean",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Applies Proposition 1.27 to the equal alternate angles made by BC to prove AC is parallel to BD."
+    },
+    {
+      "id": "book1_prop33-leaneuclid-conclusion",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s11",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop33.lean",
+          "start_line": 20,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Finishes the theorem goal, giving the final stated equality and parallelism required to prove the proposition."
+    },
+    {
+      "id": "book1_prop33_new_method_merged_book1_prop33_new_statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop33/Main.lean",
+          "start_line": 17,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the general proposition about joining equal parallel straight lines on the same side. / The assumptions give the equal parallel lines and same-side joining lines, and the conclusion states that AC and BD are distinct, parallel, and equal."
+    },
+    {
+      "id": "book1_prop33-new-join-bc",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop33/Main.lean",
+          "start_line": 24,
+          "end_line": 25
+        },
+        {
+          "file": "Book1/Prop33/step1.lean",
+          "start_line": 7,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The main proof constructs BC and the helper establishes that B and C are distinct points on that line."
+    },
+    {
+      "id": "book1_prop33-new-alt-angles-ab-cd",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop33/Main.lean",
+          "start_line": 27,
+          "end_line": 31
+        },
+        {
+          "file": "Book1/Prop33/step2.lean",
+          "start_line": 8,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The assumptions of AB parallel CD and BC as transversal are passed to Proposition 29 to prove the alternate angle equality."
+    },
+    {
+      "id": "book1_prop33-new-equal-sides-angle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop33/Main.lean",
+          "start_line": 33,
+          "end_line": 37
+        },
+        {
+          "file": "Book1/Prop33/step3.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines package the equal side hypotheses, common side equality, and previously proved included angle equality for use in Proposition 4."
+    },
+    {
+      "id": "book1_prop33-new-base-equality",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop33/Main.lean",
+          "start_line": 39,
+          "end_line": 43
+        },
+        {
+          "file": "Book1/Prop33/step4.lean",
+          "start_line": 8,
+          "end_line": 21
+        },
+        {
+          "file": "Book1/Prop33/step5.lean",
+          "start_line": 8,
+          "end_line": 21
+        },
+        {
+          "file": "Book1/Prop33/step6.lean",
+          "start_line": 8,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These Proposition 4 applications derive the equal base, equal triangle area, and remaining corresponding angle equalities."
+    },
+    {
+      "id": "book1_prop33-new-angle-acb-cbd",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop33/Main.lean",
+          "start_line": 45,
+          "end_line": 45
+        },
+        {
+          "file": "Book1/Prop33/step7.lean",
+          "start_line": 7,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper converts the remaining angle equality from Proposition 4 into the specific equality of angles ACB and CBD."
+    },
+    {
+      "id": "book1_prop33-new-parallel-ac-bd",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop33/Main.lean",
+          "start_line": 47,
+          "end_line": 49
+        },
+        {
+          "file": "Book1/Prop33/step8.lean",
+          "start_line": 8,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The equal alternate angles made by BC across AC and BD are passed to Proposition 27 to establish that AC and BD do not intersect."
+    },
+    {
+      "id": "book1_prop33-new-equality-recalled",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop33/Main.lean",
+          "start_line": 51,
+          "end_line": 51
+        },
+        {
+          "file": "Book1/Prop33/step9.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This restates the already proved equality of AC and BD for the final conclusion."
+    },
+    {
+      "id": "book1_prop33-new-final",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop33/Main.lean",
+          "start_line": 53,
+          "end_line": 54
+        },
+        {
+          "file": "Book1/Prop33/hAC_BD.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The final lines establish the remaining distinctness condition and assemble distinctness, parallelism, and equality as the required result."
+    }
+  ]
+}

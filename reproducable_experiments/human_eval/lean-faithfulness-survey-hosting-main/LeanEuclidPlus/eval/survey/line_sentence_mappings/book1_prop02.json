@@ -1,0 +1,393 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop02",
+  "mappings": [
+    {
+      "id": "book1_prop02-leaneuclid-goal",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop02.lean",
+          "start_line": 6,
+          "end_line": 8
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The theorem statement formalizes the construction problem: from point A and segment BC, produce a point l such that AL equals BC."
+    },
+    {
+      "id": "book1_prop02-leaneuclid-join-triangle",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop02.lean",
+          "start_line": 11,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The code joins AB and constructs the equilateral triangle on AB."
+    },
+    {
+      "id": "book1_prop02-leaneuclid-produced-lines",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop02.lean",
+          "start_line": 13,
+          "end_line": 14
+        },
+        {
+          "file": "Book/Prop02.lean",
+          "start_line": 21,
+          "end_line": 22
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The lines through DA and DB are introduced, and the later betweenness facts certify the relevant produced straight-line extensions."
+    },
+    {
+      "id": "book1_prop02-leaneuclid-circles",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop02.lean",
+          "start_line": 15,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The code draws the circle centered at B through C, obtains G on the produced line, draws the circle centered at D through G, and obtains L on the produced line."
+    },
+    {
+      "id": "book1_prop02-leaneuclid-bc-bg",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop02.lean",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The circle-center/radius fact gives equality of BC and BG."
+    },
+    {
+      "id": "book1_prop02-leaneuclid-dl-dg",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop02.lean",
+          "start_line": 20,
+          "end_line": 20
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The circle-center/radius fact gives equality of DL and DG."
+    },
+    {
+      "id": "book1_prop02_leaneuclid_merged_book1_prop02_leaneuclid_final_equality",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9",
+        "s10",
+        "s11",
+        "s12",
+        "s13",
+        "s14",
+        "s15",
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop02.lean",
+          "start_line": 23,
+          "end_line": 24
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The automated finishing step combines the equilateral-triangle equality, subtraction of equals, and transitivity to prove AL equals BC. / Using l with the proved equality supplies the constructed straight line at A equal to BC."
+    },
+    {
+      "id": "book1_prop02-new_method-001",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 21,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the given point and segment and the required existence of a segment from a equal to BC."
+    },
+    {
+      "id": "book1_prop02-new_method-002",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 26,
+          "end_line": 32
+        },
+        {
+          "file": "Book1/Prop02/step1.lean",
+          "start_line": 7,
+          "end_line": 10
+        },
+        {
+          "file": "Book1/Prop02/step2.lean",
+          "start_line": 7,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines join AB, establish it as the line through a and b, and construct the equilateral triangle DAB."
+    },
+    {
+      "id": "book1_prop02-new_method-003",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 34,
+          "end_line": 36
+        },
+        {
+          "file": "Book1/Prop02/step3.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The extension operations and helper theorem record that DA and DB have been produced through a and b."
+    },
+    {
+      "id": "book1_prop02-new_method-004",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 38,
+          "end_line": 45
+        },
+        {
+          "file": "Book1/Prop02/step4.lean",
+          "start_line": 7,
+          "end_line": 10
+        },
+        {
+          "file": "Book1/Prop02/step5.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines draw the circle centered at b through c, obtain g, draw the circle centered at d through g, and obtain l."
+    },
+    {
+      "id": "book1_prop02-new_method-005",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 49,
+          "end_line": 49
+        },
+        {
+          "file": "Book1/Prop02/step6.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies the circle-radius fact for center b to prove BC equal to BG."
+    },
+    {
+      "id": "book1_prop02-new_method-006",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 53,
+          "end_line": 53
+        },
+        {
+          "file": "Book1/Prop02/step7.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies the circle-radius fact for center d to prove DL equal to DG."
+    },
+    {
+      "id": "book1_prop02-new_method-007",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 55,
+          "end_line": 55
+        },
+        {
+          "file": "Book1/Prop02/step8.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The equality of DA and DB follows from both being sides of the equilateral triangle equal to AB."
+    },
+    {
+      "id": "book1_prop02-new_method-008",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 57,
+          "end_line": 57
+        },
+        {
+          "file": "Book1/Prop02/step9.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Using DL equal to DG, DA equal to DB, and the betweenness facts, the helper proves the remainders AL and BG equal."
+    },
+    {
+      "id": "book1_prop02-new_method-009",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 59,
+          "end_line": 59
+        },
+        {
+          "file": "Book1/Prop02/step10.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This restates the previously shown equality BC equal to BG."
+    },
+    {
+      "id": "book1_prop02-new_method-010",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 61,
+          "end_line": 61
+        },
+        {
+          "file": "Book1/Prop02/step11.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper conjoins that AL and BC are each equal to BG."
+    },
+    {
+      "id": "book1_prop02-new_method-011",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 63,
+          "end_line": 65
+        },
+        {
+          "file": "Book1/Prop02/step12.lean",
+          "start_line": 7,
+          "end_line": 11
+        },
+        {
+          "file": "Book1/Prop02/step13.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The transitivity helper applies equality to the same thing to conclude AL equal to BC."
+    },
+    {
+      "id": "book1_prop02-new_method-012",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s15",
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop02/Main.lean",
+          "start_line": 67,
+          "end_line": 67
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The final witness l and equality proof state that the required equal straight-line has been constructed."
+    }
+  ]
+}

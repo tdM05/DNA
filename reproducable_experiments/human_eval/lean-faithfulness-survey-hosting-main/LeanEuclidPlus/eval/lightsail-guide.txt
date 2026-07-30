@@ -1,0 +1,239 @@
+• Recommendation                                                                                                                                       
+  Use a 64 GB RAM Lightsail instance or larger. Your current server has already shown tens of GB of memory use during warm-up, so the small Lightsail  
+  plans are not appropriate. Lightsail has memory-optimized Linux bundles including 64 GB RAM, but they are not cheap; check the pricing page before   
+  committing. (aws.amazon.com (https://aws.amazon.com/lightsail/pricing/))                                                                             
+                                                                                                                                                       
+  Step 1: Create The Instance                                                                                                                          
+                                                                                                                                                       
+  1. Go to AWS Lightsail.                                                                                                                              
+  2. Create a new Linux/Unix instance. AWS documents Lightsail as supporting Linux/Unix VPS instances such as Ubuntu/Debian/Amazon Linux.              
+     (docs.aws.amazon.com                                                                                                                              
+     (https://docs.aws.amazon.com/lightsail/latest/userguide/how-to-create-amazon-lightsail-instance-virtual-private-server-vps.html))                 
+                                                                                                                                                       
+  3. Pick Ubuntu 24.04 LTS or 22.04 LTS.                                                                                                               
+  4. Pick at least:                                                                                                                                    
+      - Memory optimized, 64 GB RAM, or                                                                                                                
+      - larger if you want more cache/warm-up headroom.                                                                                                
+                                                                                                                                                       
+  5. Create the instance.                                                                                                                              
+                                                                                                                                                       
+  Step 2: Attach A Static IP                                                                                                                           
+  Do this before sharing the URL. Lightsail’s default public IP can change after stop/start, while a static IP stays attached to the instance.         
+  (docs.aws.amazon.com (https://docs.aws.amazon.com/lightsail/latest/userguide/lightsail-create-static-ip.html))                                       
+                                                                                                                                                       
+  In Lightsail:                                                                                                                                        
+                                                                                                                                                       
+  1. Go to Networking.                                                                                                                                 
+  2. Create a Static IP.                                                                                                                               
+  3. Attach it to your instance.                                                                                                                       
+                                                                                                                                                       
+  At this point your temporary public URL can be:                                                                                                      
+                                                                                                                                                       
+  http://YOUR_STATIC_IP/                                                                                                                               
+                                                                                                                                                       
+  Step 3: Open Firewall Ports                                                                                                                          
+  In the Lightsail instance networking/firewall settings, allow:                                                                                       
+                                                                                                                                                       
+  TCP 22   SSH, restrict to your own IP if possible                                                                                                    
+  TCP 80   HTTP, public                                                                                                                                
+  TCP 443  HTTPS, public                                                                                                                               
+                                                                                                                                                       
+  Lightsail firewall rules are allow rules; for public web traffic, HTTP/HTTPS normally allow all IPs, but SSH should be restricted.                   
+  (docs.aws.amazon.com (https://docs.aws.amazon.com/lightsail/latest/userguide/understanding-firewall-and-port-mappings-in-amazon-lightsail.html))     
+                                                                                                                                                       
+  Do not expose port 8765 publicly. Keep the Python survey server bound to 127.0.0.1:8765 and put Caddy/Nginx in front of it.    
+
+  Step 4: Install System Packages                                                                                                                      
+  SSH into the instance:                                                                                                                               
+                                                                                                                                                       
+  ssh ubuntu@YOUR_STATIC_IP
+
+  Then:
+
+  sudo apt update
+  sudo apt install -y git curl build-essential python3 python3-venv python3-pip sqlite3 tmux caddy
+
+  Install Lean via elan:
+
+  curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
+  echo 'export PATH="$HOME/.elan/bin:$PATH"' >> ~/.bashrc
+  source ~/.bashrc
+
+  Step 5: Put The Code On The VM
+  Create a deployment directory:
+
+  sudo mkdir -p /opt/lean-survey
+  sudo chown -R "$USER:$USER" /opt/lean-survey
+  cd /opt/lean-survey
+
+  Then either clone from GitHub:
+
+  git clone YOUR_REPO_URL DNA
+
+  or copy from this machine using rsync/scp.
+
+  Important: the survey expects both formalization roots:
+
+  /opt/lean-survey/DNA/LeanEuclidPlus
+  /opt/lean-survey/LeanEuclid
+
+  So copy/clone Method A too:
+
+  cd /opt/lean-survey
+  git clone METHOD_A_REPO_URL LeanEuclid
+
+  Step 6: Install Solver Versions
+  This is the fragile part. Reproduce the known-working solver setup:
+
+  z3 4.15.4
+  cvc5 1.3.4
+  smt package at the expected lake-manifest revision
+
+  I would create a solver venv:
+
+  python3 -m venv /opt/lean-survey/solver-venv
+  source /opt/lean-survey/solver-venv/bin/activate
+  pip install --upgrade pip
+
+  Then install the exact solver packages according to the LeanEuclid/LeanEuclidPlus setup guide or copy the working venv if that is easier.
+
+  After installation, confirm:
+
+  which z3
+  z3 --version
+  which cvc5
+  cvc5 --version
+  which smt-portfolio
+
+  Step 7: Build Both Lean Projects
+  Method B:
+
+  cd /opt/lean-survey/DNA/LeanEuclidPlus
+  PATH="/opt/lean-survey/solver-venv/bin:$HOME/.elan/bin:$PATH" lake build Book1
+
+  Method A:
+
+  cd /opt/lean-survey/LeanEuclid
+  PATH="$HOME/.elan/bin:$PATH" lake build Book
+
+  If Method A needs the older solver stack, keep separate solver paths and use the method-specific env vars we added.
+
+  Step 8: Create survey.env                                                                                                                            
+  On the VM:                                                                                                                                           
+                                                                                                                                                       
+  cd /opt/lean-survey/DNA/LeanEuclidPlus                                                                                                         
+  nano eval/survey/survey.env                                                                                                                          
+
+  Use something like:
+
+  SURVEY_HOST=127.0.0.1
+  SURVEY_PORT=8765
+  SURVEY_PUBLIC_URL=http://YOUR_STATIC_IP
+
+  LEANEUCLID_ROOT=/opt/lean-survey/LeanEuclid
+  LEAN_SURVEY_PATH_EXTENSIONS_LEANEUCLID_PLUS=/opt/lean-survey/solver-venv/bin
+
+  LEAN_SURVEY_WARM_CONCURRENCY=6
+  LEAN_SURVEY_PROP_CACHE_SIZE=12
+  LEAN_SURVEY_INIT_TIMEOUT=240
+
+  SURVEY_SMTP_HOST=smtp.gmail.com
+  SURVEY_SMTP_PORT=587
+  SURVEY_SMTP_USER=your_email@gmail.com
+  SURVEY_SMTP_PASSWORD=your_gmail_app_password
+  SURVEY_SMTP_FROM=your_email@gmail.com
+
+  If Method A needs a different solver path, add:
+
+  LEAN_SURVEY_PATH_EXTENSIONS_LEANEUCLID=/opt/lean-survey/method-a-solver-venv/bin
+
+  Step 9: Create A systemd Service
+  Create:
+
+  sudo nano /etc/systemd/system/lean-survey.service
+
+  Paste:
+
+  [Unit]
+  Description=Lean faithfulness survey
+  After=network.target
+
+  [Service]
+  Type=simple
+  User=ubuntu
+  WorkingDirectory=/opt/lean-survey/DNA/LeanEuclidPlus
+  ExecStart=/opt/lean-survey/DNA/LeanEuclidPlus/eval/survey/launch_survey.sh
+  Restart=always
+  RestartSec=5
+
+  [Install]
+  WantedBy=multi-user.target
+
+  Then:
+
+  sudo systemctl daemon-reload
+  sudo systemctl enable lean-survey
+  sudo systemctl start lean-survey
+  sudo systemctl status lean-survey
+
+  Check locally:
+
+  curl http://127.0.0.1:8765/
+
+  Step 10: Put Caddy In Front
+  Edit:
+
+  sudo nano /etc/caddy/Caddyfile
+
+  For IP-only HTTP:
+
+  :80 {
+      reverse_proxy 127.0.0.1:8765
+  }
+
+  Then:
+
+  sudo systemctl reload caddy
+
+  Now visit:
+
+  http://YOUR_STATIC_IP/
+
+  For HTTPS, buy/use a domain, point an A record to the Lightsail static IP, then use:
+
+  survey.yourdomain.edu {
+      reverse_proxy 127.0.0.1:8765
+  }
+
+  Caddy will handle HTTPS automatically once DNS points to the instance.
+
+  Step 11: Update Public URL
+  If using a domain:
+
+  SURVEY_PUBLIC_URL=https://survey.yourdomain.edu
+
+  If using only IP:
+
+  SURVEY_PUBLIC_URL=http://YOUR_STATIC_IP
+
+  Restart:
+
+  sudo systemctl restart lean-survey
+
+  Step 12: Final Checks
+  Run:
+
+  sudo systemctl status lean-survey
+  sudo journalctl -u lean-survey -n 100 --no-pager
+  curl -I http://127.0.0.1:8765/
+  curl -I http://YOUR_STATIC_IP/
+
+  Then check:
+
+  http://YOUR_STATIC_IP/admin/
+
+  or:
+
+  https://survey.yourdomain.edu/admin/
+
+  Use the admin password, create a reviewer code, and test one full review flow.

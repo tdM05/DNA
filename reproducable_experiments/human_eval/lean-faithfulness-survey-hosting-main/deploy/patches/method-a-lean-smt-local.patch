@@ -1,0 +1,640 @@
+diff --git a/Smt/Commands.lean b/Smt/Commands.lean
+index 3178985..84d4574 100644
+--- a/Smt/Commands.lean
++++ b/Smt/Commands.lean
+@@ -33,11 +33,12 @@ open Lean
+ open Term
+ open scoped Term.Notation
+ 
+-def defNat : Command := .defineSort "Nat" [] (`"Int")
++def defNat : Command := .defineSort "Nat" [] (Term.symbolT "Int")
+ 
+ def defNatSub : Command :=
+-  .defineFun "Nat.sub" [("x", `"Nat"), ("y", `"Nat")] (`"Nat")
+-    (`"ite" • (`"<" • `"x" • `"y") • ``"0" • (`"-" • `"x" • `"y"))
++  .defineFun "Nat.sub" [("x", Term.symbolT "Nat"), ("y", Term.symbolT "Nat")] (Term.symbolT "Nat")
++    (Term.symbolT "ite" • (Term.symbolT "<" • Term.symbolT "x" • Term.symbolT "y") • Term.literalT "0" •
++      (Term.symbolT "-" • Term.symbolT "x" • Term.symbolT "y"))
+     false
+ 
+ open ToSexp in
+diff --git a/Smt/Graph.lean b/Smt/Graph.lean
+index 59a2a1a..2588bdf 100644
+--- a/Smt/Graph.lean
++++ b/Smt/Graph.lean
+@@ -5,8 +5,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
+ Authors: Abdalrhman Mohamed, Wojciech Nawrocki
+ -/
+ 
+-import Lean.Data.HashMap
+-import Lean.Data.HashSet
++import Std.Data.HashMap
++import Std.Data.HashSet
+ import Lean.Message
+ 
+ open Lean Std
+@@ -17,22 +17,22 @@ namespace Graph
+ 
+ variable {α} {β} [BEq α] [Hashable α] (g : Graph α β) (v u : α) (e : β)
+ 
+-def empty : Graph α β := HashMap.empty
++def empty : Graph α β := HashMap.emptyWithCapacity
+ 
+ def vertices : List α := g.fold (fun a v _ => v :: a) []
+ 
+ def neighbors? : Option (List α) :=
+-  g.find? v >>= fun es => some (es.fold (fun a v _ => v :: a) [])
++  g.get? v >>= fun es => some (es.fold (fun a v _ => v :: a) [])
+ 
+ def neighbors! : List α := match (g.neighbors? v) with
+   | some ns => ns
+   | none    => panic! "vertex is not in the graph"
+ 
+-def addVertex : Graph α β := g.insert v HashMap.empty
++def addVertex : Graph α β := g.insert v HashMap.emptyWithCapacity
+ 
+-def addEdge : Graph α β := g.insert v ((g.find! v).insert u e)
++def addEdge : Graph α β := g.insert v ((g.get! v).insert u e)
+ 
+-def weight? : Option β := g.find? v >>= fun es => es.find? u
++def weight? : Option β := g.get? v >>= fun es => es.get? u
+ 
+ partial def dfs [Monad m] (f : α → m Unit) : m Unit :=
+   StateT.run' (s := HashSet.empty) do
+@@ -44,7 +44,7 @@ where
+     if vs.contains v then
+       return
+     set (vs.insert v)
+-    for u in g.neighbors! v do
++    for u in neighbors! g v do
+       visitVertex u
+     f v
+ 
+@@ -58,7 +58,7 @@ where
+     if vs.contains v then
+       return
+     set (vs.insert v)
+-    for u in g.neighbors! v do
++    for u in neighbors! g v do
+       visitVertex u
+     f v
+ 
+@@ -67,7 +67,7 @@ protected def format [ToFormat α] [ToFormat β] : Format :=
+   bracket "{" (joinSep (g.vertices.map formatVertex) ("," ++ line)) "}"
+ where
+   formatVertex (v : α) : Format :=
+-    f!"{v} ↦ {formatNeighbors (g.neighbors! v)}"
++    f!"{v} ↦ {formatNeighbors (neighbors! g v)}"
+   formatNeighbors (ns : List α) : Format :=
+     bracket "{" (joinSep ns ("," ++ line)) "}"
+ 
+@@ -79,7 +79,7 @@ protected def toMessageData [ToMessageData α] [ToMessageData β] : MessageData
+   bracket "{" (joinSep (g.vertices.map formatVertex) ("," ++ Format.line)) "}"
+ where
+   formatVertex (v : α) : MessageData :=
+-    m!"{v} ↦ {formatNeighbors (g.neighbors! v)}"
++    m!"{v} ↦ {formatNeighbors (neighbors! g v)}"
+   formatNeighbors (ns : List α) : MessageData :=
+     bracket "{" (joinSep (ns.map toMessageData) ("," ++ Format.line)) "}"
+ 
+diff --git a/Smt/Int.lean b/Smt/Int.lean
+index 9962fb9..345d20a 100644
+--- a/Smt/Int.lean
++++ b/Smt/Int.lean
+@@ -19,9 +19,7 @@ open Translator Term
+   | const ``Int.sub _  => return symbolT "-"
+   | const ``Int.neg _  => return symbolT "-"
+   | const ``Int.mul _  => return symbolT "*"
+-  | const ``Int.div _  -- TODO: one of these is probably wrong
+   | const ``Int.ediv _ => return symbolT "div"
+-  | const ``Int.mod _  -- TODO: one of these is probably wrong
+   | const ``Int.emod _ => return symbolT "mod"
+   | const ``Int.le _   => return symbolT "<="
+   | const ``Int.lt _   => return symbolT "<"
+diff --git a/Smt/Query.lean b/Smt/Query.lean
+index 056bf2d..f1d846b 100644
+--- a/Smt/Query.lean
++++ b/Smt/Query.lean
+@@ -6,6 +6,7 @@ Authors: Abdalrhman Mohamed, Tomaz Gomes Mascarenhas, Wojciech Nawrocki
+ -/
+ 
+ import Lean
++import Std.Data.HashMap
+ import Smt.Commands
+ import Smt.Graph
+ import Smt.Solver
+@@ -27,7 +28,7 @@ structure QueryBuilderM.Config where
+ 
+ structure QueryBuilderM.State where
+   graph : Graph Expr Unit := .empty
+-  commands : HashMap Expr Command := .empty
++  commands : Std.HashMap Expr Command := Std.HashMap.emptyWithCapacity
+ 
+ abbrev QueryBuilderM := ReaderT QueryBuilderM.Config <| StateT QueryBuilderM.State TranslationM
+ 
+@@ -260,9 +261,9 @@ private def addCommand (cmd : Command) (cmds : List Command) : MetaM (List Comma
+   | _ => pure ()
+   return cmds
+ 
+-def emitVertex (cmds : HashMap Expr Command) (e : Expr) : StateT (List Command) MetaM Unit := do
++def emitVertex (cmds : Std.HashMap Expr Command) (e : Expr) : StateT (List Command) MetaM Unit := do
+   trace[smt.debug.translate.query] "emitting {e}"
+-  let some cmd := cmds.find? e | throwError "no command was computed for {e}"
++  let some cmd := cmds.get? e | throwError "no command was computed for {e}"
+   set (← addCommand cmd (← get))
+ 
+ def generateQuery (goal : Expr) (hs : List Expr) : MetaM (List Command) :=
+diff --git a/Smt/Rat.lean b/Smt/Rat.lean
+index 94f3b0c..7281545 100644
+--- a/Smt/Rat.lean
++++ b/Smt/Rat.lean
+@@ -21,8 +21,8 @@ open Translator Term
+   | const ``Rat.neg _ => return symbolT "-"
+   | const ``Rat.mul _ => return symbolT "*"
+   | const ``Rat.div _ => return symbolT "div"
+-  | const ``Rat.lt _  => return symbolT "<"
+   | const ``Rat.blt _ => return symbolT "<"
++  | app (app (const ``LT.lt _) (const `Rat _)) _ => return symbolT "<"
+   | app (app (const ``LE.le _) (const `Rat _)) _ => return symbolT "<="
+   | app (app (const ``GT.gt _) (const `Rat _)) _ => return symbolT ">"
+   | app (app (const ``GE.ge _) (const `Rat _)) _ => return symbolT ">="
+diff --git a/Smt/Solver.lean b/Smt/Solver.lean
+index 5f9a7f0..1ad9238 100644
+--- a/Smt/Solver.lean
++++ b/Smt/Solver.lean
+@@ -6,13 +6,11 @@ Authors: Abdalrhman Mohamed
+ -/
+ 
+ import Lean
+-import Batteries.Data.HashMap
++import Std.Data.HashMap
+ import Smt.Commands
+ import Smt.Data.Sexp
+ import Smt.Term
+ 
+-open Batteries
+-
+ namespace Smt
+ 
+ inductive Kind where
+@@ -21,7 +19,7 @@ inductive Kind where
+   -- | vampire
+   --| yices
+   | z3
+-deriving DecidableEq, Inhabited, Hashable
++deriving DecidableEq, BEq, Inhabited, Hashable
+ 
+ def allKinds : List Kind := [
+   -- Kind.boolector,
+@@ -72,7 +70,7 @@ instance : ToString Result where
+ /-- The data-structure for the state of the generic SMT-LIB solver. -/
+ structure SolverState where
+   commands : List Command
+-  args : HashMap Kind (Array String)
++  args : Std.HashMap Kind (Array String)
+ 
+ abbrev SolverT (m) [Monad m] [MonadLiftT IO m] := StateT SolverState m
+ 
+@@ -90,7 +88,7 @@ def addCommands : List Command → SolverT m Unit := (List.forM · addCommand)
+ 
+ /-- Create an instance of a pre-configured SMT solver. -/
+ def create (timeoutSecs : Nat) : IO SolverState := do
+-  let args : HashMap Kind (Array String) := HashMap.ofList [
++  let args : Std.HashMap Kind (Array String) := Std.HashMap.ofList [
+     --(.boolector, #["--smt2", "--time", toString timeoutSecs]),
+     (.cvc5,      #["--quiet", "--incremental", "--lang", "smt", "--dag-thresh=0", "--enum-inst", "--tlimit", toString (1000 * timeoutSecs)]),
+     -- (.vampire,   #["--input_syntax", "smtlib2", "--output_mode", "smtcomp", "--time_limit", toString timeoutSecs]),
+@@ -140,7 +138,7 @@ def checkSat : SolverT m Result := do
+ 
+   for kind in allKinds do
+     args := args.push s!"--{kind.toDefaultPath}"
+-    args := args.push $ state.args[kind].get!.foldl (fun r s => r ++ " " ++ s) ""
++    args := args.push $ (state.args.get! kind).foldl (fun r s => r ++ " " ++ s) ""
+ 
+   let proc ← IO.Process.spawn {
+     cmd := "smt-portfolio"
+@@ -150,7 +148,7 @@ def checkSat : SolverT m Result := do
+     stderr := .piped
+   }
+ 
+-  for c in state.commands.reverse ++ [.exit] do
++  for c in state.commands.reverse ++ [Command.exit] do
+     proc.stdin.putStr s!"{c}\n"
+ 
+   proc.stdin.flush
+diff --git a/Smt/Tactic/EqnDef.lean b/Smt/Tactic/EqnDef.lean
+index ab0a2f8..9044808 100644
+--- a/Smt/Tactic/EqnDef.lean
++++ b/Smt/Tactic/EqnDef.lean
+@@ -10,6 +10,7 @@ import Lean.Meta.Eqns
+ import Lean.Meta.Tactic.Assert
+ import Lean.Elab.Tactic.Basic
+ import Lean.Elab.Term
++import Std.Data.HashSet
+ 
+ import Smt.Tactic.WHNFSmt
+ 
+@@ -131,7 +132,7 @@ elab "extract_def" i:ident : tactic => do
+   let _ ← addEqnDefForConst nm
+ 
+ /-- Specialize an equational definition via partial evaluation. See `specialize_def`. -/
+-def specializeEqnDef (x : FVarId) (args : Array Expr) (opaqueConsts : HashSet Name := {})
++def specializeEqnDef (x : FVarId) (args : Array Expr) (opaqueConsts : Std.HashSet Name := {})
+     : TacticM FVarId := do
+   withMainContext do
+     let eqn ← inferType (mkFVar x)
+@@ -172,35 +173,22 @@ def specializeEqnDef (x : FVarId) (args : Array Expr) (opaqueConsts : HashSet Na
+         let (fvEq, mvarId) ← (← mvarId.assert (nm ++ `specialization) eqnRw pfRw).intro1P
+         return (fvEq, [mvarId])
+ 
+-syntax blockingConsts := "blocking [" term,* "]"
+-
+ /-- `specialize_def foo [arg₁, ⋯, argₙ]` introduces a new equational definition `foo.arg₁.⋯.argₙ`
+ whose body is the partial evaluation of `foo arg₁ ⋯ argₙ`. During reduction, all SMT-LIB builtins
+ are blocked from unfolding and `let_opaque` bindings are not zeta-eliminated. It also introduces
+ a `foo.arg₁.⋯.argₙ.specialization` equation which can be used to rewrite other expressions.
+ 
+-You can block additional constants from unfolding during evaluation using
+-`specialize_def foo [arg₁, ⋯, argₙ] blocking [bar₁, bar₂]`.
+-
+ See `Playground/WHNFExamples.lean` for examples of partially evaluating definitions.
+ 
+ **WARNING**: This is currently extremely slow! On any sizeable expression the evaluator, typechecker,
+ or kernel is likely to time out. -/
+-syntax (name := specializeDef) "specialize_def" ident "[" term,* "]" optional(blockingConsts) : tactic
++syntax (name := specializeDef) "specialize_def" ident "[" term,* "]" : tactic
+ 
+ open Lean Meta Elab Tactic in
+ @[tactic specializeDef] def elabSpecializeDef : Tactic
+   | `(tactic|specialize_def $i [ $ts,* ]) => go i ts {}
+-  | `(tactic|specialize_def $i [ $ts,* ] blocking [ $bs,* ]) =>
+-    withMainContext do
+-      let opaqueConsts ← bs.getElems.foldlM (init := HashSet.empty) fun cs b => do
+-        match ← elabTerm b none with
+-        | .const nm _ => return cs.insert nm
+-        | .fvar fv    => return cs.insert (← fv.getDecl).userName
+-        | _           => throwError "expected a (local) constant, got{indentD b}"
+-      go i ts opaqueConsts
+   | stx => throwError "unexpected syntax {stx}"
+-where go (i : TSyntax `ident) (ts : TSyntaxArray `term) (opaqueConsts : HashSet Name) : TacticM Unit :=
++where go (i : TSyntax `ident) (ts : TSyntaxArray `term) (opaqueConsts : Std.HashSet Name) : TacticM Unit :=
+   withMainContext do
+     let nm := i.getId
+     let ld ← getLocalDeclFromUserName (eqnDefName nm)
+diff --git a/Smt/Tactic/Smt.lean b/Smt/Tactic/Smt.lean
+index 010547a..95a6e35 100644
+--- a/Smt/Tactic/Smt.lean
++++ b/Smt/Tactic/Smt.lean
+@@ -26,10 +26,10 @@ initialize
+   registerTraceClass `smt.debug.translate.query
+   registerTraceClass `smt.debug.translate.expr
+ 
+-syntax smtHints := ("[" term,* "]")?
+-syntax smtTimeout := ("(timeout := " num ")")?
++syntax (name := smtNoArgs) "smt" : tactic
++syntax (name := smtWithHints) "smt" "[" term,* "]" : tactic
+ 
+-/-- `smt` converts the current goal into an SMT query and checks if it is
++/- `smt` converts the current goal into an SMT query and checks if it is
+ satisfiable. By default, `smt` generates the minimum valid SMT query needed to
+ assert the current goal. However, that is not always enough:
+ ```lean
+@@ -58,20 +58,12 @@ The tactic then generates the query below:
+ (check-sat)
+ ```
+ -/
+-syntax (name := smt) "smt" smtHints smtTimeout : tactic
+-
+ /-- Like `smt`, but just shows the query without invoking a solver. -/
+-syntax (name := smtShow) "smt_show" smtHints : tactic
++syntax (name := smtShowNoArgs) "smt_show" : tactic
++syntax (name := smtShowWithHints) "smt_show" "[" term,* "]" : tactic
+ 
+-def parseHints : TSyntax `smtHints → TacticM (List Expr)
+-  | `(smtHints| [ $[$hs],* ]) => hs.toList.mapM (fun h => elabTerm h.raw none)
+-  | `(smtHints| ) => return []
+-  | _ => throwUnsupportedSyntax
+-
+-def parseTimeout : TSyntax `smtTimeout → TacticM (Option Nat)
+-  | `(smtTimeout| (timeout := $n)) => return some n.getNat
+-  | `(smtTimeout| ) => return some 5
+-  | _ => throwUnsupportedSyntax
++def elabHints (hs : TSyntaxArray `term) : TacticM (List Expr) :=
++  hs.toList.mapM (fun h => elabTerm h.raw none)
+ 
+ def withProcessedHints (hs : List Expr) (k : List Expr → TacticM α): TacticM α :=
+   withProcessHints' hs [] k
+@@ -97,7 +89,7 @@ def prepareSmtQuery (hs : List Expr) : TacticM (List Command) := do
+ 
+ def elabProof (text : String) : TacticM Name := do
+   let name ← mkFreshId
+-  let name := Name.str name.getPrefix ("th0" ++ name.getString)
++  let name := Name.str name.getPrefix ("th0" ++ name.getString!)
+   let text := text.replace "th0" s!"{name}"
+   let (env, log) ← process text (← getEnv) .empty "<proof>"
+   _ ← modifyEnv (fun _ => env)
+@@ -131,42 +123,9 @@ private def addDeclToUnfoldOrTheorem (thms : Meta.SimpTheorems) (e : Expr) : Met
+   else
+     thms.add (.fvar e.fvarId!) #[] e
+ 
+-/-
+-open Reconstruction.Certifying in
+-def rconsProof (name : Name) (hints : List Expr) : TacticM Unit := do
+-  let mvar' ← Smt.Util.rewriteIffMeta (← Tactic.getMainGoal)
+-  replaceMainGoal [mvar']
+-  let mut gs ← (← Tactic.getMainGoal).apply (mkApp (mkConst ``notNotElim) (← Tactic.getMainTarget))
+-  Tactic.replaceMainGoal gs
+-  let th ← Meta.mkConstWithFreshMVarLevels name
+-  trace[smt.debug.reconstruct] "theorem {name} : {← Meta.inferType th}"
+-  gs ← (← Tactic.getMainGoal).apply th
+-  Tactic.replaceMainGoal gs
+-  for h in hints do
+-    evalAnyGoals do
+-      let gs ← (← Tactic.getMainGoal).apply h
+-      Tactic.replaceMainGoal gs
+-  let mut some thms ← (← Meta.getSimpExtension? `smt_simp).mapM (·.getTheorems)
+-    | throwError "smt tactic failed, 'smt_simp' simpset is not available"
+-  -- TODO: replace with our abbreviation of `Implies`
+-  thms ← thms.addDeclToUnfold ``Implies
+-  for h in hints do
+-    thms ← addDeclToUnfoldOrTheorem thms h
+-  evalAnyGoals do
+-    let (result?, _) ← Meta.simpGoal (← Tactic.getMainGoal) {
+-      config := { { : Lean.Meta.Simp.Config } with failIfUnchanged := false }
+-      simpTheorems := #[thms],
+-      congrTheorems := (← Meta.getSimpCongrTheorems)
+-    }
+-    match result? with
+-    | none => replaceMainGoal []
+-    | some (_, mvarId) => replaceMainGoal [mvarId]
+--/
+-
+-@[tactic smt] def evalSmt : Tactic := fun stx => withMainContext do
++def evalSmtCore (hs : List Expr) (timeout : Nat) : TacticM Unit := withMainContext do
+   let goalType ← Tactic.getMainTarget
+-  -- 1. Get the hints passed to the tactic.
+-  let mut hs ← parseHints ⟨stx[1]⟩
++  let mut hs := hs
+   hs := hs.eraseDups
+   withProcessedHints hs fun hs => do
+   -- 2. Generate the SMT query.
+@@ -175,8 +134,7 @@ def rconsProof (name : Name) (hints : List Expr) : TacticM Unit := do
+   logInfo m!"goal: {goalType}"
+   logInfo m!"\nquery:\n{Command.cmdsAsQuery (.checkSat :: cmds)}"
+   -- 3. Run the solver.
+-  let timeout ← parseTimeout ⟨stx[2]⟩
+-  let ss ← create timeout.get!
++  let ss ← create timeout
+   let res ← StateT.run' query ss
+   -- 4. Print the result.
+   logInfo m!"\nresult: {res}"
+@@ -187,38 +145,31 @@ def rconsProof (name : Name) (hints : List Expr) : TacticM Unit := do
+   | .unknown => throwError "unable to prove goal"
+   | .timeout => throwError "the SMT solver timed out"
+   | .unsat => return ()
+-  /-
+-  try
+-    -- 4b. Reconstruct proof.
+-    let (.expr [.atom "proof", .atom nnp], _) ← StateT.run getProof ss
+-      | throwError "encountered error parsing cvc5 proof"
+-    let nnp := skipImports (unquote nnp)
+-    trace[smt.debug.reconstruct] "proof:\n{nnp}"
+-    let name ← elabProof nnp
+-    rconsProof name hs
+-  catch e =>
+-    logInfo m!"failed to reconstruct proof: {e.toMessageData}"
+-  -/
+-/-
+-where
+-  unquote s := s.extract ⟨1⟩ (s.endPos - ⟨1⟩)
+-  skipImports (s : String) := Id.run do
+-    let mut s := s
+-    while s.startsWith "import" do
+-      s := s.dropWhile (· != '\n')
+-      s := s.drop 1
+-    return s
+--/
++@[tactic smtNoArgs] def evalSmtNoArgs : Tactic
++  | `(tactic|smt) => evalSmtCore [] 5
++  | _ => throwUnsupportedSyntax
+ 
+-@[tactic smtShow] def evalSmtShow : Tactic := fun stx => withMainContext do
++@[tactic smtWithHints] def evalSmtWithHints : Tactic
++  | `(tactic|smt [ $hs,* ]) => do evalSmtCore (← elabHints hs) 5
++  | _ => throwUnsupportedSyntax
++
++def evalSmtShowCore (hs : List Expr) : TacticM Unit := withMainContext do
+   let goalType ← Tactic.getMainTarget
+-  let mut hs ← parseHints ⟨stx[1]⟩
++  let mut hs := hs
+   hs := hs.eraseDups
+   withProcessedHints hs fun hs => do
+   let cmds ← prepareSmtQuery hs
+   let cmds := .checkSat :: cmds
+   logInfo m!"goal: {goalType}\n\nquery:\n{Command.cmdsAsQuery cmds}"
+ 
++@[tactic smtShowNoArgs] def evalSmtShowNoArgs : Tactic
++  | `(tactic|smt_show) => evalSmtShowCore []
++  | _ => throwUnsupportedSyntax
++
++@[tactic smtShowWithHints] def evalSmtShowWithHints : Tactic
++  | `(tactic|smt_show [ $hs,* ]) => do evalSmtShowCore (← elabHints hs)
++  | _ => throwUnsupportedSyntax
++
+ def elimDvd : TacticM Unit := do
+   return ()
+ 
+@@ -261,10 +212,7 @@ def getLocalHypotheses : MetaM (List Expr) := do
+ 
+ axiom SMT_VERIF (P : Prop) : P
+ 
+-/-
+-  Close the current goal using the above axiom.
+-  It is crucial to ensure that this is only invoked when an `unsat` result is returned
+--/
++/-- Close the current goal using `SMT_VERIF`; only call this after an `unsat` solver result. -/
+ def closeWithAxiom : TacticM Unit := do
+   let _ ← evalTactic (← `(tactic| apply SMT_VERIF))
+ 
+diff --git a/Smt/Tactic/WHNFConfigurable.lean b/Smt/Tactic/WHNFConfigurable.lean
+index a485970..05b039b 100644
+--- a/Smt/Tactic/WHNFConfigurable.lean
++++ b/Smt/Tactic/WHNFConfigurable.lean
+@@ -124,7 +124,7 @@ private def toCtorWhenK (recVal : RecursorVal) (major : Expr) : ReductionM Expr
+   let majorType ← inferType major
+   let majorType ← instantiateMVars (← whnf majorType)
+   let majorTypeI := majorType.getAppFn
+-  if !majorTypeI.isConstOf recVal.getInduct then
++  if !majorTypeI.isConstOf recVal.getMajorInduct then
+     return major
+   else if majorType.hasExprMVar && majorType.getAppArgs[recVal.numParams:].any Expr.hasExprMVar then
+     return major
+@@ -200,7 +200,7 @@ private def reduceRec (recVal : RecursorVal) (recLvls : List Level) (recArgs : A
+       if recVal.k then
+         major ← toCtorWhenK recVal major
+       major := toCtorIfLit major
+-      major ← toCtorWhenStructure recVal.getInduct major
++      major ← toCtorWhenStructure recVal.getMajorInduct major
+       let some rule := getRecRuleFor recVal major | return none
+       let majorArgs := major.getAppArgs
+       guard (recLvls.length == recVal.levelParams.length)
+@@ -223,7 +223,7 @@ private def reduceRec (recVal : RecursorVal) (recLvls : List Level) (recArgs : A
+         trace[Smt.reduce.rec] "failed."
+         failK ()
+ 
+-    let major ← whnf <| recArgs.get ⟨majorIdx, h⟩
++      let major ← whnf recArgs[majorIdx]
+     if (← read).letPushElim then
+       letTelescopeAbstracting major fun _ major abs => do
+         let e' ← cont major
+@@ -244,7 +244,7 @@ private def reduceQuotRec (recVal  : QuotVal) (_ : List Level) (recArgs : Array
+     : ReductionM α :=
+   let process (majorPos argPos : Nat) : ReductionM α :=
+     if h : majorPos < recArgs.size then do
+-      let major := recArgs.get ⟨majorPos, h⟩
++      let major := recArgs[majorPos]
+       let major ← whnf major
+       match major with
+       | Expr.app (Expr.app (Expr.app (Expr.const majorFn _) _) _) majorArg => do
+@@ -273,7 +273,7 @@ mutual
+     else do
+       let majorIdx := recVal.getMajorIdx
+       if h : majorIdx < recArgs.size then do
+-        let major := recArgs.get ⟨majorIdx, h⟩
++        let major := recArgs[majorIdx]
+         let major ← whnf major
+         getStuckMVar? major
+       else
+@@ -282,7 +282,7 @@ mutual
+   private partial def isQuotRecStuck? (recVal : QuotVal) (recArgs : Array Expr) : ReductionM (Option MVarId) :=
+     let process? (majorPos : Nat) : ReductionM (Option MVarId) :=
+       if h : majorPos < recArgs.size then do
+-        let major := recArgs.get ⟨majorPos, h⟩
++        let major := recArgs[majorPos]
+         let major ← whnf major
+         getStuckMVar? major
+       else
+@@ -340,7 +340,7 @@ end
+     | LocalDecl.cdecl .. => return e
+     | LocalDecl.ldecl (value := v) .. =>
+       let cfg ← getConfig
+-      if cfg.trackZetaDelta then
++      if (← readThe Meta.Context).trackZetaDelta then
+         modify fun s => { s with zetaDeltaFVarIds := s.zetaDeltaFVarIds.insert fvarId }
+       whnfEasyCases v k
+   | Expr.mvar mvarId   =>
+@@ -699,7 +699,7 @@ where
+ 
+ def shouldUnfold (ci : ConstantInfo) : ReductionM Bool := do
+   let some canUnfold := (← readThe Meta.Context).canUnfold? | return true
+-  let cfg := (← readThe Meta.Context).config
++  let cfg ← getConfig
+   canUnfold cfg ci
+ 
+ mutual
+@@ -926,19 +926,14 @@ def reduceNat? (e : Expr) : ReductionM (Option Expr) :=
+ 
+ @[inline] private def cached? (useCache : Bool) (e : Expr) : MetaM (Option Expr) := do
+   if useCache then
+-    match (← getConfig).transparency with
+-    | TransparencyMode.default => return (← get).cache.whnfDefault.find? e
+-    | TransparencyMode.all     => return (← get).cache.whnfAll.find? e
+-    | _                        => unreachable!
++    return (← get).cache.whnf.find? (← mkExprConfigCacheKey e)
+   else
+     return none
+ 
+ private def cache (useCache : Bool) (e r : Expr) : MetaM Expr := do
+   if useCache then
+-    match (← getConfig).transparency with
+-    | TransparencyMode.default => modify fun s => { s with cache.whnfDefault := s.cache.whnfDefault.insert e r }
+-    | TransparencyMode.all     => modify fun s => { s with cache.whnfAll     := s.cache.whnfAll.insert e r }
+-    | _                        => unreachable!
++    let key ← mkExprConfigCacheKey e
++    modify fun s => { s with cache.whnf := s.cache.whnf.insert key r }
+   return r
+ 
+ partial def whnfImp (e : Expr) : ReductionM Expr :=
+diff --git a/Smt/Tactic/WHNFSmt.lean b/Smt/Tactic/WHNFSmt.lean
+index d535be4..aece675 100644
+--- a/Smt/Tactic/WHNFSmt.lean
++++ b/Smt/Tactic/WHNFSmt.lean
+@@ -7,14 +7,15 @@ Authors: Wojciech Nawrocki
+ import Smt.Tactic.WHNFConfigurable
+ import Lean.Elab.Term
+ import Lean.Elab.Binders
++import Std.Data.HashSet
+ 
+ namespace Smt
+ 
+ open Lean
+ 
+ /-- Constants which SMT knows about and we thus don't want to unfold. -/
+-def smtConsts : HashSet Name :=
+-  List.foldr (fun c s => s.insert c) HashSet.empty
++def smtConsts : Std.HashSet Name :=
++  List.foldr (fun c s => s.insert c) Std.HashSet.emptyWithCapacity
+   [
+     ``Eq,
+     ``BEq.beq,
+@@ -94,7 +95,7 @@ def smtConsts : HashSet Name :=
+     ``UInt32.shiftRight
+   ]
+ 
+-def opaquePred (opaqueConsts : HashSet Name) (_ : Meta.Config) (ci : ConstantInfo) : CoreM Bool := do
++def opaquePred (opaqueConsts : Std.HashSet Name) (_ : Meta.Config) (ci : ConstantInfo) : CoreM Bool := do
+   if smtConsts.contains ci.name || opaqueConsts.contains ci.name then
+     return false
+   return true
+@@ -103,7 +104,7 @@ def opaquePred (opaqueConsts : HashSet Name) (_ : Meta.Config) (ci : ConstantInf
+ to let-lift `let-opaque` bindings. This can produce linearly-sized terms in certain cases. 
+ 
+ Constants with names in `opaqueConsts` are also not unfolded. -/
+-def smtOpaqueReduce (e : Expr) (opaqueConsts : HashSet Name := {}) : MetaM Expr :=
++def smtOpaqueReduce (e : Expr) (opaqueConsts : Std.HashSet Name := {}) : MetaM Expr :=
+   withTheReader Meta.Context (fun ctx => { ctx with
+     canUnfold? := some (opaquePred opaqueConsts)
+   }) do Smt.reduce (skipTypes := false) e |>.run {
+diff --git a/Smt/Term.lean b/Smt/Term.lean
+index f62a737..e769704 100644
+--- a/Smt/Term.lean
++++ b/Smt/Term.lean
+@@ -34,8 +34,6 @@ namespace Term
+ namespace Notation
+ 
+ scoped infixl:20 " • "  => appT
+-scoped prefix:21 " ` "  => symbolT
+-scoped prefix:21 " `` " => literalT
+ 
+ end Notation
+ 
+diff --git a/Smt/Translator.lean b/Smt/Translator.lean
+index e03b1ee..f90623e 100644
+--- a/Smt/Translator.lean
++++ b/Smt/Translator.lean
+@@ -6,6 +6,7 @@ Authors: Abdalrhman Mohamed, Wojciech Nawrocki
+ -/
+ 
+ import Lean
++import Std.Data.HashMap
+ 
+ import Smt.Term
+ import Smt.Util
+@@ -21,7 +22,7 @@ structure TranslationM.State where
+   in order to build a dependency graph. The value is reset at the `translateExpr` entry point. -/
+   depConstants : NameSet := .empty
+   /-- Memoizes `applyTranslators?` calls together with what they add to `depConstants`. -/
+-  cache : HashMap Expr (Option (Term × NameSet)) := .empty
++  cache : Std.HashMap Expr (Option (Term × NameSet)) := Std.HashMap.emptyWithCapacity
+ 
+ abbrev TranslationM := StateT TranslationM.State MetaM
+ 
+@@ -54,7 +55,7 @@ opaque getTranslators : MetaM (List (Translator × Name))
+ 
+ /-- Return a cached translation of `e` if found, otherwise run `k e` and cache the result. -/
+ def withCache (k : Translator) (e : Expr) : TranslationM (Option Term) := do
+-  match (← get).cache.find? e with
++  match (← get).cache.get? e with
+   | some (some (tm, deps)) =>
+     modify fun st => { st with depConstants := st.depConstants.union deps }
+     return some tm

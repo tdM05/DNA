@@ -1,0 +1,280 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop40",
+  "mappings": [
+    {
+      "id": "book1_prop40_leaneuclid_merged_book1_prop40_leaneuclid_statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop40.lean",
+          "start_line": 8,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement packages the proposition, its hypotheses about equal triangles on equal bases and the same side, and the conclusion that the joining line does not meet the base line. / The hypothesis distinctPointsOnLine a d AD formalizes joining A and D by the line AD."
+    },
+    {
+      "id": "book1_prop40-leaneuclid-s6-af",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop40.lean",
+          "start_line": 14,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The contradiction setup and applications construct the parallel AF through A and locate F for the subsequent joined line."
+    },
+    {
+      "id": "book1_prop40-leaneuclid-s6-fe",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop40.lean",
+          "start_line": 24,
+          "end_line": 24
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The line_from_points construction creates the joined line FE."
+    },
+    {
+      "id": "book1_prop40-leaneuclid-s7-s8",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7",
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop40.lean",
+          "start_line": 25,
+          "end_line": 25
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The invocation of Proposition 38 proves equality of triangles ABC and FCE from equal bases and common parallels."
+    },
+    {
+      "id": "book1_prop40_leaneuclid_merged_book1_prop40_leaneuclid_s9_s10_s11",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9",
+        "s10",
+        "s11",
+        "s14",
+        "s15",
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop40.lean",
+          "start_line": 26,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The asserted equality of DCE and FCE combines the given equality with the Proposition 38 result, and euclid_finish derives the contradiction. / Closing the contradiction establishes that AD is parallel to the base line, which is the proposition's final conclusion."
+    },
+    {
+      "id": "book1_prop40-leaneuclid-omitted-branch",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop40.lean",
+          "start_line": 17,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The case split and omitted branch handle the alternate configuration Euclid summarizes as a similar argument."
+    },
+    {
+      "id": "book1_prop40-new_method-1",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s2"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop40/Main.lean",
+          "start_line": 15,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The theorem hypotheses encode the two equal triangles, the equal bases, and their same-side position."
+    },
+    {
+      "id": "book1_prop40-new_method-2",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s3",
+        "s5",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop40/Main.lean",
+          "start_line": 18,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The formal conclusion that AD does not intersect BC is the parallelism claim for AD and BE."
+    },
+    {
+      "id": "book1_prop40-new_method-3",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop40/Main.lean",
+          "start_line": 21,
+          "end_line": 21
+        },
+        {
+          "file": "Book1/Prop40/step1.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper packages the fact that AD is the line through the distinct points A and D."
+    },
+    {
+      "id": "book1_prop40-new_method-4",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop40/Main.lean",
+          "start_line": 23,
+          "end_line": 28
+        },
+        {
+          "file": "Book1/Prop40/step3.lean",
+          "start_line": 7,
+          "end_line": 10
+        },
+        {
+          "file": "Book1/Prop40/step4.lean",
+          "start_line": 7,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines construct AF through A parallel to BC, find F, join FE, and verify FE is a genuine line."
+    },
+    {
+      "id": "book1_prop40_new_method_merged_book1_prop40_new_method_5",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8",
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop40/Main.lean",
+          "start_line": 30,
+          "end_line": 34
+        },
+        {
+          "file": "Book1/Prop40/step5.lean",
+          "start_line": 24,
+          "end_line": 29
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The code supplies the equal-base and parallel hypotheses needed to invoke Proposition 38. / The result of Proposition 38 is the equality of triangles ABC and FCE."
+    },
+    {
+      "id": "book1_prop40-new_method-7",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop40/Main.lean",
+          "start_line": 36,
+          "end_line": 36
+        },
+        {
+          "file": "Book1/Prop40/step6.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This restates the assumed equality of triangle ABC and triangle DCE."
+    },
+    {
+      "id": "book1_prop40-new_method-8",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop40/Main.lean",
+          "start_line": 38,
+          "end_line": 38
+        },
+        {
+          "file": "Book1/Prop40/step7.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Transitivity of equality derives equality of DCE and FCE from their common equality to ABC."
+    },
+    {
+      "id": "book1_prop40-new_method-9",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11",
+        "s12",
+        "s13",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop40/Main.lean",
+          "start_line": 40,
+          "end_line": 42
+        },
+        {
+          "file": "Book1/Prop40/step8.lean",
+          "start_line": 26,
+          "end_line": 51
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper proves the impossibility of the constructed equal greater and lesser triangles and closes the contradiction, yielding the unique parallel AD."
+    }
+  ]
+}

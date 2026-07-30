@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Faithfulness Survey</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <section id="welcomeGate" class="welcome-gate">
+    <form id="reviewerGateForm" class="welcome-panel">
+      <p class="eyebrow">Faithfulness Survey</p>
+      <h1>Welcome</h1>
+      <p class="welcome-copy">Enter your email address to receive your personal survey link.</p>
+      <label class="field">
+        <span>Email address</span>
+        <input id="gateEmail" type="email" autocomplete="email" placeholder="reviewer@example.edu">
+      </label>
+      <p class="welcome-copy compact">Your email is used only to send survey instructions and to let you resume your progress. Survey responses remain anonymous.</p>
+      <button id="enterReview" class="primary" type="submit">Send personal link</button>
+      <p id="gateMessage" class="gate-message" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <div id="app" class="app-shell hidden">
+    <aside id="sidebar" class="sidebar">
+      <div class="brand">
+        <div>
+          <p class="eyebrow">Euclid formalization</p>
+          <h1>Faithfulness Survey</h1>
+        </div>
+        <button id="toggleSidebar" class="icon-button panel-toggle" title="Collapse proposition list" aria-label="Collapse proposition list" aria-expanded="true">‹</button>
+      </div>
+
+      <label class="field hidden">
+        <span>Reviewer identity</span>
+        <input id="reviewerCode" type="hidden" autocomplete="off">
+      </label>
+
+      <div class="filters">
+        <button class="seg active" data-filter="all">All</button>
+        <button class="seg" data-filter="assigned">Assigned</button>
+        <button class="seg" data-filter="not_started">Not started</button>
+        <button class="seg" data-filter="in_progress">In progress</button>
+        <button class="seg" data-filter="done">Done</button>
+      </div>
+
+      <label class="field">
+        <span>Find proposition</span>
+        <input id="searchBox" placeholder="number or text">
+      </label>
+
+      <nav id="propList" class="prop-list" aria-label="Propositions"></nav>
+    </aside>
+
+    <main class="workspace">
+      <section class="topbar">
+        <div class="topbar-title">
+          <button id="showSidebar" class="icon-button show-sidebar hidden" title="Open proposition list" aria-label="Open proposition list">☰</button>
+          <div>
+            <p class="eyebrow">Current proposition</p>
+            <h2 id="propKicker">Loading</h2>
+          </div>
+        </div>
+        <div class="actions">
+          <div class="prop-nav" aria-label="Proposition navigation">
+            <button id="prevProp" class="icon-button stage-button" title="Previous question" aria-label="Previous question">
+              <span class="stage-arrow" aria-hidden="true">‹</span>
+              <span class="stage-label">Prev question</span>
+            </button>
+            <button id="nextProp" class="icon-button stage-button" title="Next question" aria-label="Next question">
+              <span class="stage-label">Next question</span>
+              <span class="stage-arrow" aria-hidden="true">›</span>
+            </button>
+          </div>
+          <button id="nextAssignedProp" class="text-button" type="button">Next proposition</button>
+          <button id="tutorialButton" class="text-button" type="button">Tutorial</button>
+          <span id="saveStatus" class="save-status" role="status" aria-live="polite">Autosave ready</span>
+          <button id="showLean" class="icon-button show-lean hidden" title="Open Lean line state" aria-label="Open Lean line state">◨</button>
+        </div>
+      </section>
+
+      <section id="availabilityBanner" class="banner hidden"></section>
+      <section id="completionNotice" class="completion-notice hidden" role="status" aria-live="polite">
+        Proposition review complete. Next proposition is ready.
+      </section>
+
+      <section id="reviewWorkspace" class="review-workspace">
+        <button id="toggleComparisonReading" class="comparison-collapse-control hidden" type="button" aria-expanded="false">
+          <span class="comparison-collapse-label">Textbook and diagram</span>
+          <span class="comparison-collapse-icon" aria-hidden="true">⌄</span>
+        </button>
+        <section class="reading-grid">
+          <article class="text-panel panel">
+            <div class="panel-head">
+              <h3>Textbook</h3>
+              <button id="toggleText" class="text-button">Compact</button>
+            </div>
+            <div id="nlText" class="nl-text"></div>
+          </article>
+
+          <aside class="diagram-panel panel">
+            <div class="panel-head">
+              <h3>Diagram</h3>
+            </div>
+            <div id="diagramBox" class="diagram-box"></div>
+          </aside>
+        </section>
+
+        <button id="toggleComparisonCode" class="comparison-collapse-control hidden" type="button" aria-expanded="false">
+          <span class="comparison-collapse-label">Formalizations</span>
+          <span class="comparison-collapse-icon" aria-hidden="true">⌄</span>
+        </button>
+        <section class="formalization-grid">
+          <article class="method-panel panel" data-method="leaneuclid" data-slot="A">
+            <div class="panel-head">
+              <div class="method-title">
+                <h3 id="methodALabel">Formalization A</h3>
+                <p id="methodAPath" class="subtle"></p>
+              </div>
+              <button id="toggleMethodA" class="icon-button method-toggle hidden" data-toggle-method="leaneuclid"
+                title="Collapse Formalization A panel" aria-label="Collapse Formalization A panel" aria-expanded="true">−</button>
+            </div>
+            <div id="methodACode" class="method-code"></div>
+          </article>
+
+          <article class="method-panel panel" data-method="new_method" data-slot="B">
+            <div class="panel-head">
+              <div class="method-title">
+                <h3 id="methodBLabel">Formalization B</h3>
+                <p id="methodBPath" class="subtle"></p>
+              </div>
+              <button id="toggleMethodB" class="icon-button method-toggle hidden" data-toggle-method="new_method"
+                title="Collapse Formalization B panel" aria-label="Collapse Formalization B panel" aria-expanded="true">−</button>
+            </div>
+            <div id="methodBCode" class="method-code"></div>
+          </article>
+        </section>
+      </section>
+
+      <section class="panel scoring-panel">
+        <div id="metricCards" class="metric-cards"></div>
+      </section>
+    </main>
+
+    <aside id="leanPanel" class="lean-panel">
+      <div class="lean-head">
+        <div class="lean-title-wrap">
+          <p class="eyebrow">Lean line state</p>
+          <h3 id="leanTitle">No line selected</h3>
+        </div>
+        <div class="lean-actions">
+          <button id="leanRefresh" class="icon-button" title="Refresh Lean state" aria-label="Refresh Lean state">↻</button>
+          <button id="leanCopy" class="icon-button" title="Copy tactic state" aria-label="Copy tactic state">⧉</button>
+          <button id="toggleLean" class="icon-button panel-toggle" title="Collapse Lean panel" aria-label="Collapse Lean panel" aria-expanded="true">›</button>
+        </div>
+      </div>
+      <div id="leanWarmStatus" class="lean-warm-status hidden"></div>
+      <div id="leanContent" class="lean-content">
+        <p class="subtle">Select a Lean line to inspect live tactic state and diagnostics.</p>
+      </div>
+    </aside>
+  </div>
+
+  <div id="tutorialOverlay" class="tutorial-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle">
+    <div class="tutorial-backdrop"></div>
+    <div id="tutorialRing" class="tutorial-ring"></div>
+    <section id="tutorialCard" class="tutorial-card">
+      <p id="tutorialStepCount" class="eyebrow"></p>
+      <h2 id="tutorialTitle"></h2>
+      <p id="tutorialBody"></p>
+      <div class="tutorial-actions">
+        <button id="tutorialSkip" class="text-button" type="button">Skip</button>
+        <div>
+          <button id="tutorialBack" class="text-button" type="button">Back</button>
+          <button id="tutorialNext" class="primary" type="button">Next</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

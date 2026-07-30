@@ -1,0 +1,568 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop44",
+  "mappings": [
+    {
+      "id": "book1_prop44-leaneuclid-setup",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop44.lean",
+          "start_line": 12,
+          "end_line": 16
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The theorem statement encodes the given line, triangle, angle, and required existence of the applied parallelogram."
+    },
+    {
+      "id": "book1_prop44-leaneuclid-s4-s5",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4",
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop44.lean",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The Prop. 1.42 construction supplies the equal parallelogram in the required angle and placed on the given line."
+    },
+    {
+      "id": "book1_prop44-leaneuclid-s6",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop44.lean",
+          "start_line": 20,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines construct AH parallel to BG/EF, locate H on the produced FG, and join HB."
+    },
+    {
+      "id": "book1_prop44-leaneuclid-s7",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop44.lean",
+          "start_line": 24,
+          "end_line": 24
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The Prop. 1.29 application gives the supplementary angles from a transversal across parallels."
+    },
+    {
+      "id": "book1_prop44-leaneuclid-s9-s11",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9",
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop44.lean",
+          "start_line": 25,
+          "end_line": 25
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The intersection construction packages the postulate-based meeting of HB and EF at K."
+    },
+    {
+      "id": "book1_prop44-leaneuclid-s12",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop44.lean",
+          "start_line": 26,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines draw KL through K parallel to AB/EA/FH and derive the parallel relation."
+    },
+    {
+      "id": "book1_prop44-leaneuclid-s13",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop44.lean",
+          "start_line": 28,
+          "end_line": 29
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The intersections define L on AH and M on BG after the lines are produced."
+    },
+    {
+      "id": "book1_prop44-leaneuclid-s14-s18",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s14",
+        "s15",
+        "s16",
+        "s17",
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop44.lean",
+          "start_line": 30,
+          "end_line": 30
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The Prop. 1.43 application compresses the parallelogram/complement configuration and the equality transfer to the triangle."
+    },
+    {
+      "id": "book1_prop44-leaneuclid-s19",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s19"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop44.lean",
+          "start_line": 31,
+          "end_line": 31
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The Prop. 1.15 application proves the equality of the constructed angle with the given angle."
+    },
+    {
+      "id": "book1_prop44-leaneuclid-s20-s21",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s20",
+        "s21"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop44.lean",
+          "start_line": 32,
+          "end_line": 33
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The witness selection and final automation close the required construction and equality claims."
+    },
+    {
+      "id": "book1_prop44-new_method-1",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s20"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 33,
+          "end_line": 37
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the given data and the desired parallelogram applied to AB, equal in area to the triangle and in the given angle."
+    },
+    {
+      "id": "book1_prop44-new_method-2",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 40,
+          "end_line": 42
+        },
+        {
+          "file": "Book1/Prop44/step1.lean",
+          "start_line": 17,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Prop. 1.42 and the helper record the initial parallelogram equal to triangle C in an angle equal to D."
+    },
+    {
+      "id": "book1_prop44-new_method-3",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 44,
+          "end_line": 44
+        },
+        {
+          "file": "Book1/Prop44/step2.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The betweenness statement records that the constructed side lies straight-on to AB."
+    },
+    {
+      "id": "book1_prop44-new_method-4",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 46,
+          "end_line": 53
+        },
+        {
+          "file": "Book1/Prop44/step3.lean",
+          "start_line": 24,
+          "end_line": 35
+        },
+        {
+          "file": "Book1/Prop44/step5.lean",
+          "start_line": 25,
+          "end_line": 29
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These constructions and helpers draw AH parallel to BG, extend GF to H, and join HB."
+    },
+    {
+      "id": "book1_prop44-new_method-5",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 55,
+          "end_line": 57
+        },
+        {
+          "file": "Book1/Prop44/step6_assumption1.lean",
+          "start_line": 24,
+          "end_line": 34
+        },
+        {
+          "file": "Book1/Prop44/step6.lean",
+          "start_line": 25,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helpers establish the needed parallel and intersection assumptions and apply Prop. 1.29 to get the two-right-angles angle sum."
+    },
+    {
+      "id": "book1_prop44-new_method-6",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 59,
+          "end_line": 59
+        },
+        {
+          "file": "Book1/Prop44/step7.lean",
+          "start_line": 26,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper derives that the corresponding interior angle sum is less than two right angles."
+    },
+    {
+      "id": "book1_prop44-new_method-7",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 61,
+          "end_line": 63
+        },
+        {
+          "file": "Book1/Prop44/step8.lean",
+          "start_line": 20,
+          "end_line": 22
+        },
+        {
+          "file": "Book1/Prop44/step9.lean",
+          "start_line": 12,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The postulate-style implication from the angle inequality proves that the produced lines HB and EF intersect."
+    },
+    {
+      "id": "book1_prop44-new_method-8",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 65,
+          "end_line": 66
+        },
+        {
+          "file": "Book1/Prop44/step10.lean",
+          "start_line": 8,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The intersection point K is introduced as lying on both HB and EF."
+    },
+    {
+      "id": "book1_prop44-new_method-9",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 68,
+          "end_line": 69
+        },
+        {
+          "file": "Book1/Prop44/step11.lean",
+          "start_line": 8,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "KL is drawn through K parallel to AB, recording K on KL and non-intersection with AB."
+    },
+    {
+      "id": "book1_prop44-new_method-10",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 71,
+          "end_line": 73
+        },
+        {
+          "file": "Book1/Prop44/step12.lean",
+          "start_line": 32,
+          "end_line": 38
+        },
+        {
+          "file": "Book1/Prop44/step12_hal.lean",
+          "start_line": 30,
+          "end_line": 35
+        },
+        {
+          "file": "Book1/Prop44/step12_fbm.lean",
+          "start_line": 30,
+          "end_line": 35
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The intersections with KL and the betweenness helpers express the production of HA and GB to L and M."
+    },
+    {
+      "id": "book1_prop44-new_method-11",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 75,
+          "end_line": 77
+        },
+        {
+          "file": "Book1/Prop44/step13.lean",
+          "start_line": 35,
+          "end_line": 40
+        },
+        {
+          "file": "Book1/Prop44/step14.lean",
+          "start_line": 26,
+          "end_line": 33
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper proves HLKG is a parallelogram and records the diagonal line HB through H, B, and K."
+    },
+    {
+      "id": "book1_prop44-new_method-12",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 79,
+          "end_line": 81
+        },
+        {
+          "file": "Book1/Prop44/step15.lean",
+          "start_line": 31,
+          "end_line": 34
+        },
+        {
+          "file": "Book1/Prop44/step16.lean",
+          "start_line": 34,
+          "end_line": 41
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These helpers identify the surrounding parallelograms and complements about the diagonal configuration."
+    },
+    {
+      "id": "book1_prop44-new_method-13",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 83,
+          "end_line": 84
+        },
+        {
+          "file": "Book1/Prop44/step17.lean",
+          "start_line": 30,
+          "end_line": 33
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Prop. 1.43 proves equality of the complement areas corresponding to LB and BF."
+    },
+    {
+      "id": "book1_prop44-new_method-14",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s17"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 86,
+          "end_line": 86
+        },
+        {
+          "file": "Book1/Prop44/step18.lean",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper rewrites the initial area equality of BF with triangle C in the orientation needed later."
+    },
+    {
+      "id": "book1_prop44-new_method-15",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 88,
+          "end_line": 88
+        },
+        {
+          "file": "Book1/Prop44/step19.lean",
+          "start_line": 9,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Transitivity combines the complement equality with the original triangle equality to show LB equals C."
+    },
+    {
+      "id": "book1_prop44-new_method-16",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s19"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 90,
+          "end_line": 94
+        },
+        {
+          "file": "Book1/Prop44/step20_assumption1.lean",
+          "start_line": 18,
+          "end_line": 21
+        },
+        {
+          "file": "Book1/Prop44/step20.lean",
+          "start_line": 20,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Prop. 1.15 and the prior angle equality transfer the angle from EBF to ABM and then to D."
+    },
+    {
+      "id": "book1_prop44-new_method-17",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s20",
+        "s21"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop44/Main.lean",
+          "start_line": 96,
+          "end_line": 96
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The final existential tuple supplies the constructed parallelogram, angle equality, and area equality, completing the required construction."
+    }
+  ]
+}

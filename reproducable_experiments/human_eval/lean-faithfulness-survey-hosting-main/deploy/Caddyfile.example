@@ -1,0 +1,6 @@
+# Replace survey.example.com with the real DNS name.
+# Keep the Python survey server bound to 127.0.0.1:8765.
+
+survey.example.com {
+    reverse_proxy 127.0.0.1:8765
+}

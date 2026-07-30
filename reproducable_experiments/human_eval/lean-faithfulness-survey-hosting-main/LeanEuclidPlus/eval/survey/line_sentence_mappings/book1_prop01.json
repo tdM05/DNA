@@ -1,0 +1,365 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop01",
+  "mappings": [
+    {
+      "id": "book1_prop01-leaneuclid-goal",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop01.lean",
+          "start_line": 5,
+          "end_line": 7
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The theorem statement formalizes constructing a point making the required equilateral-triangle data on the given segment."
+    },
+    {
+      "id": "book1_prop01-leaneuclid-circle-bcd",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop01.lean",
+          "start_line": 10,
+          "end_line": 10
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This constructs the circle centered at A through B."
+    },
+    {
+      "id": "book1_prop01-leaneuclid-circle-ace",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop01.lean",
+          "start_line": 11,
+          "end_line": 11
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This constructs the second circle centered at B through A, part of the same Euclidean construction sentence."
+    },
+    {
+      "id": "book1_prop01-leaneuclid-intersection",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop01.lean",
+          "start_line": 12,
+          "end_line": 12
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This obtains the intersection point C of the two constructed circles."
+    },
+    {
+      "id": "book1_prop01-leaneuclid-ac-ab",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop01.lean",
+          "start_line": 13,
+          "end_line": 13
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Since C and B lie on the circle centered at A, this derives AC equal to AB."
+    },
+    {
+      "id": "book1_prop01-leaneuclid-bc-ba",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop01.lean",
+          "start_line": 14,
+          "end_line": 14
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Since C and A lie on the circle centered at B, this derives BC equal to BA."
+    },
+    {
+      "id": "book1_prop01-leaneuclid-conclude",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop01.lean",
+          "start_line": 15,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The witness C is supplied and the automated finish packages the equalities needed for the final constructed triangle."
+    },
+    {
+      "id": "book1_prop01-new-method-given-line",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s2"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 17,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The theorem input specifies the given points and finite straight line AB."
+    },
+    {
+      "id": "book1_prop01-new-method-required-construction",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The existential conclusion states the required construction on AB."
+    },
+    {
+      "id": "book1_prop01-new-method-first-circle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 22,
+          "end_line": 23
+        },
+        {
+          "file": "Book1/Prop01/step1.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines construct and record the circle centered at A through B."
+    },
+    {
+      "id": "book1_prop01-new-method-second-circle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 25,
+          "end_line": 26
+        },
+        {
+          "file": "Book1/Prop01/step2.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines construct and record the circle centered at B through A."
+    },
+    {
+      "id": "book1_prop01-new-method-join-lines",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 28,
+          "end_line": 31
+        },
+        {
+          "file": "Book1/Prop01/step3.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines choose the circle intersection C and form the straight lines CA and CB."
+    },
+    {
+      "id": "book1_prop01-new-method-ac-equals-ab",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 35,
+          "end_line": 35
+        },
+        {
+          "file": "Book1/Prop01/step4.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines apply the circle-center definition to derive AC equal to AB."
+    },
+    {
+      "id": "book1_prop01-new-method-bc-equals-ba",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 39,
+          "end_line": 39
+        },
+        {
+          "file": "Book1/Prop01/step5.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines apply the circle-center definition to derive BC equal to BA."
+    },
+    {
+      "id": "book1_prop01-new-method-ca-equals-ab",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 41,
+          "end_line": 41
+        },
+        {
+          "file": "Book1/Prop01/step6.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines restate the earlier AC equals AB result in the CA orientation."
+    },
+    {
+      "id": "book1_prop01-new-method-each-equals-ab",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 43,
+          "end_line": 43
+        },
+        {
+          "file": "Book1/Prop01/step7.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines combine the equalities showing CA and CB are each equal to AB."
+    },
+    {
+      "id": "book1_prop01-new-method-common-notion",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 45,
+          "end_line": 45
+        },
+        {
+          "file": "Book1/Prop01/step8.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines encode that two segments equal to the same segment are equal to one another."
+    },
+    {
+      "id": "book1_prop01-new-method-ca-equals-cb",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 47,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop01/step9.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines apply the common-notion implication to conclude CA equals CB."
+    },
+    {
+      "id": "book1_prop01-new-method-three-sides-and-final",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop01/Main.lean",
+          "start_line": 49,
+          "end_line": 51
+        },
+        {
+          "file": "Book1/Prop01/step10.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines assemble the equal-side facts and return C as the constructed equilateral-triangle witness."
+    }
+  ]
+}

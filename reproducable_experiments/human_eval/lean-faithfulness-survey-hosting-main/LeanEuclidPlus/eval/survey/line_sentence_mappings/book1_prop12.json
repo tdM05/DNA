@@ -1,0 +1,256 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop12",
+  "mappings": [
+    {
+      "id": "book1_prop12-leaneuclid-001",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop12.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement packages the construction problem, the given line and external point, and the required perpendicular."
+    },
+    {
+      "id": "book1_prop12-leaneuclid-002",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop12.lean",
+          "start_line": 12,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These construction steps choose the opposite-side point, draw the circle, obtain and bisect EG, and join CG, CH, and CE."
+    },
+    {
+      "id": "book1_prop12-leaneuclid-003",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop12.lean",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Choosing h as the witness begins the claim that CH is the constructed perpendicular from C to AB."
+    },
+    {
+      "id": "book1_prop12-leaneuclid-004",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop12.lean",
+          "start_line": 20,
+          "end_line": 20
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The application of Proposition 1.8 uses the side equalities to conclude the equality of the angles CHG and EHC."
+    },
+    {
+      "id": "book1_prop12-leaneuclid-005",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8",
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop12.lean",
+          "start_line": 21,
+          "end_line": 21
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The finishing automation derives the right angle/perpendicular conclusion and closes the construction."
+    },
+    {
+      "id": "book1_prop12-new_method-001",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s2"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop12/Main.lean",
+          "start_line": 18,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The theorem parameters and hypotheses formalize the given line AB and the point C not lying on it."
+    },
+    {
+      "id": "book1_prop12-new_method-002",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop12/Main.lean",
+          "start_line": 20,
+          "end_line": 20
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The existential conclusion states the required perpendicular from C to the given line AB."
+    },
+    {
+      "id": "book1_prop12-new_method-003",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop12/Main.lean",
+          "start_line": 23,
+          "end_line": 36
+        },
+        {
+          "file": "Book1/Prop12/step1.lean",
+          "start_line": 7,
+          "end_line": 10
+        },
+        {
+          "file": "Book1/Prop12/step2.lean",
+          "start_line": 7,
+          "end_line": 10
+        },
+        {
+          "file": "Book1/Prop12/step3.lean",
+          "start_line": 7,
+          "end_line": 9
+        },
+        {
+          "file": "Book1/Prop12/step4.lean",
+          "start_line": 7,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines formalize the construction of D, the circle EFG, the points E and G, the midpoint H, and the joined lines CG, CH, and CE."
+    },
+    {
+      "id": "book1_prop12-new_method-004",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop12/Main.lean",
+          "start_line": 38,
+          "end_line": 44
+        },
+        {
+          "file": "Book1/Prop12/step6.lean",
+          "start_line": 7,
+          "end_line": 11
+        },
+        {
+          "file": "Book1/Prop12/step7.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The midpoint equality, common side equality, and circle-radius equality supply the three side equalities used for the congruence argument."
+    },
+    {
+      "id": "book1_prop12-new_method-005",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop12/Main.lean",
+          "start_line": 46,
+          "end_line": 46
+        },
+        {
+          "file": "Book1/Prop12/step8.lean",
+          "start_line": 8,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Proposition 1.8 to derive equality of the angles CHG and EHC from the established side equalities."
+    },
+    {
+      "id": "book1_prop12-new_method-006",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop12/Main.lean",
+          "start_line": 48,
+          "end_line": 52
+        },
+        {
+          "file": "Book1/Prop12/step9.lean",
+          "start_line": 7,
+          "end_line": 10
+        },
+        {
+          "file": "Book1/Prop12/step10.lean",
+          "start_line": 7,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines establish that H lies on AB and use equal adjacent angles to infer the relevant right angles."
+    },
+    {
+      "id": "book1_prop12-new_method-007",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5",
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop12/Main.lean",
+          "start_line": 54,
+          "end_line": 56
+        },
+        {
+          "file": "Book1/Prop12/step11.lean",
+          "start_line": 7,
+          "end_line": 28
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The final helper transfers the right angle to the stated AB endpoint form and the exact proof term returns the required perpendicular construction."
+    }
+  ]
+}

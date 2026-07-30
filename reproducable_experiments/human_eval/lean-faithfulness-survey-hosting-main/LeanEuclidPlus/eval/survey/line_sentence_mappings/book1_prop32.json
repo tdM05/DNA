@@ -1,0 +1,375 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop32",
+  "mappings": [
+    {
+      "id": "book1_prop32-leaneuclid-001",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop32.lean",
+          "start_line": 9,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem signature universally states the triangle with produced side hypotheses and both claimed angle conclusions."
+    },
+    {
+      "id": "book1_prop32_leaneuclid_merged_book1_prop32_leaneuclid_002",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4",
+        "s5",
+        "s6",
+        "s7",
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop32.lean",
+          "start_line": 16,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Prop. 1.31 constructs the parallel line through C, and the following line supplies the named point E on it. / The application of Prop. 1.29 gives the alternate-angle equality from AC crossing the parallels AB and CE. / The second application of Prop. 1.29 gives the exterior-interior angle equality from BD crossing the parallels. / The local proof packages the previously obtained equalities and angle addition into the external-angle equality."
+    },
+    {
+      "id": "book1_prop32-leaneuclid-006",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop32.lean",
+          "start_line": 23,
+          "end_line": 24
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The first conjunct of the final theorem is discharged by the established external-angle equality."
+    },
+    {
+      "id": "book1_prop32-leaneuclid-007",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9",
+        "s10",
+        "s11",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop32.lean",
+          "start_line": 25,
+          "end_line": 26
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Prop. 1.13 and simplification combine the straight-angle fact with the external-angle equality to prove the three interior angles sum to two right angles."
+    },
+    {
+      "id": "book1_prop32-new-setup",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s2"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 19,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The quantified triangle data and between hypothesis formalize triangle ABC with BC produced to D."
+    },
+    {
+      "id": "book1_prop32-new-claim-external",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 21,
+          "end_line": 21
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This conjunct states the external angle equals the sum of the two opposite interior angles."
+    },
+    {
+      "id": "book1_prop32-new-claim-three-angles",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 22,
+          "end_line": 22
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This conjunct states that the three interior angles sum to two right angles."
+    },
+    {
+      "id": "book1_prop32-new-draw-parallel",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 25,
+          "end_line": 27
+        },
+        {
+          "file": "Book1/Prop32/step1.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines construct CE parallel to AB through C, choose E on CE, and package the resulting incidence and parallel facts."
+    },
+    {
+      "id": "book1_prop32-new-alternate-angle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "file": "Book1/Prop32/step2.lean",
+          "start_line": 8,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Prop. 29 to the parallel lines AB and CE cut by AC, obtaining equality of BAC and ACE."
+    },
+    {
+      "id": "book1_prop32-new-external-angle-prop29",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 35,
+          "end_line": 39
+        },
+        {
+          "file": "Book1/Prop32/step3.lean",
+          "start_line": 8,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Prop. 29 to the parallel lines AB and CE cut by BD, obtaining equality of ECD and ABC."
+    },
+    {
+      "id": "book1_prop32-new-shown-equality",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 41,
+          "end_line": 41
+        },
+        {
+          "file": "Book1/Prop32/step4.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The equality from the previous alternate-angle step is reversed to match the textbook wording."
+    },
+    {
+      "id": "book1_prop32-new-whole-external-angle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 43,
+          "end_line": 43
+        },
+        {
+          "file": "Book1/Prop32/step5.lean",
+          "start_line": 9,
+          "end_line": 25
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper combines the Prop. 29 angle equalities to show the whole external angle ACD equals BAC plus ABC."
+    },
+    {
+      "id": "book1_prop32-new-add-angle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 45,
+          "end_line": 45
+        },
+        {
+          "file": "Book1/Prop32/step6.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The equality is transformed by adding angle ACB to both sides."
+    },
+    {
+      "id": "book1_prop32-new-three-angle-equality",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 47,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop32/step7.lean",
+          "start_line": 7,
+          "end_line": 15
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The added-angle equality is rewritten as equality with the three interior angles of triangle ABC."
+    },
+    {
+      "id": "book1_prop32-new-straight-angles",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 49,
+          "end_line": 49
+        },
+        {
+          "file": "Book1/Prop32/step8.lean",
+          "start_line": 8,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 13 proves that the adjacent angles ACD and ACB sum to two right angles."
+    },
+    {
+      "id": "book1_prop32-new-triangle-sum",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 51,
+          "end_line": 51
+        },
+        {
+          "file": "Book1/Prop32/step9.lean",
+          "start_line": 7,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The previous equality with the straight-angle sum is transferred to the sum of the triangle's three interior angles."
+    },
+    {
+      "id": "book1_prop32-new-final-external-goal",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 53,
+          "end_line": 53
+        },
+        {
+          "file": "Book1/Prop32/hgoal1.lean",
+          "start_line": 7,
+          "end_line": 15
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The proved external-angle equality is rewritten into the theorem's final angle ordering."
+    },
+    {
+      "id": "book1_prop32-new-final-angle-sum-goal",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 54,
+          "end_line": 54
+        },
+        {
+          "file": "Book1/Prop32/hgoal2.lean",
+          "start_line": 7,
+          "end_line": 15
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The triangle angle sum is rewritten into the theorem's final angle ordering."
+    },
+    {
+      "id": "book1_prop32-new-final-conjunction",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop32/Main.lean",
+          "start_line": 55,
+          "end_line": 55
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The two proved goals are paired to conclude the proposition."
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop03",
+  "mappings": [
+    {
+      "id": "book1_prop03-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop03.lean",
+          "start_line": 6,
+          "end_line": 8
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem quantifies the two unequal given lines, identifies AB as greater, and states the required cut-off point with length equal to C."
+    },
+    {
+      "id": "book1_prop03-leaneuclid-place-ad",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop03.lean",
+          "start_line": 11,
+          "end_line": 11
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Applying Proposition 2 constructs point d so that AD is equal to the given line C."
+    },
+    {
+      "id": "book1_prop03-leaneuclid-draw-circle",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop03.lean",
+          "start_line": 12,
+          "end_line": 12
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The circle is constructed from center a through d, giving center A and radius AD."
+    },
+    {
+      "id": "book1_prop03-leaneuclid-intersection",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop03.lean",
+          "start_line": 13,
+          "end_line": 13
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The intersection construction chooses e on AB between a and b, giving the point where the equal segment is cut off."
+    },
+    {
+      "id": "book1_prop03-leaneuclid-radius",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop03.lean",
+          "start_line": 14,
+          "end_line": 14
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The circle-center fact gives equality of the radii AE and AD."
+    },
+    {
+      "id": "book1_prop03-leaneuclid-conclusion",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop03.lean",
+          "start_line": 15,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The proof finishes by using e and combining AD = C with AE = AD to prove AE = C and the required cut-off conclusion."
+    },
+    {
+      "id": "book1_prop03-new-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop03/Main.lean",
+          "start_line": 14,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement encodes the unequal given lines, the greater line AB, and the required existence of a segment on AB equal to C."
+    },
+    {
+      "id": "book1_prop03-new-s4",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop03/Main.lean",
+          "start_line": 19,
+          "end_line": 20
+        },
+        {
+          "file": "Book1/Prop03/step1.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 2 supplies point d and the helper records that AD is equal to the given lesser line C."
+    },
+    {
+      "id": "book1_prop03_new_method_merged_book1_prop03_new_s5",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop03/Main.lean",
+          "start_line": 22,
+          "end_line": 24
+        },
+        {
+          "file": "Book1/Prop03/Main.lean",
+          "start_line": 36,
+          "end_line": 36
+        },
+        {
+          "file": "Book1/Prop03/step2.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The circle DEF is drawn from A through D, and the helper packages A as center with D on the circle. / The point e is obtained between A and B on AB and then selected as the witness for the cut-off segment."
+    },
+    {
+      "id": "book1_prop03-new-s6",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop03/Main.lean",
+          "start_line": 28,
+          "end_line": 28
+        },
+        {
+          "file": "Book1/Prop03/step3.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies the circle-center property to infer that AE equals AD."
+    },
+    {
+      "id": "book1_prop03-new-s7",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop03/Main.lean",
+          "start_line": 30,
+          "end_line": 30
+        },
+        {
+          "file": "Book1/Prop03/step4.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The equality from the construction is reversed to state that C is equal to AD."
+    },
+    {
+      "id": "book1_prop03-new-s8",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop03/Main.lean",
+          "start_line": 32,
+          "end_line": 32
+        },
+        {
+          "file": "Book1/Prop03/step5.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The two equalities AE = AD and C = AD are bundled to express that both are equal to AD."
+    },
+    {
+      "id": "book1_prop03-new-s9",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop03/Main.lean",
+          "start_line": 34,
+          "end_line": 34
+        },
+        {
+          "file": "Book1/Prop03/step6.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Transitivity of equality yields AE equal to C."
+    }
+  ]
+}

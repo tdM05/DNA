@@ -1,0 +1,385 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop38",
+  "mappings": [
+    {
+      "id": "book1_prop38-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop38.lean",
+          "start_line": 9,
+          "end_line": 12
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The theorem statement encodes the general claim, the specific hypotheses about the two triangles on equal bases between the same parallels, and the asserted equality of their areas."
+    },
+    {
+      "id": "book1_prop38-leaneuclid-construction",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop38.lean",
+          "start_line": 15,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The applications of Proposition 1.31 construct the parallels through B and F, and the intersections with AD introduce G and H."
+    },
+    {
+      "id": "book1_prop38-leaneuclid-parallelogram-equality",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5",
+        "s6",
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop38.lean",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The application of Proposition 1.36 packages the parallelogram configuration and proves the equality of the parallelograms on equal bases between the same parallels."
+    },
+    {
+      "id": "book1_prop38-leaneuclid-half-ab",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8",
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop38.lean",
+          "start_line": 20,
+          "end_line": 20
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Proposition 1.34 gives that diagonal AB bisects parallelogram GBCA, so triangle ABC is half of it."
+    },
+    {
+      "id": "book1_prop38-leaneuclid-half-df",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop38.lean",
+          "start_line": 21,
+          "end_line": 21
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Proposition 1.34 gives that diagonal DF bisects parallelogram DEFH, so triangle FED is half of it."
+    },
+    {
+      "id": "book1_prop38-leaneuclid-final",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s12",
+        "s13",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop38.lean",
+          "start_line": 22,
+          "end_line": 22
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The final automation combines the equal parallelograms and equal halves to obtain the triangle equality and close the proposition."
+    },
+    {
+      "id": "book1_prop38-new_method-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 17,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the general claim, the instantiated hypotheses about the two triangles, and the final equality to prove."
+    },
+    {
+      "id": "book1_prop38-new_method-construction",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 23,
+          "end_line": 26
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines construct BG parallel to CA and FH parallel to DE, then name their intersections with AD as G and H."
+    },
+    {
+      "id": "book1_prop38-new_method-produced-points",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 27,
+          "end_line": 27
+        },
+        {
+          "file": "Book1/Prop38/step1.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This helper records that the constructed points G and H lie on AD, matching their role on the produced line AD."
+    },
+    {
+      "id": "book1_prop38-new_method-bg-parallel-data",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 29,
+          "end_line": 29
+        },
+        {
+          "file": "Book1/Prop38/step2.lean",
+          "start_line": 7,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This helper records the usable incidence and non-intersection data for BG, the line drawn through B parallel to CA."
+    },
+    {
+      "id": "book1_prop38-new_method-fh-parallel-data",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 31,
+          "end_line": 31
+        },
+        {
+          "file": "Book1/Prop38/step3.lean",
+          "start_line": 7,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This helper records the usable incidence and non-intersection data for FH, the line drawn through F parallel to DE."
+    },
+    {
+      "id": "book1_prop38-new_method-parallelograms",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 33,
+          "end_line": 33
+        },
+        {
+          "file": "Book1/Prop38/step4.lean",
+          "start_line": 8,
+          "end_line": 30
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper proves that GBCA and DEFH satisfy the formal parallelogram predicates."
+    },
+    {
+      "id": "book1_prop38-new_method-prop36-assumptions",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 35,
+          "end_line": 35
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This line isolates the equal-base and same-parallel assumptions needed for the application of Proposition 36."
+    },
+    {
+      "id": "book1_prop38-new_method-parallelogram-equality",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6",
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 37,
+          "end_line": 37
+        },
+        {
+          "file": "Book1/Prop38/step5.lean",
+          "start_line": 10,
+          "end_line": 67
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper applies Proposition 36 using the equal bases and same parallels, then rewrites the resulting parallelogram-area equality into the required area-sum form."
+    },
+    {
+      "id": "book1_prop38-new_method-first-parallelogram-assumption",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 39,
+          "end_line": 39
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This line extracts the GBCA parallelogram fact needed to prove that triangle ABC is half of it."
+    },
+    {
+      "id": "book1_prop38-new_method-first-half",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8",
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 41,
+          "end_line": 41
+        },
+        {
+          "file": "Book1/Prop38/step6.lean",
+          "start_line": 9,
+          "end_line": 26
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper applies Proposition 34 to diagonal AB and derives the formal doubled-area equality saying triangle ABC is half of parallelogram GBCA."
+    },
+    {
+      "id": "book1_prop38-new_method-second-parallelogram-assumption",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 43,
+          "end_line": 43
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This line extracts the DEFH parallelogram fact needed to prove that triangle FED is half of it."
+    },
+    {
+      "id": "book1_prop38-new_method-second-half",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 45,
+          "end_line": 45
+        },
+        {
+          "file": "Book1/Prop38/step7.lean",
+          "start_line": 10,
+          "end_line": 43
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper applies Proposition 34 to diagonal DF and derives the formal doubled-area equality saying triangle FED is half of parallelogram DEFH."
+    },
+    {
+      "id": "book1_prop38-new_method-halves-equal",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 47,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop38/step8.lean",
+          "start_line": 8,
+          "end_line": 15
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This algebraic helper combines equality of the whole parallelograms with the two half-area facts to infer equality of triangles ABC and FED."
+    },
+    {
+      "id": "book1_prop38-new_method-final-triangle-equality",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop38/Main.lean",
+          "start_line": 49,
+          "end_line": 51
+        },
+        {
+          "file": "Book1/Prop38/step9.lean",
+          "start_line": 8,
+          "end_line": 24
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This final helper converts the equality with triangle FED, using triangle-area symmetry, into the theorem's stated equality of triangle ABC and triangle DEF."
+    }
+  ]
+}

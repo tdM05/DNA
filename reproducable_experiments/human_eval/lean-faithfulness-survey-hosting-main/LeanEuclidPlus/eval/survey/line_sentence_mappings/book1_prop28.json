@@ -1,0 +1,276 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop28",
+  "mappings": [
+    {
+      "id": "book1_prop28-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s12",
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop28.lean",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the proposition, the given transversal hypotheses, and the conclusion that AB and CD do not intersect, i.e. are parallel."
+    },
+    {
+      "id": "book1_prop28_leaneuclid_merged_book1_prop28_leaneuclid_first_case_vertical",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4",
+        "s5",
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop28.lean",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The first branch applies Proposition 1.15 and finishes the transfer from EGB = GHD to AGH = GHD. / The application of Proposition 1.27 packages the alternate-angle condition and derives that AB is parallel to CD."
+    },
+    {
+      "id": "book1_prop28_leaneuclid_merged_book1_prop28_leaneuclid_second_case_supplementary",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop28.lean",
+          "start_line": 19,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The second branch applies Proposition 1.13 and arithmetic finishing to convert equal sums of two right angles into AGH = GHD. / The application of Proposition 1.27 packages the alternate-angle condition and derives that AB is parallel to CD in the second case."
+    },
+    {
+      "id": "book1_prop28-new-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop28/Main.lean",
+          "start_line": 17,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the given lines, transversal, alternative angle hypotheses, and the desired non-intersection conclusion."
+    },
+    {
+      "id": "book1_prop28-new-case-split",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s2"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop28/Main.lean",
+          "start_line": 24,
+          "end_line": 25
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines extract and split the disjunctive hypothesis into Euclid's two cases."
+    },
+    {
+      "id": "book1_prop28-new-first-assumption",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop28/Main.lean",
+          "start_line": 28,
+          "end_line": 32
+        },
+        {
+          "file": "Book1/Prop28/step1_assumption2.lean",
+          "start_line": 15,
+          "end_line": 23
+        },
+        {
+          "file": "Book1/Prop28/step1.lean",
+          "start_line": 19,
+          "end_line": 29
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The first branch records EGB = GHD, derives EGB = AGH by Proposition 1.15, and combines the equalities to obtain AGH = GHD."
+    },
+    {
+      "id": "book1_prop28-new-first-opposing-sides",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop28/Main.lean",
+          "start_line": 33,
+          "end_line": 33
+        },
+        {
+          "file": "Book1/Prop28/step2.lean",
+          "start_line": 14,
+          "end_line": 29
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper establishes the side configuration needed for treating AGH and GHD as alternate angles across the transversal."
+    },
+    {
+      "id": "book1_prop28-new-first-parallel",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop28/Main.lean",
+          "start_line": 34,
+          "end_line": 35
+        },
+        {
+          "file": "Book1/Prop28/step3.lean",
+          "start_line": 16,
+          "end_line": 26
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 1.27 is applied to the alternate-angle equality to conclude that AB and CD do not intersect."
+    },
+    {
+      "id": "book1_prop28-new-second-two-right",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop28/Main.lean",
+          "start_line": 38,
+          "end_line": 42
+        },
+        {
+          "file": "Book1/Prop28/step4_assumption2.lean",
+          "start_line": 15,
+          "end_line": 26
+        },
+        {
+          "file": "Book1/Prop28/step4.lean",
+          "start_line": 19,
+          "end_line": 29
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The second branch records BGH + GHD as two right angles, derives AGH + BGH as two right angles by Proposition 1.13, and equates the two sums."
+    },
+    {
+      "id": "book1_prop28-new-second-subtract",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop28/Main.lean",
+          "start_line": 43,
+          "end_line": 43
+        },
+        {
+          "file": "Book1/Prop28/step5.lean",
+          "start_line": 8,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This formalizes subtracting the common angle BGH from both sides of the equality of sums."
+    },
+    {
+      "id": "book1_prop28-new-second-remainder",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop28/Main.lean",
+          "start_line": 44,
+          "end_line": 44
+        },
+        {
+          "file": "Book1/Prop28/step6.lean",
+          "start_line": 8,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "After cancellation, the helper derives the remaining equality AGH = GHD."
+    },
+    {
+      "id": "book1_prop28-new-second-opposing-sides",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop28/Main.lean",
+          "start_line": 45,
+          "end_line": 45
+        },
+        {
+          "file": "Book1/Prop28/step7.lean",
+          "start_line": 13,
+          "end_line": 28
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper establishes the side configuration needed for AGH and GHD to be alternate angles in the second branch."
+    },
+    {
+      "id": "book1_prop28-new-second-parallel",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop28/Main.lean",
+          "start_line": 46,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop28/step8.lean",
+          "start_line": 16,
+          "end_line": 26
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 1.27 is applied to the derived alternate-angle equality to conclude that AB and CD are parallel."
+    }
+  ]
+}

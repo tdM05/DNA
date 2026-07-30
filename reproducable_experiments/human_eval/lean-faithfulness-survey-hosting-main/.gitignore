@@ -1,0 +1,20 @@
+.lake/
+__pycache__/
+*.pyc
+
+# Runtime survey state and secrets
+LeanEuclidPlus/eval/survey/survey.env
+LeanEuclidPlus/eval/survey/server.pid
+LeanEuclidPlus/eval/survey/server.log
+LeanEuclidPlus/eval/survey/cloudflared.log
+LeanEuclidPlus/eval/survey/data/responses.sqlite3
+LeanEuclidPlus/eval/survey/data/responses.sqlite3-*
+LeanEuclidPlus/eval/survey/data/responses.sqlite3.*
+LeanEuclidPlus/eval/survey/data/admin_password.sha256
+LeanEuclidPlus/eval/survey/data/reviewers.txt
+LeanEuclidPlus/eval/survey/exports/
+
+# Local solver environments
+solver-venv*/
+method-a-solver*/
+method-b-solver*/

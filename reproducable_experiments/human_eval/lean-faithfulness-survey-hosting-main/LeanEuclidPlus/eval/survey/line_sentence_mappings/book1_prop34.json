@@ -1,0 +1,395 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop34",
+  "mappings": [
+    {
+      "id": "book1_prop34-leaneuclid-setup",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop34.lean",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement assumes the parallelogram and diagonal and states the required side, angle, and area conclusions."
+    },
+    {
+      "id": "book1_prop34-leaneuclid-s4",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop34.lean",
+          "start_line": 15,
+          "end_line": 15
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This applies Proposition 1.29 to the parallel lines AB and CD cut by BC."
+    },
+    {
+      "id": "book1_prop34-leaneuclid-s5",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop34.lean",
+          "start_line": 16,
+          "end_line": 16
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This applies Proposition 1.29 to the parallel lines AC and BD cut by BC."
+    },
+    {
+      "id": "book1_prop34-leaneuclid-s6-s9",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7",
+        "s8",
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop34.lean",
+          "start_line": 17,
+          "end_line": 17
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The single Proposition 1.26 application packages the triangle comparison and yields the corresponding remaining sides and angle."
+    },
+    {
+      "id": "book1_prop34-leaneuclid-finish",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s10",
+        "s12",
+        "s14",
+        "s15",
+        "s16",
+        "s17"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop34.lean",
+          "start_line": 18,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The finishing tactic derives the whole-angle equality, assembles the opposite-side and opposite-angle result, and proves the diagonal bisection by triangle area equality."
+    },
+    {
+      "id": "book1_prop34-new-method-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem hypotheses introduce the parallelogram and diagonal, and the conclusion states the claimed side, angle, and area equalities."
+    },
+    {
+      "id": "book1_prop34-new-method-s4",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 30,
+          "end_line": 34
+        },
+        {
+          "file": "Book1/Prop34/step1.lean",
+          "start_line": 20,
+          "end_line": 22
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The extracted assumptions and helper apply Proposition 1.29 to AB and CD cut by BC, producing the alternate angle equality."
+    },
+    {
+      "id": "book1_prop34-new-method-s5",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 36,
+          "end_line": 40
+        },
+        {
+          "file": "Book1/Prop34/step2.lean",
+          "start_line": 20,
+          "end_line": 22
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The extracted assumptions and helper apply Proposition 1.29 to AC and BD cut by BC, producing the second alternate angle equality."
+    },
+    {
+      "id": "book1_prop34-new-method-s6",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 42,
+          "end_line": 44
+        },
+        {
+          "file": "Book1/Prop34/step3.lean",
+          "start_line": 18,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The code packages the two angle equalities and establishes the two triangles needed for the Proposition 1.26 comparison."
+    },
+    {
+      "id": "book1_prop34-new-method-s7",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 46,
+          "end_line": 46
+        },
+        {
+          "file": "Book1/Prop34/step4.lean",
+          "start_line": 22,
+          "end_line": 24
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Proposition 1.26 to derive the remaining corresponding sides and angle."
+    },
+    {
+      "id": "book1_prop34-new-method-s8",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 48,
+          "end_line": 50
+        },
+        {
+          "file": "Book1/Prop34/step5.lean",
+          "start_line": 9,
+          "end_line": 10
+        },
+        {
+          "file": "Book1/Prop34/step6.lean",
+          "start_line": 9,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These projections extract the two opposite side equalities AB = CD and AC = BD from the Proposition 1.26 result."
+    },
+    {
+      "id": "book1_prop34-new-method-s9",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 52,
+          "end_line": 52
+        },
+        {
+          "file": "Book1/Prop34/step7.lean",
+          "start_line": 9,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This projection extracts the remaining angle equality BAC = CDB."
+    },
+    {
+      "id": "book1_prop34-new-method-s10",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 54,
+          "end_line": 58
+        },
+        {
+          "file": "Book1/Prop34/step8.lean",
+          "start_line": 18,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The two smaller angle equalities are combined to prove the whole angle ABD equals the whole angle ACD."
+    },
+    {
+      "id": "book1_prop34-new-method-s11",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 60,
+          "end_line": 60
+        },
+        {
+          "file": "Book1/Prop34/step9.lean",
+          "start_line": 9,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This repeats the previously obtained equality BAC = CDB."
+    },
+    {
+      "id": "book1_prop34-new-method-s12",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 62,
+          "end_line": 62
+        },
+        {
+          "file": "Book1/Prop34/step10.lean",
+          "start_line": 13,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The established opposite side and opposite angle equalities are conjoined as the first main conclusion."
+    },
+    {
+      "id": "book1_prop34-new-method-s14",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 64,
+          "end_line": 64
+        },
+        {
+          "file": "Book1/Prop34/step12.lean",
+          "start_line": 9,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The code rewrites AB = CD as AB = DC and records the common side BC = CB."
+    },
+    {
+      "id": "book1_prop34-new-method-s15",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 66,
+          "end_line": 66
+        },
+        {
+          "file": "Book1/Prop34/step13.lean",
+          "start_line": 9,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This restates the equality of angle ABC and angle BCD for use in the area argument."
+    },
+    {
+      "id": "book1_prop34-new-method-s16",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 68,
+          "end_line": 70
+        },
+        {
+          "file": "Book1/Prop34/step14.lean",
+          "start_line": 9,
+          "end_line": 10
+        },
+        {
+          "file": "Book1/Prop34/step15.lean",
+          "start_line": 19,
+          "end_line": 26
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The code prepares the remaining side equality and applies Proposition 1.4 to obtain the equality of the two triangles."
+    },
+    {
+      "id": "book1_prop34-new-method-s17",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s17"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop34/Main.lean",
+          "start_line": 72,
+          "end_line": 74
+        },
+        {
+          "file": "Book1/Prop34/step16.lean",
+          "start_line": 9,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The triangle area equality is rewritten into the final diagonal-bisects-the-parallelogram area conclusion."
+    }
+  ]
+}

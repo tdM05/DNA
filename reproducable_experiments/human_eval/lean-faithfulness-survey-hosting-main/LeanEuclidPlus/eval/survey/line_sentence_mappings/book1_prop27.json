@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop27",
+  "mappings": [
+    {
+      "id": "book1_prop27_leaneuclid_merged_book1_prop27_leaneuclid_1",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "s11",
+        "s12",
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop27.lean",
+          "start_line": 6,
+          "end_line": 9
+        },
+        {
+          "file": "Book/Prop27.lean",
+          "start_line": 16,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement encodes the transversal, equality of alternate angles, and the conclusion that the two lines do not intersect, i.e. are parallel. / Applying Proposition 1.16 in the B-D direction derives the impossible equality of the exterior angle with the opposite interior angle, excluding that meeting direction. / The second branch repeats the Proposition 1.16 contradiction for the opposite direction omitted by Euclid. / After both possible intersections are contradicted, the theorem conclusion states that the lines do not intersect, which is the formal parallel conclusion and final claim."
+    },
+    {
+      "id": "book1_prop27_leaneuclid_merged_book1_prop27_leaneuclid_2",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4",
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop27.lean",
+          "start_line": 12,
+          "end_line": 15
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The proof proceeds by contradiction from an intersection and divides the possible meeting point into the two directional side cases. / Extending the line and selecting the intersection point supplies the produced lines meeting at G."
+    },
+    {
+      "id": "book1_prop27_new_method_merged_book1_prop27_new_method_1",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s12",
+        "s2",
+        "s3",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop27/Main.lean",
+          "start_line": 15,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the full proposition: equal alternate angles made by a transversal imply non-intersection of the two lines. / The hypotheses encode the given configuration of the transversal and the equality of the alternate angles. / The theorem conclusion is the formal claim that the two lines are parallel, expressed as non-intersection."
+    },
+    {
+      "id": "book1_prop27_new_method_merged_book1_prop27_new_method_4",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4",
+        "s5",
+        "s6",
+        "s7",
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop27/Main.lean",
+          "start_line": 22,
+          "end_line": 27
+        },
+        {
+          "file": "Book1/Prop27/Main.lean",
+          "start_line": 29,
+          "end_line": 35
+        },
+        {
+          "file": "Book1/Prop27/step1.lean",
+          "start_line": 16,
+          "end_line": 21
+        },
+        {
+          "file": "Book1/Prop27/step3.lean",
+          "start_line": 18,
+          "end_line": 42
+        },
+        {
+          "file": "Book1/Prop27/step4.lean",
+          "start_line": 21,
+          "end_line": 35
+        },
+        {
+          "file": "Book1/Prop27/step5.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The proof constructs the produced point and intersection point, then establishes the exhaustive split into the two possible directions of meeting. / The first branch assumes the constructed intersection lies in the direction corresponding to B and D. / The helper proves that the given alternate-angle equality transfers to the angle at the intersection, giving the equality of the exterior angle with the interior opposite angle in triangle GEF. / Applying Proposition 1.16 to the constructed triangle derives a contradiction from that angle equality. / The contradiction discharges the first directional case, proving that the lines do not meet in the direction of B and D."
+    },
+    {
+      "id": "book1_prop27-new_method-9",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop27/Main.lean",
+          "start_line": 36,
+          "end_line": 36
+        },
+        {
+          "file": "Book1/Prop27/step6.lean",
+          "start_line": 19,
+          "end_line": 43
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper carries out the analogous contradiction for the opposite directional case."
+    },
+    {
+      "id": "book1_prop27_new_method_merged_book1_prop27_new_method_10",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop27/Main.lean",
+          "start_line": 38,
+          "end_line": 43
+        },
+        {
+          "file": "Book1/Prop27/step7.lean",
+          "start_line": 11,
+          "end_line": 12
+        },
+        {
+          "file": "Book1/Prop27/step8.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Having ruled out both directions of meeting, the proof concludes non-intersection, the formal parallel condition. / The final helper and exact line return the non-intersection conclusion for the original two lines."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[Unit]
+Description=Lean faithfulness survey
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/lean-faithfulness-survey-hosting/LeanEuclidPlus
+ExecStart=/opt/lean-faithfulness-survey-hosting/LeanEuclidPlus/eval/survey/launch_survey.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

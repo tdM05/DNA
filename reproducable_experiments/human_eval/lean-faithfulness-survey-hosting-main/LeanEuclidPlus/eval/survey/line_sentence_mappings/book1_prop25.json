@@ -1,0 +1,311 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop25",
+  "mappings": [
+    {
+      "id": "book1_prop25-leaneuclid-1",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop25.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the proposition, its triangle hypotheses, the greater-base assumption, and the desired angle inequality."
+    },
+    {
+      "id": "book1_prop25_leaneuclid_merged_book1_prop25_leaneuclid_2",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "s11",
+        "s12",
+        "s13",
+        "s14",
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop25.lean",
+          "start_line": 13,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The contradiction proof and case split express that if the angle is not greater, it is either equal or less. / The equality case applies Proposition 1.4 to force equality of the bases, contradicting the given greater-base hypothesis and proving the angles are not equal. / The less-than case applies Proposition 1.24 to force the base BC to be less than EF, contradicting the given greater-base hypothesis and proving the angle is not less. / After excluding equality and less-than, the remaining order relation yields that angle BAC is greater than angle EDF."
+    },
+    {
+      "id": "book1_prop25_new_method_merged_book1_prop25_new_method_statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s16",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 16,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the proposition as equal side pairs and greater base implying greater included angle. / The theorem hypotheses give the two triangles, the side equalities, and the greater base, while the conclusion is the claimed angle comparison."
+    },
+    {
+      "id": "book1_prop25-new_method-intros",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 20,
+          "end_line": 20
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Introducing the theorem hypotheses corresponds to taking the given triangles and assumptions and setting the claimed goal."
+    },
+    {
+      "id": "book1_prop25-new_method-not-greater-main",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 22,
+          "end_line": 24
+        },
+        {
+          "file": "Book1/Prop25/step1.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Assuming the angle is not greater and converting not-greater into equal-or-less formalizes Euclid's alternative."
+    },
+    {
+      "id": "book1_prop25-new_method-not-equal-main",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 26,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The proof begins a contradiction to establish that the two angles are not equal."
+    },
+    {
+      "id": "book1_prop25-new_method-prop4",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 28,
+          "end_line": 28
+        },
+        {
+          "file": "Book1/Prop25/step3.lean",
+          "start_line": 8,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Under equal included angles and the two equal side pairs, Proposition 1.4 gives equality of the bases."
+    },
+    {
+      "id": "book1_prop25-new_method-base-not-equal",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 29,
+          "end_line": 30
+        },
+        {
+          "file": "Book1/Prop25/step4.lean",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The given strict base inequality contradicts the derived equality of the bases."
+    },
+    {
+      "id": "book1_prop25-new_method-not-equal-conclusion",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 32,
+          "end_line": 32
+        },
+        {
+          "file": "Book1/Prop25/step5.lean",
+          "start_line": 7,
+          "end_line": 7
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The established contradiction is packaged as the conclusion that the angles are not equal."
+    },
+    {
+      "id": "book1_prop25-new_method-not-less-main",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 34,
+          "end_line": 35
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The proof begins a contradiction to show that the first angle is not less than the second."
+    },
+    {
+      "id": "book1_prop25-new_method-prop24",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 36,
+          "end_line": 36
+        },
+        {
+          "file": "Book1/Prop25/step7.lean",
+          "start_line": 8,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Assuming the first angle is less, Proposition 1.24 yields that its opposite base is less."
+    },
+    {
+      "id": "book1_prop25-new_method-base-not-less",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 37,
+          "end_line": 38
+        },
+        {
+          "file": "Book1/Prop25/step8.lean",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The given greater base contradicts the derived less-than relation."
+    },
+    {
+      "id": "book1_prop25-new_method-not-less-conclusion",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 40,
+          "end_line": 40
+        },
+        {
+          "file": "Book1/Prop25/step9.lean",
+          "start_line": 7,
+          "end_line": 7
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The contradiction is recorded as the statement that the first angle is not less than the second."
+    },
+    {
+      "id": "book1_prop25-new_method-not-equal-recall",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 42,
+          "end_line": 42
+        },
+        {
+          "file": "Book1/Prop25/step10.lean",
+          "start_line": 7,
+          "end_line": 7
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The previously proved non-equality of the angles is recalled for the final trichotomy step."
+    },
+    {
+      "id": "book1_prop25-new_method-greater",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop25/Main.lean",
+          "start_line": 44,
+          "end_line": 46
+        },
+        {
+          "file": "Book1/Prop25/step11.lean",
+          "start_line": 8,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Non-equality together with not-less implies that the first angle is greater, contradicting the assumption and proving the goal."
+    }
+  ]
+}

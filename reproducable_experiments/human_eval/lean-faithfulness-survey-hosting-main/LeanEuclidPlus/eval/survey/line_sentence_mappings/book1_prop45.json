@@ -1,0 +1,695 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop45",
+  "mappings": [
+    {
+      "id": "book1_prop45-leaneuclid-s1-s3",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 13,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem signature encodes the given rectilinear figure and angle and the required existence of an equal parallelogram in that angle."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s4",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 20,
+          "end_line": 20
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Proposition 1.42 constructs the first parallelogram equal to triangle ABD in the given angle."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s5",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 21,
+          "end_line": 21
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Proposition 1.44 applies the second parallelogram equal to triangle DBC along GH in the given angle."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s6",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 22,
+          "end_line": 22
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The equality of the two constructed angles follows from their common equality to E."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s7-s8",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7",
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 23,
+          "end_line": 23
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Adding angle KHG to both equal angles is expressed directly as equality of the two angle sums."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s9",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 24,
+          "end_line": 24
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Proposition 1.29 proves the first angle sum is two right angles."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s10",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 25,
+          "end_line": 25
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The equality of sums transfers the two-right-angles result to KHG and GHM."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s11-s12",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s11",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 26,
+          "end_line": 26
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Proposition 1.14 uses the adjacent supplementary angles to conclude KH is straight-on to HM."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s13",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 27,
+          "end_line": 27
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Proposition 1.29 gives equality of alternate angles across the parallels."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s14-s15",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s14",
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 28,
+          "end_line": 28
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Adding angle HGL to both equal angles is represented as equality of the corresponding angle sums."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s16",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 29,
+          "end_line": 29
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Proposition 1.29 proves the MHG and HGL angle sum is two right angles."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s17",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s17"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 30,
+          "end_line": 30
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The equality of sums transfers the two-right-angles result to HGF and HGL."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s18",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 31,
+          "end_line": 31
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Proposition 1.14 concludes FG is straight-on to GL."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s19",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s19"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 32,
+          "end_line": 35
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The two Prop. 1.34 applications and Prop. 1.30 establish that KF and ML are equal and parallel."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s20-s21",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s20",
+        "s21"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 36,
+          "end_line": 37
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The joining lines are used with Prop. 1.33 to show KM and FL are equal and parallel."
+    },
+    {
+      "id": "book1_prop45-leaneuclid-s22-s24",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s22",
+        "s23",
+        "s24"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop45.lean",
+          "start_line": 38,
+          "end_line": 39
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The witnesses and final automation assemble the parallelogram, angle equality, and area equality required by the conclusion."
+    },
+    {
+      "id": "book1_prop45-new-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 33,
+          "end_line": 37
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement encodes the given figure and angle and the required construction of an equal parallelogram."
+    },
+    {
+      "id": "book1_prop45-new-s4",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 42,
+          "end_line": 44
+        },
+        {
+          "file": "Book1/Prop45/step2.lean",
+          "start_line": 7,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 42 and its helper record the constructed parallelogram equal to triangle ABD in the given angle."
+    },
+    {
+      "id": "book1_prop45-new-s5",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 46,
+          "end_line": 48
+        },
+        {
+          "file": "Book1/Prop45/step3.lean",
+          "start_line": 7,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 44 and its helper record the applied parallelogram equal to triangle DBC in the given angle."
+    },
+    {
+      "id": "book1_prop45-new-s6",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 50,
+          "end_line": 52
+        },
+        {
+          "file": "Book1/Prop45/step4.lean",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper derives equality of angles HKF and GHM from their common equality to E."
+    },
+    {
+      "id": "book1_prop45-new-s7-s8",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7",
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 54,
+          "end_line": 56
+        },
+        {
+          "file": "Book1/Prop45/step5.lean",
+          "start_line": 8,
+          "end_line": 12
+        },
+        {
+          "file": "Book1/Prop45/step6.lean",
+          "start_line": 8,
+          "end_line": 28
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The code adds angle KHG to both sides and rewrites the oriented angle sum into the needed form."
+    },
+    {
+      "id": "book1_prop45-new-s9",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 58,
+          "end_line": 58
+        },
+        {
+          "file": "Book1/Prop45/step7.lean",
+          "start_line": 9,
+          "end_line": 37
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Proposition 29 to prove that FKH and KHG sum to two right angles."
+    },
+    {
+      "id": "book1_prop45-new-s10",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 60,
+          "end_line": 60
+        },
+        {
+          "file": "Book1/Prop45/step8.lean",
+          "start_line": 8,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper transfers the two-right-angle equality from one equal sum to the other."
+    },
+    {
+      "id": "book1_prop45-new-s11",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 62,
+          "end_line": 62
+        },
+        {
+          "file": "Book1/Prop45/step9.lean",
+          "start_line": 7,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper packages the opposing-side condition and adjacent-angle sum needed for Proposition 14."
+    },
+    {
+      "id": "book1_prop45-new-s12",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 64,
+          "end_line": 64
+        },
+        {
+          "file": "Book1/Prop45/step10.lean",
+          "start_line": 9,
+          "end_line": 25
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Applying Proposition 14 concludes the formal line equality expressing KH straight-on to HM."
+    },
+    {
+      "id": "book1_prop45-new-s13",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 66,
+          "end_line": 68
+        },
+        {
+          "file": "Book1/Prop45/step11.lean",
+          "start_line": 9,
+          "end_line": 34
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Proposition 29 to obtain the equality of the alternate angles MHG and HGF."
+    },
+    {
+      "id": "book1_prop45-new-s14-s15",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s14",
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 70,
+          "end_line": 72
+        },
+        {
+          "file": "Book1/Prop45/step12.lean",
+          "start_line": 8,
+          "end_line": 12
+        },
+        {
+          "file": "Book1/Prop45/step13.lean",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helpers add angle HGL to both equal angles and state the corresponding equality of sums."
+    },
+    {
+      "id": "book1_prop45-new-s16",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 74,
+          "end_line": 74
+        },
+        {
+          "file": "Book1/Prop45/step14.lean",
+          "start_line": 10,
+          "end_line": 43
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Proposition 29 to prove that MHG and HGL sum to two right angles."
+    },
+    {
+      "id": "book1_prop45-new-s17",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s17"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 76,
+          "end_line": 76
+        },
+        {
+          "file": "Book1/Prop45/step15.lean",
+          "start_line": 8,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper transfers the two-right-angle result to the sum HGF and HGL."
+    },
+    {
+      "id": "book1_prop45-new-s18",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 78,
+          "end_line": 78
+        },
+        {
+          "file": "Book1/Prop45/step16.lean",
+          "start_line": 9,
+          "end_line": 40
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 14 is used to identify FG and GL as one straight line."
+    },
+    {
+      "id": "book1_prop45-new-s19",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s19"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 80,
+          "end_line": 84
+        },
+        {
+          "file": "Book1/Prop45/step17_assumption1.lean",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "file": "Book1/Prop45/step17_assumption2.lean",
+          "start_line": 8,
+          "end_line": 24
+        },
+        {
+          "file": "Book1/Prop45/step17.lean",
+          "start_line": 10,
+          "end_line": 71
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helpers use Proposition 34 on the two parallelograms and Proposition 30 to prove KF and ML equal and parallel."
+    },
+    {
+      "id": "book1_prop45-new-s20-s21",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s20",
+        "s21"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 86,
+          "end_line": 88
+        },
+        {
+          "file": "Book1/Prop45/step18.lean",
+          "start_line": 8,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop45/step19.lean",
+          "start_line": 9,
+          "end_line": 46
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The code establishes the joined lines KM and FL and applies Proposition 33 to prove they are equal and parallel."
+    },
+    {
+      "id": "book1_prop45-new-s22",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s22"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 90,
+          "end_line": 90
+        },
+        {
+          "file": "Book1/Prop45/step20.lean",
+          "start_line": 8,
+          "end_line": 41
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper assembles the side and parallel data into the parallelogram KFLM."
+    },
+    {
+      "id": "book1_prop45-new-s23",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s23"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 92,
+          "end_line": 96
+        },
+        {
+          "file": "Book1/Prop45/step21.lean",
+          "start_line": 9,
+          "end_line": 57
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper combines the two component area equalities to prove the whole parallelogram equals the whole rectilinear figure."
+    },
+    {
+      "id": "book1_prop45-new-s24-s25",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s24",
+        "s25"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop45/Main.lean",
+          "start_line": 98,
+          "end_line": 100
+        },
+        {
+          "file": "Book1/Prop45/hangle.lean",
+          "start_line": 7,
+          "end_line": 44
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The final witness, angle helper, and exact proof establish the constructed parallelogram in the required angle with the required area."
+    }
+  ]
+}

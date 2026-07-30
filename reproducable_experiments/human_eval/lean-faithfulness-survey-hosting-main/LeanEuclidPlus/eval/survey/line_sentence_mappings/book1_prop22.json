@@ -1,0 +1,498 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop22",
+  "mappings": [
+    {
+      "id": "book1_prop22_leaneuclid_merged_book1_prop22_leaneuclid_statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s3",
+        "s5",
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop22.lean",
+          "start_line": 6,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem states the input straight-lines, the triangle-inequality hypotheses, and the required existence of a triangle with corresponding side lengths. / The three hypotheses are exactly the three pairwise sum inequalities named for A, B, and C."
+    },
+    {
+      "id": "book1_prop22-leaneuclid-setout-line",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop22.lean",
+          "start_line": 14,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These construction steps choose a point, form a line through it, and extend it far enough to serve as Euclid's ray DE."
+    },
+    {
+      "id": "book1_prop22-leaneuclid-copy-segments",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop22.lean",
+          "start_line": 20,
+          "end_line": 22
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The three applications of Proposition 3 construct DF, FG, and GH equal to the three given segments."
+    },
+    {
+      "id": "book1_prop22-leaneuclid-circle-dkl",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop22.lean",
+          "start_line": 23,
+          "end_line": 23
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The circle is constructed from center F through D, giving radius FD."
+    },
+    {
+      "id": "book1_prop22-leaneuclid-circle-klh",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop22.lean",
+          "start_line": 24,
+          "end_line": 24
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The circle is constructed from center G through H, giving radius GH."
+    },
+    {
+      "id": "book1_prop22-leaneuclid-circle-intersection",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop22.lean",
+          "start_line": 26,
+          "end_line": 28
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The auxiliary intersection facts produce K, the point used to join K with F and G."
+    },
+    {
+      "id": "book1_prop22-leaneuclid-fd-fk",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop22.lean",
+          "start_line": 29,
+          "end_line": 29
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Since D and K lie on the circle centered at F, their distances from F are equal."
+    },
+    {
+      "id": "book1_prop22-leaneuclid-gh-gk",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop22.lean",
+          "start_line": 30,
+          "end_line": 30
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Since H and K lie on the circle centered at G, their distances from G are equal."
+    },
+    {
+      "id": "book1_prop22-leaneuclid-final-equalities",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s13",
+        "s14",
+        "s16",
+        "s17",
+        "s18",
+        "s19",
+        "s20",
+        "s21"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop22.lean",
+          "start_line": 31,
+          "end_line": 31
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The finishing tactic combines the copied segment equalities, circle-radius equalities, and symmetry of segment length to discharge the final side-equality goal."
+    },
+    {
+      "id": "book1_prop22_new_method_merged_book1_prop22_new_001",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s5",
+        "s11",
+        "s20",
+        "s21",
+        "s2",
+        "s3",
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 27,
+          "end_line": 32
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement states the construction goal as the existence of a triangle with three required side equalities. / The hypotheses introduce the three given segments and encode the three required triangle inequalities."
+    },
+    {
+      "id": "book1_prop22-new-003",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 35,
+          "end_line": 41
+        },
+        {
+          "file": "Book1/Prop22/step1.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines set out and extend the base line DE, with the helper recording that D and E determine the line."
+    },
+    {
+      "id": "book1_prop22-new-004",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 43,
+          "end_line": 50
+        },
+        {
+          "file": "Book1/Prop22/step2.lean",
+          "start_line": 7,
+          "end_line": 8
+        },
+        {
+          "file": "Book1/Prop22/step3.lean",
+          "start_line": 7,
+          "end_line": 8
+        },
+        {
+          "file": "Book1/Prop22/step4.lean",
+          "start_line": 7,
+          "end_line": 8
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The three Proposition 1.3 applications construct DF, FG, and GH equal to the three given segments and store those equalities."
+    },
+    {
+      "id": "book1_prop22-new-005",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 52,
+          "end_line": 53
+        },
+        {
+          "file": "Book1/Prop22/step5.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The circle DKL is drawn with center F through D, recording the center and radius point."
+    },
+    {
+      "id": "book1_prop22-new-006",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 55,
+          "end_line": 56
+        },
+        {
+          "file": "Book1/Prop22/step6.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The circle KLH is drawn with center G through H, recording the center and radius point."
+    },
+    {
+      "id": "book1_prop22-new-007",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 60,
+          "end_line": 63
+        },
+        {
+          "file": "Book1/Prop22/step7.lean",
+          "start_line": 7,
+          "end_line": 22
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The intersection K is obtained and the lines KF and KG are constructed through the required endpoints."
+    },
+    {
+      "id": "book1_prop22-new-008",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 65,
+          "end_line": 67
+        },
+        {
+          "file": "Book1/Prop22/step9.lean",
+          "start_line": 7,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Since F is the center and D and K lie on the circle, FD equals FK."
+    },
+    {
+      "id": "book1_prop22-new-009",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 69,
+          "end_line": 69
+        },
+        {
+          "file": "Book1/Prop22/step10.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The constructed equality DF equals the given segment A, adjusted for segment symmetry."
+    },
+    {
+      "id": "book1_prop22-new-010",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 71,
+          "end_line": 71
+        },
+        {
+          "file": "Book1/Prop22/step11.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Transitivity of the radius equality and DF equal to A gives KF equal to A."
+    },
+    {
+      "id": "book1_prop22-new-011",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 73,
+          "end_line": 75
+        },
+        {
+          "file": "Book1/Prop22/step12.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Since G is the center and H and K lie on the circle, GH equals GK."
+    },
+    {
+      "id": "book1_prop22-new-012",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 77,
+          "end_line": 77
+        },
+        {
+          "file": "Book1/Prop22/step13.lean",
+          "start_line": 7,
+          "end_line": 8
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The constructed equality GH equals the given segment C."
+    },
+    {
+      "id": "book1_prop22-new-013",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s17"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 79,
+          "end_line": 79
+        },
+        {
+          "file": "Book1/Prop22/step14.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Transitivity of the radius equality and GH equal to C gives KG equal to C."
+    },
+    {
+      "id": "book1_prop22-new-014",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 81,
+          "end_line": 81
+        },
+        {
+          "file": "Book1/Prop22/step15.lean",
+          "start_line": 7,
+          "end_line": 8
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The previously constructed segment FG is recorded as equal to B."
+    },
+    {
+      "id": "book1_prop22-new-015",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s19"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 83,
+          "end_line": 83
+        },
+        {
+          "file": "Book1/Prop22/step16.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The three side equalities KF, FG, and GK to A, B, and C are bundled together."
+    },
+    {
+      "id": "book1_prop22-new-016",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s20",
+        "s21"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop22/Main.lean",
+          "start_line": 85,
+          "end_line": 89
+        },
+        {
+          "file": "Book1/Prop22/hgoal1.lean",
+          "start_line": 7,
+          "end_line": 9
+        },
+        {
+          "file": "Book1/Prop22/hgoal2.lean",
+          "start_line": 7,
+          "end_line": 8
+        },
+        {
+          "file": "Book1/Prop22/hgoal3.lean",
+          "start_line": 7,
+          "end_line": 8
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The constructed points are returned with the three side equalities, completing the required construction."
+    }
+  ]
+}

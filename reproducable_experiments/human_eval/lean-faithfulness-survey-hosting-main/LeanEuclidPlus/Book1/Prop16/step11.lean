@@ -1,0 +1,12 @@
+import SystemE
+set_option linter.unusedVariables false
+set_option linter.unnecessarySeqFocus false
+
+namespace Elements.Book1
+
+theorem h_1_16_s11 (a b c e f : Point)
+    (h_s10 : (∠ b:a:e = ∠ e:c:f) ∧ (∠ a:b:e = ∠ c:f:e)) :
+    ∠ b:a:e = ∠ e:c:f :=
+  h_s10.1
+
+end Elements.Book1

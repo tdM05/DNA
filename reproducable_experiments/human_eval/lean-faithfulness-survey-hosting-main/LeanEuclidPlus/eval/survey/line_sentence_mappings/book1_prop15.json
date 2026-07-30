@@ -1,0 +1,295 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop15",
+  "mappings": [
+    {
+      "id": "book1_prop15-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop15.lean",
+          "start_line": 6,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement encodes the crossing-line hypotheses and the two vertically opposite angle equalities to be proved."
+    },
+    {
+      "id": "book1_prop15-leaneuclid-s4",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop15.lean",
+          "start_line": 12,
+          "end_line": 12
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This applies Proposition 1.13 to AE standing on CD to obtain the two-right-angles sum for CEA and AED."
+    },
+    {
+      "id": "book1_prop15-leaneuclid-s5",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop15.lean",
+          "start_line": 13,
+          "end_line": 13
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This applies Proposition 1.13 to DE standing on AB to obtain the two-right-angles sum for AED and DEB."
+    },
+    {
+      "id": "book1_prop15_leaneuclid_merged_book1_prop15_leaneuclid_s6_s9",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s11",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop15.lean",
+          "start_line": 15,
+          "end_line": 15
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The finishing tactic combines the two equal sums, subtracts the common angle AED, and derives the first vertical angle equality. / The final tactic closes the theorem, establishing the stated vertically opposite angle equalities."
+    },
+    {
+      "id": "book1_prop15-leaneuclid-s10",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop15.lean",
+          "start_line": 14,
+          "end_line": 14
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This symmetric Proposition 1.13 application supplies the analogous equality for CEB and AED."
+    },
+    {
+      "id": "book1_prop15-new-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 16,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem header formalizes the intersecting-line setup and the two claimed vertical-angle equalities."
+    },
+    {
+      "id": "book1_prop15-new-step1",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 24,
+          "end_line": 24
+        },
+        {
+          "file": "Book1/Prop15/step1.lean",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The helper applies Proposition 13 to conclude that angles CEA and AED sum to two right angles."
+    },
+    {
+      "id": "book1_prop15-new-step2",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 28,
+          "end_line": 28
+        },
+        {
+          "file": "Book1/Prop15/step2.lean",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The helper applies Proposition 13 to conclude that angles AED and DEB sum to two right angles."
+    },
+    {
+      "id": "book1_prop15-new-step3",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 30,
+          "end_line": 30
+        },
+        {
+          "file": "Book1/Prop15/step3.lean",
+          "start_line": 10,
+          "end_line": 11
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This simply restates the earlier equality of CEA plus AED with two right angles."
+    },
+    {
+      "id": "book1_prop15-new-step4",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 32,
+          "end_line": 32
+        },
+        {
+          "file": "Book1/Prop15/step4.lean",
+          "start_line": 12,
+          "end_line": 13
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Since both angle sums equal two right angles, linear arithmetic derives equality between the two sums."
+    },
+    {
+      "id": "book1_prop15-new-step5",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 34,
+          "end_line": 34
+        },
+        {
+          "file": "Book1/Prop15/step5.lean",
+          "start_line": 11,
+          "end_line": 12
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The common angle AED is subtracted from both sides of the equality of sums."
+    },
+    {
+      "id": "book1_prop15-new-step6",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 36,
+          "end_line": 36
+        },
+        {
+          "file": "Book1/Prop15/step6.lean",
+          "start_line": 13,
+          "end_line": 18
+        },
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 40,
+          "end_line": 40
+        },
+        {
+          "file": "Book1/Prop15/h1.lean",
+          "start_line": 13,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The subtraction result yields equality of the remaining angles, with angle symmetry rewriting the formal orientation to AEC equals DEB."
+    },
+    {
+      "id": "book1_prop15-new-step7",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 38,
+          "end_line": 38
+        },
+        {
+          "file": "Book1/Prop15/step7.lean",
+          "start_line": 18,
+          "end_line": 20
+        },
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 41,
+          "end_line": 41
+        },
+        {
+          "file": "Book1/Prop15/h2.lean",
+          "start_line": 13,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper proves the analogous second vertical-angle equality and then rewrites angle orientation by symmetry."
+    },
+    {
+      "id": "book1_prop15-new-conclusion",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop15/Main.lean",
+          "start_line": 42,
+          "end_line": 42
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The final exact packages the two established equalities as the theorem conclusion, completing what was required to prove."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+import SystemE
+set_option linter.unusedVariables false
+set_option linter.unnecessarySeqFocus false
+
+namespace Elements.Book1
+
+theorem h_1_3_s4 (a d c₀ c₁ : Point)
+    (hstep1 : |(a─d)| = |(c₀─c₁)|) : |(c₀─c₁)| = |(a─d)| := by
+  exact hstep1.symm
+
+end Elements.Book1

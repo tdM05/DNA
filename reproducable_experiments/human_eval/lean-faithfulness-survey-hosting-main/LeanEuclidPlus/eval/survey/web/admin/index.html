@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Survey Admin</title>
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <section id="loginView" class="login-view hidden">
+    <form id="loginForm" class="login-card">
+      <p class="eyebrow">Faithfulness Survey</p>
+      <h1>Admin</h1>
+      <p class="muted">Use the admin password configured on the survey server.</p>
+      <label>
+        <span>Password</span>
+        <input id="adminPassword" type="password" autocomplete="current-password">
+      </label>
+      <button class="primary" type="submit">Enter admin</button>
+      <p id="loginMessage" class="message" role="status"></p>
+    </form>
+  </section>
+
+  <main id="adminApp" class="admin-shell hidden">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Survey administration</p>
+        <h1>Faithfulness Survey Admin</h1>
+      </div>
+      <div class="top-actions">
+        <button id="refreshButton" type="button">Refresh</button>
+        <button id="logoutButton" class="ghost" type="button">Log out</button>
+      </div>
+    </header>
+
+    <section id="summaryCards" class="summary-grid"></section>
+
+    <section class="panel analytics-panel">
+      <div class="panel-head">
+        <div>
+          <h2>Aggregated Faithfulness Scores</h2>
+          <p class="muted">Average step scores and comparison choices across selected reviewers and propositions.</p>
+        </div>
+      </div>
+      <div class="analytics-layout">
+        <div class="score-chart-wrap">
+          <div id="scoreChart" class="score-chart"></div>
+          <div id="scoreLegend" class="score-legend"></div>
+          <div id="scoreSummary" class="compact"></div>
+          <div id="scoreBreakdown"></div>
+        </div>
+        <form id="scoreFilters" class="filter-panel">
+          <label>
+            <span>Reviewer status</span>
+            <select id="reviewerStatusFilter">
+              <option value="all">All active reviewers</option>
+              <option value="not_started">Not started</option>
+              <option value="in_progress">In progress</option>
+              <option value="done">Done</option>
+            </select>
+          </label>
+          <label>
+            <span>Reviewers</span>
+            <select id="reviewerFilter" multiple size="6"></select>
+          </label>
+          <label>
+            <span>Propositions</span>
+            <select id="propFilter" multiple size="8"></select>
+          </label>
+          <button id="clearScoreFilters" type="button">Clear reviewer/proposition selections</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="grid-two">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Reviewers</h2>
+            <p class="muted">Add reviewer codes, monitor progress, or disable future access.</p>
+          </div>
+          <form id="addReviewerForm" class="inline-form">
+            <input id="newReviewerCode" placeholder="Reviewer code">
+            <button type="submit">Add</button>
+          </form>
+        </div>
+        <form id="inviteReviewerForm" class="invite-form">
+          <label>
+            <span>Reviewer email</span>
+            <input id="inviteEmail" type="email" placeholder="reviewer@example.edu">
+          </label>
+          <label>
+            <span>Survey access URL</span>
+            <input id="inviteAccessUrl" placeholder="http://127.0.0.1:8765">
+          </label>
+          <button class="primary" type="submit">Send personal link</button>
+          <p id="inviteMessage" class="message compact" role="status"></p>
+        </form>
+        <div class="table-wrap reviewer-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Status</th>
+                <th>Items</th>
+                <th>Tutorial</th>
+                <th>Last activity (ET)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="reviewerRows"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Exports</h2>
+            <p class="muted">Exports are read-only snapshots of saved survey data. Admin downloads include US Eastern companion fields for timestamp columns.</p>
+          </div>
+        </div>
+        <div class="export-list">
+          <div class="export-group">
+            <h3>Filter reviewers</h3>
+            <label>
+              <span>Reviewer status</span>
+              <select id="exportReviewerStatusFilter">
+                <option value="all">All active reviewers</option>
+                <option value="not_started">Not started</option>
+                <option value="in_progress">In progress</option>
+                <option value="done">Done</option>
+              </select>
+            </label>
+            <label>
+              <span>Reviewer codes</span>
+              <select id="exportReviewerFilter" multiple size="6"></select>
+            </label>
+            <button id="clearExportFilters" type="button">Clear reviewer selections</button>
+            <p id="exportFilterSummary" class="compact"></p>
+          </div>
+          <div class="export-group">
+            <h3>Download filtered data</h3>
+            <a id="exportResponsesJson" class="download" href="/api/admin/exports/responses.json">Responses JSON</a>
+            <a id="exportResponsesCsv" class="download" href="/api/admin/exports/responses.csv">Step scores CSV</a>
+            <a id="exportPreferencesCsv" class="download" href="/api/admin/exports/preference_responses.csv">Comparisons CSV</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid-two">
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Survey Data Health</h2>
+            <p class="muted">Checks generated survey data, assets, and method availability.</p>
+          </div>
+        </div>
+        <div id="healthList" class="health-list"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Lean Backend</h2>
+            <p class="muted">Inspect and clear server-owned Lean sessions.</p>
+          </div>
+        </div>
+        <div id="leanStatus" class="lean-status"></div>
+        <div class="button-row">
+          <button id="cancelWarmups" type="button">Cancel warm-ups</button>
+          <button id="clearLeanCache" class="danger" type="button">Clear Lean cache</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Propositions</h2>
+          <p class="muted">Per-proposition readiness and reviewer progress.</p>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Proposition</th>
+              <th>Ready</th>
+              <th>Sample pool</th>
+              <th>Reviewer progress</th>
+              <th>Diagram</th>
+              <th>Mapping gaps</th>
+            </tr>
+          </thead>
+          <tbody id="propRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop14",
+  "mappings": [
+    {
+      "id": "book1_prop14-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop14.lean",
+          "start_line": 6,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement packages the general proposition, instantiated hypotheses, and the claimed equality of the two lines."
+    },
+    {
+      "id": "book1_prop14-leaneuclid-contradiction-setup",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop14.lean",
+          "start_line": 12,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The proof assumes the target equality false and constructs the extension point on CB, corresponding to choosing BE straight-on to CB."
+    },
+    {
+      "id": "book1_prop14-leaneuclid-prop13",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop14.lean",
+          "start_line": 14,
+          "end_line": 14
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The application of Proposition 1.13 establishes that the two adjacent angles on the straight line sum to two right angles."
+    },
+    {
+      "id": "book1_prop14_leaneuclid_merged_book1_prop14_leaneuclid_impossibility_cases",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "s11",
+        "s12",
+        "s13",
+        "s14",
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop14.lean",
+          "start_line": 15,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The case split and angle-sum contradiction use the assumed two-right-angle sum to derive the impossible equality, including the omitted symmetric branch. / Closing the contradiction proves the theorem's line equality, which is Euclid's final straight-on conclusion and QED."
+    },
+    {
+      "id": "book1_prop14-new_method-001",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop14/Main.lean",
+          "start_line": 15,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The theorem statement formalizes the full proposition and its final restatement as equality of the two lines determined by CB and BD."
+    },
+    {
+      "id": "book1_prop14-new_method-002",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop14/Main.lean",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Introducing the hypotheses and goal corresponds to the instantiated configuration and the claim that BD is straight-on with CB."
+    },
+    {
+      "id": "book1_prop14-new_method-003",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop14/Main.lean",
+          "start_line": 21,
+          "end_line": 23
+        },
+        {
+          "file": "Book1/Prop14/Main.lean",
+          "start_line": 25,
+          "end_line": 27
+        },
+        {
+          "file": "Book1/Prop14/step1.lean",
+          "start_line": 7,
+          "end_line": 8
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The proof assumes the desired line equality is false, constructs E on the extension of CB, and records the between relation expressing BE straight-on with CB."
+    },
+    {
+      "id": "book1_prop14-new_method-004",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop14/Main.lean",
+          "start_line": 29,
+          "end_line": 31
+        },
+        {
+          "file": "Book1/Prop14/step2.lean",
+          "start_line": 8,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Proposition 1.13 to AB standing on the straight line through C, B, and E, deriving that angles ABC and ABE sum to two right angles."
+    },
+    {
+      "id": "book1_prop14-new_method-005",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop14/Main.lean",
+          "start_line": 33,
+          "end_line": 33
+        },
+        {
+          "file": "Book1/Prop14/step3.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "This simply restates the given hypothesis that angles ABC and ABD sum to two right angles."
+    },
+    {
+      "id": "book1_prop14-new_method-006",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop14/Main.lean",
+          "start_line": 35,
+          "end_line": 35
+        },
+        {
+          "file": "Book1/Prop14/step4.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "From the two equal sums to two right angles, the code derives equality of the corresponding angle sums with the common angle CBA."
+    },
+    {
+      "id": "book1_prop14-new_method-007",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8",
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop14/Main.lean",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "file": "Book1/Prop14/step5.lean",
+          "start_line": 8,
+          "end_line": 11
+        },
+        {
+          "file": "Book1/Prop14/step6.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Cancellation of the common angle gives equality of the remaining angles ABE and ABD, matching the common-notion subtraction step."
+    },
+    {
+      "id": "book1_prop14-new_method-008",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10",
+        "s11",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop14/Main.lean",
+          "start_line": 41,
+          "end_line": 43
+        },
+        {
+          "file": "Book1/Prop14/step7.lean",
+          "start_line": 7,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper derives contradiction from the equal angle remainder, with two cases covering Euclid's explicit impossibility and the omitted symmetric alternative."
+    },
+    {
+      "id": "book1_prop14-new_method-009",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop14/Main.lean",
+          "start_line": 45,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop14/step10.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Negating the assumed inequality yields equality of BC and BD, the formal straight-on conclusion."
+    }
+  ]
+}

@@ -1,0 +1,252 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop10",
+  "mappings": [
+    {
+      "id": "book1_prop10-leaneuclid-1",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop10.lean",
+          "start_line": 8,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The theorem statement formalizes the task for a given line AB and the required midpoint existence."
+    },
+    {
+      "id": "book1_prop10-leaneuclid-2",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop10.lean",
+          "start_line": 12,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These construction steps build the equilateral triangle, bisect the angle at C, form CD, and identify its intersection D with AB."
+    },
+    {
+      "id": "book1_prop10-leaneuclid-3",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7",
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop10.lean",
+          "start_line": 18,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The single application of Proposition 1.4 packages the two side equalities, included angle equality, and resulting equality of AD and BD."
+    },
+    {
+      "id": "book1_prop10-leaneuclid-4",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5",
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop10.lean",
+          "start_line": 19,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Choosing D and finishing establishes that AB is bisected at D, completing the required construction."
+    },
+    {
+      "id": "book1_prop10-new-statement-given",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s2"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop10/Main.lean",
+          "start_line": 15,
+          "end_line": 15
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The theorem quantifies the given endpoints and line AB with the hypothesis that a and b are distinct points on AB."
+    },
+    {
+      "id": "book1_prop10-new-statement-goal",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop10/Main.lean",
+          "start_line": 16,
+          "end_line": 16
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The existential conclusion states the required bisection of AB by a point d between a and b with equal subsegments."
+    },
+    {
+      "id": "book1_prop10-new-construction-equilateral",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop10/Main.lean",
+          "start_line": 19,
+          "end_line": 22
+        },
+        {
+          "file": "Book1/Prop10/step1.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines construct and record the equilateral triangle ABC on AB, including the equal sides needed from Proposition 1."
+    },
+    {
+      "id": "book1_prop10-new-construction-bisector",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop10/Main.lean",
+          "start_line": 24,
+          "end_line": 27
+        },
+        {
+          "file": "Book1/Prop10/step2.lean",
+          "start_line": 7,
+          "end_line": 15
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These lines bisect angle ACB, form CD, intersect it with AB at D, and transfer the bisected angle statement from d' to d."
+    },
+    {
+      "id": "book1_prop10-new-equal-sides",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop10/Main.lean",
+          "start_line": 29,
+          "end_line": 33
+        },
+        {
+          "file": "Book1/Prop10/step4.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The code derives AC equal to CB and records CD equal to itself, matching the two pairs of equal sides."
+    },
+    {
+      "id": "book1_prop10-new-equal-angle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop10/Main.lean",
+          "start_line": 35,
+          "end_line": 35
+        },
+        {
+          "file": "Book1/Prop10/step5.lean",
+          "start_line": 7,
+          "end_line": 15
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper proves that angle ACD equals angle BCD."
+    },
+    {
+      "id": "book1_prop10-new-sas-base",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop10/Main.lean",
+          "start_line": 37,
+          "end_line": 37
+        },
+        {
+          "file": "Book1/Prop10/step6.lean",
+          "start_line": 8,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies Proposition 4 to conclude that the base AD equals the base DB."
+    },
+    {
+      "id": "book1_prop10-new-between",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5",
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop10/Main.lean",
+          "start_line": 39,
+          "end_line": 39
+        },
+        {
+          "file": "Book1/Prop10/hbet.lean",
+          "start_line": 7,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper establishes that D lies between A and B, so together with the equal subsegments AB is cut in half at D."
+    },
+    {
+      "id": "book1_prop10-new-conclusion",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop10/Main.lean",
+          "start_line": 40,
+          "end_line": 40
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The final exact term supplies D, betweenness, and equality, completing the required result."
+    }
+  ]
+}

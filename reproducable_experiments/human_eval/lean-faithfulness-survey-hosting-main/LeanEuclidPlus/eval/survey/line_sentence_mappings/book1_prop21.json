@@ -1,0 +1,422 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop21",
+  "mappings": [
+    {
+      "id": "book1_prop21-leaneuclid-1",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop21.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The theorem statement encodes the triangle setup, the internal segments from B and C, and the two claimed conclusions."
+    },
+    {
+      "id": "book1_prop21-leaneuclid-2",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop21.lean",
+          "start_line": 13,
+          "end_line": 13
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The intersection point e on BD and AC formalizes extending BD to meet AC at E."
+    },
+    {
+      "id": "book1_prop21-leaneuclid-3",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop21.lean",
+          "start_line": 14,
+          "end_line": 14
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Applying Proposition 20 to triangle ABE gives the inequality AB plus AE greater than BE."
+    },
+    {
+      "id": "book1_prop21-leaneuclid-4",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop21.lean",
+          "start_line": 15,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The second triangle inequality and the automated finish combine the added-segment inequalities to prove BA plus AC greater than BD plus DC."
+    },
+    {
+      "id": "book1_prop21-leaneuclid-5",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s12",
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop21.lean",
+          "start_line": 18,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Applying Proposition 16 to triangle CDE proves the exterior angle BDC is greater than CED."
+    },
+    {
+      "id": "book1_prop21-leaneuclid-6",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop21.lean",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Applying Proposition 16 to triangle ABE proves exterior angle CEB is greater than BAC."
+    },
+    {
+      "id": "book1_prop21-leaneuclid-7",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s15",
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop21.lean",
+          "start_line": 20,
+          "end_line": 20
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The final automated angle reasoning combines BDC greater than CEB with CEB greater than BAC."
+    },
+    {
+      "id": "book1_prop21-new-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s17",
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 20,
+          "end_line": 23
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem hypotheses encode the triangle and internal constructed lines, and the conclusion states both required inequalities."
+    },
+    {
+      "id": "book1_prop21-new-s4-main",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 26,
+          "end_line": 27
+        },
+        {
+          "file": "Book1/Prop21/step1.lean",
+          "start_line": 13,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The construction of e and proof that b, d, e are collinear with d between b and e formalize drawing BD through to E."
+    },
+    {
+      "id": "book1_prop21-new-s5",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 29,
+          "end_line": 29
+        },
+        {
+          "file": "Book1/Prop21/step2.lean",
+          "start_line": 14,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper applies Proposition 20 to triangle ABE to obtain AB plus AE greater than BE."
+    },
+    {
+      "id": "book1_prop21-new-s6",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 31,
+          "end_line": 31
+        },
+        {
+          "file": "Book1/Prop21/step3.lean",
+          "start_line": 10,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The inequality from triangle ABE is preserved after adding EC to both sides."
+    },
+    {
+      "id": "book1_prop21-new-s7",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 33,
+          "end_line": 33
+        },
+        {
+          "file": "Book1/Prop21/step4.lean",
+          "start_line": 16,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Using E between A and C and segment symmetry rewrites AB plus AE plus EC as BA plus AC."
+    },
+    {
+      "id": "book1_prop21-new-s8",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 35,
+          "end_line": 37
+        },
+        {
+          "file": "Book1/Prop21/step5_assumption1.lean",
+          "start_line": 15,
+          "end_line": 17
+        },
+        {
+          "file": "Book1/Prop21/step5.lean",
+          "start_line": 10,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The first helper applies Proposition 20 in triangle CED, and the second adds DB to both sides."
+    },
+    {
+      "id": "book1_prop21-new-s9",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 39,
+          "end_line": 39
+        },
+        {
+          "file": "Book1/Prop21/step6.lean",
+          "start_line": 11,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper uses B-D-E betweenness and segment symmetries to rewrite CE plus ED plus DB as CE plus EB."
+    },
+    {
+      "id": "book1_prop21-new-s10",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 41,
+          "end_line": 41
+        },
+        {
+          "file": "Book1/Prop21/step7.lean",
+          "start_line": 8,
+          "end_line": 9
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This step restates the previously shown comparison BA plus AC greater than BE plus EC."
+    },
+    {
+      "id": "book1_prop21-new-s11",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 43,
+          "end_line": 43
+        },
+        {
+          "file": "Book1/Prop21/step8.lean",
+          "start_line": 11,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper combines the two side comparisons and segment symmetries to conclude BA plus AC greater than BD plus DC."
+    },
+    {
+      "id": "book1_prop21-new-s12-s13",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12",
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 45,
+          "end_line": 45
+        },
+        {
+          "file": "Book1/Prop21/step9.lean",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Applying Proposition 16 to triangle CDE proves the external angle BDC greater than CED."
+    },
+    {
+      "id": "book1_prop21-new-s14",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 47,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop21/step10.lean",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Applying Proposition 16 to triangle ABE proves the external angle CEB greater than BAC."
+    },
+    {
+      "id": "book1_prop21-new-s15",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 49,
+          "end_line": 49
+        },
+        {
+          "file": "Book1/Prop21/step11.lean",
+          "start_line": 16,
+          "end_line": 17
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "This derives that BDC is greater than CEB from the prior external-angle result and angle facts."
+    },
+    {
+      "id": "book1_prop21-new-s16",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 51,
+          "end_line": 51
+        },
+        {
+          "file": "Book1/Prop21/step12.lean",
+          "start_line": 11,
+          "end_line": 12
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The final angle inequality follows transitively from CEB greater than BAC and BDC greater than CEB."
+    },
+    {
+      "id": "book1_prop21-new-final",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s17",
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop21/Main.lean",
+          "start_line": 53,
+          "end_line": 53
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The exact pair packages the established side and angle inequalities as the final proposition conclusion."
+    }
+  ]
+}

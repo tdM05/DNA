@@ -1,0 +1,257 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop19",
+  "mappings": [
+    {
+      "id": "book1_prop19-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop19.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The theorem statement encodes the general proposition, the assumed triangle with greater angle, and the claimed greater opposite side."
+    },
+    {
+      "id": "book1_prop19_leaneuclid_merged_book1_prop19_leaneuclid_not_greater_cases",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4",
+        "s5",
+        "s6",
+        "s7",
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop19.lean",
+          "start_line": 12,
+          "end_line": 15
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The contradiction setup and equality case split implement Euclid's alternatives when AC is not greater than AB. / The equality branch applies Proposition 1.5 to derive equal angles, contradicting the given strict inequality and eliminating equality."
+    },
+    {
+      "id": "book1_prop19_leaneuclid_merged_book1_prop19_leaneuclid_less_branch",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9",
+        "s10",
+        "s11",
+        "s12",
+        "s13",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop19.lean",
+          "start_line": 16,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The remaining less-than branch applies Proposition 1.18 to derive a smaller angle, contradicting the given greater angle and eliminating the less case. / Closing the final contradiction branch uses the already excluded equality and less alternatives to force AC greater than AB."
+    },
+    {
+      "id": "book1_prop19-new_method-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop19/Main.lean",
+          "start_line": 16,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the general proposition, the triangle and angle hypothesis, and the claimed side inequality."
+    },
+    {
+      "id": "book1_prop19-new_method-not-greater-main",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop19/Main.lean",
+          "start_line": 21,
+          "end_line": 23
+        },
+        {
+          "file": "Book1/Prop19/step1.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The proof assumes the desired side inequality is false and derives the classical dichotomy that the side is either equal to or less than the other side."
+    },
+    {
+      "id": "book1_prop19-new_method-equal-angle-from-equal-side",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5",
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop19/Main.lean",
+          "start_line": 25,
+          "end_line": 27
+        },
+        {
+          "file": "Book1/Prop19/step3.lean",
+          "start_line": 8,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Under the assumption that AC equals AB, Proposition 1.5 is applied to derive equality of the corresponding angles."
+    },
+    {
+      "id": "book1_prop19-new_method-equal-case-contradiction",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7",
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop19/Main.lean",
+          "start_line": 28,
+          "end_line": 29
+        },
+        {
+          "file": "Book1/Prop19/step4.lean",
+          "start_line": 8,
+          "end_line": 12
+        },
+        {
+          "file": "Book1/Prop19/Main.lean",
+          "start_line": 31,
+          "end_line": 31
+        },
+        {
+          "file": "Book1/Prop19/step5.lean",
+          "start_line": 7,
+          "end_line": 7
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The derived angle equality contradicts the given strict angle inequality, establishing that AC is not equal to AB."
+    },
+    {
+      "id": "book1_prop19-new_method-less-angle-from-less-side",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop19/Main.lean",
+          "start_line": 33,
+          "end_line": 35
+        },
+        {
+          "file": "Book1/Prop19/step7.lean",
+          "start_line": 8,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Under the assumption that AC is less than AB, Proposition 1.18 is applied to derive that angle ABC is less than angle BCA."
+    },
+    {
+      "id": "book1_prop19-new_method-less-case-contradiction",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop19/Main.lean",
+          "start_line": 36,
+          "end_line": 37
+        },
+        {
+          "file": "Book1/Prop19/step8.lean",
+          "start_line": 8,
+          "end_line": 12
+        },
+        {
+          "file": "Book1/Prop19/Main.lean",
+          "start_line": 39,
+          "end_line": 39
+        },
+        {
+          "file": "Book1/Prop19/step9.lean",
+          "start_line": 7,
+          "end_line": 7
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The derived lesser-angle statement contradicts the given greater-angle hypothesis, establishing that AC is not less than AB."
+    },
+    {
+      "id": "book1_prop19-new_method-not-equal-recalled",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop19/Main.lean",
+          "start_line": 41,
+          "end_line": 43
+        },
+        {
+          "file": "Book1/Prop19/step10.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The already established inequality of AC and AB is restated for the final comparison step."
+    },
+    {
+      "id": "book1_prop19-new_method-greater-side",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s14",
+        "s15",
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop19/Main.lean",
+          "start_line": 45,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop19/step11.lean",
+          "start_line": 8,
+          "end_line": 14
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "From not equal and not less, the proof derives that AC is greater than AB and uses this to close the theorem."
+    }
+  ]
+}

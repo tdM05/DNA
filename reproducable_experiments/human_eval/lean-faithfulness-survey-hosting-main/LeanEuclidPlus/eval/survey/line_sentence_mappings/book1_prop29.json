@@ -1,0 +1,574 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop29",
+  "mappings": [
+    {
+      "id": "book1_prop29-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s21",
+        "s22"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop29.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement encodes the whole proposition setup and the three claimed conclusions."
+    },
+    {
+      "id": "book1_prop29-leaneuclid-unequal-case",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4",
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop29.lean",
+          "start_line": 14,
+          "end_line": 15
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The contradiction and case split formalize that unequal angles imply one is greater, taking the AGH greater case."
+    },
+    {
+      "id": "book1_prop29-leaneuclid-add-greater",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop29.lean",
+          "start_line": 16,
+          "end_line": 16
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The assertion adds BGH to both sides and states the resulting strict inequality."
+    },
+    {
+      "id": "book1_prop29-leaneuclid-prop13-first",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop29.lean",
+          "start_line": 17,
+          "end_line": 17
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Prop. 1.13 supplies that AGH plus BGH equals two right angles."
+    },
+    {
+      "id": "book1_prop29-leaneuclid-less-than-rights",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop29.lean",
+          "start_line": 18,
+          "end_line": 18
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The line derives that BGH plus GHD is less than two right angles."
+    },
+    {
+      "id": "book1_prop29-leaneuclid-parallel-contradiction",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s10",
+        "s11",
+        "s12",
+        "s13",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop29.lean",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The closing tactic uses the parallel postulate consequence and the nonintersection hypothesis to contradict inequality and establish equality."
+    },
+    {
+      "id": "book1_prop29-leaneuclid-symmetric-branch",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4",
+        "s5",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10",
+        "s11",
+        "s12",
+        "s13",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop29.lean",
+          "start_line": 21,
+          "end_line": 25
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "These lines formalize the omitted symmetric case where GHD is greater, repeating the contradiction argument on the other side."
+    },
+    {
+      "id": "book1_prop29-leaneuclid-vertical-angle",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop29.lean",
+          "start_line": 27,
+          "end_line": 27
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Prop. 1.15 gives the equality of AGH and EGB."
+    },
+    {
+      "id": "book1_prop29-leaneuclid-second-prop13",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s19"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop29.lean",
+          "start_line": 28,
+          "end_line": 28
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Prop. 1.13 gives that EGB plus BGH equals two right angles."
+    },
+    {
+      "id": "book1_prop29-leaneuclid-final-finish",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s16",
+        "s17",
+        "s18",
+        "s20",
+        "s21",
+        "s22"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop29.lean",
+          "start_line": 29,
+          "end_line": 29
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The final tactic combines equality transitivity and angle-sum equalities to prove the remaining conclusions."
+    },
+    {
+      "id": "book1_prop29-new_method-setup",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s2"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 28,
+          "end_line": 29
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The hypotheses encode EF falling across AB and CD together with the required incidence, betweenness, side, and parallel assumptions."
+    },
+    {
+      "id": "book1_prop29-new_method-claim",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 30,
+          "end_line": 30
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The theorem conclusion states the alternate-angle equality, exterior-interior equality, and same-side two-right-angle sum."
+    },
+    {
+      "id": "book1_prop29-new_method-unequal-assumption",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 33,
+          "end_line": 38
+        },
+        {
+          "file": "Book1/Prop29/step1.lean",
+          "start_line": 7,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The proof assumes the alternate angles are unequal and formalizes the dichotomy that one must be greater."
+    },
+    {
+      "id": "book1_prop29_new_method_merged_book1_prop29_new_method_greater_case",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5",
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 40,
+          "end_line": 46
+        },
+        {
+          "file": "Book1/Prop29/hreduction.lean",
+          "start_line": 9,
+          "end_line": 27
+        },
+        {
+          "file": "Book1/Prop29/step2.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The main branch fixes the case that AGH is greater than GHD. / The wlog reduction discharges the opposite greater-angle case required by the formal inequality dichotomy."
+    },
+    {
+      "id": "book1_prop29-new_method-add-both",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 47,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop29/step3.lean",
+          "start_line": 8,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper states that adding BGH to both sides preserves the strict inequality."
+    },
+    {
+      "id": "book1_prop29-new_method-sum-greater",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 48,
+          "end_line": 48
+        },
+        {
+          "file": "Book1/Prop29/step4.lean",
+          "start_line": 8,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The resulting comparison is rearranged as AGH plus BGH greater than BGH plus GHD."
+    },
+    {
+      "id": "book1_prop29-new_method-prop13-first",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 49,
+          "end_line": 49
+        },
+        {
+          "file": "Book1/Prop29/step5.lean",
+          "start_line": 8,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 13 proves that AGH and BGH sum to two right angles."
+    },
+    {
+      "id": "book1_prop29-new_method-less-than-two-right",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 50,
+          "end_line": 50
+        },
+        {
+          "file": "Book1/Prop29/step6.lean",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The greater-than relation and two-right-angle equality imply that BGH plus GHD is less than two right angles."
+    },
+    {
+      "id": "book1_prop29-new_method-postulate5",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 51,
+          "end_line": 52
+        },
+        {
+          "file": "Book1/Prop29/step7.lean",
+          "start_line": 7,
+          "end_line": 18
+        },
+        {
+          "file": "Book1/Prop29/step8.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The less-than-two-right-angles condition is converted into intersection of the produced lines AB and CD."
+    },
+    {
+      "id": "book1_prop29-new_method-parallel-contradiction",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 54,
+          "end_line": 57
+        },
+        {
+          "file": "Book1/Prop29/step9.lean",
+          "start_line": 7,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The derived intersection contradicts the assumed non-intersection expressing the parallel condition."
+    },
+    {
+      "id": "book1_prop29-new_method-not-unequal",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 58,
+          "end_line": 58
+        },
+        {
+          "file": "Book1/Prop29/step10.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The contradiction proof establishes that AGH is not unequal to GHD."
+    },
+    {
+      "id": "book1_prop29-new_method-equal",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 59,
+          "end_line": 59
+        },
+        {
+          "file": "Book1/Prop29/step11.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Double-negation elimination converts not-unequal into equality of AGH and GHD."
+    },
+    {
+      "id": "book1_prop29-new_method-vertical-angle",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s15"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 60,
+          "end_line": 60
+        },
+        {
+          "file": "Book1/Prop29/step12.lean",
+          "start_line": 8,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 15 proves the vertical-angle equality between AGH and EGB."
+    },
+    {
+      "id": "book1_prop29-new_method-exterior-equality",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s16"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 61,
+          "end_line": 61
+        },
+        {
+          "file": "Book1/Prop29/step13.lean",
+          "start_line": 8,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Transitivity of the two angle equalities yields EGB equal to GHD."
+    },
+    {
+      "id": "book1_prop29-new_method-add-final",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s17",
+        "s18"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 62,
+          "end_line": 63
+        },
+        {
+          "file": "Book1/Prop29/step14.lean",
+          "start_line": 8,
+          "end_line": 10
+        },
+        {
+          "file": "Book1/Prop29/step15.lean",
+          "start_line": 7,
+          "end_line": 10
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Adding BGH to the equality EGB = GHD gives equality of the corresponding angle sums."
+    },
+    {
+      "id": "book1_prop29-new_method-prop13-second",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s19"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 64,
+          "end_line": 64
+        },
+        {
+          "file": "Book1/Prop29/step16.lean",
+          "start_line": 8,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 13 gives that EGB plus BGH equals two right angles."
+    },
+    {
+      "id": "book1_prop29-new_method-same-side-sum",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s20"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 65,
+          "end_line": 65
+        },
+        {
+          "file": "Book1/Prop29/step17.lean",
+          "start_line": 8,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Substituting through the equal angle sums proves BGH plus GHD equals two right angles."
+    },
+    {
+      "id": "book1_prop29-new_method-final",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s21",
+        "s22"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop29/Main.lean",
+          "start_line": 66,
+          "end_line": 66
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The exact tuple packages the three proved conclusions, matching the final restatement and QED."
+    }
+  ]
+}

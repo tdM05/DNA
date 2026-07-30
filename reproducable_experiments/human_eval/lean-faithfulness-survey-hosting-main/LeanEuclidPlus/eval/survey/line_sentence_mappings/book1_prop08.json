@@ -1,0 +1,261 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop08",
+  "mappings": [
+    {
+      "id": "book1_prop08-leaneuclid-statement",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop08.lean",
+          "start_line": 6,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem signature states the two triangle hypotheses, the three side/base equalities, and the desired equality of the included angles."
+    },
+    {
+      "id": "book1_prop08-leaneuclid-superposition",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop08.lean",
+          "start_line": 12,
+          "end_line": 13
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The superposition construction places the first triangle on the second, and the base equality yields coincidence of C with F."
+    },
+    {
+      "id": "book1_prop08_leaneuclid_merged_book1_prop08_leaneuclid_prop7_contradiction",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8",
+        "s9",
+        "s10",
+        "s11",
+        "s12",
+        "s13",
+        "s14"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop08.lean",
+          "start_line": 14,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The noncoincidence case is reduced to the impossible Prop. 1.7 configuration and closed by contradiction. / The case split establishes that the sides must coincide, allowing the final angle equality and theorem conclusion."
+    },
+    {
+      "id": "book1_prop08_new_method_merged_book1_prop08_new_method_statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s13",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop08/Main.lean",
+          "start_line": 17,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem type states the general SSS angle-congruence proposition. / The Lean hypotheses encode the two triangles, the side equalities, the base equality, and the asserted angle equality."
+    },
+    {
+      "id": "book1_prop08-new-method-superposition",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop08/Main.lean",
+          "start_line": 23,
+          "end_line": 23
+        },
+        {
+          "file": "Book1/Prop08/Main.lean",
+          "start_line": 45,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop08/step1.lean",
+          "start_line": 15,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Superposition supplies the image triangle, and step1 proves the image of C is F using the equality of bases."
+    },
+    {
+      "id": "book1_prop08-new-method-image-setup",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6",
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop08/Main.lean",
+          "start_line": 25,
+          "end_line": 44
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The point and line image functions record where the applied triangle sends B, C, A and its sides."
+    },
+    {
+      "id": "book1_prop08-new-method-sides-coincide-direct",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7",
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop08/Main.lean",
+          "start_line": 49,
+          "end_line": 51
+        },
+        {
+          "file": "Book1/Prop08/step2.lean",
+          "start_line": 29,
+          "end_line": 37
+        },
+        {
+          "file": "Book1/Prop08/step2_gd.lean",
+          "start_line": 23,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "These lines prove that the image sides coincide with DE and DF, using Proposition 1.7 to force the image vertex G to be D."
+    },
+    {
+      "id": "book1_prop08-new-method-miss-assumption",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop08/Main.lean",
+          "start_line": 53,
+          "end_line": 59
+        },
+        {
+          "file": "Book1/Prop08/step3.lean",
+          "start_line": 12,
+          "end_line": 13
+        },
+        {
+          "file": "Book1/Prop08/step4.lean",
+          "start_line": 22,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The proof assumes the image sides miss DE and DF and packages the resulting equal straight lines from the same endpoints."
+    },
+    {
+      "id": "book1_prop08-new-method-prop7-impossibility",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop08/Main.lean",
+          "start_line": 60,
+          "end_line": 63
+        },
+        {
+          "file": "Book1/Prop08/step5.lean",
+          "start_line": 16,
+          "end_line": 21
+        },
+        {
+          "file": "Book1/Prop08/step6.lean",
+          "start_line": 14,
+          "end_line": 17
+        },
+        {
+          "file": "Book1/Prop08/step7.lean",
+          "start_line": 19,
+          "end_line": 21
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "These helper steps establish the distinct same-side configuration and apply Proposition 1.7 to derive contradiction."
+    },
+    {
+      "id": "book1_prop08-new-method-no-noncoincidence",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop08/Main.lean",
+          "start_line": 65,
+          "end_line": 67
+        },
+        {
+          "file": "Book1/Prop08/step8.lean",
+          "start_line": 11,
+          "end_line": 12
+        },
+        {
+          "file": "Book1/Prop08/step9.lean",
+          "start_line": 11,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The contradiction is converted into positive equalities showing the corresponding image sides coincide."
+    },
+    {
+      "id": "book1_prop08-new-method-angle-equality",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop08/Main.lean",
+          "start_line": 69,
+          "end_line": 71
+        },
+        {
+          "file": "Book1/Prop08/step10.lean",
+          "start_line": 21,
+          "end_line": 28
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Substituting the coincident vertex and sides transfers the superposed angle equality to angle BAC equals angle EDF."
+    }
+  ]
+}

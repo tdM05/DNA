@@ -1,0 +1,5 @@
+# One reviewer code per line.
+# Copy this file to reviewers.txt and replace these examples before running the survey.
+R01
+R02
+R03

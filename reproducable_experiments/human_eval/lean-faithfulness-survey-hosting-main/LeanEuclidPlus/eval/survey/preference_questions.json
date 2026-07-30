@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "transparency_readability",
+      "number": 1,
+      "title": "Mathematical transparency",
+      "prompt": "Which formalization makes the mathematical argument more transparent?"
+    },
+    {
+      "id": "textbook_representation",
+      "number": 2,
+      "title": "Textbook representation",
+      "prompt": "Which formalization better represents the textbook proof?"
+    },
+    {
+      "id": "overall_preference",
+      "number": 3,
+      "title": "Overall preference",
+      "prompt": "Overall, which formalization do you prefer for this proposition?"
+    }
+  ]
+}

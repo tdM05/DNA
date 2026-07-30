@@ -1,0 +1,292 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop36",
+  "mappings": [
+    {
+      "id": "book1_prop36-leaneuclid-001",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop36.lean",
+          "start_line": 9,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement encodes the proposition, its hypotheses about the two parallelograms on equal bases between the same parallels, and the claimed area equality."
+    },
+    {
+      "id": "book1_prop36-leaneuclid-002",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop36.lean",
+          "start_line": 15,
+          "end_line": 16
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The two constructed lines are exactly the joins BE and CH."
+    },
+    {
+      "id": "book1_prop36-leaneuclid-003",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop36.lean",
+          "start_line": 17,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Proposition 34 supplies FG = EH, and the assertion combines it with BC = FG to obtain BC = EH."
+    },
+    {
+      "id": "book1_prop36-leaneuclid-004",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6",
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop36.lean",
+          "start_line": 19,
+          "end_line": 19
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Applying Proposition 33 uses the equal parallel segments and their joining lines to conclude EB and HC are equal and parallel."
+    },
+    {
+      "id": "book1_prop36-leaneuclid-005",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8",
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop36.lean",
+          "start_line": 20,
+          "end_line": 20
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "Proposition 35 establishes equality of ABCD with EBCH on the same base and between the same parallels."
+    },
+    {
+      "id": "book1_prop36-leaneuclid-006",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop36.lean",
+          "start_line": 21,
+          "end_line": 21
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The second application of Proposition 35 gives equality of EFGH with the same parallelogram EBCH."
+    },
+    {
+      "id": "book1_prop36-leaneuclid-007",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s11",
+        "s12",
+        "s13"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop36.lean",
+          "start_line": 22,
+          "end_line": 22
+        }
+      ],
+      "relation": "one-to-many",
+      "rationale": "The final tactic combines the established equalities to prove the required final equality and close the proposition."
+    },
+    {
+      "id": "book1_prop36-new-method-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop36/Main.lean",
+          "start_line": 17,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem statement formalizes the proposition hypotheses and the claimed equality of the two parallelogram areas."
+    },
+    {
+      "id": "book1_prop36-new-method-join-be-ch",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop36/Main.lean",
+          "start_line": 23,
+          "end_line": 25
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The proof constructs BE and CH and records the distinct point-on-line facts needed for the joined lines."
+    },
+    {
+      "id": "book1_prop36-new-method-bc-eh",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop36/Main.lean",
+          "start_line": 27,
+          "end_line": 31
+        },
+        {
+          "file": "Book1/Prop36/step2_assumption2.lean",
+          "start_line": 17,
+          "end_line": 20
+        },
+        {
+          "file": "Book1/Prop36/step2.lean",
+          "start_line": 19,
+          "end_line": 20
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The code obtains FG = EH from Proposition 34 and combines it with BC = FG to prove BC = EH."
+    },
+    {
+      "id": "book1_prop36-new-method-prop33",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6",
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop36/Main.lean",
+          "start_line": 35,
+          "end_line": 37
+        },
+        {
+          "file": "Book1/Prop36/step5.lean",
+          "start_line": 27,
+          "end_line": 40
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The helper prepares the joining-line hypotheses and applies Proposition 33 to prove EB and HC equal and parallel."
+    },
+    {
+      "id": "book1_prop36-new-method-ebch-parallelogram",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop36/Main.lean",
+          "start_line": 39,
+          "end_line": 39
+        },
+        {
+          "file": "Book1/Prop36/step6.lean",
+          "start_line": 27,
+          "end_line": 43
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper packages the equal and parallel opposite sides into the parallelogram EBCH."
+    },
+    {
+      "id": "book1_prop36-new-method-abcd-ebch",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8",
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop36/Main.lean",
+          "start_line": 41,
+          "end_line": 45
+        },
+        {
+          "file": "Book1/Prop36/step7.lean",
+          "start_line": 20,
+          "end_line": 24
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Proposition 35 proves EBCH equals ABCD since they stand on the same base BC and between the same parallels."
+    },
+    {
+      "id": "book1_prop36-new-method-efgh-ebch",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop36/Main.lean",
+          "start_line": 47,
+          "end_line": 47
+        },
+        {
+          "file": "Book1/Prop36/step8.lean",
+          "start_line": 25,
+          "end_line": 30
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The helper applies the parallelogram facts and Proposition 35 to show EFGH equals EBCH."
+    },
+    {
+      "id": "book1_prop36-new-method-final",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop36/Main.lean",
+          "start_line": 49,
+          "end_line": 51
+        },
+        {
+          "file": "Book1/Prop36/step9.lean",
+          "start_line": 8,
+          "end_line": 12
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "The final arithmetic equality combines ABCD = EBCH and EFGH = EBCH to conclude ABCD = EFGH."
+    }
+  ]
+}

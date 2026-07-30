@@ -1,0 +1,398 @@
+{
+  "version": 1,
+  "proposition_id": "book1_prop07",
+  "mappings": [
+    {
+      "id": "book1_prop07-leaneuclid-setup",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop07.lean",
+          "start_line": 6,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem states the impossibility as a contradiction from the assumed configuration, combining the proposition, reductio setup, and final conclusion."
+    },
+    {
+      "id": "book1_prop07-leaneuclid-join-cd",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop07.lean",
+          "start_line": 12,
+          "end_line": 12
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The constructed line through C and D is the joined line CD."
+    },
+    {
+      "id": "book1_prop07-leaneuclid-prop5-acd",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop07.lean",
+          "start_line": 14,
+          "end_line": 14
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Applying Proposition 5 to triangle ACD derives equality of the base angles from AC = AD."
+    },
+    {
+      "id": "book1_prop07-leaneuclid-adc-greater-dcb",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop07.lean",
+          "start_line": 17,
+          "end_line": 17
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The angle-sum fact at C makes angle ACD greater than DCB, which with the previous equality yields ADC greater than DCB."
+    },
+    {
+      "id": "book1_prop07-leaneuclid-cdb-greater-dcb",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop07.lean",
+          "start_line": 15,
+          "end_line": 15
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "The angle-sum fact at D makes CDB contain ADC, giving the stronger comparison to DCB."
+    },
+    {
+      "id": "book1_prop07-leaneuclid-prop5-bcd",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop07.lean",
+          "start_line": 16,
+          "end_line": 16
+        }
+      ],
+      "relation": "one-to-one",
+      "rationale": "Applying Proposition 5 to triangle BCD derives equality of the base angles from CB = DB."
+    },
+    {
+      "id": "book1_prop07-leaneuclid-contradiction",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s9",
+        "s10",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop07.lean",
+          "start_line": 18,
+          "end_line": 18
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The finishing tactic combines the previously derived strict inequality and equality to close the contradiction and required result."
+    },
+    {
+      "id": "book1_prop07-leaneuclid-omitted-branch-2",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop07.lean",
+          "start_line": 20,
+          "end_line": 24
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "This symmetric omitted branch reproduces the same isosceles-angle, angle-sum, and contradiction structure under the alternate case assumptions."
+    },
+    {
+      "id": "book1_prop07-leaneuclid-omitted-branch-3",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop07.lean",
+          "start_line": 26,
+          "end_line": 32
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "This omitted branch adds extension points and packages the same comparison-and-contradiction proof for another geometric case."
+    },
+    {
+      "id": "book1_prop07-leaneuclid-omitted-branch-4",
+      "method_id": "leaneuclid",
+      "sentence_ids": [
+        "s5",
+        "s6",
+        "s7",
+        "s8",
+        "s9",
+        "s10"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book/Prop07.lean",
+          "start_line": 34,
+          "end_line": 40
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "This mirrored omitted branch packages the same Euclidean contradiction argument with extension points."
+    },
+    {
+      "id": "book1_prop07-new-method-statement",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s1",
+        "s2",
+        "s3",
+        "s11"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop07/Main.lean",
+          "start_line": 16,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "The theorem type states the impossibility and packages the assumed equal constructions with common endpoints."
+    },
+    {
+      "id": "book1_prop07-new-method-equalities",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s3"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop07/Main.lean",
+          "start_line": 22,
+          "end_line": 24
+        },
+        {
+          "file": "Book1/Prop07/step1.lean",
+          "start_line": 7,
+          "end_line": 9
+        },
+        {
+          "file": "Book1/Prop07/step2.lean",
+          "start_line": 7,
+          "end_line": 8
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Records the two corresponding segment equalities CA = DA and CB = DB from the assumptions."
+    },
+    {
+      "id": "book1_prop07-new-method-join-cd",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s4"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop07/Main.lean",
+          "start_line": 26,
+          "end_line": 27
+        },
+        {
+          "file": "Book1/Prop07/step3.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Constructs CD and records that C and D lie on it."
+    },
+    {
+      "id": "book1_prop07-new-method-first-isosceles",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s5"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop07/Main.lean",
+          "start_line": 29,
+          "end_line": 31
+        },
+        {
+          "file": "Book1/Prop07/step4.lean",
+          "start_line": 8,
+          "end_line": 17
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Applies Proposition 1.5 to triangle ACD from AC = AD, yielding equality of angles ACD and ADC."
+    },
+    {
+      "id": "book1_prop07-new-method-adc-greater",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s6"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop07/Main.lean",
+          "start_line": 33,
+          "end_line": 33
+        },
+        {
+          "file": "Book1/Prop07/step5.lean",
+          "start_line": 11,
+          "end_line": 31
+        },
+        {
+          "file": "Book1/Prop07/step5_c1.lean",
+          "start_line": 8,
+          "end_line": 21
+        },
+        {
+          "file": "Book1/Prop07/step5_c2.lean",
+          "start_line": 13,
+          "end_line": 36
+        },
+        {
+          "file": "Book1/Prop07/step5_c3.lean",
+          "start_line": 8,
+          "end_line": 27
+        },
+        {
+          "file": "Book1/Prop07/step5_c4.lean",
+          "start_line": 8,
+          "end_line": 27
+        }
+      ],
+      "relation": "many-to-many",
+      "rationale": "Derives angle ADC greater than angle DCB, with case analysis covering configurations not explicit in Euclid."
+    },
+    {
+      "id": "book1_prop07-new-method-cdb-greater",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s7"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop07/Main.lean",
+          "start_line": 35,
+          "end_line": 35
+        },
+        {
+          "file": "Book1/Prop07/step6.lean",
+          "start_line": 7,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Uses angle addition to strengthen the prior inequality to angle CDB greater than angle DCB."
+    },
+    {
+      "id": "book1_prop07-new-method-second-isosceles",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s8"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop07/Main.lean",
+          "start_line": 37,
+          "end_line": 39
+        },
+        {
+          "file": "Book1/Prop07/step7.lean",
+          "start_line": 8,
+          "end_line": 19
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Applies Proposition 1.5 to triangle CDB from CB = DB, yielding equality of angles CDB and DCB."
+    },
+    {
+      "id": "book1_prop07-new-method-shown-greater",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s9"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop07/Main.lean",
+          "start_line": 41,
+          "end_line": 41
+        },
+        {
+          "file": "Book1/Prop07/step8.lean",
+          "start_line": 7,
+          "end_line": 9
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Restates the already derived fact that angle CDB is greater than angle DCB."
+    },
+    {
+      "id": "book1_prop07-new-method-impossible",
+      "method_id": "new_method",
+      "sentence_ids": [
+        "s10",
+        "s12"
+      ],
+      "code_ranges": [
+        {
+          "file": "Book1/Prop07/Main.lean",
+          "start_line": 43,
+          "end_line": 45
+        },
+        {
+          "file": "Book1/Prop07/step9.lean",
+          "start_line": 8,
+          "end_line": 11
+        }
+      ],
+      "relation": "many-to-one",
+      "rationale": "Derives False from equality and strict inequality of the same pair of angles, completing the proof."
+    }
+  ]
+}
