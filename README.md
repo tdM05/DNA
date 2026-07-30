@@ -38,5 +38,22 @@ It contains the Lean artifacts, the pipeline (**Pistis**, whose fill stage is th
 - **Gaps & refutations (RQ4)** → marked in the Lean source; grep `@euclid_gap`,
   `@assumption_gap`, and `@suppress_deps_check` under `LeanEuclidPlus/Book*/`.
 
+## Source code ↔ paper correspondence
+
+The new-method source implements the **OrderDecompose** algorithm (paper Algorithm 1) and the
+faithfulness conditions (paper Table 1). Each file carries an explanatory module docstring; the
+per-file role in the method is tabulated in the appendix (**Agent Tools** and **Verification &
+Infrastructure Scripts** tables). The key correspondences:
+
+| Source file | Paper reference |
+|-------------|-----------------|
+| `LeanEuclidPlus/scripts/check_step.py` | The SF/SP/P checks and in-order `--drive`/`--all` audit — OrderDecompose (Alg. 1, lines 5/16/18/20); enforces Order + Soundness. |
+| `LeanEuclidPlus/scripts/find.py` | Backs `CreateHypothesis` / `CreateLemmas` (Alg. 1) and citation-dependency (Citation condition). |
+| `LeanEuclidPlus/scripts/scaffold_step.py` | `CreateHypothesis` skeleton emitter (Alg. 1). |
+| `LeanEuclidPlus/scripts/assumptions.py` | Assumption-gap tagging stage (Methodology §; appendix tactic-ladder table). |
+| `LeanEuclidPlus/scripts/check_faithful.py`, `check_steps.py`, `check_signatures.py` | Enforce Coverage / Citation / claim-type + signature immutability (Table 1). |
+| `.claude/skills/faithful-*` | The Map and Fill stages (Methodology §). |
+| `.claude/hooks/step_order_hook.py` | Hard-enforces the in-order iteration of OrderDecompose (Alg. 1, line 1). |
+
 Bulk agent transcripts are trimmed to a few representative matched pairs (see
 `ablation_study/runner/README.md`); all participant data is anonymized to opaque reviewer codes.
