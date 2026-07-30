@@ -31,10 +31,10 @@ survey server use just the standard library. A small venv is needed only to rege
 plots from the shipped CSVs:
 ```bash
 python3 -m venv .venv && . .venv/bin/activate
-pip install -r requirements.txt    # matplotlib, numpy, pandas
+pip install -r requirements.txt
 ```
-(`requirements.lock.txt` is the full original-environment freeze, kept for reference only — not
-needed for reproduction. Driving the agent live additionally needs `anthropic` + Claude Code.)
+(Driving the agent pipeline live additionally needs `anthropic` + Claude Code; not required to
+inspect artifacts, run the checkers, or regenerate plots.)
 
 **4. Inspect the pipeline without building.** From `LeanEuclidPlus/`:
 `python3 scripts/find.py --concludes "onCircle"` (search the fact DB),

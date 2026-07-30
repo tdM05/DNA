@@ -33,7 +33,7 @@ set +u; source "$HOME/.venvs/euclid/bin/activate"; set -u   # z3/cvc5 on PATH (S
 # ---- CONFIG (edit here if branches / map commits move) ---------------------
 BRANCH_ABLATED="ablation_branch"
 BRANCH_MYMETHOD="full_methodology_branch"
-# Pinned MAP-STAGE commits — CANONICAL, per DNA/EXPERIMENT_OPERATOR_GUIDE.md.
+# Pinned MAP-STAGE commits — CANONICAL (see runner/README.md).
 # (The operator resets each prop's Main.lean to ITS map from these; GATE 3 checks it.)
 MAP_REF_ABLATED="fa400f7"
 MAP_REF_MYMETHOD="b98dd2b"
@@ -154,7 +154,7 @@ CONTINUE_PROMPT="Continue working on the task. You are NOT allowed to stop, paus
 branch="$(git -C "$REPO" rev-parse --abbrev-ref HEAD)"
 [ "$branch" = "$WANT_BRANCH" ] || {
   echo "ABORT: --$MODE must run on '$WANT_BRANCH', but this worktree is on '$branch'."
-  echo "       cd into the correct worktree (see DNA/EXPERIMENT_OPERATOR_GUIDE.md) and retry."; exit 1; }
+  echo "       cd into the correct worktree (see runner/README.md) and retry."; exit 1; }
 
 # ============================================================================
 # GATE 2 — self-consistency: this driver must be byte-identical in BOTH

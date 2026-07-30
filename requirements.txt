@@ -15,7 +15,3 @@ pandas
 
 # NOTE: the Lean build (SystemE + Book*/Prop*) is driven by lake/elan (see README),
 # and needs Z3 + cvc5 on PATH -- these are NOT pip packages.
-#
-# The complete pip freeze of the original development environment (heavy: torch,
-# vllm, CUDA, etc. -- NOT required for reproduction) is preserved in
-# requirements.lock.txt for reference only.

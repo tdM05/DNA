@@ -27,18 +27,49 @@ Open the resulting `map.html` in any browser — it is a single self-contained f
 
 ## Using the map
 
-- **Cards** = one Euclid sentence (teal) or a backing `have`/lemma (orange), nested by the real
-  file structure; **drag** cards to rearrange.
-- **Connectors** link each sentence/`have` line to the card that proves it (the backing-lemma edges).
-- **Left-click a line** — highlight everywhere that step's claim/name recurs ("who uses this"),
-  drawing reference arrows. (This is a *textual* match on the shown claim type / step name — a
-  presentation aid, not a term-level dependency resolver.)
-- **Click the ▸ badge** on a sentence, or the card header, to cycle detail level (minimal ↔ full);
-  folded `(N hyps ▸)` badges expand the assumptions.
-- **Toolbar sliders**: font size, row height, connector gap, and **Max width** (card wrap width,
-  default 300 px). Toggles: hide comments, collapse whitespace, sorry-only view.
-- **Save layout** downloads `map_layout.json`; move it into the prop folder to persist an
-  arrangement and to drive PNG export.
+Each **card** is one `.lean` file: teal = a Euclid sentence's step (from `Main.lean`), orange = a
+backing `have`/`stepN.lean` lemma. Cards nest by the real file structure. There are two things you
+interact with — a card's **header bar**, and individual **code lines** — and each responds to
+*where* you click.
+
+**Card header** (`<name>.lean`, three zones — drag it anywhere to reposition the card):
+
+- **◀ left zone** — highlight this card's **parents**: the cards/lines that *consume* this one (who
+  depends on it), with the incoming edges lit.
+- **center (the name)** — cycle this card's **detail level**: full → compact (signatures only) →
+  minimal (collapsed to a title), and back.
+- **▶ right zone** — highlight this card's **children**: the backing lemmas it *depends on*, with
+  the outgoing edges lit.
+- Ctrl/Cmd-click a zone to add to the current selection (multi-select); rubber-band drag on empty
+  canvas selects a group.
+
+**Code lines** — click the **left half** vs the **right half** of a line for two different actions,
+and the left-half action differs by line type:
+
+- **Left half of a `have`/backing line** → **"who uses this"**: highlights every line whose text
+  invokes this step (by its shown claim type or its `stepN` name) and draws reference arrows to them.
+  *This is a textual match on the rendered `show TYPE;` / step name — a navigation aid, not a
+  term-level dependency resolver.*
+- **Left half of a sentence line** → cycle that **sentence's** display: full Lean → the NL text
+  only → just the locator number → back (independent of the card-level detail cycle).
+- **Right half of any backed line** → **select the line and jump to the card that proves it**
+  (lights the connector to that backing card). Ctrl/Cmd-click to select several; click empty canvas
+  to clear.
+
+**Folded assumptions**: a `(N hyps ▸)` badge on a line hides that step's `euclid_assumption`
+hypotheses — click it to expand (▾) / re-fold. (Expanded state is saved with the layout, so an
+exported PNG keeps whatever you opened.)
+
+**Toolbar** — global controls across the top:
+
+- Per-card detail buttons **Full / Compact / Minimal** and per-sentence **Full / NL / Min** apply
+  the corresponding level to *every* card/sentence at once.
+- Toggles: **Comments** (hide `--` comments), **Spaces** (collapse whitespace), **Sorry**
+  (sorry-only view).
+- Sliders: font size, row height, connector gap, and **Max width** (card wrap width, default
+  300 px).
+- **Save layout** downloads `map_layout.json` (also drives PNG export); **Import layout** reloads a
+  saved one; **Reset** restores defaults.
 
 ## Export to PNG (optional)
 
