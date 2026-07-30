@@ -1305,6 +1305,12 @@ function saveLayout() {
     const lod = el.getAttribute("data-sent-lod");
     if (lod) state.sentLod[el.dataset.sentKey] = lod;
   });
+  // Expanded assumption ("N hyps") bodies — save the uids that are currently open so PNG export
+  // (and reload) preserves them; uids are deterministic per prop, so they match on regeneration.
+  state.openHyps = [];
+  document.querySelectorAll(".hyp-body").forEach(el => {
+    if (el.style.display !== "none") state.openHyps.push(el.id.slice(2));  // "hb<uid>" -> "<uid>"
+  });
   state.hideComments = document.body.classList.contains("hide-comments");
   state.noSpaces     = document.body.classList.contains("no-spaces");
   state.sorryMode    = document.body.classList.contains("sorry-mode");
@@ -1372,6 +1378,16 @@ function loadLayout() {
       });
     });
   }
+  // Re-open the assumption bodies that were expanded when the layout was saved, and flip their
+  // badge arrow to match (▸ -> ▾), so the exported PNG shows the same expanded hyps.
+  if (state.openHyps) {
+    state.openHyps.forEach(uid => {
+      const body = document.getElementById("hb" + uid);
+      if (body) body.style.display = "inline";
+      const btn = document.querySelector(`.hyp-btn[data-uid="${uid}"]`);
+      if (btn) btn.innerHTML = `[${btn.dataset.n}&nbsp;${btn.dataset.noun}&nbsp;&#9660;]`;
+    });
+  }
   if (state.hideComments) {
     document.body.classList.add("hide-comments");
     const btn = document.getElementById("toggle-comments-btn");
@@ -1403,6 +1419,11 @@ function resetLayout() {
   });
   document.querySelectorAll(".code-line.sent-cont").forEach(el => {
     el.style.display = "";
+  });
+  // Re-fold all expanded assumption bodies + reset their badge arrow (▾ -> ▸)
+  document.querySelectorAll(".hyp-body").forEach(el => { el.style.display = "none"; });
+  document.querySelectorAll(".hyp-btn").forEach(btn => {
+    btn.innerHTML = `[${btn.dataset.n}&nbsp;${btn.dataset.noun}&nbsp;&#9658;]`;
   });
   document.querySelectorAll(".sent-global-btn").forEach(b => b.classList.remove("active"));
   // Reset toggles
