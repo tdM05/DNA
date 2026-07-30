@@ -49,6 +49,7 @@ needed for reproduction. Driving the agent live additionally needs `anthropic` +
 | `reproducable_experiments/human_eval/` | **RQ1** — the double-blind human study (response CSVs + survey app). |
 | `reproducable_experiments/ablation_study/` | **RQ2** — the fill-stage ablation (Pistis vs. bare LLM). |
 | `reproducable_experiments/compile_time/` | **RQ3** — compile-time benchmark vs. LeanEuclid. |
+| `diagrams/` | Generator for the interactive proof-map visualizer (see `diagrams/README.md`). A ready-to-open `map.html` is **pre-generated in every `LeanEuclidPlus/Book*/Prop*/` folder** — open one in a browser to see that proposition's faithful sentence↔step map. |
 | `CLAUDE.md` | Full operator guide for the pipeline (the authoritative how-to). |
 
 ## Mapping to the paper's claims
