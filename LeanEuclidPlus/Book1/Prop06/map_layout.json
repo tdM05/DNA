@@ -1,0 +1,92 @@
+{
+  "cards": {
+    "main-col": [
+      0,
+      0
+    ],
+    "card-step1": [
+      0,
+      0
+    ],
+    "card-step2": [
+      2,
+      53
+    ],
+    "card-step3": [
+      3,
+      87
+    ],
+    "card-step4": [
+      3,
+      87
+    ],
+    "card-step5": [
+      3,
+      87
+    ],
+    "card-step6": [
+      3,
+      87
+    ],
+    "card-step7": [
+      3,
+      87
+    ],
+    "card-step8": [
+      3,
+      87
+    ],
+    "card-step9": [
+      3,
+      87
+    ],
+    "card-step10": [
+      3,
+      87
+    ],
+    "card-step11": [
+      3,
+      87
+    ]
+  },
+  "lod": {
+    "main-col": "full",
+    "card-step1": "full",
+    "card-step2": "full",
+    "card-step3": "minimal",
+    "card-step4": "minimal",
+    "card-step5": "minimal",
+    "card-step6": "minimal",
+    "card-step7": "minimal",
+    "card-step8": "minimal",
+    "card-step9": "minimal",
+    "card-step10": "minimal",
+    "card-step11": "minimal"
+  },
+  "sliders": {
+    "tsz": 11,
+    "sz": 12,
+    "lh": 1.1,
+    "gap": 90,
+    "mw": 600
+  },
+  "sentLod": {
+    "1.6.0": "number",
+    "step3": "number",
+    "step4": "number",
+    "step5": "number",
+    "step6": "number",
+    "step7": "number",
+    "step8": "number",
+    "step9": "number",
+    "step10": "number",
+    "step11": "number",
+    "1.6.12": "number"
+  },
+  "hideComments": false,
+  "openHyps": [
+    "1"
+  ],
+  "noSpaces": false,
+  "sorryMode": false
+}
