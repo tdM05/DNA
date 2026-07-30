@@ -40,8 +40,8 @@ faithful-prove agent with a **free, local, unattended** model on the department 
 - Two *different* models on two nodes IS fine — they talk over HTTP (not tensor-parallel), so an
   orchestrator can call both. Costs two GPU allocations.
 - **GPU jobs default to 1 core / 1 GB RAM** — always pass `-c 8 --mem 32G` or loading crawls.
-- **Storage:** home (`/h/56`, shared, ~backed-up, near-full) is for code only. Bulky model weights +
-  conda env go on **`/w/100/taddmao`** (the user's working dir, 200 GB+ free). See SETUP-LOG.md.
+- **Storage:** home (`/home`, shared, ~backed-up, near-full) is for code only. Bulky model weights +
+  conda env go on **`/data/user`** (the user's working dir, 200 GB+ free). See SETUP-LOG.md.
 
 ## Model choice + how far below frontier (June 2026)
 

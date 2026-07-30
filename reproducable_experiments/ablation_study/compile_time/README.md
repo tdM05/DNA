@@ -61,7 +61,7 @@ sbatch reproducable_experiments/ablation_study/compile_time/submit.sbatch
 or interactively:
 
 ```bash
-srun --partition=cpunodes --constraint=EPYC_9634 --exclusive --pty bash
+srun --partition=compute --constraint=EPYC_9634 --exclusive --pty bash
 bash reproducable_experiments/ablation_study/compile_time/run_timing.sh
 ```
 

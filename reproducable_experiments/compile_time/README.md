@@ -41,14 +41,14 @@ branch), so the **10-min wall is the sole cutoff**. Same uncapped SMT + same wal
 ## Run
 
 ```bash
-cd /h/56/taddmao/code/autoform/DNA
+cd /home/user/code/autoform/DNA
 sbatch reproducable_experiments/compile_time/submit.sbatch
 ```
 
 or interactively:
 
 ```bash
-srun --partition=cpunodes --constraint=EPYC_9634 --exclusive --pty bash
+srun --partition=compute --constraint=EPYC_9634 --exclusive --pty bash
 bash reproducable_experiments/compile_time/run_timing.sh
 ```
 

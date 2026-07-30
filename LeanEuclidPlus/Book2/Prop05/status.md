@@ -1,9 +1,9 @@
 
 # June 16, 3:46pm:
 ```
-(leaneuclid) (base) taddmao@comps3:~/code/autoform/DNA/LeanEuclidPlus$ python3 scripts/check_step.py Book2/Prop05 --check                                                                                                                                                               
+(leaneuclid) (base) user@node:~/code/autoform/DNA/LeanEuclidPlus$ python3 scripts/check_step.py Book2/Prop05 --check                                                                                                                                                               
 OK: Book2/Prop05 structurally sound â 63 node(s), naming law holds, every node has a backing file, every file carries the 30s cap, nothing pre-wired, no stray sorry, every cited [Prop.~B.N] satisfied (construction or helper-cone).
-(leaneuclid) (base) taddmao@comps3:~/code/autoform/DNA/LeanEuclidPlus$ python3 scripts/check_step.py Book2/Prop05 --all
+(leaneuclid) (base) user@node:~/code/autoform/DNA/LeanEuclidPlus$ python3 scripts/check_step.py Book2/Prop05 --all
 [check_step --all] bottom-up audit of 63 node(s) / 66 call-site(s) in Book2/Prop05 (sub-nodes before their parents):
   â step1: SP[isolated] + P (leaf, zero-sorry)
   â step2: SP[isolated] + P (leaf, zero-sorry)
@@ -44,7 +44,7 @@ OK: Book2/Prop05 structurally sound â 63 node(s), naming law holds, every n
 al check step node, just does sf and sp if not leaf? while --subtree does entire thing? is --subtree not documented in this file?  â step7 (Book2/Prop05/step7.lean): P FAILED â leaf backing file did not build (or hit the 30s cap â decompose).
 
 [faithful_lib] build of Book2.Prop05.step7 exceeded 30s wall clock â TOO BIG. DECOMPOSE into more backing files; NEVER raise the cap. Last output before the kill (what it was elaborating when it stalled):
-(leaneuclid) (base) taddmao@comps3:~/code/autoform/DNA/LeanEuclidPlus$ al check step node, just does sf and sp if not leaf? while --subtree does entire thing? is --subtree not documented in this file?
+(leaneuclid) (base) user@node:~/code/autoform/DNA/LeanEuclidPlus$ al check step node, just does sf and sp if not leaf? while --subtree does entire thing? is --subtree not documented in this file?
 
 ```
 

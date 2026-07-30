@@ -28,11 +28,11 @@ Phase C (`wire_main`) deletes it (→ System E's 300s default — strictly MORE 
 import os, re, sys, glob, signal, subprocess, fcntl, hashlib, json
 
 # ── locations / constants ─────────────────────────────────────────────────────────────────────────
-# realpath (not just abspath): the repo is reachable via both /h/56/taddmao/… and /u/taddmao/… (a
+# realpath (not just abspath): the repo is reachable via both /home/user/… and /home/user/… (a
 # symlink). If BOOK_ROOT and an incoming path resolve through different roots, os.path.relpath yields a
 # garbage `../../../u/…` Lean target. Canonicalizing both ends here makes every relpath/target_of sound.
 BOOK_ROOT = os.path.realpath(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))   # LeanEuclidPlus/
-DEFAULT_VENV = os.path.expanduser("~/.venvs/leaneuclid")
+DEFAULT_VENV = os.path.expanduser("~/.venvs/euclid")
 GEOMETRIC_SORTS = {"Point", "Line", "Circle"}      # the only `axiom … : Type` object sorts (Sorts/Primitives.lean)
 CAP_LINE = "set_option systemE.solverTime 30 in"
 CAP_SECONDS = 30                                    # the ONE allowed dev SMT cap (solverTime, enforced by --check)

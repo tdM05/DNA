@@ -11,6 +11,6 @@
 
 
 # path
-/u/taddmao/code/autoform/DNA/
+/home/user/code/autoform/DNA/
 - start time 1:20pm June 3rd.
 - session limit hit at 3:

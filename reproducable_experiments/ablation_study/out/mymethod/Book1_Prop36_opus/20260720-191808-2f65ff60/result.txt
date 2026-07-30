@@ -2,7 +2,7 @@ prop: Book1/Prop36
 mode: mymethod
 model: opus
 session_id: 35158d19-0eb2-43b5-8a07-7888991068d6
-transcript: /u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-full/35158d19-0eb2-43b5-8a07-7888991068d6.jsonl
+transcript: /home/user/.claude/projects/-home-user-code-autoform-methodology-compare-worktrees-full/35158d19-0eb2-43b5-8a07-7888991068d6.jsonl
 cost_usd: 21.8029
 wall_sec: 2935.18
 compile_sec: 3

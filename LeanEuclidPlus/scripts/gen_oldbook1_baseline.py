@@ -23,7 +23,7 @@ import re, sys, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent          # LeanEuclidPlus/
 SRC  = pathlib.Path(sys.argv[1] if len(sys.argv) > 1
-                    else "/u/taddmao/code/autoform/LeanEuclid/Book")
+                    else "/home/user/code/autoform/LeanEuclid/Book")
 OB   = ROOT / "OldBook1"
 OBV  = ROOT / "OldBook1Variants"
 

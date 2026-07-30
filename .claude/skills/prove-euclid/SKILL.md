@@ -49,7 +49,7 @@ STRUCTURE only, never to copy a hand-built chain a lemma now covers.)
 - **Work from the `LeanEuclidPlus/` directory** (`<repo>/LeanEuclidPlus/`). All `scripts/...` paths
   and `lake` targets below are relative to it. `Book/` = Book 1, `Book2/` = Book 2.
 - **`euclid_finish` shells out to the SMT solvers `z3` and `cvc5` by bare name** — they live only in
-  the project venv `~/.venvs/leaneuclid/bin`. `check_step.py` puts that venv bin on PATH itself, so
+  the project venv `~/.venvs/euclid/bin`. `check_step.py` puts that venv bin on PATH itself, so
   builds find z3/cvc5 with no `source` needed. (You never invoke `lake`/`safe_build` directly — they're
   hard-denied; `check_step` is your only build path.)
 - **Build ONLY via `python3 scripts/check_step.py <propdir> --provable <node>`** (or the no-flag
@@ -58,7 +58,7 @@ STRUCTURE only, never to copy a hand-built chain a lemma now covers.)
 - Lean/`lake` themselves are elan-managed (`leanprover/lean4:v4.8.0-rc2` per `lean-toolchain`), on PATH.
 - **Faithfulness check** `scripts/check_faithful.py "Book2/PropNN.lean"` is pure Python 3 stdlib —
   no venv. The book-aware variant `scripts/check_faithful.sh Book2` needs a built `.olean` first.
-- The venv `~/.venvs/leaneuclid` also serves the autoformalization pipeline
+- The venv `~/.venvs/euclid` also serves the autoformalization pipeline
   (`AutoFormalization/`); activate it explicitly only when running that pipeline tooling.
 
 ---

@@ -2,7 +2,7 @@ prop: Book2/Prop12
 mode: ablated
 model: opus
 session_id: dfaaa755-478d-460e-8f23-76d0e1e0cc6b
-transcript: /u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-ablated/dfaaa755-478d-460e-8f23-76d0e1e0cc6b.jsonl
+transcript: /home/user/.claude/projects/-home-user-code-autoform-methodology-compare-worktrees-ablated/dfaaa755-478d-460e-8f23-76d0e1e0cc6b.jsonl
 cost_usd: 11.3696
 wall_sec: 3587.56
 compile_sec: <pending>

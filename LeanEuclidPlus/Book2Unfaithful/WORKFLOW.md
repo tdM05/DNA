@@ -7,7 +7,7 @@ propositions** plus 2 definitions.
 ## What's automated vs. manual
 
 The text and diagrams are derived deterministically from the rfitzp LaTeX edition
-(cloned at `/u/taddmao/code/autoform/Elements/Book02/`) by
+(cloned at `/home/user/code/autoform/Elements/Book02/`) by
 [../AutoFormalization/statement/extract_book.py](../AutoFormalization/statement/extract_book.py).
 It has already been run:
 

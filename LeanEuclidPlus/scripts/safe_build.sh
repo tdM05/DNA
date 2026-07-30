@@ -14,9 +14,9 @@ set -euo pipefail
 
 # `euclid_finish` shells out to the SMT solvers `z3` and `cvc5` BY BARE NAME, so they must be on
 # PATH or every proof build fails with `FileNotFoundError: 'z3'`. They live only in the project
-# venv (~/.venvs/leaneuclid/bin). Put that bin on PATH here so callers never need to `source` it
+# venv (~/.venvs/euclid/bin). Put that bin on PATH here so callers never need to `source` it
 # (and so it works even when each shell invocation is fresh). Override with LEANEUCLID_VENV.
-VENV="${LEANEUCLID_VENV:-$HOME/.venvs/leaneuclid}"
+VENV="${LEANEUCLID_VENV:-$HOME/.venvs/euclid}"
 if [ -d "$VENV/bin" ]; then
   export PATH="$VENV/bin:$PATH"
 fi

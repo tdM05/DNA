@@ -13,13 +13,13 @@
 ## Storage (do this first — home is full + shared)
 
 ```bash
-# everything bulky on /w, nothing on /h/56 (home):
-export HF_HOME=/w/100/taddmao/hf
-export PIP_CACHE_DIR=/w/100/taddmao/pip-cache
-export CONDA_PKGS_DIRS=/w/100/taddmao/conda-pkgs
+# everything bulky on /w, nothing on /home (home):
+export HF_HOME=/data/user/hf
+export PIP_CACHE_DIR=/data/user/pip-cache
+export CONDA_PKGS_DIRS=/data/user/conda-pkgs
 ```
-- `/h/56` (home) = shared, ~backed-up, near-full → **code only**.
-- `/w/100/taddmao` = working dir, 200 GB+ free, not backed up → **env + weights + caches**.
+- `/home` (home) = shared, ~backed-up, near-full → **code only**.
+- `/data/user` = working dir, 200 GB+ free, not backed up → **env + weights + caches**.
 - node-local `/tmp` is big but per-node and wiped — don't put the model there (re-downloads each job).
 
 ## Install (the gotchas that cost the 2 hours)
@@ -47,7 +47,7 @@ Get a node + serve (re-export the storage vars on the node; they don't always fo
 ```bash
 srun -p gpunodes --constraint=RTX_4090 --gres=gpu:1 -c 8 --mem=32G --pty bash
 conda activate vllm
-export HF_HOME=/w/100/taddmao/hf
+export HF_HOME=/data/user/hf
 vllm serve cyankiwi/Qwen3.6-27B-AWQ-INT4 \
   --reasoning-parser qwen3 \
   --max-model-len 12288 \

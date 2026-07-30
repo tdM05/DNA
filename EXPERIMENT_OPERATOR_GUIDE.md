@@ -7,7 +7,7 @@
 
 Nuke memory (shared by all worktrees — removes every pointer/note):
 ```
-rm -rf ~/.claude/projects/-h-56-taddmao-code-autoform-DNA/memory
+rm -rf ~/.claude/projects/-home-user-code-autoform-DNA/memory
 ```
 
 Blank each worktree to its PINNED map-stage commit (`3d8e371` ablated / `be22807` full — NOT HEAD, which drifts as you commit; each restores every prop's map Main.lean + data; `git clean` removes only a prior run's untracked step files — tracked data is never touched):
@@ -36,7 +36,7 @@ bash eval.sh <B> <NN> <cost> <M>
 
 Prompt:
 ```
-Prove LeanEuclidPlus/Book<B>/Prop<NN>/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Any step that has '-- @assumption' lines must be so that the corresponding euclid_sentence function after the := sorry is a function with the type of this assumption passed in to it. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/leaneuclid/bin/activate for z3 and cvc5. DO NOT LOOK AT ANYTHING OUTSIDE THIS FOLDER. IF YOU DO, YOUR ATTEMPT IS AUTO-FAILED.
+Prove LeanEuclidPlus/Book<B>/Prop<NN>/Main.lean — fill every ':= by sorry' so it builds with ZERO sorry. Do NOT change the theorem statement, the '(stepN : …)' claim types, or the '-- @assumption (…)' lines. Any step that has '-- @assumption' lines must be so that the corresponding euclid_sentence function after the := sorry is a function with the type of this assumption passed in to it. Also anything euclid cites, must be cited as well in Lean. Note that the venv is at ~/.venvs/euclid/bin/activate for z3 and cvc5. DO NOT LOOK AT ANYTHING OUTSIDE THIS FOLDER. IF YOU DO, YOUR ATTEMPT IS AUTO-FAILED.
 ```
 /goal this `/goal The proof assigned is faithful, compiles with no sorry, and is ready for review.`
 

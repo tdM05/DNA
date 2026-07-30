@@ -1,1 +1,1 @@
-Book2/Prop12  ablated  opus  session=dfaaa755-478d-460e-8f23-76d0e1e0cc6b  transcript=/u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-ablated/dfaaa755-478d-460e-8f23-76d0e1e0cc6b.jsonl  elapsed=720m07s  (started 12:37:35 · Ctrl-C to cancel)
+Book2/Prop12  ablated  opus  session=dfaaa755-478d-460e-8f23-76d0e1e0cc6b  transcript=/home/user/.claude/projects/-home-user-code-autoform-methodology-compare-worktrees-ablated/dfaaa755-478d-460e-8f23-76d0e1e0cc6b.jsonl  elapsed=720m07s  (started 12:37:35 · Ctrl-C to cancel)

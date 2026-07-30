@@ -2,7 +2,7 @@ prop: Book1/Prop06
 mode: ablated
 model: opus
 session_id: 6a6e5f0a-7561-440d-9815-16a6ce1b593c
-transcript: /u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-ablated/6a6e5f0a-7561-440d-9815-16a6ce1b593c.jsonl
+transcript: /home/user/.claude/projects/-home-user-code-autoform-methodology-compare-worktrees-ablated/6a6e5f0a-7561-440d-9815-16a6ce1b593c.jsonl
 cost_usd: 4.9138
 wall_sec: 1610.06
 compile_sec: 2

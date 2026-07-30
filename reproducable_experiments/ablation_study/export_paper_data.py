@@ -17,8 +17,8 @@ so `\\pgfplotstableread{file.dat}\\tbl` reads them directly.
 """
 import os, glob, re, csv, statistics
 
-OUT_BASE = "/u/taddmao/code/autoform/DNA/reproducable_experiments/ablation_study/out"
-DATA_DIR = "/u/taddmao/code/autoform/DNA/paper/data/ablation"
+OUT_BASE = "/home/user/code/autoform/DNA/reproducable_experiments/ablation_study/out"
+DATA_DIR = "/home/user/code/autoform/DNA/paper/data/ablation"
 MODEL    = "opus"
 TARGET_RUNS   = 3
 WALL_LIMIT_HR = 12.0          # global watchdog: a TIMEOUT run's true wall is the cap

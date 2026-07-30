@@ -32,7 +32,7 @@ BASELINE  = os.path.join(BOOK_ROOT, "scripts", "step_signatures.json")
 def canon_rel(p: str) -> str:
     """Symlink-stable path of `p` relative to BOOK_ROOT. Accepts an absolute path, a path relative to
     BOOK_ROOT, or a STALE baseline `file` field that was saved through a different symlink branch
-    (e.g. `--save` run from the /u/ mount while home resolves to /h/56, which yields an ugly
+    (e.g. `--save` run from the /u/ mount while home resolves to /home, which yields an ugly
     `../../../../../../../u/.../Main.lean`). `os.path.realpath` collapses every branch to the same
     on-disk key, so `--save` and the diff match regardless of how either was invoked."""
     ap = p if os.path.isabs(p) else os.path.join(BOOK_ROOT, p)

@@ -2,7 +2,7 @@ prop: Book1/Prop18
 mode: mymethod
 model: opus
 session_id: 6b284693-aead-4ade-9777-2b79ffaa4105
-transcript: /home/liby99/.claude/projects/-weka-scratch-liby99-lcs-tadd-code-autoform-methodology-compare-worktrees-full/6b284693-aead-4ade-9777-2b79ffaa4105.jsonl
+transcript: /home/user2/.claude/projects/-home-user2-code-autoform-methodology-compare-worktrees-full/6b284693-aead-4ade-9777-2b79ffaa4105.jsonl
 cost_usd: 5.27557
 wall_sec: 1279.68
 compile_sec: 1

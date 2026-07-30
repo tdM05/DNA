@@ -32,7 +32,7 @@ HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"   # LeanEuclidPlus/
 cd "$HERE"
 source "$HERE/scripts/prop_select.sh"                     # shared BOOK/range selector grammar
 
-VENV="${LEANEUCLID_VENV:-$HOME/.venvs/leaneuclid}"
+VENV="${LEANEUCLID_VENV:-$HOME/.venvs/euclid}"
 if [ -d "$VENV/bin" ]; then
   export PATH="$VENV/bin:$PATH"
 fi
