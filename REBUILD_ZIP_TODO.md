@@ -11,6 +11,9 @@
 - `README.md`: sharpened the intro to state clearly what's **turnkey** (build+check artifacts,
   regenerate plots) vs **reference-only** (running the Pistis agent pipeline live — needs Claude
   Code + model access + two-worktree harness; scripts included to read, not as a one-command rerun).
+- **Deleted `requirements.txt`**; README step 3 rewritten to "no install needed" (plots are
+  pre-rendered in the notebooks; re-running is optional matplotlib/numpy/pandas); `pyproject.toml`
+  `dependencies = []`. Removes a failing/needless install step.
 - `ablation_study/runner/README.md`: added a note that `result.txt` is the authoritative verdict
   (grade.log is a transient trace), and that a few runs were manually corrected for false automated
   results — with the Prop18 `lake`-not-found example.

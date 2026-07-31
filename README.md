@@ -32,17 +32,8 @@ lake build Book1.Prop06.Main       # one faithful proof, end-to-end
 # lake build Book1 Book2 Book3     # everything (long)
 ```
 
-**3. Python (only for plots + running the pipeline live).** The checker/pipeline scripts and the
-survey server use just the standard library. A small venv is needed only to regenerate the RQ2/RQ3
-plots from the shipped CSVs:
-```bash
-python3 -m venv .venv && . .venv/bin/activate
-pip install -r requirements.txt
-```
-(Driving the agent pipeline live additionally needs `anthropic` + Claude Code; not required to
-inspect artifacts, run the checkers, or regenerate plots.)
 
-**4. Inspect the pipeline without building.** From `LeanEuclidF/`:
+**3. Inspect the pipeline without building.** From `LeanEuclidF/`:
 `python3 scripts/find.py --concludes "onCircle"` (search the fact DB),
 `python3 scripts/check_faithful.py Book1/Prop01/Main.lean` (faithfulness check on a proof).
 

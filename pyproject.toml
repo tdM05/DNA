@@ -21,14 +21,10 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Mathematics",
 ]
 
-# The pipeline scripts and survey server use only the Python standard library; the only
-# third-party packages are for regenerating the RQ2/RQ3 plots from the shipped CSVs.
-# See requirements.txt.
-dependencies = [
-    "matplotlib",
-    "numpy",
-    "pandas",
-]
+# The pipeline scripts and survey server use only the Python standard library. The only
+# third-party packages (matplotlib/numpy/pandas) are optional — needed solely to RE-RUN the
+# RQ2/RQ3 plot notebooks, which already ship with their figures rendered.
+dependencies = []
 
 [project.optional-dependencies]
 develop = [
