@@ -481,7 +481,7 @@ body.sorry-mode .sorry-on  { display: inline; }
     <div class="leg"><div class="leg-dot" style="background:#7eb6ff"></div>theorem</div>
     <div class="leg"><div class="leg-dot" style="background:#52e3c2"></div>euclid_sentence</div>
     <div class="leg"><div class="leg-dot" style="background:#f5a623"></div>have node (dashed)</div>
-    <div class="leg" style="color:#7a88bb">Shift+click = multi-select</div>
+    <div class="leg" style="color:#7a88bb">Ctrl/Cmd+click = multi-select</div>
     <div class="leg" style="color:#7a88bb">PNG export: "Save layout" → move map_layout.json to prop folder → run with <code style="font-size:10px;color:#c3e88d">--png</code></div>
   </div>
 </div>
@@ -758,7 +758,7 @@ function selectCard(card, mode, additive) {
     }
     clearSelection();
   } else {
-    // shift-click: toggle this card
+    // ctrl/cmd-click: toggle this card
     if (selCards.has(card) && selCards.get(card) === mode) {
       applyCardHighlights(card, mode, false);
       selCards.delete(card);

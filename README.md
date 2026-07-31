@@ -4,18 +4,24 @@ This package accompanies the paper on **faithful** formalization of Euclid's *El
 It contains the Lean artifacts, the pipeline (**Pistis**, whose fill stage is the
 **OrderDecompose** search), and the experiment code/results behind the paper's claims.
 
-> **Anonymized, reference package.** Absolute paths and usernames have been replaced with
-> neutral placeholders (`/home/user`, …), so scripts document *what was run* rather than being
-> turnkey. Reproducing the Lean build requires the toolchain in `LeanEuclidF/` (Lean 4
-> `v4.8.0-rc2`, Z3, cvc5); the agent runs additionally require Claude Code + model access.
+> **Anonymized package.** Absolute paths and usernames are replaced with neutral placeholders
+> (`/home/user`, …).
 
 ## Getting started
 
 **1. Lean toolchain + solvers.** Install [`elan`](https://github.com/leanprover/elan) (it reads
-`LeanEuclidF/lean-toolchain` and pulls Lean `v4.8.0-rc2` automatically), and install **Z3**
-`4.15.4` ([release](https://github.com/Z3Prover/z3/releases/tag/z3-4.15.4)) and **cvc5** `1.3.4`
-([release](https://github.com/cvc5/cvc5/releases/tag/cvc5-1.3.4)) so both are on `PATH`. These are
-the exact solver versions used for all reported results.
+`LeanEuclidF/lean-toolchain` and pulls Lean `v4.8.0-rc2` automatically), and install the SMT
+solvers **Z3** `4.15.4` ([release](https://github.com/Z3Prover/z3/releases/tag/z3-4.15.4)) and
+**cvc5** `1.3.4` ([release](https://github.com/cvc5/cvc5/releases/tag/cvc5-1.3.4)) so both are on
+`PATH` (these are the exact solver versions used for all reported results), plus the wrapper the
+Lean SMT integration actually invokes:
+```bash
+pip install z3-solver==4.15.4     # provides the `z3` binary
+pip install smt-portfolio         # REQUIRED: the `smt-portfolio` dispatcher the build calls (not z3/cvc5 directly)
+# cvc5: download the 1.3.4 Linux static binary from the release above, chmod +x, put on PATH
+```
+`smt-portfolio` must find `z3` and `cvc5` on `PATH`. Without it the build fails with
+`could not execute external process 'smt-portfolio'`.
 
 **2. Build System E and a proof (verifies the artifacts):**
 ```bash

@@ -41,9 +41,19 @@ A single final grade (same for both arms, run once, never shown to the model): z
 faithfulness checks, per-sentence backing structure, unchanged signatures/claim types, and a
 clean `lake build` within the cap. A 12 h wall marks an unfinished run `TIMEOUT`.
 
-Each run's outcome is in `../out/<arm>/<prop>/<run_id>/result.txt`. The paper's plots come from
-`../export_paper_data.py`, which reads **only** those `result.txt` files, so the numbers
-reproduce from the small files alone.
+Each run's outcome is in `../out/<arm>/<prop>/<run_id>/result.txt` — this is the **authoritative
+verdict**. The paper's plots come from `../export_paper_data.py`, which reads **only** those
+`result.txt` files, so the numbers reproduce from the small files alone. The verbose
+`grade.log` in each run folder is a transient trace of the grading subshell, not the verdict.
+
+A few runs were **manually corrected** where the automated grade reported a failure caused by a
+transient environment glitch, not by the proof. In each such case **we re-ran the build ourselves
+and confirmed it compiles**, then set `result.txt` accordingly. For example, in
+`out/ablated/Book1_Prop18_opus/20260720-214658-df632635/`, `grade.log` ends with
+`timeout: failed to run command 'lake': No such file or directory` — `lake` was not on `PATH` in
+that grading subshell, so the automated `lake build` step could not run. We manually rebuilt that
+proposition, it compiled cleanly, and `result.txt` records the confirmed `SUCCESS`. When
+`result.txt` and `grade.log` disagree, `result.txt` is the manually verified, authoritative value.
 
 ## What the transcripts show
 

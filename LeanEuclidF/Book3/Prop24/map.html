@@ -481,7 +481,7 @@ body.sorry-mode .sorry-on  { display: inline; }
     <div class="leg"><div class="leg-dot" style="background:#7eb6ff"></div>theorem</div>
     <div class="leg"><div class="leg-dot" style="background:#52e3c2"></div>euclid_sentence</div>
     <div class="leg"><div class="leg-dot" style="background:#f5a623"></div>have node (dashed)</div>
-    <div class="leg" style="color:#7a88bb">Shift+click = multi-select</div>
+    <div class="leg" style="color:#7a88bb">Ctrl/Cmd+click = multi-select</div>
     <div class="leg" style="color:#7a88bb">PNG export: "Save layout" → move map_layout.json to prop folder → run with <code style="font-size:10px;color:#c3e88d">--png</code></div>
   </div>
 </div>
@@ -492,7 +492,7 @@ body.sorry-mode .sorry-on  { display: inline; }
   <div class="main-col" data-lod="full">
 <div class="col-header"><span class="hdr-left"  data-sel="parents"><span class="hdr-arrow">&#9668;</span></span><span class="hdr-center" onclick="cycleCardLod(this)" title="Toggle detail level">Main.lean</span><span class="hdr-right" data-sel="children"><span class="hdr-arrow">&#9658;</span></span></div>
 <div class="code-body">
-<div class="code-line collapsed" data-role="sig"><span class="ln"></span><span class="lc">-- (8 import / namespace lines)</span></div>
+<div class="code-line collapsed" data-role="sig"><span class="ln"></span><span class="lc">-- (10 import / namespace lines)</span></div>
 <div class="code-line plain" data-role="sig"><span class="ln">1</span><span class="lc"><span class="kw-def">theorem</span> proposition_24 <span class="op-colon">:</span> <span class="t-id">∀</span> <span class="t-brk-o">(</span>a e b f <span class="op-colon">:</span> Point<span class="t-brk-c">)</span> <span class="t-brk-o">(</span>AB <span class="op-colon">:</span> Line<span class="t-brk-c">)</span> <span class="t-brk-o">(</span>AEB CFD <span class="op-colon">:</span> Circle<span class="t-brk-c">)</span>,</span></div>
 <div class="code-line plain" data-role="sig"><span class="ln">2</span><span class="lc">  a.onCircle AEB <span class="op-logic">∧</span> e.onCircle AEB <span class="op-logic">∧</span> b.onCircle AEB <span class="op-logic">∧</span></span></div>
 <div class="code-line plain" data-role="sig"><span class="ln">3</span><span class="lc">  a.onCircle CFD <span class="op-logic">∧</span> f.onCircle CFD <span class="op-logic">∧</span> b.onCircle CFD <span class="op-logic">∧</span></span></div>
@@ -626,7 +626,7 @@ function selectCard(card, mode, additive) {
     }
     clearSelection();
   } else {
-    // shift-click: toggle this card
+    // ctrl/cmd-click: toggle this card
     if (selCards.has(card) && selCards.get(card) === mode) {
       applyCardHighlights(card, mode, false);
       selCards.delete(card);
