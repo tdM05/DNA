@@ -1,3 +1,5 @@
+-- `sorry`: the current System E implementation does not yet support horn angle
+-- (out of scope — see Book3/SKIPPED_PROPS.md and the paper's Limitations appendix).
 import SystemE
 set_option linter.unusedVariables false
 set_option linter.unnecessarySeqFocus false

@@ -1,3 +1,5 @@
+-- `sorry`: the current System E implementation does not yet support circle superposition
+-- (out of scope — see Book3/SKIPPED_PROPS.md and the paper's Limitations appendix).
 import SystemE
 import Book3.Prop10.Main
 set_option linter.unusedVariables false

@@ -1,3 +1,5 @@
+-- `sorry`: the current System E implementation does not yet support arc-length / circumference measure
+-- (out of scope — see Book3/SKIPPED_PROPS.md and the paper's Limitations appendix).
 import SystemE
 import Book1.Prop10.Main
 import Book1.Prop11.Main

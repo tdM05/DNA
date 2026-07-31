@@ -23,7 +23,7 @@ cd LeanEuclidF
 lake exe cache get                 # fetch the prebuilt mathlib cache
 lake build SystemE                 # compile the System E theory (~minutes)
 lake build Book1.Prop06.Main       # one faithful proof, end-to-end
-# lake build Book Book2 Book3      # everything (long)
+# lake build Book1 Book2 Book3     # everything (long)
 ```
 
 **3. Python (only for plots + running the pipeline live).** The checker/pipeline scripts and the
