@@ -1,21 +1,33 @@
 import SystemE
-import Book1.Prop04.Main
-set_option linter.unusedVariables false
-set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
-open Elements.Book1
-
-set_option systemE.solverTime 30 in
-theorem proposition_26 : ∀ (a b c d e f g h : Point) (ABC DEF : Circle),
-  a.onCircle ABC ∧ b.onCircle ABC ∧ c.onCircle ABC ∧
-  d.onCircle DEF ∧ e.onCircle DEF ∧ f.onCircle DEF ∧
+-- III.26. "In equal circles, equal angles stand upon equal circumferences whether they
+-- are standing at the center or at the circumference." Faithful STATEMENT ONLY (body sorry).
+--
+-- Now stated with the Arc sort: the goal is the LITERAL conclusion `circumference BKC =
+-- circumference ELF`, i.e. `⌒ b:k:c = ⌒ e:l:f` — NOT the central-angle proxy the pre-Arc
+-- version was forced into.
+--
+-- k, l are Euclid's arc-labels K, L: a point naming WHICH arc. The angle at a stands on the
+-- arc NOT containing a, so k is pinned by `opposingSides a k BC` (k on the far side of the
+-- chord BC from a) together with `k.onCircle ABC`; likewise l with `opposingSides d l EF`.
+-- The chord lines BC, EF are binders because the disambiguation names them.
+--
+-- Both angle equalities are given (central ∠b:g:c=∠e:h:f AND inscribed ∠b:a:c=∠e:d:f),
+-- mirroring Euclid's setup; his proof uses the central pair for SAS (BC=EF) and the
+-- inscribed pair for the similar-segments step.
+theorem proposition_26 : ∀ (a b c d e f g h k l : Point) (BC EF : Line) (ABC DEF : Circle),
+  a.onCircle ABC ∧ b.onCircle ABC ∧ c.onCircle ABC ∧ k.onCircle ABC ∧
+  d.onCircle DEF ∧ e.onCircle DEF ∧ f.onCircle DEF ∧ l.onCircle DEF ∧
   g.isCentre ABC ∧ h.isCentre DEF ∧
-  |(g─b)| = |(h─e)| ∧
+  distinctPointsOnLine b c BC ∧ distinctPointsOnLine e f EF ∧
+  |(g─b)| = |(h─e)| ∧                                -- equal circles (= equal radii, Def 3.1)
   a ≠ b ∧ a ≠ c ∧ b ≠ c ∧ d ≠ e ∧ d ≠ f ∧ e ≠ f ∧
-  ∠ b:a:c = ∠ e:d:f →
-  ∠ b:g:c = ∠ e:h:f :=
+  a.opposingSides k BC ∧ d.opposingSides l EF ∧      -- k, l on the arc the angle stands on
+  ∠ b:g:c = ∠ e:h:f ∧                                -- equal angles at the center
+  ∠ b:a:c = ∠ e:d:f →                                -- equal angles at the circumference
+  ⌒ b:k:c = ⌒ e:l:f :=
 by
   euclid_intros
   euclid_intro_sentence "3.26.0"
@@ -36,9 +48,8 @@ by
     "So the two (straight-lines) $BG$, $GC$ (are) equal to the two (straight-lines) $EH$, $HF$ (respectively)."
     (step3 : |(g─b)| = |(h─e)| ∧ |(g─c)| = |(h─f)|) := by sorry
 
-  -- orchestrator-centralAngle: step4 = central angle equality ∠b:g:c=∠e:h:f; in the locked signature
-  -- (inscribed-angle hyp only), this must be proved in Phase B via [III.20] (inscribed=half central);
-  -- in Euclid's full proof it was a given (BGC=EHF central angle hyp), but our sig takes only ∠b:a:c=∠e:d:f.
+  -- "the angle at G = the angle at H" — the equal central angles, now a GIVEN of the signature
+  -- (∠b:g:c=∠e:h:f, matching Euclid's "let BGC, EHF be equal angles at the center").
   euclid_sentence "3.26.4"
     "And the angle at $G$ (is) equal to the angle at $H$."
     (step4 : ∠ b:g:c = ∠ e:h:f) := by sorry
@@ -48,10 +59,9 @@ by
     (step5 : |(b─c)| = |(e─f)|) := by sorry
 
   -- @assumption ("the angle at $A$ is equal to the (angle) at $D$", ∠ b:a:c = ∠ e:d:f)
-  -- orchestrator-segmentSimilarity: "segment BAC similar to EDF" per Def.3.11 = equal inscribed angles;
-  -- System E has no separate segment-similarity predicate; the only expressible content of
-  -- Def.3.11 IS the inscribed angle equality (the given hyp); claim = ∠b:a:c=∠e:d:f; RULE-2
-  -- tension acknowledged — no richer System-E expression exists with ZERO new vocab.
+  -- "segment BAC is similar to segment EDF [Def 3.11]." Def 3.11 DEFINES similar segments as
+  -- those "accepting equal angles" — so the faithful content of this sentence IS the inscribed
+  -- angle equality ∠b:a:c=∠e:d:f. This is not a proxy: it is exactly what Def 3.11 unfolds to.
   euclid_sentence "3.26.6"
     "And since the angle at $A$ is equal to the (angle) at $D$, the segment $BAC$ is thus similar to the segment $EDF$ [Def.~3.11]."
     (step6 : ∠ b:a:c = ∠ e:d:f) := by sorry
@@ -60,34 +70,40 @@ by
     "And they are on equal straight-lines [$BC$ and $EF$]."
     (step7 : |(b─c)| = |(e─f)|) := by sorry
 
-  -- @suppress_deps_check "III.24 (similar segments on equal straight-lines are equal) is deliberately not formalized: a faithful proof needs a circle-superposition axiom, which System E lacks (superposition exists only for triangles), and we chose not to add it."
+  -- "similar segments on equal straight-lines are equal [III.24]." Now the LITERAL segment-area
+  -- equality via the CircularSegment sort: ⌓ b:a:c = ⌓ e:d:f (segment BAC = segment EDF). The
+  -- [Prop.~3.24] citation is honest — III.24 is a genuine dependency (proved by circle-super-
+  -- position, which Phase B will need); it is a real deferred gap, NOT a suppress case.
   euclid_sentence "3.26.8"
     "And similar segments of circles on equal straight-lines are equal to one another [Prop.~3.24]."
-    (step8 : ∠ b:g:c = ∠ e:h:f) := by sorry
+    (step8 : ⌓ b:a:c = ⌓ e:d:f) := by sorry
 
-  -- orchestrator-arcCentralAngle: "segment BAC = segment EDF" → equal major arcs BAC/EDF
-  -- ↔ equal minor arcs BKC/ELF ↔ ∠b:g:c=∠e:h:f.
+  -- "segment BAC = segment EDF" — the conclusion of applying III.24 here: equal segment areas.
   euclid_sentence "3.26.9"
     "Thus, segment $BAC$ is equal to (segment) $EDF$."
-    (step9 : ∠ b:g:c = ∠ e:h:f) := by sorry
+    (step9 : ⌓ b:a:c = ⌓ e:d:f) := by sorry
 
-  -- orchestrator-equalCircles: "whole circle ABC = whole circle DEF" = equal circles (Euclid's
-  -- sense = equal radii); System E encodes this as |(g─b)|=|(h─e)| (the given hyp); claim restates
-  -- the given — unavoidable with ZERO new vocab and different-center circles in our signature.
+  -- "the whole circle ABC = the whole circle DEF." By Def 3.1 ("equal circles are those whose
+  -- radii are equal") the faithful content of circle-equality IS radius equality; that is the
+  -- given |(g─b)|=|(h─e)|. Euclid uses this whole-circle equality, minus the equal segments
+  -- (step9), to leave the equal remaining arcs (step11).
   euclid_sentence "3.26.10"
     "And the whole circle $ABC$ is also equal to the whole circle $DEF$."
     (step10 : |(g─b)| = |(h─e)|) := by sorry
 
-  -- orchestrator-arcCentralAngle: "remaining circumference BKC = ELF" = minor arc BKC = minor arc ELF
-  -- = ∠b:g:c=∠e:h:f (goal); derived by C.N.3: equal circles (step10) minus equal segments (step9)
-  -- leaves equal remaining arcs; in arc-as-central-angle: 4∟ - major_arc_BAC = 4∟ - major_arc_EDF
-  -- ↔ ∠b:g:c=∠e:h:f.
+  -- "remaining circumference BKC = ELF": now the LITERAL arc equality (the goal), no longer the
+  -- central-angle proxy. Euclid derives it by C.N.3 — equal WHOLE circles (step10) minus equal
+  -- segments-on-BC/EF (step9) leaves the equal remaining pieces. With arcs this is: the whole
+  -- circumference = (arc through a) + (arc through k) [complementary arcs on chord BC]; equal
+  -- circles + equal major arcs (step9) ⟹ equal minor arcs BKC, ELF. This is the step that will
+  -- need the complementary-arc / whole-circumference AXIOM (to be added).
   euclid_sentence "3.26.11"
     "Thus, the remaining circumference $BKC$ is equal to the (remaining) circumference $ELF$."
-    (step11 : ∠ b:g:c = ∠ e:h:f) := by sorry
+    (step11 : ⌒ b:k:c = ⌒ e:l:f) := by sorry
 
   exact step11
   euclid_conclude_sentence "3.26.12"
     "Thus, in equal circles, equal angles stand upon equal circumferences, whether they are standing at the center or at the circumference. (Which is) the very thing which it was required to show."
+
 
 end Elements.Book3
