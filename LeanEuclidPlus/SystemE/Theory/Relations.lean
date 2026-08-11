@@ -54,6 +54,19 @@ opaque intersectsCircle : Circle → Circle → Prop
 
 end Circle
 
+namespace CircularSegment
+
+/-- `s.inside t`: circular segment `s` lies inside segment `t` (III.24, "it will fall inside it").
+The two segments share a chord; `s`'s arc is enclosed by `t`'s arc on the same side. -/
+opaque inside : CircularSegment → CircularSegment → Prop
+
+/-- `s.outside t`: circular segment `s` lies outside segment `t` (III.24, "outside it"). Not the
+negation of `inside`: III.24's trichotomy also has the "miss"/crossing case, so `outside` is a
+distinct primitive, not `¬ inside`. -/
+opaque outside : CircularSegment → CircularSegment → Prop
+
+end CircularSegment
+
 @[simp]
 abbrev formTriangle (a b c : Point) (AB BC CA : Line) : Prop :=
   distinctPointsOnLine a b AB ∧
