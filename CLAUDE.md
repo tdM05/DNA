@@ -1,3 +1,4 @@
+
 # DNA / LeanEuclidPlus
 
 Formalizing Euclid's *Elements* in System E (LeanEuclidPlus). Proofs are checked by an SMT
@@ -179,8 +180,11 @@ task, not a mis-step. When you are here:
 - **New sorts/relations/axioms need a matching SMT-translator case** (`SystemE/Meta/Smt/Translator.lean`)
   before `euclid_finish` can reason about them — statements/maps don't need this, proofs do.
 
-**Both regimes: editing `SystemE/**` is hard-denied to the agent.** Never "ask and proceed." Write the
-candidate + its soundness/gate analysis and hand it to the human, who makes the edit.
+**Both regimes: when you add or change anything in `SystemE/**`, write the candidate together with its
+soundness/gate analysis** (true in ℝ²? not the theorem in disguise? minimal/general?) so it can be
+reviewed — the analysis is the important artifact, not a gate you must wait on. In Regime 2 (extending
+System E) editing `SystemE/**` directly is expected and fine; do not treat it as denied. Only genuinely
+irreversible or out-of-scope changes warrant stopping to ask first.
 
 ## Wrong SOURCE citation — waive it with `@suppress_deps_check` (a CITATION-metadata bug, ≠ a proof gap)
 

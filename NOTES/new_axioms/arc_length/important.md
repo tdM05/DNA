@@ -1,0 +1,1 @@
+- System E is *not* proven complete even though they claim so. They skip the triangle area one. They do not directly preove ompletelnessso thei complete proof is limited to what tarski did, and in fact tarski's proof relies on

@@ -327,6 +327,16 @@ Can I close this goal directly (real euclid_apply chain, no new node) and build 
     never run). Remedy: if that tail is heavy SMT, factor it (e.g. `linarith` over locked area-equalities
     instead of one big `euclid_finish` over area atoms — see step27_decomp), or push a sub-group into its
     own intermediate `have`+backing file.
+  - **(iii) The needed fact lives in an axiom `euclid_finish` CANNOT see.** Not every axiom is in the
+    SMT background theory (`SystemE/Meta/Smt/EuclidTheory.lean`): construction / `∃`-conclusion axioms
+    (`line_from_points`, `superposition`, `intersection_circles`, the arc/segment `segment_superposition`
+    / `segment_arc_crossing`, …) and axioms over sorts the translator doesn't encode are **Lean-only** —
+    the solver never receives them, so `euclid_finish` can NEVER discover their consequences no matter how
+    much you slim the context. Symptom: a step whose truth *depends on* such an axiom times out or SATs
+    even with a tiny signature. Remedy: **`euclid_apply` the axiom explicitly** (introducing its outputs
+    as hypotheses), then let `euclid_finish` finish from those. To check whether an axiom is SMT-visible,
+    use `find.py` to read its declaration/conclusion (an `∃`-conclusion or a construction ⇒ Lean-only;
+    when unsure, grep its name in `EuclidTheory.lean`) — do NOT assume `euclid_finish` will find it.
   - There is NO "fat wire" cause anymore — that was the OLD SMT-discharge wire. A fat signature no longer
     costs time at the wire (assumption is cheap); it only matters for SP *correctness* (every hyp must be
     present). Still prefer minimal signatures (minimal-hyp law) — but for clarity/suppliability, not speed.
