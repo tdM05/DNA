@@ -27,6 +27,8 @@ def euclidTheory : List Smt.Command := [
   (Smt.Command.declareFun "SegmentPP" [PointT, PointT] RealT),
   (Smt.Command.declareFun "AnglePPP" [PointT, PointT, PointT] RealT),
   (Smt.Command.declareFun "AreaPPP" [PointT, PointT, PointT] RealT),
+  (Smt.Command.declareFun "ArcPPP" [PointT, PointT, PointT] RealT),
+  (Smt.Command.declareFun "CSegPPP" [PointT, PointT, PointT] RealT),
   (Smt.Command.declare "RightAngle" (Smt.Term.symbolT "Real")),
   -- two_points_determine_line
   (Smt.Command.assert (Smt.Term.literalT "

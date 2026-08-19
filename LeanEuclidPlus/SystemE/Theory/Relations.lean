@@ -73,6 +73,26 @@ abbrev formTriangle (a b c : Point) (AB BC CA : Line) : Prop :=
   b.onLine BC ∧ c.onLine BC ∧ c.onLine CA ∧ a.onLine CA ∧
   AB ≠ BC ∧ BC ≠ CA ∧ CA ≠ AB
 
+/-- `formCircularSegment a e b AB AEB`: the points `a`, `e`, `b` bound a genuine circular segment —
+the endpoints `a`, `b` are distinct on the chord line `AB`, the arc point `e` is off that chord, and
+all three lie on the circle `AEB` (whose arc through `e` is the segment's boundary). The chord line
+and circle are named witnesses, mirroring how `formTriangle` names its edges. -/
+@[simp]
+abbrev formCircularSegment (a e b : Point) (AB : Line) (AEB : Circle) : Prop :=
+  distinctPointsOnLine a b AB ∧ ¬ e.onLine AB ∧
+  a.onCircle AEB ∧ e.onCircle AEB ∧ b.onCircle AEB
+
+/-- `s.coincides t`: circular segments `s` and `t` are the SAME region — they share the chord's
+endpoints `c`, `d`, both lie on one circle `γ`, and their arc points are on the same side of the
+chord `CD` (so they name the identical arc, differing only in the arc-point label). The witnessing
+circle and chord line are existentially hidden, giving a clean binary relation. This is the
+"coincide" of Euclid's Common Notion 4 ("things which coincide are equal"), cited in III.24. -/
+def CircularSegment.coincides (s t : CircularSegment) : Prop :=
+  ∃ (c e d f : Point) (CD : Line) (γ : Circle),
+    s = CircularSegment.ofPoints c e d ∧ t = CircularSegment.ofPoints c f d ∧
+    formCircularSegment c e d CD γ ∧ formCircularSegment c f d CD γ ∧
+    e.sameSide f CD
+
 @[simp]
 abbrev formRectilinearAngle (a b c : Point) (AB BC : Line) :=
   distinctPointsOnLine a b AB ∧ distinctPointsOnLine b c BC

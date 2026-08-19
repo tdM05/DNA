@@ -2365,6 +2365,64 @@
       "verdict": "closes"
     }
   },
+  "Book3/Prop24": {
+    "step1_assumption1": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "point $A$ is placed on (point) $C$",
+      "type": "ImgSegment a = c",
+      "verdict": "crash"
+    },
+    "step1_assumption2": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "the straight-line $AB$ on $CD$",
+      "type": "(ImgSegment a).onLine CD \u2227 (ImgSegment b).onLine CD",
+      "verdict": "crash"
+    },
+    "step1_assumption3": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AB$ being equal to $CD$",
+      "type": "|(a\u2500b)| = |(c\u2500d)|",
+      "verdict": "closes"
+    },
+    "step2_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "$AB$ coincides with $CD$",
+      "type": "(ImgSegment a).onLine CD \u2227 (ImgSegment b).onLine CD",
+      "verdict": "closes"
+    },
+    "step3_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the straight-line $AB$ coincides with $CD$",
+      "type": "(ImgSegment a).onLine CD \u2227 (ImgSegment b).onLine CD",
+      "verdict": "closes"
+    },
+    "step3_assumption2": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the segment $AEB$ does not coincide with $CFD$",
+      "type": "\u00ac (ImgSegment a = c \u2227 ImgSegment b = d \u2227 (ImgSegment e).onCircle CFD)",
+      "verdict": "closes"
+    },
+    "step6_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
+      "tag": "valid",
+      "text": "the straight-line $AB$ is applied to $CD$",
+      "type": "(ImgSegment a).onLine CD \u2227 (ImgSegment b).onLine CD",
+      "verdict": "closes"
+    }
+  },
   "Book3/Prop25": {
     "step10_assumption1": {
       "closed_by": "assumption",

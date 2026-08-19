@@ -1,34 +1,40 @@
-# III.24 — new objects / axioms needed
+# III.24 — new objects / axioms status
 
-## New vocabulary already added
+## New vocabulary added (SystemE)
 - `CircularSegment` sort + `⌓` area (`Sorts/CircularSegments.lean`)
-- `CircularSegment.inside` / `.outside` relations (`Relations.lean`)
+- `Arc` sort + `⌒` measure (`Sorts/Arcs.lean`)
+- `CircularSegment.inside` / `.outside` relations + `formCircularSegment` (`Relations.lean`)
+- `segment_superposition` axiom (`Inferences/Superposition.lean`) — the motion: places A→C, lays AB
+  along CD, preserves chord/inscribed-angle/AREA, returns image points a' e' b' + image circle AEB'
+  with `formCircularSegment a' e' b' CD AEB'`.
+- `segment_arc_crossing` axiom (`Inferences/Diagrammatic.lean`) — the "miss" case: two co-chordal
+  same-side segments, neither inside nor outside ⟹ their circles share a third point g (≠ c,d).
+  Sound (constrained to arcs on a common chord/side, where neither-nested forces a crossing).
 
-## Steps needing attention
+## Step status
 
-**hImgCircle (segment→circle)** — deferred `have`. Euclid superposes the SEGMENT; the
-contradiction needs its CIRCLE. Need a link "the arc of a segment lies on a circle" so
-`ImgCircle AEB` is justified, not conjured. → new relation `CircularSegment → Circle → Prop`,
-or fold into the superposition axiom.
+PROVABLE ✅ (Phase-B wiring only, System E sufficient):
+- **hImgCircle** — RESOLVED, folded into `segment_superposition` (`formCircularSegment a' e' b' CD AEB'`).
+- **step1** `ImgSegment b = d` — from superposition outputs + |ab|=|cd|.
+- **step2** — reductio (habsurd1) + double-negation.
+- **step3** trichotomy `inside ∨ outside ∨ (¬inside ∧ ¬outside)` — classical tautology.
+- **step4** `(¬inside ∧ ¬outside) → ∃ 3 shared points` — via `segment_arc_crossing`: gives g on both
+  circles ≠ c,d; then {c=ImgSegment a, d=ImgSegment b, g} are the 3 shared points.
+- **step6/step7** reductio close — pure logic.
+- **step8** `⌓ a:e:b = ⌓ c:f:d` — from `segment_superposition`'s `⌓ a':e':b' = ⌓ a:e:b` + coincidence.
 
-**step1 `ImgSegment b = d`** — needs the superposition INFERENCE (the big axiom): rigid motion
-placing A→C, AB along CD, preserving length. Circle/segment analogue of `axiom superposition`.
-Produces `ImgSegment`, `ImgCircle`, and their licensed facts (placement, length, congruent copy).
+- **step5** `False` — closes once the nesting branches are excluded (below), then step3 collapses to
+  the miss disjunct → step4 → 3 points → III.10.
+- **`hnot_inside` / `hnot_outside`** (obligations in Main.lean between step3 and step4: the moved
+  segment doesn't nest in/around CFD) — via the added axiom `segment_equal_angle_no_nest`: the moved
+  segment has `∠ = ∠c:f:d` (from `segment_superposition`'s angle-preservation + the hypothesis
+  `∠a:e:b = ∠c:f:d`), and equal inscribed angle on a common chord/side ⟹ no nesting.
 
-**step3 `inside ∨ outside ∨ miss`** — needs the trichotomy provable: inside/outside/miss
-exhaust the cases for a segment vs. a segment on the same chord. Likely an axiom about
-`inside`/`outside`.
+Note: Euclid cites ONLY III.10 + C.N.4; he applies "cut at >2 points [III.10]" to all three branches,
+but III.10 genuinely covers only the crossing (miss) case. The inside/outside branches are Euclid's
+looseness — `segment_equal_angle_no_nest` fills them using his own (unused) equal-angle hypothesis.
 
-**step4 (@euclid_gap) `miss → >2 shared points`** — THE gap. "miss ⟹ third common point" plus
-the silent segment→circle move. Only the crossing case is refuted by III.10; needs the
-figure-read that miss yields a third point (deferred / axiom); inside/outside are left unhandled
-by Euclid.
-
-**step8 `⌓ a:e:b = ⌓ c:f:d`** — C.N.4 "coincide ⟹ equal". Needs coincidence (step7) +
-"superposition preserves segment area" (`⌓ (ImgSegment a):(ImgSegment e):(ImgSegment b) = ⌓ a:e:b`,
-dropped from hsup) ⟹ equal areas.
-
-## Summary of additions
-1. Superposition inference for segments (returns ImgSegment, ImgCircle + facts). [big]
-2. segment→circle relation (arc lies on a circle).
-3. inside/outside/miss trichotomy + area-congruence-under-coincidence (C.N.4).
+## Bottom line
+All steps provable with the current System E. Three added axioms carry III.24:
+`segment_superposition` (motion), `segment_arc_crossing` (miss → III.10), `segment_equal_angle_no_nest`
+(excludes nesting). No III.23 citation needed.

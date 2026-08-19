@@ -69,6 +69,14 @@ def translateMetric : Expr →  EsmtM (TranslationResult String)
     match (← whnf arg).getAppFnArgs with
     | (``Triangle.ofPoints, #[(Expr.fvar v1),(Expr.fvar v2),(Expr.fvar v3)]) => return .ok  <| ← mkFvarOp3 "AreaPPP" v1 v2 v3
     | _ => return  .error "[Smt.Translator] Improper input to Triangle.area"
+| .app (.const ``Arc.measure _ ) arg => do
+    match (← whnf arg).getAppFnArgs with
+    | (``Arc.ofPoints, #[(Expr.fvar v1),(Expr.fvar v2),(Expr.fvar v3)]) => return .ok  <| ← mkFvarOp3 "ArcPPP" v1 v2 v3
+    | _ => return  .error "[Smt.Translator] Improper input to Arc.measure"
+| .app (.const ``CircularSegment.area _ ) arg => do
+    match (← whnf arg).getAppFnArgs with
+    | (``CircularSegment.ofPoints, #[(Expr.fvar v1),(Expr.fvar v2),(Expr.fvar v3)]) => return .ok  <| ← mkFvarOp3 "CSegPPP" v1 v2 v3
+    | _ => return  .error "[Smt.Translator] Improper input to CircularSegment.area"
 | e =>
   match e.getAppFnArgs with
   | (``OfNat.ofNat, #[_, _, e]) => return .ok <| ← translateNumeric e
@@ -89,6 +97,8 @@ def translateGeoAux (e : Expr) : EsmtM  (TranslationResult String) :=
  match e.getAppFnArgs with
   | (``Angle.ofPoints, #[(.fvar v1),(.fvar v2),(.fvar v3)]) => return .ok  <| ← mkFvarOp3 "AnglePPP" v1 v2 v3
   | (``Triangle.ofPoints, #[(.fvar v1),(.fvar v2),(.fvar v3)]) => return .ok  <| ← mkFvarOp3 "AreaPPP" v1 v2 v3
+  | (``Arc.ofPoints, #[(.fvar v1),(.fvar v2),(.fvar v3)]) => return .ok  <| ← mkFvarOp3 "ArcPPP" v1 v2 v3
+  | (``CircularSegment.ofPoints, #[(.fvar v1),(.fvar v2),(.fvar v3)]) => return .ok  <| ← mkFvarOp3 "CSegPPP" v1 v2 v3
   | x => return .error s!"[Smt.Translator] Expected geometric object, got {x}"
 
 /-Translate geometric objects -/

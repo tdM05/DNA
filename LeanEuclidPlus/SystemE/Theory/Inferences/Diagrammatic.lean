@@ -324,6 +324,40 @@ axiom intersection_circle_circle_2: ∀ (a b : Point) (α β : Circle),
   (a.onCircle α) → (b.insideCircle α) → (a.insideCircle β) → (b.onCircle β) →
   α.intersectsCircle β
 
+-- ********
+-- Arc-crossing trichotomy (the "miss" case of III.24).
+-- ********
+axiom segment_arc_crossing : ∀ (e c f d : Point) (CD : Line) (α β : Circle),
+  formCircularSegment c e d CD α ∧ formCircularSegment c f d CD β ∧
+  e.sameSide f CD ∧
+  ¬ (CircularSegment.ofPoints c e d).inside  (CircularSegment.ofPoints c f d) ∧
+  ¬ (CircularSegment.ofPoints c e d).outside (CircularSegment.ofPoints c f d) →
+  ∃ g : Point, g.onCircle α ∧ g.onCircle β ∧ g ≠ c ∧ g ≠ d
+
+-- ********
+-- Equal inscribed angle ⟹ no nesting. Not in [Avigad et al., 2009]; the inscribed-angle-uniqueness
+-- fact (III.23-family), needed to exclude the inside/outside cases of III.24 that Euclid's cited
+-- ********
+axiom segment_equal_angle_no_nest : ∀ (e c f d : Point) (CD : Line) (α β : Circle),
+  formCircularSegment c e d CD α ∧ formCircularSegment c f d CD β ∧
+  e.sameSide f CD ∧ (∠ c:e:d : ℝ) = (∠ c:f:d) →
+  ¬ (CircularSegment.ofPoints c e d).inside  (CircularSegment.ofPoints c f d) ∧
+  ¬ (CircularSegment.ofPoints c e d).outside (CircularSegment.ofPoints c f d)
+
+-- ********
+-- Common Notion 4: things which coincide are equal. Not in [Avigad et al., 2009]. Cited by III.24
+-- ("it will coincide, and will be equal to it [C.N.4]"). Two circular segments that COINCIDE (the
+-- same region — `CircularSegment.coincides`) have equal area.
+--
+-- Soundness (F×F): `coincides` gives one circle γ, one chord `c`–`d`, and arc points on the same
+-- side; a circle meets a line in ≤2 points, so on that side the arc between c,d is unique — the two
+-- segments are the identical region, hence equal area. True in every Euclidean field. This is
+-- well-definedness of segment area (independence from the arc-point label), NOT III.24 (which
+-- relates DIFFERENT chords/circles); it fires only once coincidence is already established.
+-- ********
+axiom coincide_equal_area : ∀ (s t : CircularSegment),
+  s.coincides t → (s : ℝ) = (t : ℝ)
+
 -- ******** parallelogram rules ********
 -- /--
 -- Not in [Avigad et al., 2009]

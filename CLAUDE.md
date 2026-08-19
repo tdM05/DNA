@@ -145,18 +145,42 @@ that is **our unfaithfulness — FIX it, do not mark it.** (Worked: `Book3/Prop0
 real `@euclid_gap`s [diameter degeneracy]; `Book3/Prop01` [off-circle C] and `Book3/Prop05`,`Prop06`
 [added betweenness] were unfaithfulness, fixed not marked.)
 
-**⛔ "System E is missing an axiom" is almost always a MIS-PROOF — do NOT draft a new axiom.** Books 1–3
-added exactly ONE axiom (Def I.15's centre-*existence* clause, a Euclid **Definition**, human-authorized).
-A candidate axiom MUST be a **specific named Euclid Postulate/Definition** you can cite verbatim; a
-**derived proposition** ("outer-circle point is outside the inner circle", "two common points ⟹ circles
-cross", any containment/nesting lemma) is a THEOREM to prove, never an axiom — its non-derivability means
-YOUR proof is wrong. Extra red flag: if the unprovable thing is a `have`/construction *you inserted* (not
-one of Euclid's mapped sentences), suspect it is **FALSE** and check it against the proof's OWN later steps
-before anything else. (III.11 disaster: agent inserted `have … between g d h`, couldn't prove it, and drafted
-`non_intersecting_circles_outer_point_outside` — but that betweenness is refuted by the proof's own step 4
-`AG > GH` [inner-radius > GH ⟹ H *inside*, not outside], and the "axiom" was just a containment theorem.
-Full ladder in the `prove-euclid` skill's anti-axiom rule.) Editing `SystemE/**` is hard-denied to the
-agent; never "ask and proceed" — STOP and hand the human a written analysis.
+**Adding axioms — TWO regimes. Know which you are in.**
+
+**Regime 1 — finishing a prop in a Book whose vocabulary already exists (Books 1–3).** Here "System E
+is missing an axiom" is almost always a MIS-PROOF — do NOT draft a new axiom. Prove it instead. Red
+flag: if the unprovable thing is a `have`/construction *you inserted* (not one of Euclid's mapped
+sentences), suspect it is **FALSE** and check it against the proof's OWN later steps before anything
+else. (III.11 disaster: agent inserted `have … between g d h`, couldn't prove it, and drafted
+`non_intersecting_circles_outer_point_outside` — but that betweenness is refuted by the proof's own
+step 4 `AG > GH` [inner-radius > GH ⟹ H *inside*, not outside], and the "axiom" was just a containment
+theorem. Full ladder in the `prove-euclid` skill's anti-axiom rule.)
+
+**Regime 2 — EXTENDING System E for a Book that needs new vocabulary (Books 4–13: arcs, circular
+segments, ratio, solids, …).** Some propositions genuinely cannot even be STATED, let alone proved, in
+the current six-sorted language — these need new sorts / relations / axioms, and adding them is the
+task, not a mis-step. When you are here:
+- A new axiom does **NOT** have to be a citable Euclid Postulate/Definition/CN. System E itself
+  axiomatizes many **diagrammatic / continuity** facts that are nowhere in Euclid (`pasch_`,
+  `triple_incidence_`, the intersection axioms, `same_side_pigeon_hole`, …) — Manders/Avigad's whole
+  point is that diagram-reading is *codified as axioms*. A crossing/continuity/well-definedness fact is
+  a legitimate axiom **kind**, same category as those.
+- **Every candidate axiom must still pass three gates:** (1) SOUND — true in the intended ℝ² model
+  (this is non-negotiable; a false axiom makes the system prove falsehoods); (2) NOT a proved Euclid
+  proposition in disguise — do not axiomatize the very theorem you are proving (e.g. for III.24, "equal
+  chord + equal inscribed angle ⟹ equal segments" IS III.24 — forbidden; but "COINCIDENT segments have
+  equal area" is C.N.4-level and fine, because coincidence is what the proof *establishes*, not the
+  hypothesis); (3) MINIMAL / general — prefer a primitive that many steps use over a bespoke one-shot
+  implication; a magnitude sort follows the opaque-function-of-points pattern (`length`/`area`/`degree`);
+  a relation follows the opaque `… → Prop` pattern in `Relations.lean`.
+- **Sorts and relations (opaque, no axioms) are conservative** — they add a name, provably cannot make
+  anything new provable, so they are always safe to add first; only the *axioms* about them need the
+  three gates.
+- **New sorts/relations/axioms need a matching SMT-translator case** (`SystemE/Meta/Smt/Translator.lean`)
+  before `euclid_finish` can reason about them — statements/maps don't need this, proofs do.
+
+**Both regimes: editing `SystemE/**` is hard-denied to the agent.** Never "ask and proceed." Write the
+candidate + its soundness/gate analysis and hand it to the human, who makes the edit.
 
 ## Wrong SOURCE citation — waive it with `@suppress_deps_check` (a CITATION-metadata bug, ≠ a proof gap)
 
