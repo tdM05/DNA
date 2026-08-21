@@ -27,6 +27,12 @@ lean_lib Book2 {
 lean_lib Book3 {
 }
 
+-- Metatheory: ℝ² soundness proofs for the new axioms.  Imports only Mathlib (independent of
+-- System E), so it never drags in the base axioms.  See AxiomSoundnessProofs/better_plan.md.
+-- Not a default_target: built explicitly via `safe_build.sh AxiomSoundnessProofs`.
+lean_lib AxiomSoundnessProofs {
+}
+
 -- unfaithful (compiling) Book 2 proofs from commit 78d740cc, kept as a reference
 -- source.  Isolated: nothing co-imports it (it shares Elements.Book2 names).
 lean_lib Book2Unfaithful {

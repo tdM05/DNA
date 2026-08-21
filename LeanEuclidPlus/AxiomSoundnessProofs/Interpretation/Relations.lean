@@ -1,0 +1,50 @@
+import AxiomSoundnessProofs.Interpretation.Helpers
+
+/-!
+# ℝ² interpretation — relations
+
+Mirrors `SystemE/Theory/Relations.lean`.  One `def` per `opaque` relation there.
+(The `abbrev`/`def` relations in System E — `distinctPointsOnLine`, `opposingSides`,
+`outsideCircle`, `formTriangle`, `formCircularSegment`, `coincides`, … — are TRANSPARENT: they
+unfold to these primitives, so they get no separate interpretation.  We still give the couple
+that our current proofs consume directly.)
+-/
+
+namespace ESound
+
+/-- **`Point.onLine`** `p L` ↦ `ℓ_L(p) = 0`. -/
+def onLine (p : Pt) (L : Line) : Prop := ℓ L p = 0
+
+/-- **`Point.sameSide`** `p q L` ↦ `ℓ_L(p)·ℓ_L(q) > 0` (strictly same sign, so both off `L`). -/
+def sameSide (p q : Pt) (L : Line) : Prop := ℓ L p * ℓ L q > 0
+
+/-- **`collinear`** `a b c` ↦ the cross-product `(b−a)×(c−a) = 0`. -/
+def collinear (a b c : Pt) : Prop := cross (b - a) (c - a) = 0
+
+/-- **`between`** `a b c` ↦ `b` strictly between `a` and `c`: `b = a + t·(c − a)` for some
+`t ∈ (0,1)`.  (Collinearity is implied by the parametric form, so it needs no separate conjunct.) -/
+def between (a b c : Pt) : Prop :=
+  ∃ t : ℝ, 0 < t ∧ t < 1 ∧ b = a + t • (c - a)
+
+/-- **`Point.onCircle`** `p γ` ↦ `(pₓ−ox)² + (p_y−oy)² = ρ²`. -/
+def onCircle (p : Pt) (γ : Circle) : Prop := (p.1 - γ.ox)^2 + (p.2 - γ.oy)^2 = γ.ρ^2
+
+/-- **`Point.insideCircle`** `p γ` ↦ `(pₓ−ox)² + (p_y−oy)² < ρ²`. -/
+def insideCircle (p : Pt) (γ : Circle) : Prop := (p.1 - γ.ox)^2 + (p.2 - γ.oy)^2 < γ.ρ^2
+
+/-- **`Point.isCentre`** `p γ` ↦ `p = (ox, oy)`. -/
+def isCentre (p : Pt) (γ : Circle) : Prop := p.1 = γ.ox ∧ p.2 = γ.oy
+
+/-- **`Line.intersectsLine`** `L M` ↦ some point lies on both. -/
+def Line.intersectsLine (L M : Line) : Prop := ∃ p : Pt, onLine p L ∧ onLine p M
+
+/-- **`Line.intersectsCircle`** `L γ` ↦ some point lies on `L` and on `γ`. -/
+def Line.intersectsCircle (L : Line) (γ : Circle) : Prop := ∃ p : Pt, onLine p L ∧ onCircle p γ
+
+/-- **`Circle.intersectsCircle`** `α β` ↦ some point lies on both circles. -/
+def Circle.intersectsCircle (α β : Circle) : Prop := ∃ p : Pt, onCircle p α ∧ onCircle p β
+
+/-- **`distinctPointsOnLine`** — System E's transparent `abbrev`, given here for proofs to use. -/
+def distinctPointsOnLine (p q : Pt) (L : Line) : Prop := onLine p L ∧ onLine q L ∧ p ≠ q
+
+end ESound
