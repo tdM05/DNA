@@ -103,6 +103,18 @@ Relations: `onLine`, `sameSide`, `collinear`, `between`, `onCircle`, `insideCirc
 2. **The traversal is trusted code.** If it mishandles a connective, translation is wrong;
    it is written and reviewed once.
 
+## Interpretation helpers (`cross`, `dot`) — convention
+
+`collinear`, `circumDet`, `chordForm`, `triArea` route through `cross u v := u.1*v.2 − u.2*v.1`
+(2-D cross), and `ℓ` through `dot u v := u.1*v.1 + u.2*v.2`, so the definitions read as the vector
+expressions in their comments.  Cost in proofs: after `unfold`ing such a def to hand it to
+`ring`/`linarith`, you MUST also `simp only [Prod.fst_sub, Prod.snd_sub]` — because `cross (b-a)(c-a)`
+yields `(b-a).1`, which `ring` treats as an atom until the projection is pushed through the
+subtraction.  (Symptom if forgotten: opaque `ring failed` with `(p-c).1`-style atoms.)
+**When a SECOND proof needs `cross`/`dot`, add `@[simp]` lemmas `cross_eq`/`dot_eq` (the component
+form)** so `simp [cross_eq, dot_eq]` does unfold+projection in one step — neutralises the only
+recurring friction.  Not needed for one proof.
+
 ## Build order
 
 1. Interpretation table (~21 entries).

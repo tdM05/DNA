@@ -1,17 +1,25 @@
-import AxiomSoundnessProofs.Interpretation.Primitives
+import AxiomSoundnessProofs.Interpretation.Helpers
 import Mathlib.Analysis.SpecialFunctions.Sqrt
 
 /-!
 # ℝ² interpretation — segments
 
-Mirrors `SystemE/Theory/Sorts/Segments.lean`.  Object sort `Segment` is `endpoints a b`;
-the opaque magnitude to interpret is `length`.
+Mirrors `SystemE/Theory/Sorts/Segments.lean`.  The SORT `Segment` (`endpoints a b`) gets a carrier
+and its constructor; the opaque magnitude `length` becomes a function on that carrier.
 -/
 
-namespace ESound
+namespace RInterp
 
-/-- **`Segment.length` (`|a─b|`)** ↦ Euclidean distance `√((bₓ−aₓ)² + (b_y−a_y)²)`. -/
-noncomputable def length (a b : Pt) : ℝ :=
-  Real.sqrt ((b.1 - a.1)^2 + (b.2 - a.2)^2)
+/-- **`Segment`** (sort) ↦ its two endpoints. -/
+structure Segment where
+  a : Pt
+  b : Pt
 
-end ESound
+/-- **`Segment.endpoints`** (constructor) ↦ the two endpoints. -/
+def Segment.endpoints (a b : Pt) : Segment := ⟨a, b⟩
+
+/-- **`Segment.length` (`|a─b|`)** ↦ Euclidean distance `√‖b − a‖²`. -/
+noncomputable def Segment.length (s : Segment) : ℝ :=
+  Real.sqrt (dot (s.b - s.a) (s.b - s.a))
+
+end RInterp

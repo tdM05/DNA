@@ -1,4 +1,5 @@
 import AxiomSoundnessProofs.Interpretation
+import AxiomSoundnessProofs.Proofs.VectorLemmas
 import AxiomSoundnessProofs.Proofs.CoincideEqualArea
 
 /-!

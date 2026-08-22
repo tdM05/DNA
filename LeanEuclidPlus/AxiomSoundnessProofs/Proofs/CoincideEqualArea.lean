@@ -1,4 +1,5 @@
 import AxiomSoundnessProofs.Interpretation
+import AxiomSoundnessProofs.Proofs.VectorLemmas
 
 /-!
 # Soundness of `coincide_equal_area` in ℝ²
@@ -21,7 +22,7 @@ non-collinear points determine the SAME disk (circumcircle uniqueness); (2) same
 ⟹ same half-plane.
 -/
 
-namespace ESound
+namespace RInterp
 
 open MeasureTheory
 
@@ -55,37 +56,35 @@ lemma onLine_of_collinear {L : Line} {c d e : Pt}
 lemma circumcenter_eq {a b c : Pt} {γ : Circle}
     (hnc : ¬ collinear a b c)
     (ha : onCircle a γ) (hb : onCircle b γ) (hc : onCircle c γ) :
-    circumcenter a b c = (γ.ox, γ.oy) := by
-  unfold collinear cross at hnc
-  simp only [Prod.fst_sub, Prod.snd_sub] at hnc
-  unfold onCircle at ha hb hc
+    circumcenter a b c = γ.c := by
+  unfold collinear at hnc; simp only [cross_sub] at hnc
+  unfold onCircle at ha hb hc; simp only [dot_sub] at ha hb hc
   have hdne : circumDet a b c ≠ 0 := by
-    intro h; apply hnc; unfold circumDet cross at h
-    simp only [Prod.fst_sub, Prod.snd_sub] at h; linarith
+    intro h; apply hnc; unfold circumDet at h; simp only [cross_sub] at h; linarith
   unfold circumcenter
-  simp only [Prod.mk.injEq]
+  -- goal: (…/D, …/D) = γ.c ;  split into the two coordinate equations.
+  rw [Prod.ext_iff]
   refine ⟨?_, ?_⟩
-  · rw [div_eq_iff hdne]
-    unfold circumDet cross
-    simp only [Prod.fst_sub, Prod.snd_sub]
+  · show _ / circumDet a b c = (γ.c).1
+    rw [div_eq_iff hdne]; unfold circumDet; simp only [cross_sub]
     linear_combination (b.2 - c.2) * ha + (c.2 - a.2) * hb + (a.2 - b.2) * hc
-  · rw [div_eq_iff hdne]
-    unfold circumDet cross
-    simp only [Prod.fst_sub, Prod.snd_sub]
+  · show _ / circumDet a b c = (γ.c).2
+    rw [div_eq_iff hdne]; unfold circumDet; simp only [cross_sub]
     linear_combination (c.1 - b.1) * ha + (a.1 - c.1) * hb + (b.1 - a.1) * hc
 
 /-- For a non-collinear triple on `γ`, the recomputed disk is exactly `γ`'s closed disk. -/
 lemma diskOf_eq {a b c : Pt} {γ : Circle}
     (hnc : ¬ collinear a b c)
     (ha : onCircle a γ) (hb : onCircle b γ) (hc : onCircle c γ) :
-    diskOf a b c = { p : Pt | (p.1 - γ.ox)^2 + (p.2 - γ.oy)^2 ≤ γ.ρ^2 } := by
+    diskOf a b c = { p : Pt | dot (p - γ.c) (p - γ.c) ≤ γ.r^2 } := by
   unfold diskOf
   rw [circumcenter_eq hnc ha hb hc]
-  simp only
-  have : (a.1 - γ.ox)^2 + (a.2 - γ.oy)^2 = γ.ρ^2 := ha
   ext p
-  simp only [Set.mem_setOf_eq]
-  rw [this]
+  simp only [Set.mem_setOf_eq, dot_sub]
+  -- radius² = ‖a − c‖², rewritten from `ha`
+  have hr : (a.1 - γ.c.1) * (a.1 - γ.c.1) + (a.2 - γ.c.2) * (a.2 - γ.c.2) = γ.r^2 := by
+    have := ha; unfold onCircle at this; simp only [dot_sub] at this; linarith
+  rw [hr]
 
 /-- **Proportionality bridge.** `chordForm c d` (the region's chord form, built from the two
 endpoints) and `ℓ CD` (the line's own affine form) represent the same line, hence are proportional
@@ -178,18 +177,19 @@ theorem coincide_equal_area
     (hfγ  : onCircle f γ)
     -- e.sameSide f CD :
     (hss  : sameSide e f CD) :
-    segArea c e d = segArea c f d := by
+    (CircularSegment.ofPoints c e d).area = (CircularSegment.ofPoints c f d).area := by
   obtain ⟨hcL, hdL, hcd'⟩ := hcd
   -- both triples are non-collinear (arc point off the chord ⟹ not on line(c,d))
   have hnce : ¬ collinear c e d := fun hcol => he (onLine_of_collinear hcL hdL hcd' hcol)
   have hncf : ¬ collinear c f d := fun hcol => hf (onLine_of_collinear hcL hdL hcd' hcol)
   -- the two regions coincide
-  have hregion : segRegion c e d = segRegion c f d := by
-    unfold segRegion
+  have hregion : (CircularSegment.ofPoints c e d).region
+      = (CircularSegment.ofPoints c f d).region := by
+    unfold CircularSegment.region CircularSegment.ofPoints
     rw [if_neg hnce, if_neg hncf,
         diskOf_eq hnce hcγ heγ hdγ, diskOf_eq hncf hcγ hfγ hdγ,
         halfOf_eq hcL hdL hcd' hss]
-  unfold segArea
+  unfold CircularSegment.area
   rw [hregion]
 
-end ESound
+end RInterp

@@ -7,7 +7,7 @@ Mirrors `SystemE/Theory/Sorts/Primitives.lean`.  One object per primitive sort.
 Each declaration here IS the interpretation `I(sort)` of a System-E carrier; nothing else.
 -/
 
-namespace ESound
+namespace RInterp
 
 /-- **`Point`** ↦ `ℝ × ℝ`. -/
 abbrev Pt := ℝ × ℝ
@@ -19,11 +19,10 @@ structure Line where
   c : ℝ
   nondeg : a ≠ 0 ∨ b ≠ 0
 
-/-- **`Circle`** ↦ centre `(ox, oy)` and radius `ρ > 0`. -/
+/-- **`Circle`** ↦ centre `c : Pt` (a point of ℝ²) and radius `r > 0`. -/
 structure Circle where
-  ox : ℝ
-  oy : ℝ
-  ρ : ℝ
-  pos : ρ > 0
+  c : Pt
+  r : ℝ
+  pos : r > 0
 
-end ESound
+end RInterp

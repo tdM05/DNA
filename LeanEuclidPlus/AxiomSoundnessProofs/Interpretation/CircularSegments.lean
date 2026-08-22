@@ -3,34 +3,44 @@ import AxiomSoundnessProofs.Interpretation.Relations
 /-!
 # ℝ² interpretation — circular segments
 
-Mirrors `SystemE/Theory/Sorts/CircularSegments.lean` (the `area` magnitude) plus the
-`CircularSegment.inside` / `.outside` relations from `SystemE/Theory/Relations.lean`.
+Mirrors `SystemE/Theory/Sorts/CircularSegments.lean` (the SORT `CircularSegment` + its `area`
+magnitude) and the `CircularSegment.inside` / `.outside` relations from `SystemE/Theory/Relations.lean`.
 
-The object sort `CircularSegment` is `ofPoints a b c`.  The segment REGION (part of the disk
-through `a,b,c` on `b`'s side of chord `a─c`) is the scaffolding for `area`; kept `private` here
-since it interprets no primitive on its own.
+The sort `CircularSegment` (`ofPoints a b c`) is interpreted by a carrier and its constructor; the
+segment REGION (part of the disk through `a,b,c` on `b`'s side of chord `a─c`) is the scaffolding
+`area`/`inside`/`outside` are defined from.
 -/
 
-namespace ESound
+namespace RInterp
 
 open MeasureTheory Classical
 
-/-- The segment region: `disk ∩ half-plane`, or `∅` if `a,b,c` are collinear (junk value so
-`area` is total, exactly as in the paper interpretation).  Scaffolding for `segArea` (interprets
-no primitive on its own, but exposed so soundness proofs can reason about the region). -/
-noncomputable def segRegion (a b c : Pt) : Set Pt :=
-  if collinear a b c then ∅ else diskOf a b c ∩ halfOf a b c
+/-- **`CircularSegment`** (sort) ↦ its three points (`a`, `c` chord endpoints, `b` on the arc). -/
+structure CircularSegment where
+  a : Pt
+  b : Pt
+  c : Pt
+
+/-- **`CircularSegment.ofPoints`** (constructor) ↦ the three points. -/
+def CircularSegment.ofPoints (a b c : Pt) : CircularSegment := ⟨a, b, c⟩
+
+/-- The 2-D REGION a circular segment denotes: the part of the disk through its three points on the
+arc-point's side of the chord — `disk ∩ half-plane` — or `∅` if the three points are collinear
+(junk value so `area` is total, exactly as in the paper interpretation).  This is the geometric
+meaning of the sort; `area`/`inside`/`outside` are all defined from it. -/
+noncomputable def CircularSegment.region (s : CircularSegment) : Set Pt :=
+  if collinear s.a s.b s.c then ∅ else diskOf s.a s.b s.c ∩ halfOf s.a s.b s.c
 
 /-- **`CircularSegment.area` (`⌓ a:b:c`)** ↦ the Lebesgue area of the segment region. -/
-noncomputable def segArea (a b c : Pt) : ℝ := (volume (segRegion a b c)).toReal
+noncomputable def CircularSegment.area (s : CircularSegment) : ℝ :=
+  (volume s.region).toReal
 
 /-- **`CircularSegment.inside`** `s t` ↦ `s`'s region ⊆ `t`'s region (proper). -/
-def segInside (sa sb sc ta tb tc : Pt) : Prop :=
-  segRegion sa sb sc ⊂ segRegion ta tb tc
+def CircularSegment.inside (s t : CircularSegment) : Prop := s.region ⊂ t.region
 
 /-- **`CircularSegment.outside`** `s t` ↦ the regions meet only in the shared chord (interiors
 disjoint). -/
-def segOutside (sa sb sc ta tb tc : Pt) : Prop :=
-  interior (segRegion sa sb sc) ∩ interior (segRegion ta tb tc) = ∅
+def CircularSegment.outside (s t : CircularSegment) : Prop :=
+  interior s.region ∩ interior t.region = ∅
 
-end ESound
+end RInterp
