@@ -68,7 +68,7 @@ theorem exists_unique_circumcenter (a b c : Pt) (h : ¬ collinear a b c) :
       linear_combination (c.2 - b.2) * h1 + (a.2 - b.2) * h2
     · show o.2 = _
       field_simp
-      linear_combination (c.1 - b.1) * h1 + (a.1 - b.1) * h2
+      linear_combination (b.1 - c.1) * h1 + (b.1 - a.1) * h2
 
 /-- `(p − a) × (c − a)`, whose sign says which side of chord `a─c` the point `p` is on. -/
 def chordForm (a c : Pt) (p : Pt) : ℝ := cross (p - a) (c - a)

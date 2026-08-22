@@ -1,4 +1,4 @@
-import AxiomSoundnessProofs.Interpretation.Helpers
+import AxiomSoundnessProofs.Interpretation.CircularSegments
 
 /-!
 # ℝ² interpretation — relations
@@ -43,5 +43,15 @@ def Circle.intersectsCircle (α β : Circle) : Prop := ∃ p : Pt, onCircle p α
 
 /-- **`distinctPointsOnLine`** — System E's transparent `abbrev`, given here for proofs to use. -/
 def distinctPointsOnLine (p q : Pt) (L : Line) : Prop := onLine p L ∧ onLine q L ∧ p ≠ q
+
+/-- **`CircularSegment.inside`** `s t` (III.24 "falls inside it") ↦ `s`'s region is enclosed in
+`t`'s: `s.region ⊂ t.region` (proper subset). -/
+def CircularSegment.inside (s t : CircularSegment) : Prop := s.region ⊂ t.region
+
+/-- **`CircularSegment.outside`** `s t` (III.24 "outside it") ↦ the MIRROR of `inside`: `t`'s region
+is enclosed in `s`'s, `t.region ⊂ s.region`.  Then III.24's trichotomy
+`inside ∨ outside ∨ (¬inside ∧ ¬outside)` reads as: `s ⊂ t` / `t ⊂ s` / incomparable (the "miss",
+where the arcs cross) — matching `Book3/Prop24/Main.lean` line 115.  NOT `¬inside`. -/
+def CircularSegment.outside (s t : CircularSegment) : Prop := t.region ⊂ s.region
 
 end RInterp

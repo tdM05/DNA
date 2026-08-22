@@ -1,4 +1,4 @@
-import AxiomSoundnessProofs.Interpretation.Relations
+import AxiomSoundnessProofs.Interpretation.Helpers
 
 /-!
 # ℝ² interpretation — circular segments
@@ -24,23 +24,10 @@ structure CircularSegment where
 /-- **`CircularSegment.ofPoints`** (constructor) ↦ the three points. -/
 def CircularSegment.ofPoints (a b c : Pt) : CircularSegment := ⟨a, b, c⟩
 
-/-- The 2-D REGION a circular segment denotes: the part of the disk through its three points on the
-arc-point's side of the chord — `disk ∩ half-plane` — or `∅` if the three points are collinear
-(junk value so `area` is total, exactly as in the paper interpretation).  This is the geometric
-meaning of the sort; `area`/`inside`/`outside` are all defined from it. -/
 noncomputable def CircularSegment.region (s : CircularSegment) : Set Pt :=
-  if collinear s.a s.b s.c then ∅ else diskOf s.a s.b s.c ∩ halfOf s.a s.b s.c
+  if h : collinear s.a s.b s.c then ∅ else diskOf s.a s.b s.c h ∩ halfOf s.a s.b s.c
 
-/-- **`CircularSegment.area` (`⌓ a:b:c`)** ↦ the Lebesgue area of the segment region. -/
 noncomputable def CircularSegment.area (s : CircularSegment) : ℝ :=
   (volume s.region).toReal
-
-/-- **`CircularSegment.inside`** `s t` ↦ `s`'s region ⊆ `t`'s region (proper). -/
-def CircularSegment.inside (s t : CircularSegment) : Prop := s.region ⊂ t.region
-
-/-- **`CircularSegment.outside`** `s t` ↦ the regions meet only in the shared chord (interiors
-disjoint). -/
-def CircularSegment.outside (s t : CircularSegment) : Prop :=
-  interior s.region ∩ interior t.region = ∅
 
 end RInterp

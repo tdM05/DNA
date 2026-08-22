@@ -52,38 +52,37 @@ lemma onLine_of_collinear {L : Line} {c d e : Pt}
     · exact (mul_eq_zero.mp h2).resolve_right h
   linarith [hg0]
 
-/-- Three concyclic non-collinear points have circumcentre = the circle's centre. -/
+/-- The circle's centre `γ.c` is equidistant from any three points on `γ`. -/
+lemma equidistant_center {a b c : Pt} {γ : Circle}
+    (ha : onCircle a γ) (hb : onCircle b γ) (hc : onCircle c γ) :
+    Equidistant a b c γ.c := by
+  unfold onCircle dot at ha hb hc
+  simp only [Prod.fst_sub, Prod.snd_sub] at ha hb hc
+  refine ⟨?_, ?_⟩ <;>
+    simp only [Equidistant, dot, Prod.fst_sub, Prod.snd_sub] <;> nlinarith [ha, hb, hc]
+
+/-- Three concyclic non-collinear points have circumcentre = the circle's centre.
+The centre `γ.c` is equidistant (`equidistant_center`), and the circumcentre is the UNIQUE
+equidistant point, so they coincide — no coordinate formula needed. -/
 lemma circumcenter_eq {a b c : Pt} {γ : Circle}
     (hnc : ¬ collinear a b c)
     (ha : onCircle a γ) (hb : onCircle b γ) (hc : onCircle c γ) :
-    circumcenter a b c = γ.c := by
-  unfold collinear at hnc; simp only [cross_sub] at hnc
-  unfold onCircle at ha hb hc; simp only [dot_sub] at ha hb hc
-  have hdne : circumDet a b c ≠ 0 := by
-    intro h; apply hnc; unfold circumDet at h; simp only [cross_sub] at h; linarith
-  unfold circumcenter
-  -- goal: (…/D, …/D) = γ.c ;  split into the two coordinate equations.
-  rw [Prod.ext_iff]
-  refine ⟨?_, ?_⟩
-  · show _ / circumDet a b c = (γ.c).1
-    rw [div_eq_iff hdne]; unfold circumDet; simp only [cross_sub]
-    linear_combination (b.2 - c.2) * ha + (c.2 - a.2) * hb + (a.2 - b.2) * hc
-  · show _ / circumDet a b c = (γ.c).2
-    rw [div_eq_iff hdne]; unfold circumDet; simp only [cross_sub]
-    linear_combination (c.1 - b.1) * ha + (a.1 - c.1) * hb + (b.1 - a.1) * hc
+    (exists_unique_circumcenter a b c hnc).choose = γ.c := by
+  have hspec := (exists_unique_circumcenter a b c hnc).choose_spec
+  exact (exists_unique_circumcenter a b c hnc).unique hspec.1
+    (equidistant_center ha hb hc)
 
-/-- For a non-collinear triple on `γ`, the recomputed disk is exactly `γ`'s closed disk. -/
+/-- For a non-collinear triple on `γ`, the disk through `a,b,c` is exactly `γ`'s closed disk. -/
 lemma diskOf_eq {a b c : Pt} {γ : Circle}
     (hnc : ¬ collinear a b c)
     (ha : onCircle a γ) (hb : onCircle b γ) (hc : onCircle c γ) :
-    diskOf a b c = { p : Pt | dot (p - γ.c) (p - γ.c) ≤ γ.r^2 } := by
+    diskOf a b c hnc = { p : Pt | dot (p - γ.c) (p - γ.c) ≤ γ.r^2 } := by
   unfold diskOf
   rw [circumcenter_eq hnc ha hb hc]
   ext p
-  simp only [Set.mem_setOf_eq, dot_sub]
-  -- radius² = ‖a − c‖², rewritten from `ha`
-  have hr : (a.1 - γ.c.1) * (a.1 - γ.c.1) + (a.2 - γ.c.2) * (a.2 - γ.c.2) = γ.r^2 := by
-    have := ha; unfold onCircle at this; simp only [dot_sub] at this; linarith
+  simp only [Set.mem_setOf_eq]
+  -- radius² = ‖a − γ.c‖², from `ha`
+  have hr : dot (a - γ.c) (a - γ.c) = γ.r^2 := ha
   rw [hr]
 
 /-- **Proportionality bridge.** `chordForm c d` (the region's chord form, built from the two
@@ -186,7 +185,7 @@ theorem coincide_equal_area
   have hregion : (CircularSegment.ofPoints c e d).region
       = (CircularSegment.ofPoints c f d).region := by
     unfold CircularSegment.region CircularSegment.ofPoints
-    rw [if_neg hnce, if_neg hncf,
+    rw [dif_neg hnce, dif_neg hncf,
         diskOf_eq hnce hcγ heγ hdγ, diskOf_eq hncf hcγ hfγ hdγ,
         halfOf_eq hcL hdL hcd' hss]
   unfold CircularSegment.area

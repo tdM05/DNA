@@ -22,7 +22,7 @@ opaque collinear (a b c : Point) : Prop
 /--
 `between x y z` means `y` is between `x` and `z`
 -/
-opaque between : Point → Point → Point → Prop
+opaque between : Point → Point → okPoint → Prop
 
 
 namespace Point
