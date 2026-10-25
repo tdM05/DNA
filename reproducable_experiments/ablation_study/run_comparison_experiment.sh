@@ -87,6 +87,7 @@ MEMDIR="$HOME/.claude/projects/$(echo "$MEM_ROOT" | sed 's#[^a-zA-Z0-9]#-#g')/me
 
 # ---- args ------------------------------------------------------------------
 MODE=""; BOOK=""; PROP=""; BUDGET=50.00; MODEL=opus
+MODEL_ID="us.anthropic.claude-opus-4-8[1m]"   # real Bedrock id passed to `claude --model`; MODEL stays the folder-label alias
 while [ $# -gt 0 ]; do
   case "$1" in
     --ablated)   MODE=ablated ;;
@@ -379,7 +380,7 @@ DRIVER_PID=$$
 WD=$!
 echo "--- $rel: starting (budget=$BUDGET_DISP · 12h global wall · session $sid) ---"
 mb=(); [ "$UNLIMITED" = 1 ] || mb=(--max-budget-usd "$remaining")   # cost cap arg — omitted entirely when unlimited
-agent_call claude -p "$PROMPT" --model "$MODEL" --session-id "$sid" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"}
+agent_call claude -p "$PROMPT" --model "$MODEL_ID" --session-id "$sid" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"}
 echo "$out" > "$OUT/round0.json"
 while true; do
   tc=$(echo "$out" | jq -r '.total_cost_usd // 0')
@@ -432,7 +433,7 @@ $CONTINUE_PROMPT"
     fi
   fi
   mb=(); [ "$UNLIMITED" = 1 ] || mb=(--max-budget-usd "$remaining")
-  agent_call claude -p "$next_prompt" --resume "$sid" --model "$MODEL" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"}
+  agent_call claude -p "$next_prompt" --resume "$sid" --model "$MODEL_ID" --permission-mode acceptEdits --output-format json ${mb[@]+"${mb[@]}"}
   echo "$out" > "$OUT/round$i.json"
 done
 [ -n "$WD" ] && kill -KILL "$WD" 2>/dev/null; WD=""   # reap the watchdog FIRST so it can't fire during our normal end-code
