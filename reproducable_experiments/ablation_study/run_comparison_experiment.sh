@@ -87,7 +87,7 @@ MEMDIR="$HOME/.claude/projects/$(echo "$MEM_ROOT" | sed 's#[^a-zA-Z0-9]#-#g')/me
 
 # ---- args ------------------------------------------------------------------
 MODE=""; BOOK=""; PROP=""; BUDGET=50.00; MODEL=opus
-MODEL_ID="us.anthropic.claude-opus-4-8[1m]"   # real Bedrock id passed to `claude --model`; MODEL stays the folder-label alias
+MODEL_ID="claude-opus-4-8"   # exact model id passed to `claude --model`; MODEL stays the folder-label alias
 while [ $# -gt 0 ]; do
   case "$1" in
     --ablated)   MODE=ablated ;;
