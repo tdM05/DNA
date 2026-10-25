@@ -25,7 +25,7 @@
 #   bash run_comparison_experiment.sh --my-method --book 1 --prop 47 [--budget 50] [--model opus]
 # ============================================================================
 set -uo pipefail
-unset ANTHROPIC_API_KEY
+unset ANTHROPIC_API_KEY   # AUTH = the logged-in Claude subscription (NOT Bedrock, NOT an API key)
 set +u; source "$HOME/.venvs/leaneuclid/bin/activate"; set -u   # z3/cvc5 on PATH (SMT solvers for lake build)
 # lake itself comes from ELAN, not the venv. A non-login SLURM shell does NOT have ~/.elan/bin on PATH
 # (it only arrives via `sbatch --export=ALL` IF the submitting shell happened to have it — fragile). Put
@@ -87,7 +87,9 @@ MEMDIR="$HOME/.claude/projects/$(echo "$MEM_ROOT" | sed 's#[^a-zA-Z0-9]#-#g')/me
 
 # ---- args ------------------------------------------------------------------
 MODE=""; BOOK=""; PROP=""; BUDGET=50.00; MODEL=opus
-MODEL_ID="claude-opus-4-8"   # exact model id passed to `claude --model`; MODEL stays the folder-label alias
+MODEL_ID="claude-opus-4-8"   # exact subscription model id passed to `claude --model`. NOT a Bedrock id:
+                             # "us.anthropic.claude-opus-4-8[1m]" does NOT resolve here (no Bedrock config)
+                             # and fails the run instantly. MODEL stays the folder-label alias ("opus").
 while [ $# -gt 0 ]; do
   case "$1" in
     --ablated)   MODE=ablated ;;
