@@ -37,10 +37,7 @@ Every rule here is a corollary of that inversion. This methodology was derived t
 brought up to the current pipeline. Do NOT imitate a specific prop's files; follow the structure THIS
 skill describes: the STAGE-A decomposition comment block + per-sentence `euclid_sentence` `have`s. This
 skill is the **how** — how to produce that structure and discharge each step without thrashing.
-In particular, the Prop01–04 off-line / sameSide / right-angle LEAVES are the ⟨OLD HAND-BUILT FORM⟩ of the
-plumbing — NO LONGER the model for those facts: today you discharge them with a one-line `Helpers/`
-library call (see the PARALLEL-RECTANGLE CHAINS section + the `euclid-figures` skill). Cite them for
-STRUCTURE only, never to copy a hand-built chain a lemma now covers.)
+Cite them for STRUCTURE only.)
 
 ---
 
@@ -255,11 +252,9 @@ the skeleton elaborates do you enter Phase 2 to discharge each leaf.
    parent, then SP (`--suppliable F`) to confirm its hyps are present.
 
 4. TRACE THE PROOF BY HAND. Decide the axiom chain. For each `euclid_apply (axiom args)`:
-     - find/read the axiom's signature with `python3 scripts/find.py` (the sanctioned smart-grep over
-       the declaration DB — e.g. `--concludes between` for "what gives me a betweenness", `--mentions
-       sameSide --kind axiom` to see every axiom touching `sameSide`, `--name "pasch_*"` for a family,
-       `--consumes formParallelogram` for "what can I do with a parallelogram I have"); then `Read` the
-       cited `source` line for the exact arg order. (Do NOT shell out to `grep` — it's hook-blocked.)
+     - find/read the axiom's signature in the theory files themselves —
+       `SystemE/Theory/Inferences/{Diagrammatic,Transfer,Metric}.lean` + `Relations.lean` — with bash
+       `grep`/`rg` and the Read tool, for the exact arg order.
      - map every argument and every PRECONDITION to a fact you have,
      - if a precondition isn't present, that's your next sub-goal (recurse: another `have`+backing file).
    Prefer explicit axiom applications over `euclid_finish` for anything non-trivial.
@@ -312,9 +307,8 @@ above it is not necessarily still *in context*. Re-derive it explicitly if a lat
 
 ## PATTERN GALLERY (reusable explicit-axiom chains)
 
-These are the moves that replaced `euclid_finish`-and-hope. Look up exact sigs with
-`python3 scripts/find.py` (the smart-grep — `--mentions <sym>`, `--concludes <sym>`, `--name "<glob>"`),
-then `Read` the `source` line; the axioms live in
+These are the moves that replaced `euclid_finish`-and-hope. Look up exact sigs by reading the theory
+files directly (bash `grep`/`rg` + the Read tool); the axioms live in
 `SystemE/Theory/Inferences/{Diagrammatic,Transfer,Metric}.lean`.
 
 - **Point on opposite sides of a line ⟹ betweenness.** `pasch_4 a b c L M`: `L≠M`, `b∈L∩M`,
@@ -329,11 +323,7 @@ then `Read` the `source` line; the axioms live in
   `sameSide` + one `¬sameSide` across the three concurrent lines, derive a third `sameSide`.
   (Prop47 `f.sameSide a BC` from `a.sameSide c BF`.)
 
-- **Parallel ⟹ same side / off-line.** ⟨LIBRARY FIRST⟩ For Book-2 figures these are now importable
-  lemmas in `Helpers/{OffLine,SameSide}.lean` — `offLine_of_parallel(_simple)(')`,
-  `sameSide_of_parallel('/_both)` — so the fact is ONE `euclid_apply` (hyps by `assumption`), NOT a
-  hand-built leaf; see the `euclid-figures` Family 1/3 boxes for which lemma matches your atoms. The
-  underlying axioms (the FALLBACK when no sibling fits): `intersection_lines_opposing` (contrapositive):
+- **Parallel ⟹ same side / off-line.** The underlying axioms: `intersection_lines_opposing` (contrapositive):
   points on a line that does NOT cross `L` are on the same side of `L`. `intersection_lines_common_point`:
   a point on two distinct lines ⟹ they intersect (use by_contra to prove a point is off a parallel).
   (Prop45 `l.sameSide m GH`.)
@@ -356,9 +346,7 @@ then `Read` the `source` line; the axioms live in
   closes every cheap conjunct (incidences via `assumption`, the easy ones via `euclid_finish`) in one
   sweep, leaving ONLY the genuinely-hard conjunct(s) open — which `try` surfaces by name so you see
   exactly what still needs a `have`. Good for narrowing a 10-part assembly to its 1 hard part.
-  (Ref: `Book2/Prop05/step8.lean` `step8_alpar` — ⟨OLD HAND FORM: that file hand-builds the off-line /
-  sameSide glue inline; the model now is to discharge those sub-facts with `Helpers/` library calls,
-  leaving only the genuine assembly conjunct⟩.)
+  (Ref: `Book2/Prop05/step8.lean` `step8_alpar`.)
   **SCOPE — this does NOT help atomic goals.** On `¬p.onLine L` / `between p q r` (no conjunction to
   split), `repeat' constructor` is a no-op and the macro collapses to a bare `euclid_finish` that
   SEARCHES THE WHOLE FIGURE AND TIMES OUT. Those atomic off-line/betweenness facts still need the
@@ -367,20 +355,14 @@ then `Read` the `source` line; the axioms live in
   for the atomic plumbing. (Empirically, the atomic plumbing — not the assembly — is the real cost
   sink in Book-2 figure steps.)
 
-### THE PARALLEL-RECTANGLE FIGURE CHAINS → see the `euclid-figures` skill
-**LIBRARY FIRST.** For the off-line / sameSide / area-recast / right-angle-from-co-interior shapes there
-is now an importable `Helpers/` lemma — TRY IT FIRST (one `euclid_apply`, hyps by `assumption`, NO
-hand-built leaf), and PROMOTE a new recurring variant into the library rather than re-hand-building it.
-The chains below are the FALLBACK for those families and the genuine method for the rest.
+### THE PARALLEL-RECTANGLE FIGURE CHAINS
 The recurring goal-shapes in "decompose a rectangle by internal parallels" proofs (Book 2 Props 1–8 —
 the bulk of the hours on the done Prop01/02/03 + Prop04) have known axiom-chain recipes: **same-side-of-a-parallel**
 (`intersection_lines_opposing`), **point-off-a-line** / **line-distinctness**, **foot/crossing
 betweenness** (`pasch_3`→`pasch_4`; this is the `between b g d`/`between b k e` shape), **`formParallelogram`
 assembly** (decompose, don't fat-`euclid_finish`), **`rectangle_area`/`sum_parallelograms_area`**
 (extract the precondition first), and the **parallel/angle props** (`proposition_30/29/6/34`). Each is
-rule #8 (explicit application) made concrete. When you hit one, consult the **`euclid-figures`** skill —
-it lists goal-shape → chain → gotcha, grounded in the proven files. Build each as its own `have`+backing
-sub-node; don't re-derive a chain you can look up.
+rule #8 (explicit application) made concrete. Build each as its own `have`+backing sub-node.
 
 > **✅ `linarith` / `nlinarith` / `ring` ARE available — Mathlib is a project dependency.** `ring`,
 > `ring_nf`, `omega`, `simp`, `positivity` come free with the `import SystemE` every backing file has —
@@ -397,7 +379,7 @@ sub-node; don't re-derive a chain you can look up.
 > They obey the same rules as any tactic: a real justified step (rule #1), ≤30s (they're fast), correct
 > node structure. Keep the GEOMETRY in the SMT path (`euclid_apply`/`euclid_finish` equalities as
 > `have`s); put the ARITHMETIC in Mathlib. Canonical shape: `euclid_apply angle_symm …` then `linarith`
-> for the halving (ref `Book2/Prop09/step10.lean`). Full detail in `euclid-figures`.
+> for the halving (ref `Book2/Prop09/step10.lean`).
 
 - **Right-triangle / Pythagoras length algebra.** Pure `|·|` equations: substitute and use
   `s² = t², s,t ≥ 0 ⟹ s = t` (the solver knows `segment_gte_zero`). No geometry needed — strip

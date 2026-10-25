@@ -68,7 +68,7 @@ itself was mid-compile at the kill — which warm deps prevent.
    2. FILLS each `True` → a real claim and each `TODO` → a real type, ONE sentence at a time, building
       `check_step --provable` + `check_faithful` as it goes. Adds any structural FRAME (reductio /
       `by_cases` / `wlog`) or a construction beyond the vocab (superposition → reads `Book/PropNN.lean` +
-      `find.py`/`SystemE`). **Every sentence gets a REAL claim, NEVER `True` at the end, and NEVER a
+      `SystemE`). **Every sentence gets a REAL claim, NEVER `True` at the end, and NEVER a
       restated given (that is an `@assumption`).** Bodies stay `:= by sorry`.
 
    **Sanity-check Criterion 1 (concatenated sentence texts == the canonical original) AND Criterion 4

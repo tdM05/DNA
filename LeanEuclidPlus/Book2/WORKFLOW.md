@@ -112,7 +112,7 @@ separate step.
 ### 3. Importer — `Book2.lean`
 
 `../Book2.lean` (sibling of `../Book.lean`) aggregates the book: it `import`s each prop's
-`Book2.PropNN.Main` submodule (props are folders now — see FAITHFUL.md), plus the `Helpers.*`
+`Book2.PropNN.Main` submodule (props are folders now — see FAITHFUL.md), plus the
 lemma libraries. Add a prop's `import Book2.PropNN.Main` line once it compiles, mirroring
 [../Book.lean](../Book.lean).
 

@@ -19,13 +19,6 @@ and hope" thrashing. The one-line summary, but read the skill for the rules and 
 > SMT search with explicit `euclid_apply`s; if a step takes >30s it's too big — decompose. Never
 > run a tactic you can't justify; never build "to see"; decompose only into entailed sub-facts.
 
-For the recurring figure-reasoning goal-shapes in Book-2 rectangle-decomposition proofs (sameSide,
-point-off-a-line, line-distinctness, pasch-betweenness, `formParallelogram` assembly, `rectangle_area` /
-`sum_parallelograms_area`, the parallel/angle props), the **`euclid-figures` skill**
-([.claude/skills/euclid-figures/SKILL.md](.claude/skills/euclid-figures/SKILL.md)) is a reference of
-goal-shape → axiom-chain recipes that `prove-euclid` consults — it gives the chain to TRY, not a lemma
-to import (the facts are figure-specific; you re-prove each against your figure).
-
 (**Prop01, Prop02, Prop03 are DONE and vetted end-to-end** — wired, zero-sorry, and passing the
 authoritative olean-mode `check_faithful.sh` + `check_steps.py` + `check_signatures.py`. Use them as
 references for **STRUCTURE ONLY**: what a finished `Main` looks like, the helper naming law, the
@@ -56,7 +49,7 @@ structure — e.g. "make Book2/PropNN faithful") the pipeline is **A → gate �
       `(stepN : True)` + `@assumption TODO`, TEXT pulled from split.json so tiling is correct by
       construction), then FILLS each claim ONE sentence at a time (building `check_step --provable` +
       `check_faithful` as it goes), adds any structural FRAME (reductio/`by_cases`/`wlog`) or construction
-      beyond the vocab (superposition → reads `Book/`+`find.py`/`SystemE`), and self-reviews.
+      beyond the vocab (superposition → reads `Book/`+`SystemE`), and self-reviews.
       **Every sentence gets a REAL claim — NEVER `True`** at the end, and NEVER a restated given (that's an
       `@assumption`). Bodies stay `:= by sorry`. **EXCEPTION — a mid-proof "I say that …" (what-to-show)
       sentence is `euclid_wts "loc" "text"`** (a claimless STRUCTURAL tactic, legal mid-proof — the
@@ -214,13 +207,8 @@ Every other Book-2 prop is at a varying/in-progress state — follow the skills'
     it's clickable and never prompts — prefer it for a path you already know.
   - **find files → bash `find` or `git ls-files`** · **search contents → bash `grep`/`rg`**. (There is no
     Grep/Glob tool to fall back on — use bash or Read.)
-  - **find a LEMMA/AXIOM/PROP by what it concludes/consumes/mentions → `python3 scripts/find.py …`**
-    (the sanctioned smart-grep over the declaration database — "what gets me `¬intersectsLine`?"
-    `--concludes "¬intersectsLine"`; "what consumes a parallelogram?" `--consumes formParallelogram`;
-    "what axioms define this opaque pred?" `--mentions intersectsLine --kind axiom`; also `--cites` /
-    `--depends-of` / `--name` glob / `--grep` docstring). Use it INSTEAD of grepping `SystemE/Theory/…`
-    or guessing signatures. It auto-rebakes; `python3 scripts/bake_index.py --rebuild` forces a full
-    re-parse. The parse-only test suite is `python3 -m pytest tests/`.
+  - **find a LEMMA/AXIOM/PROP by what it concludes/consumes/mentions → read the theory files
+    directly** (`SystemE/Theory/…` via bash `grep`/`rg` + the Read tool).
   - **`python3 scripts/check_step.py …` / `check_steps.py` / `check_faithful.py` / `check_signatures.py`
     / `scripts/check_faithful.sh` / `python3 scripts/wire_main.py …` / `python3 scripts/scaffold_step.py …`
     / `python3 scripts/assumptions.py <propdir> [--tag-only|--dry-run]`** — the build/verify pipeline,
@@ -260,7 +248,7 @@ ALL proving / faithful / pipeline work, treat them as if they do not exist:
 - **NEVER edit, prove, wire, "fix", or scaffold anything under `OldBook1/` or `OldBook1Variants/`**
   (they are regenerated wholesale by `scripts/gen_oldbook1_baseline.py` if ever needed — never by hand).
 - **NEVER write `import OldBook1…` or `import OldBook1Variants…` anywhere.** Nothing in `Book/`,
-  `Book1/`, `Book1Variants/`, `Book2/`, `Book3/`, `Helpers/`, or `SystemE/` may import them — they are
+  `Book1/`, `Book1Variants/`, `Book2/`, `Book3/`, or `SystemE/` may import them — they are
   a sink that imports only its own modules + `SystemE`. They carry the SAME `Elements.Book1.proposition_N`
   names as `Book1/`; the ONLY thing preventing a duplicate-declaration collision is that nothing
   co-imports them, so importing them WILL break the build. (See the memory note

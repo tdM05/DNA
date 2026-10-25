@@ -33,8 +33,6 @@ faithful_lib.py   ← shared CORE (no CLI): SF/SP/P atom, flock+wall-capped buil
 | `assumptions.py` | **Assumption Phase** (between A and B) | Two fail-closed steps: **A** materializes a sorry `have stepK_assumptionN` per `-- @assumption` + build-checks Main (fail → leaves haves, human fixes the frame — e.g. a `wlog` `Hsym` arg, never deleting the have — then `--tag-only`); **B** classifies each valid/gap by firing `euclid_finish` at a 3s cap, persists valid→inline `euclid_finish` / gap→`sorry`, writes tags to `scripts/assumption_tags.json` + a gap report. Human runs the real pass; agent runs only `--dry-run`. `--all`/`check_faithful` hard-enforce the tags + that every assumption is a helper-sig binder with a materialized have. |
 | `check_signatures.py` | **C guard** | Snapshots every `theorem proposition_*` SIGNATURE and diffs — confirms no proposition statement was altered. |
 | `smt_probe.py` | research / diagnostics | Builds the "should-close-but-times-out" SMT failure catalog (two-sided evidence per node). Not part of the A→B→C gate. |
-| `bake_index.py` | research / tooling | PURE-PARSE fact database of EVERY declaration (axiom/def/abbrev/opaque/prop/helper/step) → `.lake/index.jsonl`. No Lean, no builds. Incremental: re-parses only changed `.lean` files. `--rebuild` for a full re-parse. You rarely run it directly — `find.py` re-bakes on every query. |
-| `find.py` | research / tooling | **The sanctioned smart-grep** over `bake_index`'s DB — query declarations by `--concludes`/`--consumes`/`--mentions` (symbol×role×polarity; SYM accepts source forms like `Triangle.area`/`∟`/`Point.onLine` and ERRORS on an unknown symbol), `--book`/`--prop` (numeric location), `--cites`/`--depends-of`, `--name` glob, `--grep` (regex over **signature + docstring** — search the math), all combinable. Output is one line per match, `--show {full,conclusion,hyps}` picks which region to print (independent of the filter), `--full` disables width-truncation. Hides the 500+ noisy step files by default — `--kind step` to browse, `--steps` to widen another query. Use this instead of grepping the theory files. |
 | `scaffold_step.py` | **A/B** (agent) | `<file-or-propdir> <node>` → write the skeleton backing file `<node>.lean` (imports + 30s cap + `helper_<book>_<prop>_<node>` header + claim pre-filled) for a Main `euclid_sentence` step OR a `have` sub-node. Kills the per-node boilerplate; the agent fills only binders + body. Refuses to overwrite. |
 | `run_faithful.py` | **driver** (human; spawns `claude`) | Headless batch orchestrator for the ONLY two automatable phases: `assumptions`/`prove <props…>` runs `claude -p` per prop with a concurrency pool, tees the full trace to `PropNN/runs/`, and logs cost to `PropNN/cost/`. `assumptions` spawns `/faithful-assumptions` (then a `--provable` build-check); `prove` is the resumable Phase-B loop until `check_step --all` passes (Book-1 props get their `Book/PropNN.lean` as a math reference). Everything else (split, map, GATE-A `--save`, Phase C) is MANUAL. `--dry-run` prints the plan. **Run OUTSIDE an agent session** (nested `claude` spawn is hard-denied there). |
 | `monitor_tui.py` | **monitor** (human; read-only) | Live curses dashboard for a `run_faithful` batch: a global prop table (phase · nodes done/total · cost · flag) + the focused prop's trace tailing live. Auto-discovers active batches from the registry. No-lag by design — the expensive per-prop status computation runs in a background thread into a cache the render only reads. `--once` prints one frame; `--dump <prop>` dumps a full trace; `--selftest [N]` benchmarks refresh+render over N real props. |
@@ -51,14 +49,6 @@ faithful_lib.py   ← shared CORE (no CLI): SF/SP/P atom, flock+wall-capped buil
 
 - `proposition_signatures.json` — gate for `check_signatures.py`.
 - `step_signatures.json` — gate for `check_steps.py`.
-
-(`.lake/index.jsonl` + `.lake/index.manifest.json` are `bake_index`'s output — git-ignored, NOT
-checked in; rebuilt on demand.)
-
-## Tests
-
-`tests/` holds the parse-only sanity suite for `bake_index.py` / `find.py` / the `faithful_lib` parse
-helpers — pure-parse (no Lean), runs in milliseconds: `python3 -m pytest tests/`. See `tests/README.md`.
 
 ## Adding a feature (the convention)
 

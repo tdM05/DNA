@@ -57,9 +57,8 @@ def _find_gated(args):
 # The positive allowlist, echoed in every deny message so the agent learns the boundary once.
 ALLOWED_SUMMARY = ("Bash here is reserved for: read-only git (status/diff/log/show/branch/blame/"
                    "ls-files), python3 scripts/check_*.py, scripts/check_faithful.sh, "
-                   "python3 scripts/wire_main.py, python3 scripts/find.py, "
-                   "python3 scripts/bake_index.py, python3 scripts/scaffold_step.py, "
-                   "python3 scripts/faithful_map_assemble.py, python3 -m pytest, "
+                   "python3 scripts/wire_main.py, python3 scripts/scaffold_step.py, "
+                   "python3 scripts/faithful_map_assemble.py, "
                    "lake env/exe, cd/pwd/mkdir, and read-only inspection "
                    "(grep/rg/find/cat/head/tail/ls/wc). "
                    "Read files with the Read tool; find.py is the sanctioned smart-grep over the "
@@ -140,7 +139,7 @@ _REDIR_PROTECTED = re.compile(
 # both pointless and the #1 cause of wasted turns: a trailing `2>&1` gets shell-tokenized (the `&`) into a
 # phantom `1` segment, so the generic gate fires "`1` is not on the Bash allowlist" — a message the agent
 # can't act on, so it retries variants indefinitely. Catch the pattern up front with a fix-naming deny.
-_BARE_ONLY_PY = {"wire_main.py", "smt_probe.py", "find.py", "bake_index.py",
+_BARE_ONLY_PY = {"wire_main.py", "smt_probe.py",
                  "scaffold_step.py", "faithful_map_assemble.py", "assumptions.py"}
 
 def _is_pipeline_script(toks):
@@ -245,7 +244,7 @@ def main():
             arg = nxt.rsplit("/", 1)[-1]
             ok = (nxt.startswith("scripts/") or nxt.startswith("./scripts/")) and (
                 arg.startswith("check_") or arg in ("wire_main.py", "smt_probe.py",
-                                                    "find.py", "bake_index.py", "scaffold_step.py",
+                                                    "scaffold_step.py",
                                                      "faithful_map_assemble.py", "assumptions.py"))
 
             # also allow running the parse-only test suite bare: `python3 -m pytest tests/…`

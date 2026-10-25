@@ -10,7 +10,7 @@ description: >
 
 # Faithful-map structure patterns (the mapper's catalog)
 
-This is the Phase-A analog of `euclid-figures` (which catalogs *proving* recipes). When `faithful-map`
+When `faithful-map`
 hits a sentence that needs a **structural FRAME** — a reductio, a superposition, a case-split — this
 catalog says, per pattern, which **done prop exemplifies it** and **how to render the sentences
 faithfully** in `Main.lean`.
@@ -86,7 +86,7 @@ Requires SystemE with the `euclid_wts` tactic (`SystemE/Meta/Tactics/Faithful.le
 ## PATTERN: superposition / "applied to" / "coincide"  (Props I.4, I.8)
 **Exemplar:** `Book1/Prop04/Main.lean` and `Book1/Prop08/Main.lean` (both use the TWO-map form below).
 **Frame:** `euclid_apply (superposition …) as (b', c', BC', DC')` births image points AND image lines
-(read `Book/Prop0N.lean` + `find.py --name superposition`). Make BOTH maps EXPLICIT so claims name images,
+(read `Book/Prop0N.lean`). Make BOTH maps EXPLICIT so claims name images,
 not the opaque primed outputs — `classical` then
 `let ptImg : Point → Point := fun p => if p = a then d else if p = b then b' else if p = c then c' else p`
 `let lineImg : Line → Line := fun L => if L = AB then DE else if L = AC then DC' else if L = BC then BC' else L`

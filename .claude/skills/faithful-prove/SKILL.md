@@ -85,14 +85,13 @@ all of that.
 
 ### THE IMPORT INVARIANT (the LLM never imports a helper/step file)
 A dev-state container imports ONLY `SystemE` + the **cited-proposition** imports its own proof uses
-(e.g. `import Book.Prop29` for an `euclid_apply (proposition_29'''' …)` you wrote) **+ any
-`Helpers.*` shared-lemma file it applies** (see below) — those are proof content you DO write. It
+(e.g. `import Book.Prop29` for an `euclid_apply (proposition_29'''' …)` you wrote) — those are proof
+content you DO write. It
 imports NONE of its pipeline backing/step files; the script adds an `import Book<N>.PropNN.<name>` only
 while it transiently wires that node, and removes it on revert. This is what makes per-node checks fast
 and isolated (checking node N pulls in only N's backing olean, not every sibling).
 `check_step … --check` flags any stray `Book<N>.PropNN.*` (the prop's OWN-prefix pipeline) import as an
-error — it does NOT flag `Helpers.*` (a different prefix), so a library import is permanent and
-legal. **Reach a PIPELINE sub-lemma ONLY as a `have`-node** (`have <sub> : <concl> := by sorry`; the
+error. **Reach a PIPELINE sub-lemma ONLY as a `have`-node** (`have <sub> : <concl> := by sorry`; the
 script wires + imports it) — NEVER hand-write a pipeline `euclid_apply` or a pipeline import.
 
 > **✅ NEED `linarith`/`nlinarith`/`field_simp`? Just ADD the Mathlib import — it's LEGAL.** `import
@@ -108,33 +107,6 @@ script wires + imports it) — NEVER hand-write a pipeline `euclid_apply` or a p
 > `Book<N>.PropNN.*` pipeline imports, never a `Mathlib.*` one (ref `Book2/Prop08/step11.lean`:
 > `import Mathlib.Tactic.Linarith` next to `import SystemE`). So when you hit `unknown tactic linarith`,
 > ADD the import and continue — never abandon the tactic thinking it's unavailable.
-
-> **THE LIBRARY EXCEPTION — `Helpers/` lemmas are applied INLINE, by you, with a PERMANENT import.**
-> `LeanEuclidPlus/Helpers/{OffLine,SameSide,Area,RightAngle,Parallel}.lean` holds pre-proved generic
-> lemmas for the recurring off-line / sameSide / area-recast / right-angle / parallel-transitivity facts
-> (see `euclid-figures`). Unlike a pipeline backing file, a library lemma is NOT a `have`-node and NOT
-> script-wired: you write `import Helpers.OffLine` (it stays — different prefix, never flagged) and
-> discharge the fact in-place as `have F : <claim> := <lemma> obj… (by assumption)…` (or
-> `by euclid_apply (lemma …)`). This is pipeline-legal: a pre-proved lemma application does ZERO SMT
-> search (just instantiation), so it costs nothing against the 30s wall, and the resulting `F : <claim>`
-> sits in context for downstream wires to discharge by `assumption` exactly as a backing-file node would.
-> **So these facts take NO backing file** — that is precisely how a step that used to be ~10 leaf files
-> collapses to ~1–3. If the lemma you need doesn't exist yet for your atom-shape, PROMOTE a sibling into
-> the Helpers file (then the human rebuilds that Helpers target) rather than spawning a one-off backing leaf.
->
-> **GRANULAR IMPORTS — import the SPECIFIC sub-module, NEVER the `Helpers` aggregator.** Write
-> `import Helpers.OffLine` (or `.SameSide`, `.Parallel`, …) — only the ones you actually use. Do NOT
-> `import Helpers` (the aggregator): it pulls in EVERY helper, so adding any new lemma anywhere would
-> invalidate your file and force a needless rebuild. The `Helpers` aggregator exists ONLY as the
-> `lake build Helpers` target root (build-all-helpers), never as a proof-file import.
->
-> **SUPPLIABILITY — the lemma's hyps must still be Main-suppliable atoms.** A library lemma's hypotheses
-> are discharged by `(by assumption)` at the inline site, so each must be a fact the container already
-> has VERBATIM — same as any wired node. Watch the distinctness hyps in particular: the no-witness forms
-> (`offLine_of_parallel_simple(')`, `sameSide_of_parallel_both`) take an explicit `L ≠ M` (it's essential
-> — without it the claim is false), so the container must carry that `L ≠ M`. If it doesn't, derive it
-> first (a one-term `fun h => hoff (h ▸ hon)` from an off-line anchor) or pick the witness-bearing sibling
-> that establishes distinctness itself.
 
 ### THE PRIME DIRECTIVE (the one invariant you must never break)
 > **At every stage, every `.lean` file in the prop folder builds with its current sorries. If any file
@@ -162,19 +134,6 @@ backing file you create. (Run `--all` ONLY at the very end — see THE LOOP — 
 > step you are currently on.
 
 ```
-Is this goal an off-line / sameSide / area-recast / right-angle-co-interior / parallel-transitivity fact?
-  YES → does a Helpers/ lemma (or an existing prop/helper) match the ATOMS my context has?
-        Find it with `python3 scripts/find.py --concludes <goal-symbol> --kind helper,prop` (the
-        sanctioned smart-grep — e.g. `--concludes sameSide --kind helper`; add `--consumes <sym>` to
-        narrow by a premise you have, `--grep <intent>` to search docstrings). This BEATS reciting from
-        memory: it returns the actual current lemmas + their `source` to Read. (euclid-figures Families
-        1/3/6/7 still describe the shapes.)
-        YES → discharge it INLINE: `import Helpers.<File>` (permanent) + `have F : <claim> :=
-              <lemma> obj… (by assumption)…`. NO backing file, NO have-node. This is the file-count win.
-        NO (close, but my atom-orientation/witness isn't covered) → PROMOTE a sibling lemma into that
-              Helpers file (match your literal atom), have the human rebuild it, then apply inline as above.
-  NO (genuine content — betweenness / assembly / proposition-citation) → continue:
-
 Can I close this goal directly (real euclid_apply chain, no new node) and build it ≤30s?
   (UNSURE whether it even needs decomposing? `check_step Book<N>/PropNN --smell <node>` fires the bare
    claim at euclid_finish under a short cap — "CLOSES" ⟹ don't decompose, just close it; "SAT" ⟹ the
@@ -509,15 +468,9 @@ asserted "because the picture shows it." Use `--context` for what's *available*;
 *true to aim at*.
 
 ## SYSTEM-E QUICK REFERENCE (the area-heavy surface you actually prove with)
-> **For the recurring figure-reasoning goal-shapes** (sameSide / off-line / line-distinctness /
-> pasch-betweenness / `formParallelogram`-`formTriangle` assembly / `rectangle_area`-`sum_parallelograms_area`
-> / parallel-angle props), see the **`euclid-figures`** skill — it lists goal-shape → axiom-chain → gotcha
-> recipes grounded in proven files (the done Prop01/02/03 + Prop04's certified leaves). It's the concrete companion to the timeout-triage
-> bullets above; consult it when a sub-node matches one of those shapes.
 
-Look up exact signatures with `python3 scripts/find.py` (the sanctioned smart-grep over the declaration
-DB — e.g. `--concludes area`, `--mentions formParallelogram --kind axiom`, `--name "rectangle_*"`), then
-`Read` the printed `source` line; the axioms live in
+Look up exact signatures by reading the theory files directly (bash `grep`/`rg` + the Read tool);
+the axioms live in
 `SystemE/Theory/Inferences/{Metric,Transfer,Diagrammatic}.lean` + `Relations.lean`. The high-value ones:
 - **Convention:** "rectangle contained by X,Y" = `|X|*|Y|`; "square on X" = `|X|*|X|`; no square axiom
   (it's the right-angled case of `rectangle_area`). Figure areas = sums of `Triangle.area △ p:q:r`;

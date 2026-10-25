@@ -6,7 +6,7 @@ description: >
   `/faithful-split` has produced `split.json` (verified by `check_faithful.py --split`). This skill
   stamps a placeholder `Main.lean` (`(stepN : True)` + `@assumption TODO`, text from split.json so tiling
   is correct by construction) then FILLS each claim, building + checking as it goes, and STOPS for human
-  review. It may read anything (diagram, `Book/`, `SystemE`, `find.py`) but PREFERS the vocab/translation
+  review. It may read anything (diagram, `Book/`, `SystemE`) but PREFERS the vocab/translation
   and only digs deeper when a sentence can't be expressed. This is TRANSLATION, not proving (bodies stay
   `:= by sorry`; proving is `/faithful-prove`). Invoked with a prop path, e.g. `/faithful-map Book1/Prop08`.
 ---
@@ -113,12 +113,12 @@ A discrepancy you hit while mapping is one of THREE things — only the first is
   for that sentence while the text still tiles byte-for-byte. "Bug" = an outside-source error, never ours.
 
 ## READING POLICY (you may read anything — but prefer the translation)
-You are NOT restricted: you MAY read the diagram, `SystemE/**`, `Book/PropNN.lean` originals, done Book-2
-props, and use `python3 scripts/find.py …`. **But default to the VOCABULARY below + a direct reading of
+You are NOT restricted: you MAY read the diagram, `SystemE/**`, `Book/PropNN.lean` originals, and done
+Book-2 props. **But default to the VOCABULARY below + a direct reading of
 the sentence.** Only dig deeper (open an axiom, read how `Book/PropM.lean` uses a construction) when a
 sentence genuinely can't be expressed from the vocab — e.g. superposition ("applied to" / "coincide",
-Props 4/8) is rendered with the `superposition` construction: read `Book/Prop08.lean` (and
-`find.py --name superposition`) to see how "C coincides with F" becomes an image-point equality (`c' = f`),
+Props 4/8) is rendered with the `superposition` construction: read `Book/Prop08.lean`
+to see how "C coincides with F" becomes an image-point equality (`c' = f`),
 NOT the given `|(b─c)| = |(e─f)|`. Don't over-read: most sentences are a one-line vocab claim.
 
 ## STRUCTURAL FRAMES — you EDIT Main's SHAPE, not just fill `True` slots (often NON-trivial)

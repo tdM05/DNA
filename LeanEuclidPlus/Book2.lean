@@ -1,8 +1,3 @@
-import Helpers.RightAngle
-import Helpers.OffLine
-import Helpers.SameSide
-import Helpers.Area
-import Helpers.Parallel
 import Book2.Prop01.Main
 import Book2.Prop02.Main
 import Book2.Prop03.Main

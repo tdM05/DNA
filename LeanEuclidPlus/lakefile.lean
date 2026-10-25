@@ -9,9 +9,6 @@ package «lib» where
 lean_lib SystemE {
 }
 
-lean_lib Helpers {
-}
-
 @[default_target]
 lean_lib Book1 {
 }
