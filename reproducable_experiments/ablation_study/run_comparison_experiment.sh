@@ -6,6 +6,9 @@
 #
 #   --ablated     naive bare-LLM arm   (worktree on branch: ablation_branch)
 #   --my-method   full pipeline arm    (worktree on branch: full_methodology_branch)
+#   --od-only     full pipeline MINUS the three non-OrderDecompose add-ons
+#                 (euclid-figures skill, Helpers/ lemma library, find.py)
+#                 (worktree on branch: od_only_branch)
 #
 # Both arms are driven by the SAME script (one copy per worktree, kept byte-
 # identical — enforced at runtime, GATE 2). The two arms behave identically
@@ -33,10 +36,15 @@ set +u; source "$HOME/.venvs/leaneuclid/bin/activate"; set -u   # z3/cvc5 on PAT
 # ---- CONFIG (edit here if branches / map commits move) ---------------------
 BRANCH_ABLATED="ablation_branch"
 BRANCH_MYMETHOD="full_methodology_branch"
+BRANCH_ODONLY="od_only_branch"
 # Pinned MAP-STAGE commits — CANONICAL, per DNA/EXPERIMENT_OPERATOR_GUIDE.md.
 # (The operator resets each prop's Main.lean to ITS map from these; GATE 3 checks it.)
 MAP_REF_ABLATED="fa400f7"
 MAP_REF_MYMETHOD="b98dd2b"
+# --od-only shares the MYMETHOD pin: b98dd2b and fa400f7 are byte-identical on all 99 prop
+# Main.lean files, so all three arms start from the SAME blank map. (Do NOT re-pin this to
+# od_only_branch HEAD — that tree has Book1/Prop03 already PROVEN, 0 sorry.)
+MAP_REF_ODONLY="b98dd2b"
 # CENTRAL results dir — OUTSIDE both worktrees so both arms' runs collect in one place (and other
 # runs' outputs aren't sitting inside the agent's workspace). Same structure: out/<mode>/<label>/<run_id>/.
 OUT_BASE="/h/56/taddmao/code/autoform/DNA/reproducable_experiments/ablation_study/out"
@@ -83,6 +91,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --ablated)   MODE=ablated ;;
     --my-method) MODE=mymethod ;;
+    --od-only)   MODE=odonly ;;
     --book)      BOOK="${2:?}"; shift ;;
     --prop)      PROP="${2:?}"; shift ;;
     --budget)    BUDGET="${2:?}"; shift ;;
@@ -90,7 +99,7 @@ while [ $# -gt 0 ]; do
     *) echo "unknown arg: $1"; exit 1 ;;
   esac; shift
 done
-[ -z "$MODE" ] && { echo "usage: run_comparison_experiment.sh --ablated|--my-method --book N --prop NN [--budget 50|-1] [--model opus]"; exit 1; }
+[ -z "$MODE" ] && { echo "usage: run_comparison_experiment.sh --ablated|--my-method|--od-only --book N --prop NN [--budget 50|-1] [--model opus]"; exit 1; }
 { [ -z "$BOOK" ] || [ -z "$PROP" ]; } && { echo "ERROR: --book and --prop are BOTH required (one prop per run)."; exit 1; }
 
 # --budget -1 ⟹ UNLIMITED: no cost cap is passed to claude and no budget-based
@@ -100,11 +109,14 @@ UNLIMITED=0; BUDGET_DISP="\$$BUDGET"
 if [ "$BUDGET" = "-1" ]; then UNLIMITED=1; BUDGET_DISP="UNLIMITED (stops only when agent finishes or gives up)"; fi
 
 # select the arm's branch + map commit + the OTHER branch (for the self-consistency check)
-if [ "$MODE" = ablated ]; then
-  WANT_BRANCH="$BRANCH_ABLATED"; OTHER_BRANCH="$BRANCH_MYMETHOD"; MAP_REF="$MAP_REF_ABLATED"
-else
-  WANT_BRANCH="$BRANCH_MYMETHOD"; OTHER_BRANCH="$BRANCH_ABLATED"; MAP_REF="$MAP_REF_MYMETHOD"
-fi
+case "$MODE" in
+  ablated)  WANT_BRANCH="$BRANCH_ABLATED";  MAP_REF="$MAP_REF_ABLATED"
+            OTHER_BRANCHES="$BRANCH_MYMETHOD $BRANCH_ODONLY" ;;
+  mymethod) WANT_BRANCH="$BRANCH_MYMETHOD"; MAP_REF="$MAP_REF_MYMETHOD"
+            OTHER_BRANCHES="$BRANCH_ABLATED $BRANCH_ODONLY" ;;
+  odonly)   WANT_BRANCH="$BRANCH_ODONLY";   MAP_REF="$MAP_REF_ODONLY"
+            OTHER_BRANCHES="$BRANCH_ABLATED $BRANCH_MYMETHOD" ;;
+esac
 
 NN="$(printf '%02d' "$PROP")"
 PROPNUM="$((10#$PROP))"                             # un-padded prop number, for the helper_<book>_<prop>_ name
@@ -160,17 +172,19 @@ branch="$(git -C "$REPO" rev-parse --abbrev-ref HEAD)"
 # worktrees ("one script drives all"). Locate the OTHER worktree by its branch
 # and diff the same-relative-path copy against this one.
 # ============================================================================
-OTHER_WT="$(git -C "$REPO" worktree list --porcelain | awk -v b="refs/heads/$OTHER_BRANCH" '
-  /^worktree /{wt=substr($0,10)} /^branch /{if(substr($0,8)==b) print wt}')"
-[ -n "$OTHER_WT" ] || { echo "ABORT: could not locate the '$OTHER_BRANCH' worktree via 'git worktree list'."; exit 1; }
-OTHER_SELF="$OTHER_WT/$REL_SELF"
-[ -f "$OTHER_SELF" ] || { echo "ABORT: sibling driver missing in the other worktree: $OTHER_SELF"; exit 1; }
-diff -q "$SELF" "$OTHER_SELF" >/dev/null 2>&1 || {
-  echo "ABORT: this driver DIFFERS from the '$OTHER_BRANCH' copy:"
-  echo "         $SELF"
-  echo "         $OTHER_SELF"
-  echo "       They must be identical — one script drives both arms. Reconcile them first"
-  echo "       (diff the two files), then retry."; exit 1; }
+for _ob in $OTHER_BRANCHES; do
+  OTHER_WT="$(git -C "$REPO" worktree list --porcelain | awk -v b="refs/heads/$_ob" '
+    /^worktree /{wt=substr($0,10)} /^branch /{if(substr($0,8)==b) print wt}')"
+  [ -n "$OTHER_WT" ] || { echo "ABORT: could not locate the '$_ob' worktree via 'git worktree list'."; exit 1; }
+  OTHER_SELF="$OTHER_WT/$REL_SELF"
+  [ -f "$OTHER_SELF" ] || { echo "ABORT: sibling driver missing in the other worktree: $OTHER_SELF"; exit 1; }
+  diff -q "$SELF" "$OTHER_SELF" >/dev/null 2>&1 || {
+    echo "ABORT: this driver DIFFERS from the '$_ob' copy:"
+    echo "         $SELF"
+    echo "         $OTHER_SELF"
+    echo "       They must be identical — one script drives ALL arms. Reconcile them first"
+    echo "       (diff the two files), then retry."; exit 1; }
+done
 
 # ============================================================================
 # GATE 3 — map-state: AUTO-RESET this prop to its map. Write the map's Main.lean and delete every
@@ -185,7 +199,7 @@ find "$LEP/$rel" -maxdepth 1 -type f ! -name Main.lean -delete
 echo "[reset $rel to map $MAP_REF — blank Main.lean, no step files]"
 
 echo "=== comparison experiment · mode=$MODE · branch=$branch · $rel · model=$MODEL · budget=$BUDGET_DISP ==="
-echo "    [gate 1: branch OK]  [gate 2: driver identical to $OTHER_BRANCH copy]  [gate 3: Main.lean == map $MAP_REF]"
+echo "    [gate 1: branch OK]  [gate 2: driver identical to:$(for b in $OTHER_BRANCHES; do printf ' %s' "$b"; done)]  [gate 3: Main.lean == map $MAP_REF]"
 
 # Each invocation is ONE run with a UNIQUE id + start datetime, in its OWN folder under the prop's
 # label dir — so the 3 repeat runs per prop coexist and stay identifiable (never overwrite each other).

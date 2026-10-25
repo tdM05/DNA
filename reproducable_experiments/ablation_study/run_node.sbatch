@@ -25,6 +25,7 @@ OUT_BASE="/h/56/taddmao/code/autoform/DNA/reproducable_experiments/ablation_stud
 case "$ARM" in
   my-method) WT="$ROOT/full" ;;
   ablated)   WT="$ROOT/ablated" ;;
+  od-only)   WT="$ROOT/od_only" ;;
   *) echo "bad ARM '$ARM'"; exit 1 ;;
 esac
 DRIVER="$WT/reproducable_experiments/ablation_study/run_comparison_experiment.sh"
