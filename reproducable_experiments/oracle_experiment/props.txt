@@ -1,0 +1,20 @@
+# The 15 ablation propositions — the LLM-oracle showcase runs on exactly these.
+# Format: Book/Prop  (one per line; blank lines and # comments ignored).
+# Book 1 props are flat w.r.t. the map story but kept for parity with the ablation set.
+# Book 3 III.11/25/36 have a same-prop HUMAN-oracle effort baseline (rebuttatl/oracle_map_stage);
+# III.6 does not (III.1-9 predate the transcript backup).
+Book1/Prop03
+Book1/Prop06
+Book1/Prop12
+Book1/Prop18
+Book1/Prop20
+Book1/Prop27
+Book1/Prop30
+Book1/Prop36
+Book1/Prop45
+Book2/Prop03
+Book2/Prop12
+Book3/Prop06
+Book3/Prop11
+Book3/Prop25
+Book3/Prop36
