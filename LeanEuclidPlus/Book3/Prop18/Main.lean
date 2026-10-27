@@ -1,6 +1,4 @@
 import SystemE
-import Book1.Prop12.Main
-import Mathlib.Tactic.Linarith
 open Elements.Book1
 
 namespace Elements.Book3
@@ -8,67 +6,7 @@ namespace Elements.Book3
 theorem proposition_18 : ∀ (c f : Point) (ABC : Circle) (DE : Line),
   c.onCircle ABC ∧ c.onLine DE ∧ ¬ DE.intersectsCircle ABC ∧
   f.isCentre ABC ∧ f ≠ c →
-  ∀ d : Point, d.onLine DE → d ≠ c → ∠ f:c:d = ∟ :=
-by
-  euclid_intros
-  euclid_intro_sentence "3.18.0"
-    "If some straight-line touches a circle, and some (other) straight-line is joined from the center (of the circle) to the point of contact, (then) the (straight-line) so joined will be perpendicular to the tangent. For let some straight-line $DE$ touch the circle $ABC$ at point $C$, and let the center $F$ of circle $ABC$ be found [Prop.~3.1], and let $FC$ be joined from $F$ to $C$. I say that $FC$ is perpendicular to $DE$."
-
-  have habsurd1 : ¬(∠ f:c:d ≠ ∟) := by
-    intro hsuppose1
-    have hcdDE : distinctPointsOnLine c d DE := by sorry
-    have hfoff : ¬f.onLine DE := by sorry
-    euclid_apply (proposition_12 c d f DE) as g
-    euclid_apply (line_from_points f g) as FG
-    euclid_sentence "3.18.1"
-      "For if not, let $FG$ be drawn from $F$, perpendicular to $DE$ [Prop.~1.12]."
-      (step1 : g.onLine DE ∧ f.onLine FG ∧ g.onLine FG ∧ (∠ c:g:f = ∟ ∨ ∠ d:g:f = ∟)) := by sorry
-
-    -- @assumption_valid
-    have step2_assumption1 : ∠ f:g:c = ∟ := by euclid_finish
-    -- @assumption ("angle $FGC$ is a right-angle", ∠ f:g:c = ∟)
-    euclid_sentence "3.18.2"
-      "Therefore, since angle $FGC$ is a right-angle, (angle) $FCG$ is thus acute [Prop.~1.17]."
-      (step2 : ∠ f:c:g < ∟) := by sorry
-
-    -- @assumption_valid
-    have step3_assumption1 : ∠ f:g:c > ∠ f:c:g := by linarith
-    -- @assumption ("the greater angle is subtended by the greater side [Prop.~1.19]", ∠ f:g:c > ∠ f:c:g)
-    euclid_sentence "3.18.3"
-      "And the greater angle is subtended by the greater side [Prop.~1.19]. Thus, $FC$ (is) greater than $FG$."
-      (step3 : |(f─c)| > |(f─g)|) := by sorry
-
-    have hb : ∃ b : Point, b.onCircle ABC ∧ b ≠ c := by sorry
-    obtain ⟨b, hbcircle, hbc⟩ := hb
-    euclid_sentence "3.18.4"
-      "And $FC$ (is) equal to $FB$."
-      (step4 : |(f─c)| = |(f─b)|) := by sorry
-
-    euclid_sentence "3.18.5"
-      "Thus, $FB$ (is) also greater than $FG$, the lesser than the greater."
-      (step5 : |(f─b)| > |(f─g)|) := by sorry
-
-    euclid_sentence "3.18.6"
-      "The very thing is impossible."
-      (step6 : False) := by sorry
-    exact step6
-
-  euclid_sentence "3.18.7"
-    "Thus, $FG$ is not perpendicular to $DE$."
-    (step7 : ¬(∠ f:c:d ≠ ∟)) := by sorry
-
-  euclid_sentence "3.18.8"
-    "So, similarly, we can show that neither (is) any other (straight-line) except $FC$."
-    (step8 : ∀ (g' : Point),
-      g'.onLine DE → g' ≠ c →
-      ¬∠ c:g':f = ∟) := by sorry
-
-  euclid_sentence "3.18.9"
-    "Thus, $FC$ is perpendicular to $DE$."
-    (step9 : ∠ f:c:d = ∟) := by sorry
-
-  exact step9
-  euclid_conclude_sentence "3.18.10"
-    "Thus, if some straight-line touches a circle, and some (other) straight-line is joined from the center (of the circle) to the point of contact, (then) the (straight-line) so joined will be perpendicular to the tangent. (Which is) the very thing it was required to show."
+  ∀ d : Point, d.onLine DE → d ≠ c → ∠ f:c:d = ∟ := by
+  sorry
 
 end Elements.Book3
