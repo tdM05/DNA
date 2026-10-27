@@ -1,0 +1,11 @@
+[check_step --drive] step8 (todo) — running --subtree step8
+
+[check_step --subtree step8] auditing the step8 cone — 1 node(s) in Book1/Prop27 (sub-nodes before step8):
+  ✓ step8: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step8's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop27 --all` ONCE at the very end.
+[check_step --drive] all Main nodes done.
+  ⟹ check_step --all is GUARANTEED to pass. Run it ONCE as the final witness, then Phase C.
+OK: Book1/Prop27 structurally sound — 8 node(s), naming law holds, every node has a backing file, every file carries the 30s cap, nothing pre-wired, no stray sorry, every cited [Prop.~B.N] satisfied (construction or helper-cone).
+[check_step --dependency] criterion-3 (source-regex, number-only) for Book1/Prop27:
+OK: every cited [Prop.~B.N] is satisfied by a Main construction (`… as …`) or its sentence's helper cone. (Book authentication is the gate-C olean check.)

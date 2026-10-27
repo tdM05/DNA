@@ -1,0 +1,7 @@
+[check_step] step2  (sentence in Book3/Prop25/Main.lean)
+  SF ok — `step2`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)
+  SP ok — hyps suppliable (objects: a b c d AC DB).
+  P ok (deps pending) — Book3/Prop25/step2.lean (leaf) is itself sorry-free; the only remaining `sorry` (././././Book1/Prop01/Main.lean:5, ././././Book1/Prop02/Main.lean:6, ././././Book1/Prop11/Main.lean:8) is in an IMPORTED cited proposition / dependency, NOT in this leaf. That is EXPECTED and OK — the leaf is PROVEN modulo its unproven deps (the same `PASS (with unproven deps)` state Phase-C wire_main accepts). Do NOT drop the citation or try to 'prove it' here — the dep is proven on its own track.
+PASS: step2 CERTIFIED (SF + SP + P (modulo unproven deps — OK)).
+[check_step --dependency] criterion-3 (source-regex, number-only) for Book3/Prop25:
+OK: every cited [Prop.~B.N] is satisfied by a Main construction (`… as …`) or its sentence's helper cone. (Book authentication is the gate-C olean check.)

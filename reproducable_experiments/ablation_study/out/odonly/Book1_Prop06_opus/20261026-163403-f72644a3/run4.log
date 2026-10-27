@@ -1,0 +1,4 @@
+[assumptions] Book1/Prop06 — PERSISTED
+  1 assumption(s): 1 valid (closed), 0 gap(s).
+  VALID (cheapest ladder rung that closed it — higher level = less trivial):
+    - step1_assumption1  [L2 assumption]: $AB$ is unequal to $AC$

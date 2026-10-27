@@ -1,0 +1,8 @@
+[check_step --drive] step11 (stale) — running --subtree step11
+
+[check_step --subtree step11] auditing the step11 cone — 1 node(s) in Book1/Prop06 (sub-nodes before step11):
+  ✓ step11: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step11's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop06 --all` ONCE at the very end.
+[check_step --drive] all Main nodes done.
+  ⟹ check_step --all is GUARANTEED to pass. Run it ONCE as the final witness, then Phase C.

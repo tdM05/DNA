@@ -1,0 +1,14 @@
+[check_step --drive] step5 (stale) — running --subtree step5
+
+[check_step --subtree step5] auditing the step5 cone — 1 node(s) in Book1/Prop18 (sub-nodes before step5):
+  ✓ step5: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step5's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop18 --all` ONCE at the very end.
+[check_step --drive] step6 (todo) — running --subtree step6
+
+[check_step --subtree step6] auditing the step6 cone — 1 node(s) in Book1/Prop18 (sub-nodes before step6):
+  ⚠ step6: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step6's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop18 --all` ONCE at the very end.
+[check_step --drive] all Main nodes done.
+  ⟹ check_step --all is GUARANTEED to pass. Run it ONCE as the final witness, then Phase C.

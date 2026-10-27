@@ -1,0 +1,3 @@
+[wire_main] wiring: rewrote 9 node body(ies) across Book3/Prop06; 30s caps deleted (→ 300s default).
+[wire_main] building Book3.Prop06.Main once (uncapped, no wall timeout)…
+PASS: Book3.Prop06.Main built green, zero sorry. Phase C wiring committed. Now run the authoritative checks: scripts/check_faithful.sh, check_steps.py, check_signatures.py.

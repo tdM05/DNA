@@ -1,0 +1,11 @@
+[check_step] hAGDB  (have in Book3/Prop25/Main.lean)
+  SF ok — claim well-typed in Book3/Prop25/Main.lean and sufficient (closes the goal with `hAGDB` as sorry).
+  SP ok — hyps suppliable (objects: a b c d g AC DB AB AG).
+FAIL (P — provable): Book3/Prop25/hAGDB.lean did not build (or hit the 30s cap — decompose into more `have`+backing files).
+
+error: ././././Book3/Prop25/hAGDB.lean:20:2: Could not prove: AG.intersectsLine DB
+    ↳ source: euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

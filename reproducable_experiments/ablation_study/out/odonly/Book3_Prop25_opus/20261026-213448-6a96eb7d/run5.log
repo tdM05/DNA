@@ -1,0 +1,48 @@
+[check_step --drive] step5 (todo) — running --subtree step5
+
+[check_step --subtree step5] auditing the step5 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step5):
+  ✓ step5: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step5's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] hAGDB (todo) — running --subtree hAGDB
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'hAGDB' (Book3/Prop25/Main.lean) has NO backing file 'hAGDB.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at hAGDB — fix it, then re-run --drive to resume.
+[check_step --context] hypotheses available at node 'hAGDB' (in Book3/Prop25/Main.lean):
+
+a b c : Point
+AC : Line
+left : a.onLine AC
+left_1 : c.onLine AC
+left_2 : a ≠ c
+left_3 : ¬b.onLine AC
+right_3 : |(a─b)| = |(c─b)|
+d : Point
+left✝⁸ : between a d c
+right✝⁶ : |(a─d)| = |(d─c)|
+DB : Line
+left✝⁷ : d.onLine DB
+right✝⁵ : b.onLine DB
+AB : Line
+left✝⁶ : a.onLine AB
+right✝⁴ : b.onLine AB
+step2 : ∠a:d:b = ∟
+step4 : ∠a:b:d > ∠b:a:d ∨ ∠a:b:d = ∠b:a:d ∨ ∠a:b:d < ∠b:a:d
+hgt step5 : ∠a:b:d > ∠b:a:d
+g : Point
+left✝⁵ : between a d c
+right✝³ : |(a─d)| = |(d─c)|
+left✝⁴ : a.onLine AB
+left✝³ : g ≠ a
+left✝² : b.onLine AB
+right✝² : a ≠ b
+left✝¹ : g.onLine AB ∨ g.sameSide d AB
+right✝¹ : ∠g:a:b = ∠a:b:d
+AG : Line
+left✝ : a.onLine AG
+right✝ : g.onLine AG
+⊢ AG.intersectsLine DB
+
+NOTE: this is the LITERAL local context. `euclid_apply (helper…); euclid_finish` can also discharge facts NOT listed here (between/sameSide/distinctness derived by SMT). The authoritative suppliability test is SP (`check_step <node>`), not this list — do not over-decompose because something isn't shown.

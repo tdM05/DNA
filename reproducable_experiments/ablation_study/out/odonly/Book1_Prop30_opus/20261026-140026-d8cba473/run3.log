@@ -1,0 +1,113 @@
+[check_step] step7  (sentence in Book1/Prop30/Main.lean)
+  SF ok — `step7`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)
+FAIL (SP — suppliable): wiring `euclid_apply (helper_1_30_step7 a c d g k AB CD GK)` in Book1/Prop30/Main.lean did not build.
+  → The wire FULLY applies the helper: objects positionally + one `(by assumption)` per hypothesis binder (zero SMT). SP failed for ONE of these reasons:
+    (a) a HYPOTHESIS is NOT present in the parent context → its `(by assumption)` fails (`tactic 'assumption' failed`). The signature hyp must be a fact the parent ALREADY has. FIX: remove that hyp from the helper signature and DERIVE it inside the helper body (it becomes part of the bounded ≤30s leaf build). Run `--context <node>` to see the atoms in scope;
+    (b) a hypothesis is present but in a DIFFERENT FORM/ORIENTATION than the signature asks (`assumption` is exact up to defeq — distance/angle symmetry and abbrev packaging are NOT definitional) → match the signature to the LITERAL atom the parent has (abbrevs like `formParallelogram` are unfolded to atomic conjuncts in context — take the ATOMS), or derive the reoriented fact in-body;
+    (c) an OBJECT arg name isn't in this parent's scope (`unknown identifier`) → if the helper is reused with DIFFERENT objects per parent, add a `-- @args: <objs in order>` line directly above this node to pass this site's actuals;
+    (d) the build hit the 30s cap → decompose. This is NOT a tooling wall.
+  Build output:
+
+  HINT: a `(by assumption)` failed above — a HYPOTHESIS binder of the helper is not present by type in this parent's context. Run `--context step7` to see the exact atoms in scope, then REMOVE that hyp from the signature and derive it in the helper body (the wire discharges hyps ONLY by `assumption`; every signature hyp must be a fact the parent has verbatim).
+
+error: ././././Book1/Prop30/Main.lean:59:249: tactic 'assumption' failed
+    ↳ source: 
+AB CD EF : Line
+left : AB ≠ CD
+left_1 : CD ≠ EF
+left_2 : EF ≠ AB
+left_3 : ¬AB.intersectsLine EF
+right_3 : ¬CD.intersectsLine EF
+a✝ : AB.intersectsLine CD
+g : Point
+h✝ : g.onLine AB
+k : Point
+left_4 : g ≠ k
+right_4 : k.onLine CD
+GK : Line
+left✝⁶ : g.onLine GK
+right✝⁶ : k.onLine GK
+h : Point
+left✝⁵ : h.onLine EF
+right✝⁵ : h.onLine GK
+a : Point
+left_5 : g ≠ a
+right_5 : a.onLine AB
+b : Point
+left✝⁴ : b.onLine AB
+right✝⁴ : between a g b
+e : Point
+left✝³ : e.onLine EF
+right✝³ : e.sameSide a GK
+f : Point
+left✝² : f.onLine EF
+right✝² : between e h f
+c : Point
+left✝¹ : c.onLine CD
+right✝¹ : c.sameSide a GK
+d : Point
+left✝ : d.onLine CD
+right✝ : between c k d
+step1 : AB.intersectsLine GK ∧ EF.intersectsLine GK ∧ CD.intersectsLine GK
+hc : between g h k
+step2_assumption1 : AB.intersectsLine GK ∧ EF.intersectsLine GK ∧ ¬AB.intersectsLine EF
+step2 : ∠a:g:k = ∠g:h:f
+step3_assumption1 : EF.intersectsLine GK ∧ CD.intersectsLine GK ∧ ¬CD.intersectsLine EF
+step3 : ∠g:h:f = ∠g:k:d
+step4 : ∠a:g:k = ∠g:h:f
+step5 : ∠a:g:k = ∠g:k:d
+step6 : a.opposingSides d GK
+⊢ a ≠ g
+
+error: ././././Book1/Prop30/Main.lean:59:249: tactic 'assumption' failed
+    ↳ source: 
+AB CD EF : Line
+left : AB ≠ CD
+left_1 : CD ≠ EF
+left_2 : EF ≠ AB
+left_3 : ¬AB.intersectsLine EF
+right_3 : ¬CD.intersectsLine EF
+a✝ : AB.intersectsLine CD
+g : Point
+h✝ : g.onLine AB
+k : Point
+left_4 : g ≠ k
+right_4 : k.onLine CD
+GK : Line
+left✝⁶ : g.onLine GK
+right✝⁶ : k.onLine GK
+h : Point
+left✝⁵ : h.onLine EF
+right✝⁵ : h.onLine GK
+a : Point
+left_5 : g ≠ a
+right_5 : a.onLine AB
+b : Point
+left✝⁴ : b.onLine AB
+right✝⁴ : between a g b
+e : Point
+left✝³ : e.onLine EF
+right✝³ : e.sameSide a GK
+f : Point
+left✝² : f.onLine EF
+right✝² : between e h f
+c : Point
+left✝¹ : c.onLine CD
+right✝¹ : c.sameSide a GK
+d : Point
+left✝ : d.onLine CD
+right✝ : between c k d
+step1 : AB.intersectsLine GK ∧ EF.intersectsLine GK ∧ CD.intersectsLine GK
+hc : between g h k
+step2_assumption1 : AB.intersectsLine GK ∧ EF.intersectsLine GK ∧ ¬AB.intersectsLine EF
+step2 : ∠a:g:k = ∠g:h:f
+step3_assumption1 : EF.intersectsLine GK ∧ CD.intersectsLine GK ∧ ¬CD.intersectsLine EF
+step3 : ∠g:h:f = ∠g:k:d
+step4 : ∠a:g:k = ∠g:h:f
+step5 : ∠a:g:k = ∠g:k:d
+step6 : a.opposingSides d GK
+⊢ a ≠ g
+
+error: Lean exited with code 1
+
+error: build failed

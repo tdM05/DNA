@@ -1,0 +1,18 @@
+[check_step --drive] swapfig (stale) — running --subtree swapfig
+
+[check_step --subtree swapfig] auditing the swapfig cone — 1 node(s) in Book1/Prop06 (sub-nodes before swapfig):
+  ✓ swapfig: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: swapfig's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop06 --all` ONCE at the very end.
+[check_step --drive] step2 (todo) — running --subtree step2
+
+[check_step --subtree step2] auditing the step2 cone — 1 node(s) in Book1/Prop06 (sub-nodes before step2):
+  ⚠ step2: leaf backing file's OWN body is still `:= by sorry` — tolerated here (SF+SP certified) and recorded as certified, but this leaf still needs its own proof (Main's stray-sorry gate + Phase-C wire_main stay strict). NOTE: a `sorry` in only a cited dependency is the separate `deps` case above, not this.
+
+PASS: step2's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop06 --all` ONCE at the very end.
+[check_step --drive] step3 (todo) — running --subtree step3
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step3' (Book1/Prop06/Main.lean) has NO backing file 'step3.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step3 — fix it, then re-run --drive to resume.

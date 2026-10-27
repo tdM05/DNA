@@ -1,0 +1,11 @@
+[check_step] step9  (sentence in Book3/Prop25/Main.lean)
+  SF ok — `step9`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)
+  SP ok — hyps suppliable (objects: a b c d g e AC DB AB AG).
+FAIL (P — provable): Book3/Prop25/step9.lean did not build (or hit the 30s cap — decompose into more `have`+backing files).
+
+error: ././././Book3/Prop25/step9.lean:22:38: Could not prove: g.sameSide d AB
+    ↳ source: have hgside : g.sameSide d AB := by euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

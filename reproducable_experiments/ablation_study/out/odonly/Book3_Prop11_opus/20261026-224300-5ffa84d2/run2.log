@@ -1,0 +1,5 @@
+[check_step] step3_tri  (have in Book3/Prop11/step3.lean)
+  SF ok — claim well-typed in Book3/Prop11/step3.lean and sufficient (closes the goal with `step3_tri` as sorry).
+  SP ok — hyps suppliable (objects: a f g ABC AF AG GF).
+  P ok — Book3/Prop11/step3_tri.lean (leaf) builds with ZERO sorry.
+PASS: step3_tri CERTIFIED (SF + SP + P).

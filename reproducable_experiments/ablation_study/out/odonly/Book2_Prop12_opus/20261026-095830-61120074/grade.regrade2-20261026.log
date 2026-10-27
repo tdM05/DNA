@@ -1,0 +1,50 @@
+⚠ [786/896] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+⚠ [788/896] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [797/896] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [824/896] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [826/896] Replayed Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [827/896] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [828/896] Replayed Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [830/896] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [847/896] Replayed Book1.Prop19.Main
+warning: ././././Book1/Prop19/Main.lean:5:8: declaration uses 'sorry'
+⚠ [859/896] Replayed Book1.Prop22.Main
+warning: ././././Book1/Prop22/Main.lean:6:8: declaration uses 'sorry'
+⚠ [861/896] Replayed Book1.Prop23.Main
+warning: ././././Book1/Prop23/Main.lean:7:8: declaration uses 'sorry'
+⚠ [866/896] Replayed Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+⚠ [873/896] Replayed Book1.Prop31.Main
+warning: ././././Book1/Prop31/Main.lean:7:8: declaration uses 'sorry'
+⚠ [874/896] Replayed Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+⚠ [876/896] Replayed Book1.Prop13.Main
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+⚠ [877/896] Replayed Book1.Prop15.Main
+warning: ././././Book1/Prop15/Main.lean:5:8: declaration uses 'sorry'
+⚠ [878/896] Replayed Book1.Prop29.Main
+warning: ././././Book1/Prop29/Main.lean:7:8: declaration uses 'sorry'
+⚠ [880/896] Replayed Book1.Prop26.Main
+warning: ././././Book1/Prop26/Main.lean:9:8: declaration uses 'sorry'
+⚠ [881/896] Replayed Book1.Prop34.Main
+warning: ././././Book1/Prop34/Main.lean:6:8: declaration uses 'sorry'
+⚠ [883/896] Replayed Book1.Prop46.Main
+warning: ././././Book1/Prop46/Main.lean:8:8: declaration uses 'sorry'
+⚠ [885/896] Replayed Book2.Prop04.Main
+warning: ././././Book2/Prop04/Main.lean:9:8: declaration uses 'sorry'
+⚠ [888/896] Replayed Book1.Prop14.Main
+warning: ././././Book1/Prop14/Main.lean:5:8: declaration uses 'sorry'
+⚠ [889/896] Replayed Book1.Prop41.Main
+warning: ././././Book1/Prop41/Main.lean:5:8: declaration uses 'sorry'
+⚠ [890/896] Replayed Book1.Prop47.Main
+warning: ././././Book1/Prop47/Main.lean:10:8: declaration uses 'sorry'
+✔ [896/896] Built Book2.Prop12.Main
+Build completed successfully.

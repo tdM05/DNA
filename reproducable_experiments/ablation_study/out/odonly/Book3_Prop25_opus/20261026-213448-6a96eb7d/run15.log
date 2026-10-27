@@ -1,0 +1,5 @@
+[check_step] step9_assumption1  (have in Book3/Prop25/Main.lean)
+  SF ok — claim well-typed in Book3/Prop25/Main.lean and sufficient (closes the goal with `step9_assumption1` as sorry).
+  SP ok — hyps suppliable (objects: a b c d g e AC DB AB AG).
+  P ok (deps pending) — Book3/Prop25/step9_assumption1.lean (leaf) is itself sorry-free; the only remaining `sorry` (././././Book1/Prop17/Main.lean:5) is in an IMPORTED cited proposition / dependency, NOT in this leaf. That is EXPECTED and OK — the leaf is PROVEN modulo its unproven deps (the same `PASS (with unproven deps)` state Phase-C wire_main accepts). Do NOT drop the citation or try to 'prove it' here — the dep is proven on its own track.
+PASS: step9_assumption1 CERTIFIED (SF + SP + P (modulo unproven deps — OK)).

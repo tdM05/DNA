@@ -1,0 +1,22 @@
+[check_step --drive] step17 (todo) — running --subtree step17
+
+[check_step --subtree step17] auditing the step17 cone — 1 node(s) in Book1/Prop45 (sub-nodes before step17):
+  ✗ step17: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book1Variants/Prop44.lean:1:0: failed to open file '././.lake/build/lib/Book1/Prop03/Main.olean'
+    ↳ source: import SystemE
+
+error: ././././Book1Variants/Prop44.lean:14:16: expected token
+
+error: ././././Book1Variants/Prop44.lean:49:16: expected token
+
+error: ././././Book1Variants/Prop44.lean:80:36: expected token
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step17 — fix it, then re-run --drive to resume.
+[check_step --dependency] criterion-3 (source-regex, number-only) for Book1/Prop45:
+FAIL (dependency / criterion-3): 1 cited [Prop.~B.N] not satisfied in Book1/Prop45 (number-only; the human's gate-C olean check is book-aware — do NOT game this regex):
+  - sentence 1.45.19 cites [Prop.~1.33] but no `proposition_33` is (a) applied `… as …` in Main (construction) NOR (b) `euclid_apply`'d in its helper cone (step19).

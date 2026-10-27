@@ -1,0 +1,3 @@
+OK: Book1/Prop45 structurally sound — 26 node(s), naming law holds, every node has a backing file, every file carries the 30s cap, nothing pre-wired, no stray sorry, every cited [Prop.~B.N] satisfied (construction or helper-cone).
+[check_step --dependency] criterion-3 (source-regex, number-only) for Book1/Prop45:
+OK: every cited [Prop.~B.N] is satisfied by a Main construction (`… as …`) or its sentence's helper cone. (Book authentication is the gate-C olean check.)

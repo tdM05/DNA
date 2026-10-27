@@ -1,1 +1,1 @@
-Book3/Prop25  mymethod  opus  session=d9796ac0-85db-4b37-bab9-f1c0daa3db9b  transcript=/home/liby99/.claude/projects/-weka-scratch-liby99-lcs-tadd-code-autoform-methodology-compare-worktrees-full/d9796ac0-85db-4b37-bab9-f1c0daa3db9b.jsonl  elapsed=160m03s  (started 19:06:20 · Ctrl-C to cancel)
+Book1/Prop20  mymethod  opus  session=789ae150-1bdf-4de1-bec8-399937976386  transcript=/u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-full/789ae150-1bdf-4de1-bec8-399937976386.jsonl  elapsed=0m00s  (started 11:03:26 · Ctrl-C to cancel)

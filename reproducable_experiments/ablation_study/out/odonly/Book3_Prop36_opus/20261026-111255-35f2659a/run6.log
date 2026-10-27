@@ -1,0 +1,9 @@
+[check_step --subtree step23] auditing the step23 cone — 2 node(s) in Book3/Prop36 (sub-nodes before step23):
+  ✗ step23_tri: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book3/Prop36/step23.lean:20:27: Could not prove: ¬f = c
+    ↳ source: have heoff : ¬ e.onLine DA := by euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

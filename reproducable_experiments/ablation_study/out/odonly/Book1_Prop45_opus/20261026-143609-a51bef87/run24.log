@@ -1,0 +1,8 @@
+[check_step --drive] hangle (todo) — running --subtree hangle
+
+[check_step --subtree hangle] auditing the hangle cone — 1 node(s) in Book1/Prop45 (sub-nodes before hangle):
+  ✗ hangle (Book1/Prop45/hangle.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+[faithful_lib] build of Book1.Prop45.hangle exceeded 45s wall clock — TOO BIG. DECOMPOSE into more backing files; NEVER raise the cap. Last output before the kill (what it was elaborating when it stalled):
+
+[check_step --drive] STOPPED at hangle — fix it, then re-run --drive to resume.

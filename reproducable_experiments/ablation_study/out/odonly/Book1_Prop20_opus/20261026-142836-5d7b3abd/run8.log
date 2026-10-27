@@ -1,0 +1,15 @@
+[check_step --drive] step9 (stale) — running --subtree step9
+
+[check_step --subtree step9] auditing the step9 cone — 6 node(s) in Book1/Prop20 (sub-nodes before step9):
+  ✓ step9_ti_s1: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step9_ti_s4: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✗ step9_ti_s5 (Book1/Prop20/step9_ti_s5.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book1/Prop20/step9_ti_s5.lean:14:2: Could not prove: ∠x:z:w < ∠y:z:w
+    ↳ source: euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step9 — fix it, then re-run --drive to resume.

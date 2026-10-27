@@ -1,0 +1,17 @@
+[check_step --drive] step14 (todo) — running --subtree step14
+
+[check_step --subtree step14] auditing the step14 cone — 1 node(s) in Book1/Prop45 (sub-nodes before step14):
+  ✗ step14: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book1/Prop45/Main.lean:1:0: object file '././.lake/build/lib/Book1/Prop27/Main.olean' of module Book1.Prop27.Main does not exist
+    ↳ source: import SystemE
+
+error: ././././Book1/Prop45/Main.lean:7:0: unknown option 'linter.unnecessarySeqFocus'
+
+error: ././././Book1/Prop45/Main.lean:13:30: expected token
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step14 — fix it, then re-run --drive to resume.

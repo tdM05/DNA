@@ -1,0 +1,12 @@
+[check_step] step5  (sentence in Book2/Prop03/Main.lean)
+  SF ok — `step5`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)
+  SP ok — hyps suppliable (objects: a b c d e f AB CD DE BE AF).
+  P n/a — Book2/Prop03/step5.lean is a CONTAINER (sub-nodes: step4_afbe, step4_sfbe); not built here. Its combine is certified by its own combine-check, its sub-nodes by their isolated SP, its leaves by their own P. Certify those sub-nodes.
+  ✗ COMBINE FAILED — Book2/Prop03/step5.lean's combine (the proof after its `have`s) did not close from the sub-node claim-types (or hit the 30s cap → factor the combine, e.g. `linarith` over locked equalities instead of one big `euclid_finish`).
+
+error: ././././Book2/Prop03/step5.lean:31:2: Could not prove: (△a:f:e).area + (△a:e:b).area = |(f─e)| * |(b─c)|
+    ↳ source: euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

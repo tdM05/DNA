@@ -6,8 +6,7 @@ LeanEuclidPlus/scripts/step_signatures.json
 # Faithful-pipeline agent transcripts (run_faithful.py). The `cost/` JSON ledger IS committed;
 # the full streamed agent traces under `runs/` are large/noisy and stay local-only.
 LeanEuclidPlus/Book*/Prop*/runs/
-
-
+rebuttatl/
 # Claude Code auto-generated runtime lock (harness rewrites it constantly; not source)
 .claude/scheduled_tasks.lock
 

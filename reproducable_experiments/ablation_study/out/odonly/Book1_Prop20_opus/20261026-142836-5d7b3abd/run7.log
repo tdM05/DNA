@@ -1,0 +1,62 @@
+[check_step --drive] step9 (stale) — running --subtree step9
+
+[check_step --subtree step9] auditing the step9 cone — 6 node(s) in Book1/Prop20 (sub-nodes before step9):
+  ✗ tri_ineq_s1: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book1/Prop20/tri_ineq.lean:15:159: tactic 'assumption' failed
+    ↳ source: have tri_ineq_s4 : ∠ x:w:z = ∠ x:z:w := by sorry
+x y z : Point
+XY YZ XZ : Line
+w' : Point
+left✝¹¹ : w'.onLine XY
+left✝¹⁰ : x.onLine XY
+left✝⁹ : y.onLine YZ
+left✝⁸ : between y x w'
+right✝⁴ : |(x─w')| > |(z─x)|
+left✝⁷ : y.onLine XY
+right✝³ : x ≠ y
+left✝⁶ : z.onLine YZ
+left✝⁵ : z.onLine XZ
+left✝⁴ : x.onLine XZ
+left✝³ : XY ≠ YZ
+left✝² : YZ ≠ XZ
+right✝² : XZ ≠ XY
+w : Point
+left✝¹ : between x w w'
+right✝¹ : |(x─w)| = |(x─z)|
+WZ : Line
+left✝ : w.onLine WZ
+right✝ : z.onLine WZ
+⊢ formTriangle x y z XY YZ XZ
+
+error: ././././Book1/Prop20/tri_ineq.lean:15:159: tactic 'assumption' failed
+    ↳ source: have tri_ineq_s4 : ∠ x:w:z = ∠ x:z:w := by sorry
+x y z : Point
+XY YZ XZ : Line
+w' : Point
+left✝¹¹ : w'.onLine XY
+left✝¹⁰ : x.onLine XY
+left✝⁹ : y.onLine YZ
+left✝⁸ : between y x w'
+right✝⁴ : |(x─w')| > |(z─x)|
+left✝⁷ : y.onLine XY
+right✝³ : x ≠ y
+left✝⁶ : z.onLine YZ
+left✝⁵ : z.onLine XZ
+left✝⁴ : x.onLine XZ
+left✝³ : XY ≠ YZ
+left✝² : YZ ≠ XZ
+right✝² : XZ ≠ XY
+w : Point
+left✝¹ : between x w w'
+right✝¹ : |(x─w)| = |(x─z)|
+WZ : Line
+left✝ : w.onLine WZ
+right✝ : z.onLine WZ
+⊢ formTriangle x y z XY YZ XZ
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step9 — fix it, then re-run --drive to resume.

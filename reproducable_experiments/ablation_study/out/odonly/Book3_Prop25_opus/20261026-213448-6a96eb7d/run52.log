@@ -1,0 +1,8 @@
+[check_step --drive] hcα₃ (todo) — running --subtree hcα₃
+
+[check_step --subtree hcα₃] auditing the hcα₃ cone — 1 node(s) in Book3/Prop25 (sub-nodes before hcα₃):
+  ✓ hcα₃: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: hcα₃'s subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] all Main nodes done.
+  whole-prop checks still failing: criterion-3 deps — fix before --all.

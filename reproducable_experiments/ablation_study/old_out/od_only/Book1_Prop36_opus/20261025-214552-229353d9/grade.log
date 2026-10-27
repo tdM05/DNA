@@ -1,0 +1,204 @@
+===== GRADE 2026-10-25 22:22:22 · Book1/Prop36 · arm=odonly · node=cpunode7 =====
+worktree: /h/56/taddmao/code/autoform/methodology_compare_worktrees/od_only/LeanEuclidPlus
+
+----- [sorry_count] -----
+sorry count = 0  (must be 0)
+
+----- [check_faithful] -----
+=== Main.lean — MODE: source/regex (no build) ===
+    quick offline sanity check (text is EXACT; dependency match is number-only, not book-aware)
+  [PASS] sentence locators are contiguous with no duplicates
+         11 sentences
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (11 sentences (1.36.0..1.36.10) vs Book1/data/texts_proofs/36.txt)
+  [PASS] every cited [Prop.~B.M] is a Main construction (`… as …`) or deferred to Phase B (construction-aware, number-only)
+         0 construction prop(s) in Main: (none)
+         5 proof-internal citation(s) deferred to Phase B (their step helpers must cite these): 1.33, 1.34 (×3), 1.35
+  [PASS] @assumption text is a normalized substring of its owning sentence
+         4 annotation(s) checked
+  [PASS] no euclid_sentence has a vacuous `True` claim
+         9 sentence claim(s) are non-trivial
+  [PASS] euclid_intro/conclude_sentence bracket the proof (leading / trailing only)
+         placement OK
+  [note] not machine-checked: that each step's type honestly captures its sentence (review by hand)
+  => ALL PASS (source/regex mode)
+----- [check_backing] -----
+=== Prop36/Main.lean — MODE: backing (source, no build) ===
+  [PASS] every sentence delegates to helper_<book>_<prop>_stepN in its own file
+         9 checked
+  [PASS] each sentence's helper call supplies every hypothesis via euclid_assumption (show type)
+         9 checked
+  => ALL PASS (backing mode)
+----- [check_signatures] -----
+OK: all 1 proposition signatures matching 'Book1/Prop36/Main.lean' unchanged
+----- [check_steps] -----
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 9 approved step claim(s) + assumptions unchanged in Book1/Prop36/Main.lean
+----- [lake_build: Book1.Prop36.Main] -----
+⚠ [812/847] Replayed Book1.Prop34.Main
+warning: ././././Book1/Prop34/Main.lean:6:8: declaration uses 'sorry'
+⚠ [813/847] Replayed Book1.Prop36.step1
+warning: ././././Book1/Prop36/step1.lean:7:5: unused variable `heAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step1.lean:7:26: unused variable `hhAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step1.lean:7:47: unused variable `haAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step1.lean:7:68: unused variable `hdAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step1.lean:8:5: unused variable `hbBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step1.lean:8:26: unused variable `hcBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step1.lean:9:5: unused variable `hcCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step1.lean:9:26: unused variable `hdCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [815/847] Replayed Book1.Prop36.step3
+warning: ././././Book1/Prop36/step3.lean:6:5: unused variable `h1`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [816/847] Replayed Book1.Prop36.step4
+warning: ././././Book1/Prop36/step4.lean:7:5: unused variable `heAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step4.lean:7:26: unused variable `hhAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step4.lean:7:47: unused variable `haAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step4.lean:7:68: unused variable `hdAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step4.lean:8:5: unused variable `hbBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step4.lean:8:26: unused variable `hcBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step4.lean:9:5: unused variable `hcCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step4.lean:9:26: unused variable `hdCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [817/847] Replayed Book1.Prop33.Main
+warning: ././././Book1/Prop33/Main.lean:5:8: declaration uses 'sorry'
+⚠ [818/847] Replayed Book1.Prop36.step5
+warning: ././././Book1/Prop36/step5.lean:7:47: unused variable `haAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:7:68: unused variable `hdAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:8:47: unused variable `hfBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:8:68: unused variable `hgBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:9:5: unused variable `haAB`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:9:26: unused variable `hbAB`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:9:47: unused variable `hdCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:9:68: unused variable `hcCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:10:5: unused variable `heEF`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:10:26: unused variable `hfEF`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:10:47: unused variable `hhHG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:10:68: unused variable `hgHG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:11:5: unused variable `hbBE`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:11:26: unused variable `heBE`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:11:47: unused variable `hcCH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step5.lean:11:68: unused variable `hhCH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [819/847] Replayed Book1.Prop36.step6
+warning: ././././Book1/Prop36/step6.lean:6:47: unused variable `haAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:6:68: unused variable `hdAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:7:47: unused variable `hfBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:7:68: unused variable `hgBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:8:5: unused variable `haAB`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:8:26: unused variable `hbAB`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:8:47: unused variable `hdCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:8:68: unused variable `hcCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:9:5: unused variable `heEF`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:9:26: unused variable `hfEF`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:9:47: unused variable `hhHG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:9:68: unused variable `hgHG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:10:5: unused variable `hbBE`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:10:26: unused variable `heBE`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:10:47: unused variable `hcCH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step6.lean:10:68: unused variable `hhCH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [820/847] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [821/847] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+⚠ [823/847] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [825/847] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [826/847] Replayed Book1.Prop15.Main
+warning: ././././Book1/Prop15/Main.lean:5:8: declaration uses 'sorry'
+⚠ [827/847] Replayed Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [828/847] Replayed Book1.Prop35.Main
+warning: ././././Book1/Prop35/Main.lean:5:8: declaration uses 'sorry'
+⚠ [830/847] Replayed Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:6:8: declaration uses 'sorry'
+⚠ [831/847] Replayed Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+⚠ [833/847] Replayed Book1.Prop13.Main
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+⚠ [834/847] Replayed Book1.Prop29.Main
+warning: ././././Book1/Prop29/Main.lean:7:8: declaration uses 'sorry'
+⚠ [836/847] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [838/847] Replayed Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [840/847] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [841/847] Replayed Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+⚠ [842/847] Replayed Book1.Prop26.Main
+warning: ././././Book1/Prop26/Main.lean:9:8: declaration uses 'sorry'
+⚠ [845/847] Replayed Book1.Prop36.step7
+warning: ././././Book1/Prop36/step7.lean:8:5: unused variable `hbBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step7.lean:8:26: unused variable `hcBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step7.lean:12:5: unused variable `hAHBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [846/847] Replayed Book1.Prop36.step8
+warning: ././././Book1/Prop36/step8.lean:7:5: unused variable `heAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step8.lean:7:26: unused variable `hhAH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step8.lean:8:5: unused variable `hbBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step8.lean:8:26: unused variable `hcBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step8.lean:10:5: unused variable `hbBE`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step8.lean:10:26: unused variable `heBE`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step8.lean:10:47: unused variable `hcCH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step8.lean:10:68: unused variable `hhCH`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop36/step8.lean:13:5: unused variable `hAHBG`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+Build completed successfully.
+===== ALL CHECKS PASSED =====

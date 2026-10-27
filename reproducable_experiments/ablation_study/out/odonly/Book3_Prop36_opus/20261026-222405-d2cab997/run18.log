@@ -1,0 +1,9 @@
+[check_step --subtree step17] auditing the step17 cone — 4 node(s) in Book3/Prop36 (sub-nodes before step17):
+  ✗ step17_fin_a (Book3/Prop36/step17_fin_a.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book3/Prop36/step17_fin_a.lean:17:25: failed
+    ↳ source: have haf : a ≠ f := by euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

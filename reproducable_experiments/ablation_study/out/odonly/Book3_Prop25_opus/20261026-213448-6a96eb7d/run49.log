@@ -1,0 +1,14 @@
+[check_step --drive] hEc (todo) — running --subtree hEc
+
+[check_step --subtree hEc] auditing the hEc cone — 3 node(s) in Book3/Prop25 (sub-nodes before hEc):
+  ✓ hEc_tri1: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ hEc_tri2: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ hEc: SP[isolated] + Combine (container)
+
+PASS: hEc's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] haα₃ (todo) — running --subtree haα₃
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'haα₃' (Book3/Prop25/Main.lean) has NO backing file 'haα₃.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at haα₃ — fix it, then re-run --drive to resume.

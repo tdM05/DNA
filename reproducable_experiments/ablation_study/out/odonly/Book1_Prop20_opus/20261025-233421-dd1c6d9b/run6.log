@@ -1,0 +1,13 @@
+[check_step --drive] step5 (todo) — running --subtree step5
+
+[check_step --subtree step5] auditing the step5 cone — 1 node(s) in Book1/Prop20 (sub-nodes before step5):
+  ✗ step5 (Book1/Prop20/step5.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book1/Prop20/step5.lean:24:30: Could not prove: ∠a:c:d < ∠b:c:d
+    ↳ source: : ∠ b:c:d > ∠ a:d:c := by euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step5 — fix it, then re-run --drive to resume.

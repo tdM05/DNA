@@ -1,0 +1,26 @@
+[check_step --drive] step7_othercases (todo) — running --subtree step7_othercases
+
+[check_step --subtree step7_othercases] auditing the step7_othercases cone — 1 node(s) in Book1/Prop30 (sub-nodes before step7_othercases):
+  ✓ step7_othercases: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step7_othercases's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop30 --all` ONCE at the very end.
+[check_step --drive] all Main nodes done.
+  ⟹ check_step --all is GUARANTEED to pass. Run it ONCE as the final witness, then Phase C.
+[check_step --status] Book1/Prop30 — Main nodes (source order):
+
+  ✓ step1    Main subtree certified, inputs fresh
+  ✓ step2    Main subtree certified, inputs fresh
+  ✓ step3    Main subtree certified, inputs fresh
+  ✓ step4    Main subtree certified, inputs fresh
+  ✓ step5    Main subtree certified, inputs fresh
+  ✓ step6    Main subtree certified, inputs fresh
+  ✓ step7    Main subtree certified, inputs fresh
+  ✓ step7_othercases Main subtree certified, inputs fresh
+
+  whole-prop checks (instant, source-only):
+    ✓ criterion-3 deps         every cited [Prop.~B.N] satisfied
+    ✓ integrity (whole prop)   naming law · 30s caps · no stray sorry/import
+    ✓ no orphans               every backing-file node reachable from a Main node
+
+  SUMMARY: 8/8 Main nodes ✓ · 3/3 whole-prop checks ✓
+  ⟹ check_step --all is GUARANTEED to pass. Run it ONCE as the final witness, then Phase C.

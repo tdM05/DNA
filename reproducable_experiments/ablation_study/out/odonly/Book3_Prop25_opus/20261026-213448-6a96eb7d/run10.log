@@ -1,0 +1,59 @@
+[check_step --drive] hec (todo) — running --subtree hec
+
+[check_step --subtree hec] auditing the hec cone — 1 node(s) in Book3/Prop25 (sub-nodes before hec):
+  ✓ hec: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: hec's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step6 (todo) — running --subtree step6
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step6' (Book3/Prop25/Main.lean) has NO backing file 'step6.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step6 — fix it, then re-run --drive to resume.
+[check_step --context] hypotheses available at node 'step6' (in Book3/Prop25/Main.lean):
+
+a b c : Point
+AC : Line
+left : a.onLine AC
+left_1 : c.onLine AC
+left_2 : a ≠ c
+left_3 : ¬b.onLine AC
+right_3 : |(a─b)| = |(c─b)|
+d : Point
+left✝¹¹ : between a d c
+right✝⁹ : |(a─d)| = |(d─c)|
+DB : Line
+left✝¹⁰ : d.onLine DB
+right✝⁸ : b.onLine DB
+AB : Line
+left✝⁹ : a.onLine AB
+right✝⁷ : b.onLine AB
+step2 : ∠a:d:b = ∟
+step4 : ∠a:b:d > ∠b:a:d ∨ ∠a:b:d = ∠b:a:d ∨ ∠a:b:d < ∠b:a:d
+hgt step5 : ∠a:b:d > ∠b:a:d
+g : Point
+left✝⁸ : between a d c
+right✝⁶ : |(a─d)| = |(d─c)|
+left✝⁷ : a.onLine AB
+left✝⁶ : g ≠ a
+left✝⁵ : b.onLine AB
+right✝⁵ : a ≠ b
+left✝⁴ : g.onLine AB ∨ g.sameSide d AB
+right✝⁴ : ∠g:a:b = ∠a:b:d
+AG : Line
+left✝³ : a.onLine AG
+right✝³ : g.onLine AG
+hAGDB : AG.intersectsLine DB
+e : Point
+left✝² : e.onLine AG
+right✝² : e.onLine DB
+hec : e ≠ c
+EC : Line
+left✝¹ : e.onLine EC
+right✝¹ : c.onLine EC
+α₁ : Circle
+left✝ : e.isCentre α₁
+right✝ : a.onCircle α₁
+⊢ ∠b:a:e = ∠a:b:d ∧ e ≠ a
+
+NOTE: this is the LITERAL local context. `euclid_apply (helper…); euclid_finish` can also discharge facts NOT listed here (between/sameSide/distinctness derived by SMT). The authoritative suppliability test is SP (`check_step <node>`), not this list — do not over-decompose because something isn't shown.

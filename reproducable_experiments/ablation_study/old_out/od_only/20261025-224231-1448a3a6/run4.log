@@ -1,0 +1,3 @@
+[check_step --drive] step1 (stale) — running --subtree step1
+
+[check_step --subtree step1] auditing the step1 cone — 1 node(s) in Book1/Prop03 (sub-nodes before step1):

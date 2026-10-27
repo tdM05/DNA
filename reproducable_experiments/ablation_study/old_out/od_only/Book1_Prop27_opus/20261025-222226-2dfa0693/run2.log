@@ -1,0 +1,64 @@
+[check_step --drive] step1 (todo) — running --subtree step1
+
+[check_step --subtree step1] auditing the step1 cone — 1 node(s) in Book1/Prop27 (sub-nodes before step1):
+  ✗ step1: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book1/Prop27/Main.lean:23:805: tactic 'assumption' failed
+    ↳ source: -- Euclid takes the B,D direction first and derives a contradiction with Prop 1.16.
+a d e f : Point
+AE FD EF : Line
+left_1 : a.onLine AE
+left_2 : e.onLine AE
+right_2 : a ≠ e
+left_3 : f.onLine FD
+left_4 : d.onLine FD
+right_4 : f ≠ d
+left_5 : e.onLine EF
+left_6 : f.onLine EF
+right_6 : e ≠ f
+right_5 : ∠a:e:f = ∠e:f:d
+left_7 : ¬a.onLine EF
+left_8 : ¬d.onLine EF
+right_8 : ¬a.sameSide d EF
+a✝ : AE.intersectsLine FD
+b : Point
+left✝¹ : b.onLine AE
+right✝¹ : between a e b
+g : Point
+left✝ : g.onLine AE
+right✝ : g.onLine FD
+step1_assumption1 : AE.intersectsLine FD
+⊢ a.opposingSides d EF
+
+error: ././././Book1/Prop27/Main.lean:23:805: tactic 'assumption' failed
+    ↳ source: -- Euclid takes the B,D direction first and derives a contradiction with Prop 1.16.
+a d e f : Point
+AE FD EF : Line
+left_1 : a.onLine AE
+left_2 : e.onLine AE
+right_2 : a ≠ e
+left_3 : f.onLine FD
+left_4 : d.onLine FD
+right_4 : f ≠ d
+left_5 : e.onLine EF
+left_6 : f.onLine EF
+right_6 : e ≠ f
+right_5 : ∠a:e:f = ∠e:f:d
+left_7 : ¬a.onLine EF
+left_8 : ¬d.onLine EF
+right_8 : ¬a.sameSide d EF
+a✝ : AE.intersectsLine FD
+b : Point
+left✝¹ : b.onLine AE
+right✝¹ : between a e b
+g : Point
+left✝ : g.onLine AE
+right✝ : g.onLine FD
+step1_assumption1 : AE.intersectsLine FD
+⊢ a.opposingSides d EF
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step1 — fix it, then re-run --drive to resume.

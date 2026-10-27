@@ -1,0 +1,122 @@
+===== REGRADE 2026-10-26 10:41:52 · Book2/Prop12 · reason: original lake_build FAIL was a concurrent-dep-rebuild artifact (Book1/Prop12 olean absent); dep now stable =====
+[sorry_count] = 0 (must be 0)
+----- check_faithful -----
+=== Main.lean — MODE: source/regex (no build) ===
+    quick offline sanity check (text is EXACT; dependency match is number-only, not book-aware)
+  [PASS] sentence locators are contiguous with no duplicates
+         9 sentences
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (9 sentences (2.12.0..2.12.8) vs Book2/data/texts_proofs/12.txt)
+  [PASS] every cited [Prop.~B.M] is a Main construction (`… as …`) or deferred to Phase B (construction-aware, number-only)
+         1 construction prop(s) in Main: proposition_12
+         3 proof-internal citation(s) deferred to Phase B (their step helpers must cite these): 1.47 (×2), 2.4
+  [PASS] @assumption text is a normalized substring of its owning sentence
+         2 annotation(s) checked
+  [PASS] no euclid_sentence has a vacuous `True` claim
+         7 sentence claim(s) are non-trivial
+  [PASS] euclid_intro/conclude_sentence bracket the proof (leading / trailing only)
+         placement OK
+  [note] not machine-checked: that each step's type honestly captures its sentence (review by hand)
+  => ALL PASS (source/regex mode)
+----- check_backing -----
+=== Prop12/Main.lean — MODE: backing (source, no build) ===
+  [PASS] every sentence delegates to helper_<book>_<prop>_stepN in its own file
+         7 checked
+  [PASS] each sentence's helper call supplies every hypothesis via euclid_assumption (show type)
+         7 checked
+  => ALL PASS (backing mode)
+----- check_signatures -----
+OK: all 1 proposition signatures matching 'Book2/Prop12/Main.lean' unchanged
+----- check_steps -----
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 7 approved step claim(s) + assumptions unchanged in Book2/Prop12/Main.lean
+----- lake_build Book2.Prop12.Main -----
+⚠ [786/896] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+⚠ [788/896] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [797/896] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [824/896] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [826/896] Replayed Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [827/896] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [828/896] Replayed Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [830/896] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [847/896] Replayed Book1.Prop19.Main
+warning: ././././Book1/Prop19/Main.lean:5:8: declaration uses 'sorry'
+⚠ [859/896] Replayed Book1.Prop22.Main
+warning: ././././Book1/Prop22/Main.lean:6:8: declaration uses 'sorry'
+⚠ [861/896] Replayed Book1.Prop23.Main
+warning: ././././Book1/Prop23/Main.lean:7:8: declaration uses 'sorry'
+⚠ [866/896] Replayed Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+⚠ [873/896] Replayed Book1.Prop31.Main
+warning: ././././Book1/Prop31/Main.lean:7:8: declaration uses 'sorry'
+⚠ [874/896] Replayed Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+⚠ [876/896] Replayed Book1.Prop13.Main
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+⚠ [877/896] Replayed Book1.Prop15.Main
+warning: ././././Book1/Prop15/Main.lean:5:8: declaration uses 'sorry'
+⚠ [878/896] Replayed Book1.Prop29.Main
+warning: ././././Book1/Prop29/Main.lean:7:8: declaration uses 'sorry'
+⚠ [880/896] Replayed Book1.Prop26.Main
+warning: ././././Book1/Prop26/Main.lean:9:8: declaration uses 'sorry'
+⚠ [881/896] Replayed Book1.Prop34.Main
+warning: ././././Book1/Prop34/Main.lean:6:8: declaration uses 'sorry'
+⚠ [883/896] Replayed Book1.Prop46.Main
+warning: ././././Book1/Prop46/Main.lean:8:8: declaration uses 'sorry'
+⚠ [887/896] Replayed Book1.Prop14.Main
+warning: ././././Book1/Prop14/Main.lean:5:8: declaration uses 'sorry'
+⚠ [888/896] Replayed Book1.Prop41.Main
+warning: ././././Book1/Prop41/Main.lean:5:8: declaration uses 'sorry'
+⚠ [891/896] Replayed Book2.Prop04.Main
+warning: ././././Book2/Prop04/Main.lean:9:8: declaration uses 'sorry'
+⚠ [893/896] Replayed Book1.Prop47.Main
+warning: ././././Book1/Prop47/Main.lean:10:8: declaration uses 'sorry'
+✖ [896/896] Building Book2.Prop12.Main
+trace: .> LEAN_PATH=././.lake/packages/batteries/.lake/build/lib:././.lake/packages/Qq/.lake/build/lib:././.lake/packages/aesop/.lake/build/lib:././.lake/packages/proofwidgets/.lake/build/lib:././.lake/packages/Cli/.lake/build/lib:././.lake/packages/importGraph/.lake/build/lib:././.lake/packages/mathlib/.lake/build/lib:././.lake/packages/smt/.lake/build/lib:././.lake/packages/checkdecls/.lake/build/lib:././.lake/build/lib LD_LIBRARY_PATH=././.lake/packages/batteries/.lake/build/lib:././.lake/packages/smt/.lake/build/lib:././.lake/build/lib /h/56/taddmao/.elan/toolchains/leanprover--lean4---v4.8.0-rc2/bin/lean -DrelaxedAutoImplicit=true ././././Book2/Prop12/Main.lean -R ./././. -o ././.lake/build/lib/Book2/Prop12/Main.olean -i ././.lake/build/lib/Book2/Prop12/Main.ilean -c ././.lake/build/ir/Book2/Prop12/Main.c --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Init-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-CodeAction-Attr-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-CodeAction-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Lean-Position-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-CodeAction-Deprecated-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Tactic-Alias-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-AssocList-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Nat-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Classes-SatisfiesM-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Monadic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Classes-BEq-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Control-ForInStep-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Control-ForInStep-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Lean-Meta-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Tactic-Init-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-List-Init-Attach-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Init-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Basic-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Tactic-SeqFocus-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Util-ProofWanted-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Array-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-Nat-Lemmas-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-WF-1.so --load-dynlib=././.lake/packages/batteries/.lake/build/lib/libBatteries-Data-HashMap-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Data-Sexp-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Dsl-Sexp-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Term-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Commands-1.so --load-dynlib=././.lake/packages/smt/.lake/build/lib/libSmt-Solver-1.so --json
+error: ././././Book2/Prop12/Main.lean:22:2: unexpected solver output
+stdout: 
+stderr:Traceback (most recent call last):
+  File "/h/56/taddmao/miniforge3/bin/smt-portfolio", line 6, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/h/56/taddmao/miniforge3/lib/python3.13/site-packages/smt_portfolio/__init__.py", line 151, in main
+    result = run_all(solvers, Path(oup.name))
+  File "/h/56/taddmao/miniforge3/lib/python3.13/site-packages/smt_portfolio/__init__.py", line 97, in run_all
+    procs = [s.run(input_file) for s in solvers]
+             ~~~~~^^^^^^^^^^^^
+  File "/h/56/taddmao/miniforge3/lib/python3.13/site-packages/smt_portfolio/__init__.py", line 47, in run
+    return subprocess.Popen(
+           ~~~~~~~~~~~~~~~~^
+        shlex.split(f"z3 {self.args} {input_file}"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        bufsize=1,
+        ^^^^^^^^^^
+    )
+    ^
+  File "/h/56/taddmao/miniforge3/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/h/56/taddmao/miniforge3/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'z3'
+error: Lean exited with code 1
+Some builds logged failures:
+- Book2.Prop12.Main
+error: build failed
+===== FAIL=lake_buildlake_build =====

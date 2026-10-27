@@ -1,0 +1,73 @@
+[check_step --drive] step15 (todo) — running --subtree step15
+
+[check_step --subtree step15] auditing the step15 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step15):
+  ✓ step15: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step15's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step16 (todo) — running --subtree step16
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step16' (Book3/Prop25/Main.lean) has NO backing file 'step16.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step16 — fix it, then re-run --drive to resume.
+[check_step --context] hypotheses available at node 'step16' (in Book3/Prop25/Main.lean):
+
+a b c : Point
+AC : Line
+left : a.onLine AC
+left_1 : c.onLine AC
+left_2 : a ≠ c
+left_3 : ¬b.onLine AC
+right_3 : |(a─b)| = |(c─b)|
+d : Point
+left✝¹¹ : between a d c
+right✝⁹ : |(a─d)| = |(d─c)|
+DB : Line
+left✝¹⁰ : d.onLine DB
+right✝⁸ : b.onLine DB
+AB : Line
+left✝⁹ : a.onLine AB
+right✝⁷ : b.onLine AB
+step2 : ∠a:d:b = ∟
+step4 : ∠a:b:d > ∠b:a:d ∨ ∠a:b:d = ∠b:a:d ∨ ∠a:b:d < ∠b:a:d
+hgt step5 : ∠a:b:d > ∠b:a:d
+g : Point
+left✝⁸ : between a d c
+right✝⁶ : |(a─d)| = |(d─c)|
+left✝⁷ : a.onLine AB
+left✝⁶ : g ≠ a
+left✝⁵ : b.onLine AB
+right✝⁵ : a ≠ b
+left✝⁴ : g.onLine AB ∨ g.sameSide d AB
+right✝⁴ : ∠g:a:b = ∠a:b:d
+AG : Line
+left✝³ : a.onLine AG
+right✝³ : g.onLine AG
+hAGDB : AG.intersectsLine DB
+e : Point
+left✝² : e.onLine AG
+right✝² : e.onLine DB
+hec : e ≠ c
+EC : Line
+left✝¹ : e.onLine EC
+right✝¹ : c.onLine EC
+α₁ : Circle
+left✝ : e.isCentre α₁
+right✝ : a.onCircle α₁
+step6 : ∠b:a:e = ∠a:b:d ∧ e ≠ a
+step7 : e.onLine DB
+step8 : distinctPointsOnLine e c EC
+step9_assumption1 : ∠a:b:e = ∠b:a:e
+step9 : |(e─b)| = |(e─a)|
+step10_assumption1 : |(a─d)| = |(d─c)|
+step10_assumption2 : |(d─e)| = |(d─e)|
+step10 : |(a─d)| = |(c─d)| ∧ |(d─e)| = |(d─e)|
+step11_assumption1 : ∠a:d:e = ∟ ∧ ∠c:d:e = ∟
+step11 : ∠a:d:e = ∠c:d:e
+step12 : |(a─e)| = |(c─e)|
+step13 : |(a─e)| = |(b─e)|
+step14 : |(b─e)| = |(c─e)|
+step15 : |(a─e)| = |(e─b)| ∧ |(e─b)| = |(e─c)|
+⊢ e.isCentre α₁ ∧ a.onCircle α₁ ∧ b.onCircle α₁ ∧ c.onCircle α₁
+
+NOTE: this is the LITERAL local context. `euclid_apply (helper…); euclid_finish` can also discharge facts NOT listed here (between/sameSide/distinctness derived by SMT). The authoritative suppliability test is SP (`check_step <node>`), not this list — do not over-decompose because something isn't shown.

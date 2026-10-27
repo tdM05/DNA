@@ -1,0 +1,196 @@
+[check_step --subtree step9] auditing the step9 cone — 1 node(s) in Book1/Prop45 (sub-nodes before step9):
+  ✗ step9: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book1/Prop45/Main.lean:59:167: tactic 'assumption' failed
+    ↳ source: 
+a b c d e₁ e₂ e₃ : Point
+AB BC CD AD DB E₁₂ E₂₃ : Line
+left_2✝ : a.onLine AB
+left_3 : b.onLine AB
+right_3 : a ≠ b
+left_2 : b.onLine DB
+left_4 : d.onLine DB
+left_5 : d.onLine AD
+left_6 : a.onLine AD
+left_7 : AB ≠ DB
+left_8 : DB ≠ AD
+right_8 : AD ≠ AB
+left_10✝ : b.onLine BC
+left_11 : c.onLine BC
+right_11 : b ≠ c
+left_10 : c.onLine CD
+left_12 : d.onLine CD
+left_13 : d.onLine DB
+left_14 : b.onLine DB
+left_15 : BC ≠ CD
+left_16 : CD ≠ DB
+right_16 : DB ≠ BC
+left_17 : ¬a.onLine DB
+left_18 : ¬c.onLine DB
+right_18 : ¬a.sameSide c DB
+left_20✝ : e₁.onLine E₁₂
+left_21 : e₂.onLine E₁₂
+right_21 : e₁ ≠ e₂
+left_20 : e₂.onLine E₂₃
+left_22 : e₃.onLine E₂₃
+right_22 : e₂ ≠ e₃
+left_19 : ∠e₁:e₂:e₃ > 0
+right_19 : ∠e₁:e₂:e₃ < ∟ + ∟
+f g k h : Point
+FG KH FK GH : Line
+left✝³⁶ : d.onLine DB
+left✝³⁵ : b.onLine DB
+right✝¹⁰ : d ≠ b
+left✝³⁴ : f.onLine FG
+left✝³³ : ∠h:k:f = ∠e₁:e₂:e₃
+right✝⁹ : (△f:k:h).area + (△f:h:g).area = (△a:b:d).area
+left✝³² : g.onLine FG
+left✝³¹ : k.onLine KH
+left✝³⁰ : h.onLine KH
+left✝²⁹ : f.onLine FK
+left✝²⁸ : k.onLine FK
+left✝²⁷ : g.onLine GH
+left✝²⁶ : f.sameSide k GH
+left✝²⁵ : h.onLine GH
+right✝⁸ : g ≠ h
+left✝²⁴ : ¬FG.intersectsLine KH
+right✝⁷ : ¬FK.intersectsLine GH
+m l : Point
+HM GL LM : Line
+left✝²³ : f.onLine FG
+left✝²² : ∠h:k:f = ∠e₁:e₂:e₃
+right✝⁶ : (△f:k:h).area + (△f:h:g).area = (△a:b:d).area
+left✝²¹ : ¬m.onLine GH
+left✝²⁰ : g.onLine FG
+left✝¹⁹ : ¬k.onLine GH
+right✝⁵ : ¬m.sameSide k GH
+left✝¹⁸ : h.onLine HM
+left✝¹⁷ : ∠g:h:m = ∠e₁:e₂:e₃
+right✝⁴ : (△g:h:m).area + (△g:l:m).area = (△d:b:c).area
+left✝¹⁶ : k.onLine KH
+left✝¹⁵ : m.onLine HM
+left✝¹⁴ : h.onLine KH
+left✝¹³ : g.onLine GL
+left✝¹² : f.onLine FK
+left✝¹¹ : l.onLine GL
+left✝¹⁰ : k.onLine FK
+left✝⁹ : h.onLine GH
+left✝⁸ left✝⁷ : g.onLine GH
+left✝⁶ : f.sameSide k GH
+left✝⁵ : h.onLine GH
+right✝³ : g ≠ h
+left✝⁴ : ¬FG.intersectsLine KH
+right✝² : ¬FK.intersectsLine GH
+left✝³ : m.onLine LM
+left✝² : h.sameSide g LM
+left✝¹ : l.onLine LM
+right✝¹ : m ≠ l
+left✝ : ¬HM.intersectsLine GL
+right✝ : ¬GH.intersectsLine LM
+step3 : formParallelogram h m g l HM GL GH LM ∧ ∠g:h:m = ∠e₁:e₂:e₃ ∧ (△g:h:m).area + (△g:l:m).area = (△d:b:c).area
+step4_assumption1 : ∠e₁:e₂:e₃ = ∠h:k:f ∧ ∠e₁:e₂:e₃ = ∠g:h:m
+step4 : ∠h:k:f = ∠g:h:m
+step5 : ∠h:k:f + ∠k:h:g = ∠g:h:m + ∠k:h:g
+step6 : ∠f:k:h + ∠k:h:g = ∠k:h:g + ∠g:h:m
+step7 : ∠f:k:h + ∠k:h:g = ∟ + ∟
+step8 : ∠k:h:g + ∠g:h:m = ∟ + ∟
+⊢ m.opposingSides k GH
+
+error: ././././Book1/Prop45/Main.lean:59:167: tactic 'assumption' failed
+    ↳ source: 
+a b c d e₁ e₂ e₃ : Point
+AB BC CD AD DB E₁₂ E₂₃ : Line
+left_2✝ : a.onLine AB
+left_3 : b.onLine AB
+right_3 : a ≠ b
+left_2 : b.onLine DB
+left_4 : d.onLine DB
+left_5 : d.onLine AD
+left_6 : a.onLine AD
+left_7 : AB ≠ DB
+left_8 : DB ≠ AD
+right_8 : AD ≠ AB
+left_10✝ : b.onLine BC
+left_11 : c.onLine BC
+right_11 : b ≠ c
+left_10 : c.onLine CD
+left_12 : d.onLine CD
+left_13 : d.onLine DB
+left_14 : b.onLine DB
+left_15 : BC ≠ CD
+left_16 : CD ≠ DB
+right_16 : DB ≠ BC
+left_17 : ¬a.onLine DB
+left_18 : ¬c.onLine DB
+right_18 : ¬a.sameSide c DB
+left_20✝ : e₁.onLine E₁₂
+left_21 : e₂.onLine E₁₂
+right_21 : e₁ ≠ e₂
+left_20 : e₂.onLine E₂₃
+left_22 : e₃.onLine E₂₃
+right_22 : e₂ ≠ e₃
+left_19 : ∠e₁:e₂:e₃ > 0
+right_19 : ∠e₁:e₂:e₃ < ∟ + ∟
+f g k h : Point
+FG KH FK GH : Line
+left✝³⁶ : d.onLine DB
+left✝³⁵ : b.onLine DB
+right✝¹⁰ : d ≠ b
+left✝³⁴ : f.onLine FG
+left✝³³ : ∠h:k:f = ∠e₁:e₂:e₃
+right✝⁹ : (△f:k:h).area + (△f:h:g).area = (△a:b:d).area
+left✝³² : g.onLine FG
+left✝³¹ : k.onLine KH
+left✝³⁰ : h.onLine KH
+left✝²⁹ : f.onLine FK
+left✝²⁸ : k.onLine FK
+left✝²⁷ : g.onLine GH
+left✝²⁶ : f.sameSide k GH
+left✝²⁵ : h.onLine GH
+right✝⁸ : g ≠ h
+left✝²⁴ : ¬FG.intersectsLine KH
+right✝⁷ : ¬FK.intersectsLine GH
+m l : Point
+HM GL LM : Line
+left✝²³ : f.onLine FG
+left✝²² : ∠h:k:f = ∠e₁:e₂:e₃
+right✝⁶ : (△f:k:h).area + (△f:h:g).area = (△a:b:d).area
+left✝²¹ : ¬m.onLine GH
+left✝²⁰ : g.onLine FG
+left✝¹⁹ : ¬k.onLine GH
+right✝⁵ : ¬m.sameSide k GH
+left✝¹⁸ : h.onLine HM
+left✝¹⁷ : ∠g:h:m = ∠e₁:e₂:e₃
+right✝⁴ : (△g:h:m).area + (△g:l:m).area = (△d:b:c).area
+left✝¹⁶ : k.onLine KH
+left✝¹⁵ : m.onLine HM
+left✝¹⁴ : h.onLine KH
+left✝¹³ : g.onLine GL
+left✝¹² : f.onLine FK
+left✝¹¹ : l.onLine GL
+left✝¹⁰ : k.onLine FK
+left✝⁹ : h.onLine GH
+left✝⁸ left✝⁷ : g.onLine GH
+left✝⁶ : f.sameSide k GH
+left✝⁵ : h.onLine GH
+right✝³ : g ≠ h
+left✝⁴ : ¬FG.intersectsLine KH
+right✝² : ¬FK.intersectsLine GH
+left✝³ : m.onLine LM
+left✝² : h.sameSide g LM
+left✝¹ : l.onLine LM
+right✝¹ : m ≠ l
+left✝ : ¬HM.intersectsLine GL
+right✝ : ¬GH.intersectsLine LM
+step3 : formParallelogram h m g l HM GL GH LM ∧ ∠g:h:m = ∠e₁:e₂:e₃ ∧ (△g:h:m).area + (△g:l:m).area = (△d:b:c).area
+step4_assumption1 : ∠e₁:e₂:e₃ = ∠h:k:f ∧ ∠e₁:e₂:e₃ = ∠g:h:m
+step4 : ∠h:k:f = ∠g:h:m
+step5 : ∠h:k:f + ∠k:h:g = ∠g:h:m + ∠k:h:g
+step6 : ∠f:k:h + ∠k:h:g = ∠k:h:g + ∠g:h:m
+step7 : ∠f:k:h + ∠k:h:g = ∟ + ∟
+step8 : ∠k:h:g + ∠g:h:m = ∟ + ∟
+⊢ m.opposingSides k GH
+
+error: Lean exited with code 1
+
+error: build failed

@@ -1,0 +1,100 @@
+[safe_build] waiting for build lock...
+[safe_build] lock acquired, building: Book1.Prop45.Main Book1.Prop14.Main Book1.Prop30.Main Book1.Prop33.Main Book1Variants.Prop34 Book1Variants.Prop29
+⚠ [786/890] Replayed Book1.Prop01.Main
+warning: ././././Book1/Prop01/Main.lean:5:8: declaration uses 'sorry'
+⚠ [788/890] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:6:8: declaration uses 'sorry'
+⚠ [790/890] Replayed Book1.Prop03.Main
+warning: ././././Book1/Prop03/Main.lean:6:8: declaration uses 'sorry'
+⚠ [791/890] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [818/890] Replayed Book1.Prop05.Main
+warning: ././././Book1/Prop05/Main.lean:8:8: declaration uses 'sorry'
+⚠ [820/890] Replayed Book1.Prop07.Main
+warning: ././././Book1/Prop07/Main.lean:5:8: declaration uses 'sorry'
+⚠ [821/890] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [822/890] Replayed Book1.Prop09.Main
+warning: ././././Book1/Prop09/Main.lean:8:8: declaration uses 'sorry'
+⚠ [824/890] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:7:8: declaration uses 'sorry'
+⚠ [830/890] Replayed Book1.Prop19.Main
+warning: ././././Book1/Prop19/Main.lean:5:8: declaration uses 'sorry'
+⚠ [848/890] Replayed Book1.Prop22.Main
+warning: ././././Book1/Prop22/Main.lean:6:8: declaration uses 'sorry'
+⚠ [850/890] Replayed Book1.Prop23.Main
+warning: ././././Book1/Prop23/Main.lean:7:8: declaration uses 'sorry'
+⚠ [855/890] Replayed Book1.Prop16.Main
+warning: ././././Book1/Prop16/Main.lean:8:8: declaration uses 'sorry'
+⚠ [862/890] Replayed Book1.Prop31.Main
+warning: ././././Book1/Prop31/Main.lean:7:8: declaration uses 'sorry'
+⚠ [863/890] Replayed Book1.Prop38.Main
+warning: ././././Book1/Prop38/Main.lean:6:8: declaration uses 'sorry'
+⚠ [864/890] Replayed Book1.Prop41.Main
+warning: ././././Book1/Prop41/Main.lean:5:8: declaration uses 'sorry'
+⚠ [865/890] Replayed Book1.Prop42.Main
+warning: ././././Book1/Prop42/Main.lean:10:8: declaration uses 'sorry'
+⚠ [867/890] Replayed Book1.Prop15.Main
+warning: ././././Book1/Prop15/Main.lean:5:8: declaration uses 'sorry'
+⚠ [868/890] Replayed Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:8:8: declaration uses 'sorry'
+⚠ [870/890] Replayed Book1.Prop13.Main
+warning: ././././Book1/Prop13/Main.lean:6:8: declaration uses 'sorry'
+⚠ [871/890] Replayed Book1.Prop29.Main
+warning: ././././Book1/Prop29/Main.lean:7:8: declaration uses 'sorry'
+⚠ [873/890] Replayed Book1.Prop30.step1
+warning: ././././Book1/Prop30/step1.lean:7:5: unused variable `hgAB`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:7:26: unused variable `hgGK`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:8:5: unused variable `hhEF`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:8:26: unused variable `hhGK`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:9:5: unused variable `hkCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:9:26: unused variable `hkGK`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:10:5: unused variable `haAB`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:10:26: unused variable `heEF`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:10:47: unused variable `hcCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:11:5: unused variable `hesa`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step1.lean:11:30: unused variable `hcsa`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [874/890] Replayed Book1.Prop30.step2
+warning: ././././Book1/Prop30/step2.lean:11:26: unused variable `hhGK`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [875/890] Replayed Book1.Prop30.step3
+warning: ././././Book1/Prop30/step3.lean:13:5: unused variable `hesa`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step3.lean:13:30: unused variable `hcsa`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [878/890] Replayed Book1.Prop30.step6
+warning: ././././Book1/Prop30/step6.lean:7:5: unused variable `hkGK`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step6.lean:8:5: unused variable `hcCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step6.lean:8:26: unused variable `hdCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step6.lean:8:47: unused variable `hkCD`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step6.lean:9:5: unused variable `hcsa`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+warning: ././././Book1/Prop30/step6.lean:9:30: unused variable `hckd`
+note: this linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [880/890] Replayed Book1.Prop43.Main
+warning: ././././Book1/Prop43/Main.lean:5:8: declaration uses 'sorry'
+⚠ [881/890] Replayed Book1.Prop44.Main
+warning: ././././Book1/Prop44/Main.lean:9:8: declaration uses 'sorry'
+⚠ [882/890] Replayed Book1.Prop14.Main
+warning: ././././Book1/Prop14/Main.lean:5:8: declaration uses 'sorry'
+⚠ [883/890] Replayed Book1.Prop33.Main
+warning: ././././Book1/Prop33/Main.lean:5:8: declaration uses 'sorry'
+⚠ [884/890] Replayed Book1.Prop26.Main
+warning: ././././Book1/Prop26/Main.lean:9:8: declaration uses 'sorry'
+⚠ [885/890] Replayed Book1.Prop34.Main
+warning: ././././Book1/Prop34/Main.lean:6:8: declaration uses 'sorry'

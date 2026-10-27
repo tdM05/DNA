@@ -1,0 +1,22 @@
+[check_step --drive] step3 (todo) — running --subtree step3
+
+[check_step --subtree step3] auditing the step3 cone — 2 node(s) in Book3/Prop11 (sub-nodes before step3):
+  ✓ step3_tri: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step3: SP[isolated] + Combine (container)
+
+PASS: step3's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop11 --all` ONCE at the very end.
+[check_step --drive] step4 (todo) — running --subtree step4
+
+[check_step --subtree step4] auditing the step4 cone — 1 node(s) in Book3/Prop11 (sub-nodes before step4):
+  ✗ step4 (Book3/Prop11/step4.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book3/Prop11/step4.lean:13:48: [Smt.Translator] Unknown metric operation HSub.hSub.{0, 0, 0} Real Real Real (instHSub.{0} Real Real.instSub) (Segment.length (Segment.endpoints _uniq.73 _uniq.75)) (Segment.length (Segment.endpoints _uniq.74 _uniq.73))
+    ↳ source: have hbet : |(f─h)| = |(f─g)| + |(g─h)| := by euclid_finish
+
+error: ././././Book3/Prop11/step4.lean:14:38: [Smt.Translator] Unknown metric operation HSub.hSub.{0, 0, 0} Real Real Real (instHSub.{0} Real Real.instSub) (HAdd.hAdd.{0, 0, 0} Real Real Real (instHAdd.{0} Real Real.instAdd) (Segment.length (Segment.endpoints _uniq.73 _uniq.74)) (Segment.length (Segment.endpoints _uniq.74 _uniq.75))) (Segment.length (Segment.endpoints _uniq.74 _uniq.73))
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step4 — fix it, then re-run --drive to resume.

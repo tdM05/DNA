@@ -1,0 +1,10 @@
+[check_step --drive] hangle (todo) — running --subtree hangle
+
+[check_step --subtree hangle] auditing the hangle cone — 3 node(s) in Book1/Prop45 (sub-nodes before hangle):
+  ✓ hangle_bkm: SP[isolated] + P (leaf, zero-sorry)
+  ✓ hangle_eq: SP[isolated] + P (leaf, zero-sorry)
+  ✓ hangle: SP[isolated] + Combine (container)
+
+PASS: hangle's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop45 --all` ONCE at the very end.
+[check_step --drive] all Main nodes done.
+  ⟹ check_step --all is GUARANTEED to pass. Run it ONCE as the final witness, then Phase C.

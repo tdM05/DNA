@@ -1,0 +1,12 @@
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+REMOVED  2.99.1  (approved in Book2/Prop99/Main.lean:22)
+REMOVED  2.99.2  (approved in Book2/Prop99/Main.lean:26)
+REMOVED  2.99.3  (approved in Book2/Prop99/Main.lean:29)
+REMOVED  2.99.4  (approved in Book2/Prop99/Main.lean:32)
+REMOVED  2.99.5  (approved in Book2/Prop99/Main.lean:36)
+
+FAIL: 0 changed, 5 removed, 0 added, 0 assumption drift. Claim types AND assumptions are frozen after Phase-A approval — if a change is intended, get it re-approved and re-run `--save`.
+=================== SIGNATURES ===================
+OK: all 99 proposition signatures unchanged
+=================== FAITHFUL (Book3) ===================
+uncaught exception: object file '././.lake/build/lib/Book3.olean' of module Book3 does not exist

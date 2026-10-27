@@ -1,0 +1,6 @@
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 30 approved step claim(s) + assumptions unchanged in Book3/Prop36/Main.lean
+=== SIGNATURES ===
+OK: all 99 proposition signatures unchanged
+=== FAITHFUL ===
+uncaught exception: object file '././.lake/build/lib/Book3.olean' of module Book3 does not exist

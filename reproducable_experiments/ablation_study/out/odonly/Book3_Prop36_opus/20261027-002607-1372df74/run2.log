@@ -1,0 +1,12 @@
+[check_step --drive] step20 (todo) — running --subtree step20
+
+[check_step --subtree step20] auditing the step20 cone — 1 node(s) in Book3/Prop36 (sub-nodes before step20):
+  ✓ step20: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step20's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop36 --all` ONCE at the very end.
+[check_step --drive] step21 (todo) — running --subtree step21
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step21' (Book3/Prop36/Main.lean) has NO backing file 'step21.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step21 — fix it, then re-run --drive to resume.

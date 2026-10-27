@@ -1,0 +1,5 @@
+[check_step --subtree step20] auditing the step20 cone — 2 node(s) in Book1/Prop45 (sub-nodes before step20):
+  ✓ step20_fkss: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step20: SP[isolated] + Combine (container)
+
+PASS: step20's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop45 --all` ONCE at the very end.

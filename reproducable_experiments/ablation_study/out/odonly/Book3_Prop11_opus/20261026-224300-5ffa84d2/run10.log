@@ -1,0 +1,7 @@
+[check_step --subtree step_nhout] auditing the step_nhout cone — 4 node(s) in Book3/Prop11 (sub-nodes before step_nhout):
+  ✓ step_nhout_gt_tri: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step_nhout_gt: SP[isolated] + Combine (container)
+  ✓ step_nhout_out: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step_nhout: SP[isolated] + Combine (container)
+
+PASS: step_nhout's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop11 --all` ONCE at the very end.

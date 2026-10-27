@@ -1,0 +1,58 @@
+[check_step --drive] step22 (todo) — running --subtree step22
+
+[check_step --subtree step22] auditing the step22 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step22):
+  ✓ step22: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step22's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step23 (todo) — running --subtree step23
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step23' (Book3/Prop25/Main.lean) has NO backing file 'step23.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step23 — fix it, then re-run --drive to resume.
+[check_step --context] hypotheses available at node 'step23' (in Book3/Prop25/Main.lean):
+
+a b c : Point
+AC : Line
+left : a.onLine AC
+left_1 : c.onLine AC
+left_2 : a ≠ c
+left_3 : ¬b.onLine AC
+right_3 : |(a─b)| = |(c─b)|
+d : Point
+left✝¹⁰ : between a d c
+right✝⁸ : |(a─d)| = |(d─c)|
+DB : Line
+left✝⁹ : d.onLine DB
+right✝⁷ : b.onLine DB
+AB : Line
+left✝⁸ : a.onLine AB
+right✝⁶ : b.onLine AB
+step2 : ∠a:d:b = ∟
+step4 : ∠a:b:d > ∠b:a:d ∨ ∠a:b:d = ∠b:a:d ∨ ∠a:b:d < ∠b:a:d
+hgt : ¬∠a:b:d > ∠b:a:d
+heq : ¬∠a:b:d = ∠b:a:d
+g3 : Point
+left✝⁷ : between a d c
+right✝⁵ : |(a─d)| = |(d─c)|
+left✝⁶ : a.onLine AB
+left✝⁵ : g3 ≠ a
+left✝⁴ : b.onLine AB
+right✝⁴ : a ≠ b
+left✝³ : g3.onLine AB ∨ g3.sameSide d AB
+right✝³ : ∠g3:a:b = ∠a:b:d
+AG3 : Line
+left✝² : a.onLine AG3
+right✝² : g3.onLine AG3
+hAG3DB : AG3.intersectsLine DB
+e : Point
+left✝¹ : e.onLine AG3
+right✝¹ : e.onLine DB
+α₃ : Circle
+left✝ : e.isCentre α₃
+right✝ : a.onCircle α₃
+step22_assumption1 : ∠a:b:d < ∠b:a:d
+step22 : e.onLine DB ∧ e.sameSide b AC
+⊢ b.sameSide e AC
+
+NOTE: this is the LITERAL local context. `euclid_apply (helper…); euclid_finish` can also discharge facts NOT listed here (between/sameSide/distinctness derived by SMT). The authoritative suppliability test is SP (`check_step <node>`), not this list — do not over-decompose because something isn't shown.

@@ -1,0 +1,9 @@
+[check_step --subtree step19] auditing the step19 cone — 1 node(s) in Book1/Prop45 (sub-nodes before step19):
+  ✗ step19 (Book1/Prop45/step19.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book1/Prop45/step19.lean:23:38: Could not prove: k.sameSide m FG
+    ↳ source: have hkm_ss : k.sameSide m FG := by euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

@@ -1,0 +1,42 @@
+[check_step --drive] step4 (todo) — running --subtree step4
+
+[check_step --subtree step4] auditing the step4 cone — 1 node(s) in Book1/Prop27 (sub-nodes before step4):
+  ✓ step4: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step4's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop27 --all` ONCE at the very end.
+[check_step --drive] step5 (todo) — running --subtree step5
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'step5' (Book1/Prop27/Main.lean) has NO backing file 'step5.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at step5 — fix it, then re-run --drive to resume.
+[check_step --context] hypotheses available at node 'step5' (in Book1/Prop27/Main.lean):
+
+a d e f : Point
+AE FD EF : Line
+left_1 : a.onLine AE
+left_2 : e.onLine AE
+right_2 : a ≠ e
+left_3 : f.onLine FD
+left_4 : d.onLine FD
+right_4 : f ≠ d
+left_5 : e.onLine EF
+left_6 : f.onLine EF
+right_6 : e ≠ f
+right_5 : ∠a:e:f = ∠e:f:d
+left_7 : ¬a.onLine EF
+left_8 : ¬d.onLine EF
+right_8 : ¬a.sameSide d EF
+a✝ : AE.intersectsLine FD
+b : Point
+left✝¹ : b.onLine AE
+right✝¹ : between a e b
+g : Point
+left✝ : g.onLine AE
+right✝ : g.onLine FD
+step1_assumption1 : AE.intersectsLine FD
+step1 : g.sameSide b EF ∨ g.opposingSides b EF
+hBD : ¬g.sameSide b EF
+⊢ ¬g.sameSide b EF
+
+NOTE: this is the LITERAL local context. `euclid_apply (helper…); euclid_finish` can also discharge facts NOT listed here (between/sameSide/distinctness derived by SMT). The authoritative suppliability test is SP (`check_step <node>`), not this list — do not over-decompose because something isn't shown.

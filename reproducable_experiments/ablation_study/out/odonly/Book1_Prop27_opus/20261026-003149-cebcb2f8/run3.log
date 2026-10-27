@@ -1,0 +1,11 @@
+[check_step] step1  (sentence in Book1/Prop27/Main.lean)
+  SF ok — `step1`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)
+  SP ok — hyps suppliable (objects: a d e f b g AE FD EF).
+FAIL (P — provable): Book1/Prop27/step1.lean did not build (or hit the 30s cap — decompose into more `have`+backing files).
+
+error: ././././Book1/Prop27/step1.lean:25:2: Could not prove: g.sameSide b EF ∨ ¬g.onLine EF ∧ ¬b.onLine EF ∧ ¬g.sameSide b EF
+    ↳ source: euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

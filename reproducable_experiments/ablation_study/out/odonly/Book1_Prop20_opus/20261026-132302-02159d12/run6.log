@@ -1,0 +1,1 @@
+ABORT (structural/naming error — refusing to proceed): node 'step1' is an euclid_sentence step but occurs more than once (Book1/Prop20/Main.lean, Book1/Prop20/step9_ineq.lean) — sentence steps must be unique (only `have` helpers may be reused across containers).

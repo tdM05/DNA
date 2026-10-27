@@ -1,0 +1,9 @@
+[check_step --subtree step6] auditing the step6 cone — 1 node(s) in Book1/Prop45 (sub-nodes before step6):
+  ✗ step6 (Book1/Prop45/step6.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book1/Prop45/step6.lean:12:2: failed
+    ↳ source: euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

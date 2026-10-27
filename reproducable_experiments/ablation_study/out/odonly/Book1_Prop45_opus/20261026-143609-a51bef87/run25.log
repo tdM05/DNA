@@ -1,0 +1,14 @@
+[check_step --drive] hangle (todo) — running --subtree hangle
+
+[check_step --subtree hangle] auditing the hangle cone — 3 node(s) in Book1/Prop45 (sub-nodes before hangle):
+  ✓ hangle_bkm: SP[isolated] + P (leaf, zero-sorry)
+  ✗ hangle_eq (Book1/Prop45/hangle_eq.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book1/Prop45/hangle_eq.lean:14:2: Could not prove: ¬f = k
+    ↳ source: euclid_apply (equal_angles k f f m h FK KH)
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at hangle — fix it, then re-run --drive to resume.

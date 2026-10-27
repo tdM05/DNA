@@ -1,0 +1,22 @@
+[check_step --drive] step1 (todo) — running --subtree step1
+
+[check_step --subtree step1] auditing the step1 cone — 1 node(s) in Book1/Prop12 (sub-nodes before step1):
+  ✓ step1: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step1's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop12 --all` ONCE at the very end.
+[check_step --drive] step2 (todo) — running --subtree step2
+
+[check_step --subtree step2] auditing the step2 cone — 1 node(s) in Book1/Prop12 (sub-nodes before step2):
+  ✗ step2: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book1/Prop12/step2.lean:10:28: unknown identifier 'c.isCentre'
+    ↳ source: theorem helper_1_12_step2 : c.isCentre EFG ∧ d.onCircle EFG := by sorry
+
+error: ././././Book1/Prop12/step2.lean:10:45: unknown identifier 'd.onCircle'
+    ↳ source: theorem helper_1_12_step2 : c.isCentre EFG ∧ d.onCircle EFG := by sorry
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step2 — fix it, then re-run --drive to resume.

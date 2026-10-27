@@ -1,0 +1,5 @@
+[check_step --subtree step8] auditing the step8 cone — 2 node(s) in Book3/Prop36 (sub-nodes before step8):
+  ✓ step8_tri: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step8: SP[isolated] + Combine (container)
+
+PASS: step8's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop36 --all` ONCE at the very end.

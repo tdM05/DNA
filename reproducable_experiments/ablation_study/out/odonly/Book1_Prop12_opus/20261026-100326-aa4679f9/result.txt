@@ -1,0 +1,11 @@
+prop: Book1/Prop12
+mode: odonly
+model: opus
+session_id: e532d007-6dd1-49fd-abc2-1bd8d5918140
+transcript: /u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-od-only/e532d007-6dd1-49fd-abc2-1bd8d5918140.jsonl
+cost_usd: 7.33175
+wall_sec: 1763.82
+compile_sec: 3
+stop_reason: done
+result: SUCCESS
+fail_reason: -

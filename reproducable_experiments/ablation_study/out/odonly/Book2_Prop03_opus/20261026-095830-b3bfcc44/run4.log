@@ -1,0 +1,6 @@
+[check_step] step5  (sentence in Book2/Prop03/Main.lean)
+  SF ok — `step5`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)
+  SP ok — hyps suppliable (objects: a b c d e f AB CD DE BE AF).
+  P n/a — Book2/Prop03/step5.lean is a CONTAINER (sub-nodes: step4_afbe, step4_sfbe); not built here. Its combine is certified by its own combine-check, its sub-nodes by their isolated SP, its leaves by their own P. Certify those sub-nodes.
+  Combine ok — Book2/Prop03/step5.lean's combine closes from the sub-node claim-types.
+PASS: step5 suppliable (SF + SP) + Combine; it's a CONTAINER — also certify its sub-nodes (their isolated SP + their own combine/P).

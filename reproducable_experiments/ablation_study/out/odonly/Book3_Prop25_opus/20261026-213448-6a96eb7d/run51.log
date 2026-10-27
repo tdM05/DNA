@@ -1,0 +1,12 @@
+[check_step --drive] hbα₃ (todo) — running --subtree hbα₃
+
+[check_step --subtree hbα₃] auditing the hbα₃ cone — 1 node(s) in Book3/Prop25 (sub-nodes before hbα₃):
+  ✓ hbα₃: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: hbα₃'s subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] hcα₃ (todo) — running --subtree hcα₃
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'hcα₃' (Book3/Prop25/Main.lean) has NO backing file 'hcα₃.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at hcα₃ — fix it, then re-run --drive to resume.

@@ -1,0 +1,103 @@
+[check_step --drive] step1 (todo) — running --subtree step1
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - Book1/Prop20/Main.lean is missing `set_option systemE.solverTime 30 in` above its theorem.
+
+[check_step --drive] STOPPED at step1 — fix it, then re-run --drive to resume.
+[check_step --context] hypotheses available at node 'step4' (in Book1/Prop20/Main.lean):
+
+a b c : Point
+AB BC AC : Line
+left_1✝ : a.onLine AB
+left_2 : b.onLine AB
+right_2 : a ≠ b
+left_1 : b.onLine BC
+left_3 : c.onLine BC
+left_4 : c.onLine AC
+left_5 : a.onLine AC
+left_6 : AB ≠ BC
+left_7 : BC ≠ AC
+right_7 : AC ≠ AB
+d' : Point
+left✝³ : d'.onLine AB
+left✝² : between b a d'
+right✝² : |(a─d')| > |(c─a)|
+d : Point
+left✝¹ : between a d d'
+right✝¹ : |(a─d)| = |(a─c)|
+step1 : between b a d
+step2 : |(a─d)| = |(c─a)|
+DC : Line
+left✝ : d.onLine DC
+right✝ : c.onLine DC
+step3 : distinctPointsOnLine d c DC
+step4_assumption1 : |(d─a)| = |(a─c)|
+⊢ ∠a:d:c = ∠a:c:d
+
+NOTE: this is the LITERAL local context. `euclid_apply (helper…); euclid_finish` can also discharge facts NOT listed here (between/sameSide/distinctness derived by SMT). The authoritative suppliability test is SP (`check_step <node>`), not this list — do not over-decompose because something isn't shown.
+[check_step --context] hypotheses available at node 'step5' (in Book1/Prop20/Main.lean):
+
+a b c : Point
+AB BC AC : Line
+left_1✝ : a.onLine AB
+left_2 : b.onLine AB
+right_2 : a ≠ b
+left_1 : b.onLine BC
+left_3 : c.onLine BC
+left_4 : c.onLine AC
+left_5 : a.onLine AC
+left_6 : AB ≠ BC
+left_7 : BC ≠ AC
+right_7 : AC ≠ AB
+d' : Point
+left✝³ : d'.onLine AB
+left✝² : between b a d'
+right✝² : |(a─d')| > |(c─a)|
+d : Point
+left✝¹ : between a d d'
+right✝¹ : |(a─d)| = |(a─c)|
+step1 : between b a d
+step2 : |(a─d)| = |(c─a)|
+DC : Line
+left✝ : d.onLine DC
+right✝ : c.onLine DC
+step3 : distinctPointsOnLine d c DC
+step4_assumption1 : |(d─a)| = |(a─c)|
+step4 : ∠a:d:c = ∠a:c:d
+⊢ ∠b:c:d > ∠a:d:c
+
+NOTE: this is the LITERAL local context. `euclid_apply (helper…); euclid_finish` can also discharge facts NOT listed here (between/sameSide/distinctness derived by SMT). The authoritative suppliability test is SP (`check_step <node>`), not this list — do not over-decompose because something isn't shown.
+[check_step --context] hypotheses available at node 'step6' (in Book1/Prop20/Main.lean):
+
+a b c : Point
+AB BC AC : Line
+left_1✝ : a.onLine AB
+left_2 : b.onLine AB
+right_2 : a ≠ b
+left_1 : b.onLine BC
+left_3 : c.onLine BC
+left_4 : c.onLine AC
+left_5 : a.onLine AC
+left_6 : AB ≠ BC
+left_7 : BC ≠ AC
+right_7 : AC ≠ AB
+d' : Point
+left✝³ : d'.onLine AB
+left✝² : between b a d'
+right✝² : |(a─d')| > |(c─a)|
+d : Point
+left✝¹ : between a d d'
+right✝¹ : |(a─d)| = |(a─c)|
+step1 : between b a d
+step2 : |(a─d)| = |(c─a)|
+DC : Line
+left✝ : d.onLine DC
+right✝ : c.onLine DC
+step3 : distinctPointsOnLine d c DC
+step4_assumption1 : |(d─a)| = |(a─c)|
+step4 : ∠a:d:c = ∠a:c:d
+step5 : ∠b:c:d > ∠a:d:c
+step6_assumption1 : ∠b:c:d > ∠b:d:c
+⊢ |(d─b)| > |(b─c)|
+
+NOTE: this is the LITERAL local context. `euclid_apply (helper…); euclid_finish` can also discharge facts NOT listed here (between/sameSide/distinctness derived by SMT). The authoritative suppliability test is SP (`check_step <node>`), not this list — do not over-decompose because something isn't shown.

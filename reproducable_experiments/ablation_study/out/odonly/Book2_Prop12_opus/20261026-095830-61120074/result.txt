@@ -1,0 +1,12 @@
+prop: Book2/Prop12
+mode: odonly
+model: opus
+session_id: 25c46a47-f964-44f0-ab10-895f9e8d19ee
+transcript: /u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-od-only/25c46a47-f964-44f0-ab10-895f9e8d19ee.jsonl
+cost_usd: 10.7163
+wall_sec: 1686.89
+compile_sec: 8
+stop_reason: done
+result: SUCCESS
+fail_reason: -
+regrade_note: 2026-10-26 corrected FAIL->SUCCESS. Original fail_reason=lake_build was a spurious concurrent-dependency artifact, NOT a method failure: Book2/Prop12 imports Book1/Prop12; at grade time an out-of-band resubmit of Book1/Prop12 (job 222759) was rebuilding it in the shared worktree, so Book1/Prop12/Main.olean was transiently absent (grade.log: "failed to open .../Book1/Prop12/Main.olean" + cascade parse errors). Agent proof artifacts UNCHANGED (byte-identical to the Prop12/ snapshot). Re-ran the exact grade() checks against the now-stable dependency with the z3/cvc5 venv active: sorry=0, check_faithful/backing/signatures/steps PASS, lake_build Book2.Prop12.Main PASS (8s). Evidence: grade.regrade2-20261026.log (correct env, PASS) + grade.regrade-20261026.log (initial attempt, solver env missing). Original FAIL record preserved in result.orig-FAIL.txt.

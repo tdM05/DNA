@@ -1,0 +1,7 @@
+[check_step --subtree step7] auditing the step7 cone — 4 node(s) in Book2/Prop03 (sub-nodes before step7):
+  ✓ step2_hbe: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_cnd: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step7_par: SP[isolated] + Combine (container)
+  ✓ step7: SP[isolated] + Combine (container)
+
+PASS: step7's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book2/Prop03 --all` ONCE at the very end.

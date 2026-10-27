@@ -1,0 +1,13 @@
+[check_step --drive] step19 (todo) — running --subtree step19
+
+[check_step --subtree step19] auditing the step19 cone — 1 node(s) in Book1/Prop45 (sub-nodes before step19):
+  ✗ step19 (Book1/Prop45/step19.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book1/Prop45/step19.lean:17:2: Could not prove: k.sameSide m FG
+    ↳ source: euclid_apply (proposition_33 k f m l FK LM KH FG)
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step19 — fix it, then re-run --drive to resume.

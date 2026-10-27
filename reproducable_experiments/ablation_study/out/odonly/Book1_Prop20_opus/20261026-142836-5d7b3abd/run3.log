@@ -1,0 +1,13 @@
+[check_step --drive] step1 (todo) — running --subtree step1
+
+[check_step --subtree step1] auditing the step1 cone — 1 node(s) in Book1/Prop20 (sub-nodes before step1):
+  ✗ step1 (Book1/Prop20/step1.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book1/Prop20/step1.lean:10:2: Could not prove: between b a d
+    ↳ source: euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step1 — fix it, then re-run --drive to resume.

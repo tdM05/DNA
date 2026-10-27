@@ -1,0 +1,11 @@
+[check_step] step_nhout_gt  (have in Book3/Prop11/step_nhout.lean)
+  SF ok — claim well-typed in Book3/Prop11/step_nhout.lean and sufficient (closes the goal with `step_nhout_gt` as sorry).
+  SP ok — hyps suppliable (objects: a f g astar ABC).
+FAIL (P — provable): Book3/Prop11/step_nhout_gt.lean did not build (or hit the 30s cap — decompose into more `have`+backing files).
+
+error: ././././Book3/Prop11/step_nhout_gt.lean:17:56: Could not prove: |(a─f)| + |(f─a)| ≤ |(a─g)| + |(g─astar)|
+    ↳ source: have htri : |(a─astar)| ≤ |(a─g)| + |(g─astar)| := by euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

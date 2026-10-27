@@ -1,0 +1,78 @@
+[check_step --drive] step1 (todo) — running --subtree step1
+
+[check_step --subtree step1] auditing the step1 cone — 1 node(s) in Book1/Prop20 (sub-nodes before step1):
+  ✓ step1: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step1's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop20 --all` ONCE at the very end.
+[check_step --drive] step2 (todo) — running --subtree step2
+
+[check_step --subtree step2] auditing the step2 cone — 1 node(s) in Book1/Prop20 (sub-nodes before step2):
+  ✓ step2: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step2's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book1/Prop20 --all` ONCE at the very end.
+[check_step --drive] step3 (todo) — running --subtree step3
+
+[check_step --subtree step3] auditing the step3 cone — 1 node(s) in Book1/Prop20 (sub-nodes before step3):
+  ✗ step3: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book1/Prop20/Main.lean:30:163: tactic 'assumption' failed
+    ↳ source: 
+a b c : Point
+AB BC AC : Line
+left_1✝ : a.onLine AB
+left_2 : b.onLine AB
+right_2 : a ≠ b
+left_1 : b.onLine BC
+left_3 : c.onLine BC
+left_4 : c.onLine AC
+left_5 : a.onLine AC
+left_6 : AB ≠ BC
+left_7 : BC ≠ AC
+right_7 : AC ≠ AB
+d' : Point
+left✝³ : d'.onLine AB
+left✝² : between b a d'
+right✝² : |(a─d')| > |(c─a)|
+d : Point
+left✝¹ : between a d d'
+right✝¹ : |(a─d)| = |(a─c)|
+step1 : between b a d
+step2 : |(a─d)| = |(c─a)|
+DC : Line
+left✝ : d.onLine DC
+right✝ : c.onLine DC
+⊢ formTriangle a b c AB BC AC
+
+error: ././././Book1/Prop20/Main.lean:30:163: tactic 'assumption' failed
+    ↳ source: 
+a b c : Point
+AB BC AC : Line
+left_1✝ : a.onLine AB
+left_2 : b.onLine AB
+right_2 : a ≠ b
+left_1 : b.onLine BC
+left_3 : c.onLine BC
+left_4 : c.onLine AC
+left_5 : a.onLine AC
+left_6 : AB ≠ BC
+left_7 : BC ≠ AC
+right_7 : AC ≠ AB
+d' : Point
+left✝³ : d'.onLine AB
+left✝² : between b a d'
+right✝² : |(a─d')| > |(c─a)|
+d : Point
+left✝¹ : between a d d'
+right✝¹ : |(a─d)| = |(a─c)|
+step1 : between b a d
+step2 : |(a─d)| = |(c─a)|
+DC : Line
+left✝ : d.onLine DC
+right✝ : c.onLine DC
+⊢ formTriangle a b c AB BC AC
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step3 — fix it, then re-run --drive to resume.

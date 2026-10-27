@@ -1,0 +1,3 @@
+[check_step --dependency] criterion-3 (source-regex, number-only) for Book3/Prop25:
+FAIL (dependency / criterion-3): 1 cited [Prop.~B.N] not satisfied in Book3/Prop25 (number-only; the human's gate-C olean check is book-aware — do NOT game this regex):
+  - sentence 3.25.2 cites [Prop.~1.11] but no `proposition_11` is (a) applied `… as …` in Main (construction) NOR (b) `euclid_apply`'d in its helper cone (step2).

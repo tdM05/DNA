@@ -1,0 +1,6 @@
+[check_step --drive] step2 (todo) — running --subtree step2
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - sentence step2: @assumption `AB.intersectsLine GK ∧ EF.intersectsLine GK ∧ ¬(AB.intersectsLine EF)` is not a hypothesis binder of its helper helper_1_30_step2 — every assumption MUST be supplied to the sentence's claim (no exceptions). Add it to the helper signature.
+
+[check_step --drive] STOPPED at step2 — fix it, then re-run --drive to resume.

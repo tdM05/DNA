@@ -1,0 +1,7 @@
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 30 approved step claim(s) + assumptions unchanged in Book3/Prop36/Main.lean
+OK: all 99 proposition signatures unchanged
+  File "/h/56/taddmao/code/autoform/methodology_compare_worktrees/od_only/LeanEuclidPlus/scripts/check_faithful.sh", line 13
+    set -euo pipefail
+             ^^^^^^^^
+SyntaxError: invalid syntax

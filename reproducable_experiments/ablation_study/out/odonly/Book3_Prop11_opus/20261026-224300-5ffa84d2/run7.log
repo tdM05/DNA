@@ -1,0 +1,4 @@
+[check_step --subtree step_nhout] auditing the step_nhout cone — 2 node(s) in Book3/Prop11 (sub-nodes before step_nhout):
+  ✗ step_nhout_out (Book3/Prop11/step_nhout_out.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+[faithful_lib] build of Book3.Prop11.step_nhout_out exceeded 45s wall clock — TOO BIG. DECOMPOSE into more backing files; NEVER raise the cap. Last output before the kill (what it was elaborating when it stalled):

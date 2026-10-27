@@ -1,0 +1,7 @@
+[check_step --subtree step17] auditing the step17 cone — 4 node(s) in Book3/Prop36 (sub-nodes before step17):
+  ✓ step17_anef: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step17_fin: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+  ✓ step17_btw: SP[isolated] + P (leaf, zero-sorry)
+  ✓ step17: SP[isolated] + Combine (container)
+
+PASS: step17's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop36 --all` ONCE at the very end.

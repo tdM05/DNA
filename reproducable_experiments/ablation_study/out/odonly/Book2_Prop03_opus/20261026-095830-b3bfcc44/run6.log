@@ -1,0 +1,13 @@
+[check_step --drive] step6 (stale) — running --subtree step6
+
+[check_step --subtree step6] auditing the step6 cone — 2 node(s) in Book2/Prop03 (sub-nodes before step6):
+  ✗ step6_sfcd (Book2/Prop03/step6_sfcd.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book2/Prop03/step6_sfcd.lean:16:34: Could not prove: ¬a.onLine CD
+    ↳ source: have hnaCD : ¬a.onLine CD := by euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step6 — fix it, then re-run --drive to resume.

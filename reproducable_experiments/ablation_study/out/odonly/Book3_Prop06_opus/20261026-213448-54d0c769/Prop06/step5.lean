@@ -1,0 +1,15 @@
+import SystemE
+-- Proposition citations: import Book1.PropNN.Main / Book2.PropNN.Main / Book3.PropNN.Main — NOT Book.PropNN
+set_option linter.unusedVariables false
+set_option linter.unnecessarySeqFocus false
+
+namespace Elements.Book3
+
+theorem helper_3_6_step5 (CDE : Circle) (c e f : Point)
+  -- Reasoning hypotheses (from @assumption — keep these types in the signature):
+  (hassump1 : f.isCentre CDE)   -- "point $F$ is the center of the circle $CDE$"
+  (hc : c.onCircle CDE) (he : e.onCircle CDE)
+  : |(f─c)| = |(f─e)| := by
+  euclid_finish
+
+end Elements.Book3

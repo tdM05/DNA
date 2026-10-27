@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/h/56/taddmao/code/autoform/methodology_compare_worktrees/od_only/LeanEuclidPlus/scripts/check_faithful.py", line 724, in <module>
+    sys.exit(main(sys.argv[1:]))
+             ~~~~^^^^^^^^^^^^^^
+  File "/h/56/taddmao/code/autoform/methodology_compare_worktrees/od_only/LeanEuclidPlus/scripts/check_faithful.py", line 719, in main
+    return check_source(argv[0])
+  File "/h/56/taddmao/code/autoform/methodology_compare_worktrees/od_only/LeanEuclidPlus/scripts/check_faithful.py", line 290, in check_source
+    raw = open(path, encoding="utf-8").read()
+          ~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: 'Book3/Prop36'

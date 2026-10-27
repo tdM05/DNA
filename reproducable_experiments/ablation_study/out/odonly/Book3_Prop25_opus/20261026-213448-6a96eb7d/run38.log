@@ -1,0 +1,5 @@
+[check_step] hbα₂  (have in Book3/Prop25/Main.lean)
+  SF ok — claim well-typed in Book3/Prop25/Main.lean and sufficient (closes the goal with `hbα₂` as sorry).
+  SP ok — hyps suppliable (objects: a b d α₂).
+  P ok — Book3/Prop25/hbα₂.lean (leaf) builds with ZERO sorry.
+PASS: hbα₂ CERTIFIED (SF + SP + P).

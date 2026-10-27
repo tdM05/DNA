@@ -1,0 +1,9 @@
+[check_step --subtree step_nhout] auditing the step_nhout cone — 3 node(s) in Book3/Prop11 (sub-nodes before step_nhout):
+  ✗ step_nhout_gt (Book3/Prop11/step_nhout_gt.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book3/Prop11/step_nhout_gt.lean:14:2: Could not prove: |(g─a)| < |(g─astar)|
+    ↳ source: euclid_finish
+
+error: Lean exited with code 1
+
+error: build failed

@@ -1,0 +1,8 @@
+[check_step --drive] step31 (todo) — running --subtree step31
+
+[check_step --subtree step31] auditing the step31 cone — 1 node(s) in Book3/Prop36 (sub-nodes before step31):
+  ✓ step31: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step31's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop36 --all` ONCE at the very end.
+[check_step --drive] all Main nodes done.
+  ⟹ check_step --all is GUARANTEED to pass. Run it ONCE as the final witness, then Phase C.

@@ -1,0 +1,18 @@
+[check_step --drive] step24 (todo) — running --subtree step24
+
+[check_step --subtree step24] auditing the step24 cone — 1 node(s) in Book3/Prop36 (sub-nodes before step24):
+  ✗ step24 (Book3/Prop36/step24.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book3/Prop36/step24.lean:24:29: type mismatch
+    ↳ source: have hefd : ∠ e:f:d = ∟ := hperp_all d hdDA hdf
+  hperp_all d hdDA hdf
+has type
+  ∠d:f:e = ∟ : Prop
+but is expected to have type
+  ∠e:f:d = ∟ : Prop
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step24 — fix it, then re-run --drive to resume.

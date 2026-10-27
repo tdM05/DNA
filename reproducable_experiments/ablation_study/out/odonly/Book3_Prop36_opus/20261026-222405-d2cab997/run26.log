@@ -1,0 +1,13 @@
+[check_step --drive] step23 (todo) — running --subtree step23
+
+[check_step --subtree step23] auditing the step23 cone — 1 node(s) in Book3/Prop36 (sub-nodes before step23):
+  ✗ step23 (Book3/Prop36/step23.lean): P FAILED — leaf backing file did not build (or hit the 30s cap → decompose).
+
+error: ././././Book3/Prop36/step23.lean:22:2: Could not prove: ¬EF = EC
+    ↳ source: euclid_apply (proposition_47 f e c EF EC DA)
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at step23 — fix it, then re-run --drive to resume.

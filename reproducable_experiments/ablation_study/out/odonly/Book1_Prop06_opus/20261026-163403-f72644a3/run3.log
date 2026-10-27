@@ -1,0 +1,13 @@
+[assumptions] Book1/Prop06 — ⚠ STOP: the PERSISTED Main did NOT compile after classification (the combined winning-tactic bodies + imports). Tags NOT written; the persisted Main is LEFT IN PLACE for review. Fix it, then re-run with `--tag-only`.
+    | error: ././././Book1/Prop06/Main.lean:40:79: application type mismatch
+    |   Hsym c b AC BC AB hang' ?m.744 ?m.746 hac ?m.753 ?m.755 ?m.757 ?m.759 hACBC hBCAB hABAC hne' hor'
+    | argument
+    |   hor'
+    | has type
+    |   |(a─c)| > |(a─b)| ∨ |(a─b)| > |(a─c)| : Prop
+    | but is expected to have type
+    |   |(a─c)| ≠ |(a─b)| : Prop
+    | error: Lean exited with code 1
+    | Some builds logged failures:
+    | - Book1.Prop06.Main
+    | error: build failed

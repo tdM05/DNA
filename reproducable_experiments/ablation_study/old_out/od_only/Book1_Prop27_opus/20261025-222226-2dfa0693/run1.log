@@ -1,0 +1,7 @@
+[check_step --drive] step1 (todo) — running --subtree step1
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - Book1/Prop27/Main.lean is missing `set_option systemE.solverTime 30 in` above its theorem.
+  - Book1/Prop27/step1.lean is missing `set_option systemE.solverTime 30 in` above its theorem.
+
+[check_step --drive] STOPPED at step1 — fix it, then re-run --drive to resume.

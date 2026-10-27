@@ -1,0 +1,90 @@
+[check_step --drive] hbα₂ (todo) — running --subtree hbα₂
+
+[check_step --subtree hbα₂] auditing the hbα₂ cone — 1 node(s) in Book3/Prop25 (sub-nodes before hbα₂):
+  ✗ hbα₂: SP FAILED (see below) — deepest failure; fix it first.
+
+error: ././././Book3/Prop25/Main.lean:151:268: tactic 'assumption' failed
+    ↳ source: have hcα₂ : c.onCircle α₂ := by sorry
+a b c : Point
+AC : Line
+left : a.onLine AC
+left_1 : c.onLine AC
+left_2 : a ≠ c
+left_3 : ¬b.onLine AC
+right_3 : |(a─b)| = |(c─b)|
+d : Point
+left✝⁸ : between a d c
+right✝⁷ : |(a─d)| = |(d─c)|
+DB : Line
+left✝⁷ : d.onLine DB
+right✝⁶ : b.onLine DB
+AB : Line
+left✝⁶ : a.onLine AB
+right✝⁵ : b.onLine AB
+step2 : ∠a:d:b = ∟
+step4 : ∠a:b:d > ∠b:a:d ∨ ∠a:b:d = ∠b:a:d ∨ ∠a:b:d < ∠b:a:d
+hgt : ¬∠a:b:d > ∠b:a:d
+heq step19_assumption1 : ∠a:b:d = ∠b:a:d
+hda : d ≠ a
+α₂ : Circle
+left✝⁵ : between a d c
+right✝⁴ : |(a─d)| = |(d─c)|
+left✝⁴ : a.onLine AB
+left✝³ : |(a─d)| = |(b─d)|
+right✝³ : |(a─d)| = |(d─c)|
+left✝² : |(d─a)| = |(d─b)|
+right✝² : |(d─b)| = |(d─c)|
+left✝¹ : d.isCentre α₂
+right✝¹ : a.onCircle α₂
+left✝ : b.onLine AB
+right✝ : a ≠ b
+step20 : d.isCentre α₂
+step21 : between a d c ∧ d.isCentre α₂
+haα₂ : a.onCircle α₂
+⊢ |(d─a)| = |(d─b)| ∧ |(d─b)| = |(d─c)|
+
+error: ././././Book3/Prop25/Main.lean:151:268: tactic 'assumption' failed
+    ↳ source: have hcα₂ : c.onCircle α₂ := by sorry
+a b c : Point
+AC : Line
+left : a.onLine AC
+left_1 : c.onLine AC
+left_2 : a ≠ c
+left_3 : ¬b.onLine AC
+right_3 : |(a─b)| = |(c─b)|
+d : Point
+left✝⁸ : between a d c
+right✝⁷ : |(a─d)| = |(d─c)|
+DB : Line
+left✝⁷ : d.onLine DB
+right✝⁶ : b.onLine DB
+AB : Line
+left✝⁶ : a.onLine AB
+right✝⁵ : b.onLine AB
+step2 : ∠a:d:b = ∟
+step4 : ∠a:b:d > ∠b:a:d ∨ ∠a:b:d = ∠b:a:d ∨ ∠a:b:d < ∠b:a:d
+hgt : ¬∠a:b:d > ∠b:a:d
+heq step19_assumption1 : ∠a:b:d = ∠b:a:d
+hda : d ≠ a
+α₂ : Circle
+left✝⁵ : between a d c
+right✝⁴ : |(a─d)| = |(d─c)|
+left✝⁴ : a.onLine AB
+left✝³ : |(a─d)| = |(b─d)|
+right✝³ : |(a─d)| = |(d─c)|
+left✝² : |(d─a)| = |(d─b)|
+right✝² : |(d─b)| = |(d─c)|
+left✝¹ : d.isCentre α₂
+right✝¹ : a.onCircle α₂
+left✝ : b.onLine AB
+right✝ : a ≠ b
+step20 : d.isCentre α₂
+step21 : between a d c ∧ d.isCentre α₂
+haα₂ : a.onCircle α₂
+⊢ |(d─a)| = |(d─b)| ∧ |(d─b)| = |(d─c)|
+
+error: Lean exited with code 1
+
+error: build failed
+
+[check_step --drive] STOPPED at hbα₂ — fix it, then re-run --drive to resume.

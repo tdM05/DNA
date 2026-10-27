@@ -1,0 +1,8 @@
+[check_step] step12  (sentence in Book3/Prop25/Main.lean)
+  SF ok — `step12`'s claim is well-typed in Main. (Main sentences don't consume each other, so SF only checks well-typedness here; SP isolates this sentence.)
+  SP ok — hyps suppliable (objects: a c d e AC DB AG EC).
+FAIL (P — provable): Book3/Prop25/step12.lean did not build (or hit the 30s cap — decompose into more `have`+backing files).
+
+[faithful_lib] build of Book3.Prop25.step12 exceeded 45s wall clock — TOO BIG. DECOMPOSE into more backing files; NEVER raise the cap. Last output before the kill (what it was elaborating when it stalled):
+⚠ [786/787] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
