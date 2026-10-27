@@ -2,7 +2,6 @@ import SystemE
 
 namespace Elements.Book3
 
-open Elements.Book1
 
 theorem proposition_9 : ∀ (ABC : Circle) (a b c d : Point),
     d.insideCircle ABC ∧

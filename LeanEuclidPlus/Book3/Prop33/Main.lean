@@ -2,7 +2,6 @@ import SystemE
 
 namespace Elements.Book3
 
-open Elements.Book1
 
 theorem proposition_33 : ∀ (a b c₁ c c₂ : Point),
   a ≠ b →

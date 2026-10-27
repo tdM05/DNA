@@ -2,7 +2,6 @@ import SystemE
 
 namespace Elements.Book2
 
-open Elements.Book1
 
 theorem proposition_8 : ∀ (a b c : Point) (AB : Line),
   distinctPointsOnLine a b AB ∧ c.onLine AB ∧ between a c b →

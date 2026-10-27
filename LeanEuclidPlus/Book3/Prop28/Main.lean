@@ -4,7 +4,6 @@ set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
-open Elements.Book1
 
 theorem proposition_28 : ∀ (a b d e k l : Point) (ABC DEF : Circle),
   a.onCircle ABC ∧ b.onCircle ABC ∧

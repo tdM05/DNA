@@ -2,7 +2,6 @@ import SystemE
 
 namespace Elements.Book2
 
-open Elements.Book1
 
 
 theorem proposition_2 : ∀ (a b c : Point) (AB : Line),

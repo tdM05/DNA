@@ -2,7 +2,6 @@ import SystemE
 
 namespace Elements.Book3
 
-open Elements.Book1
 
 theorem proposition_34 : ∀ (ABC : Circle) (d1 d d2 : Point),
   d1 ≠ d ∧ d2 ≠ d →

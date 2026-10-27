@@ -2,7 +2,6 @@ import SystemE
 
 namespace Elements.Book3
 
-open Elements.Book1
 
 -- orchestrator-agreed: construction — a given segment (3 non-collinear points: chord AC + arc point b) → ∃ the completed
 -- circle through all three. Clean, proof-faithful (proof exhibits center, [3.9] completes; final sentence = the ∃).

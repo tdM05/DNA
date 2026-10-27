@@ -2,7 +2,6 @@ import SystemE
 
 namespace Elements.Book2
 
-open Elements.Book1
 
 /-!
 Prop 2.14 — quadrature: "To construct a square equal to a given rectilinear figure A."

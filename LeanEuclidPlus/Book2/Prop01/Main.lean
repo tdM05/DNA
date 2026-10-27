@@ -2,7 +2,6 @@ import SystemE
 
 namespace Elements.Book2
 
-open Elements.Book1
 
 theorem proposition_1 : ∀ (a₁ a₂ b c d e : Point) (A BC : Line),
   distinctPointsOnLine a₁ a₂ A ∧ distinctPointsOnLine b c BC ∧

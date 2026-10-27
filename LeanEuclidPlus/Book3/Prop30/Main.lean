@@ -5,7 +5,6 @@ set_option linter.unnecessarySeqFocus false
 
 namespace Elements.Book3
 
-open Elements.Book1
 
 theorem proposition_30 : ∀ (a b o : Point) (ADB : Circle),
   a.onCircle ADB ∧ b.onCircle ADB ∧ a ≠ b ∧ o.isCentre ADB →

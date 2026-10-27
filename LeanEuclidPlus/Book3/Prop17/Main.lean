@@ -2,7 +2,6 @@ import SystemE
 
 namespace Elements.Book3
 
-open Elements.Book1
 
 theorem proposition_17 : ∀ (a : Point) (BCD : Circle),
   a.outsideCircle BCD →

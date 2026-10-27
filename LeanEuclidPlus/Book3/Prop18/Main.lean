@@ -1,5 +1,4 @@
 import SystemE
-open Elements.Book1
 
 namespace Elements.Book3
 

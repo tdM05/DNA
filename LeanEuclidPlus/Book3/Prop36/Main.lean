@@ -2,7 +2,6 @@ import SystemE
 
 namespace Elements.Book3
 
-open Elements.Book1
 
 theorem proposition_36 : ∀ (a b c d : Point) (ABC : Circle) (DB : Line),
     a.onCircle ABC ∧ c.onCircle ABC ∧ d.outsideCircle ABC ∧
