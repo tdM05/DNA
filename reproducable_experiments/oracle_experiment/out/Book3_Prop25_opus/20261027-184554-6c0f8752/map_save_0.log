@@ -1,0 +1,30 @@
+approved 22 step claim(s) + 7 @assumption(s) from Book3/Prop25/Main.lean -> scripts/step_signatures.json
+    3.25.1  step1 : between a d c ∧ |(a─d)| = |(d─c)|
+    3.25.10  step10 : |(a─d)| = |(c─d)| ∧ |(d─e)| = |(d─e)|
+        @assumption  "$AD$ is equal to $DC$" → |(a─d)| = |(d─c)|
+        @assumption  "$DE$ (is) common" → |(d─e)| = |(d─e)|
+    3.25.11  step11 : ∠ a:d:e = ∠ c:d:e
+        @assumption  "each (is) a right-angle" → ∠ a:d:e = ∟ ∧ ∠ c:d:e = ∟
+    3.25.12  step12 : |(a─e)| = |(c─e)|
+    3.25.13  step13 : |(b─e)| = |(c─e)|
+        @assumption  "$AE$ was shown (to be) equal to $BE$" → |(a─e)| = |(b─e)|
+    3.25.14  step14 : |(e─a)| = |(e─b)| ∧ |(e─b)| = |(e─c)|
+    3.25.15  step15 : e.isCentre alpha ∧ a.onCircle alpha ∧ b.onCircle alpha ∧ c.onCircle alpha
+    3.25.16  step16 : ∃ (α : Circle), a.onCircle α ∧ b.onCircle α ∧ c.onCircle α
+    3.25.17  step17 : e.opposingSides b AC
+    3.25.18  step18 : |(d─a)| = |(d─b)| ∧ |(d─b)| = |(d─c)|
+        @assumption  "angle $ABD$ is equal to $BAD$" → ∠ a:b:d = ∠ b:a:d
+        @assumption  "$AD$ becomes equal to each of $BD$ [Prop.~1.6] and $DC$" → |(a─d)| = |(b─d)| ∧ |(a─d)| = |(d─c)|
+    3.25.19  step19 : d.isCentre alpha2 ∧ a.onCircle alpha2 ∧ b.onCircle alpha2 ∧ c.onCircle alpha2
+    3.25.2  step2 : ∠ a:d:b = ∟
+    3.25.20  step20 : ∃ (o : Point), o.isCentre alpha2 ∧ between a o c ∧ a.onCircle alpha2 ∧ c.onCircle alpha2
+    3.25.21  step21 : e3.onLine DB ∧ e3.sameSide b AC
+    3.25.22  step22 : e3.sameSide b AC
+    3.25.3  step3 : distinctPointsOnLine a b AB
+    3.25.4  step4 : ∠ a:b:d > ∠ b:a:d ∨ ∠ a:b:d = ∠ b:a:d ∨ ∠ a:b:d < ∠ b:a:d
+    3.25.5  step5 : ∠ a:b:d > ∠ b:a:d
+    3.25.6  step6 : ∠ b:a:e0 = ∠ a:b:d
+    3.25.7  step7 : e.onLine DB
+    3.25.8  step8 : distinctPointsOnLine e c EC
+    3.25.9  step9 : |(e─b)| = |(e─a)|
+        @assumption  "angle $ABE$ is equal to $BAE$" → ∠ a:b:e = ∠ b:a:e

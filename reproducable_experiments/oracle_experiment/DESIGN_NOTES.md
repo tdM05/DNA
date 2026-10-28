@@ -80,10 +80,8 @@ reset prop to blank  →  Phase A (worker: split+map)  ──MAP_READY──▶ 
      └──────────── reject: resume worker with reasons ◀────────────────────┤ (≤ MAX_MAP_ROUNDS)
                                                                  accept ▼
    check_steps.py --save  (freeze the approved map as the grade baseline)
-                          assumptions.py  (mechanical, no LLM)
-                                   │ exit 0 ───────────────────────────────────▶ Phase B
-                                   │ exit≠0 ▶ state=assumptions_repair: worker runs /faithful-assumptions
-                                   │           ──ASSUMP_FIXED──▶ assumptions.py --tag-only ──▶ Phase B
+                          assumptions.py  (mechanical, no LLM; on failure, the worker repairs it via
+                                           /faithful-assumptions during Phase B — see BRIEF_B)
                                                                         ▼
             Phase B (worker: faithful-prove --drive, backing files)  ──GAP_FLAG──▶ ORACLE gap-adjudicate
                                    │  │                                 │                 │
@@ -117,30 +115,28 @@ lemma) + `check_signatures.py` (statement unchanged) + `check_steps.py` (claim t
 oracle-approved `--save` baseline) + zero sorry. PASS = an LLM-oracle-driven, kernel-checked, faithful
 artifact, stated without any judge; the subjective quality grading is the separate post-hoc step.
 
-## Parallelism / build — PER-TASK worktree isolation
+## Parallelism / build — shared worktree (ablation design)
 
-One prop per exclusive node (SLURM array, throttled), repeats sequential. **Unlike the ablation, we
-do NOT share one worktree**: the full pipeline writes shared state per-prop —
-`scripts/step_signatures.json` (`check_steps.py --save`) and `scripts/assumption_tags.json`
-(`assumptions.py`), both read-modify-write merges — plus `.lake` and `.claude/settings.json`. Under a
-shared worktree, concurrent props would race on these, and NFS file-locks don't work across nodes.
+One prop per exclusive node (SLURM array, throttled), repeats sequential — and **all tasks share the
+one `llm_oracle` worktree** (already built), exactly like the ablation. The driver runs in it
+directly: no per-task worktree, no `.lake` copy. Different props are different folders, and the
+driver's reset (GATE 3) touches only its own prop folder, so prop files don't clobber.
 
-So `run_node.sbatch` gives each task its **own git worktree** (detached at `llm_oracle_branch`),
-copies the warm `.lake` into it, runs the driver with `WORKTREE_OVERRIDE`, and tears the worktree down
-on exit. This isolates every shared-state file. Memory is still shared (git-common-dir), but it's
-empty and the per-run wipe is idempotent — harmless. `submit.sh` warms the base `.lake` once so each
-task's copy starts warm (no SystemE/mathlib rebuild). git is already denied in the committed settings.json.
-
-Tunable: full `cp -a` of `.lake` (~1.2 GB/task) is used for safety. If disk/copy-time is tight,
-switch to hardlinks (`cp -al`) or symlink the read-only `.lake/packages` and copy only `.lake/build`.
+**One honest caveat (why this differs from the ablation's safety):** our driver writes two *shared*
+files per prop — `scripts/step_signatures.json` (`check_steps.py --save`) and
+`scripts/assumption_tags.json` (`assumptions.py`), both read-modify-write merges — which the ablation
+didn't. With `THROTTLE > 1`, concurrent props can race on those two JSONs (NFS locks don't work
+across nodes), which could clobber a prop's baseline → a spurious grade fail → re-run. **Set
+`THROTTLE=1` (serial) to avoid it entirely**, or accept the occasional re-run. `submit.sh` warms the
+shared `.lake` once; git + the shared-JSON writes are already denied to the *agent* in the committed
+`settings.json` (only the driver writes them).
 
 ## Metrics recorded per run (`out/<Book_Prop>/<run_id>/`)
 
-`result.txt` (prop, status, stop_reason, costs, wall) + `metrics.json` (map oracle rounds, map
-accepted?, each round's verdict JSON, gap flags + rulings, worker vs oracle cost split, grade
-pass/fail + first failing check) + `grade.log` + `transcript.jsonl` + a snapshot of the produced
-PropNN folder. One run each per prop (feasibility/existence demonstration, not a reliability number —
-see rebuttal framing).
+`result.txt` (prop, status, stop_reason, worker/oracle cost, wall, map rounds, map accepted?, gap
+flags, fail reason) + `grade.log` + `transcript.jsonl` + the oracle call JSONs + a snapshot of the
+produced PropNN folder. One run each per prop (feasibility/existence demonstration, not a reliability
+number — see rebuttal framing).
 
 ## Knobs to edit
 

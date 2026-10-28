@@ -1,0 +1,11 @@
+approved 8 step claim(s) + 2 @assumption(s) from Book2/Prop03/Main.lean -> scripts/step_signatures.json
+    2.3.1  step1 : formParallelogram d e c b DE AB CD BE ∧ |(c─d)| = |(c─b)| ∧ |(b─e)| = |(c─b)| ∧ |(d─e)| = |(c─b)| ∧ ∠ b:c:d = ∟
+    2.3.2  step2 : f.onLine DE ∧ between e d f
+    2.3.3  step3 : a.onLine AF ∧ (¬(AF.intersectsLine CD) ∨ ¬(AF.intersectsLine BE))
+    2.3.4  step4 : Triangle.area △ a:b:e + Triangle.area △ a:e:f = (Triangle.area △ a:c:d + Triangle.area △ a:d:f) + (Triangle.area △ c:b:e + Triangle.area △ c:e:d)
+    2.3.5  step5 : Triangle.area △ a:b:e + Triangle.area △ a:e:f = |(a─b)| * |(b─c)|
+        @assumption  "$BE$ (is) equal to $BC$" → |(b─e)| = |(b─c)|
+    2.3.6  step6 : Triangle.area △ a:c:d + Triangle.area △ a:d:f = |(a─c)| * |(c─b)|
+        @assumption  "$DC$ (is) equal to $CB$" → |(d─c)| = |(c─b)|
+    2.3.7  step7 : Triangle.area △ c:b:e + Triangle.area △ c:e:d = |(c─b)| * |(c─b)|
+    2.3.8  step8 : |(a─b)| * |(b─c)| = |(a─c)| * |(c─b)| + |(b─c)| * |(b─c)|

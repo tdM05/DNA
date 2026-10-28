@@ -1,0 +1,6 @@
+[assumptions] Book2/Prop03 — PERSISTED
+  2 assumption(s): 2 valid (closed), 0 gap(s).
+  VALID (cheapest ladder rung that closed it — higher level = less trivial):
+    - step5_assumption1  [L6 euclid_finish]: $BE$ (is) equal to $BC$
+    - step6_assumption1  [L6 euclid_finish]: $DC$ (is) equal to $CB$
+assumptions.py exit=0

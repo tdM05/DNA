@@ -19,13 +19,9 @@ set +u; source "$HOME/.venvs/leaneuclid/bin/activate"; set -u   # z3/cvc5 for la
 . "$HOME/.elan/env" 2>/dev/null || export PATH="$HOME/.elan/bin:$PATH"   # lake on PATH (see ablation note)
 
 # ---- CONFIG (edit here if paths/pins move) ---------------------------------
-# WORKTREE_OVERRIDE lets run_node.sbatch point the driver at a PER-TASK worktree (parallel
-# isolation of .lake + settings.json + step_signatures.json + assumption_tags.json). Defaults to
-# the base llm_oracle worktree for a standalone single run.
-WORKTREE="${WORKTREE_OVERRIDE:-/h/56/taddmao/code/autoform/methodology_compare_worktrees/llm_oracle}"
+WORKTREE="/h/56/taddmao/code/autoform/methodology_compare_worktrees/llm_oracle"
 BRANCH="llm_oracle_branch"                 # reset pin = this branch's committed Step-2 blank
 OUT_BASE="/h/56/taddmao/code/autoform/DNA/reproducable_experiments/oracle_experiment/out"
-PRIMER="$WORKTREE/NOTES/BOOK3_VOCAB_PRIMER.md"   # System-E vocab, inlined into the oracle prompt
 MODEL_ID="claude-opus-4-8"                 # worker model
 ORACLE_MODEL_ID="claude-opus-4-8"          # oracle model (plain Claude; cross-family is the post-hoc judge)
 # The oracle is an AGENT that reads/investigates (map, SystemE, find.py) but must not MODIFY anything
@@ -45,6 +41,11 @@ RETRY_SLEEP=${RETRY_SLEEP:-900}            # usage/rate-limit backoff (excluded 
 REPO="$WORKTREE"                           # all file/git ops target the worktree
 LEP="$REPO/LeanEuclidPlus"
 SCRIPTS="$LEP/scripts"
+# Shared-state lock: step_signatures.json / assumption_tags.json are merged (read-modify-write) by
+# check_steps.py --save and assumptions.py. When >1 prop runs at once in this shared worktree they'd
+# race on those files, so we serialize those writes with an flock (exactly like scripts/safe_build.sh;
+# flock works multi-node on this cluster's NFS, as the ablation's parallel builds relied on).
+LOCKFILE="$LEP/.lake/oracle_shared.lock"
 SLUG="$(echo "$REPO" | sed 's#[^a-zA-Z0-9]#-#g')"          # sessions/transcripts keyed to worktree cwd
 # MEMORY is keyed to the git-common-dir ROOT (main repo), SHARED across worktrees — wipe THAT.
 MEM_ROOT="$(cd "$REPO" && cd "$(git rev-parse --git-common-dir)/.." && pwd -P)"
@@ -86,27 +87,17 @@ RUNCHAN_LINE="LONG COMMANDS (>10 min): a command you run yourself is force-kille
 BRIEF_A="You are faithfully formalizing Euclid's Elements Book ${BOOK} Proposition ${PROP} in LeanEuclidPlus (System E), from scratch. The theorem SIGNATURE in LeanEuclidPlus/$rel/Main.lean is FIXED — never change it; the body is 'sorry'. PHASE A — produce the SENTENCE MAP ONLY, do NOT prove anything yet. Run the /faithful-split skill, then the /faithful-map skill, to turn Euclid's English proof text into the per-sentence 'euclid_sentence' map in Main.lean (every claim body stays ':= by sorry'), exactly as those skills prescribe (every sentence gets a REAL claim; restated givens become '-- @assumption' lines; a mid-proof 'I say that…' is euclid_wts). When the map is written and BOTH of these pass — 'python3 scripts/check_faithful.py --split $rel' (text tiling) and 'python3 scripts/check_step.py $rel --provable' (Main elaborates with sorry) — print on its OWN line EXACTLY: MAP_READY — then STOP; an ORACLE will review your map before you prove anything. Do NOT run /faithful-prove in this phase. $GUARDS $RUNCHAN_LINE $GIVEUP_LINE"
 
 # Phase B — the FILL (sent after the oracle ACCEPTS the map and the assumption phase has run).
-BRIEF_B="The ORACLE ACCEPTED your map, and the assumption phase has been run (every '-- @assumption' is now a materialized 'have'). PHASE B — prove every step with the /faithful-prove skill, driving with its '--drive' command: create the LeanEuclidPlus/$rel/stepN.lean backing files and prove each node until 'python3 scripts/check_step.py $rel --all' exits 0. Do NOT wire Main yourself — the harness wires it in Phase C. The 'euclid_sentence' CLAIM TYPES and the SIGNATURE are FROZEN — never change them. If a step is a GENUINE Euclid GAP (a fact Euclid read off the figure, NOT entailed by his hypotheses, FALSE in some admissible degenerate model — see CLAUDE.md's @euclid_gap rule; NEVER invent a System-E axiom), print on its OWN line EXACTLY: GAP_FLAG: <locator> :: <one-line why> — then STOP for oracle adjudication. When 'check_step.py $rel --all' exits 0, print on its OWN line EXACTLY: FILL_COMPLETE. $GUARDS $RUNCHAN_LINE $GIVEUP_LINE"
-
-# Assumption-repair — sent ONLY if the mechanical assumptions.py sweep exits nonzero.
-BRIEF_ASSUMP_REPAIR="The mechanical assumption phase (scripts/assumptions.py $rel) FAILED to build (usually a 'wlog … generalizing' frame break: a materialized 'have' shifted an argument's arity). Run the /faithful-assumptions $rel skill to REPAIR it. PRIME DIRECTIVE: NEVER delete, clear, skip, or retype a materialized 'have' — the fix is ALWAYS to ADD the redundant argument to the wlog/Hsym reduction. When it builds clean, print on its OWN line EXACTLY: ASSUMP_FIXED. $GUARDS $RUNCHAN_LINE $GIVEUP_LINE"
+BRIEF_B="The ORACLE ACCEPTED your map, and the assumption phase has been run (every '-- @assumption' is now a materialized 'have'). PHASE B — prove every step with the /faithful-prove skill, driving with its '--drive' command: create the LeanEuclidPlus/$rel/stepN.lean backing files and prove each node until 'python3 scripts/check_step.py $rel --all' exits 0. Do NOT wire Main yourself — the harness wires it in Phase C. The 'euclid_sentence' CLAIM TYPES and the SIGNATURE are FROZEN — never change them. (If the assumption phase left a build error — usually a 'wlog … generalizing' frame break — run the /faithful-assumptions $rel skill to repair it first: NEVER delete a materialized 'have', add the redundant arg.) If a step is a GENUINE Euclid GAP (a fact Euclid read off the figure, NOT entailed by his hypotheses, FALSE in some admissible degenerate model — see CLAUDE.md's @euclid_gap rule; NEVER invent a System-E axiom), print on its OWN line EXACTLY: GAP_FLAG: <locator> :: <one-line why> — then STOP for oracle adjudication. When 'check_step.py $rel --all' exits 0, print on its OWN line EXACTLY: FILL_COMPLETE. $GUARDS $RUNCHAN_LINE $GIVEUP_LINE"
 
 CONTINUE_A="Continue the MAP. You may NOT stop/pause/ask. The ONLY ways to end your turn: (1) print 'MAP_READY' on its own line once the map is written and the --split and --provable checks pass; (2) GIVE UP line; (3) a '<<<RUN cwd=…>>> … <<<END>>>' block. Otherwise keep working on the map."
 CONTINUE_B="Continue PROVING. You may NOT stop/pause/ask. The ONLY ways to end your turn: (1) print 'FILL_COMPLETE' once 'check_step.py $rel --all' exits 0; (2) 'GAP_FLAG: <locator> :: <why>' for a genuine Euclid gap; (3) GIVE UP line; (4) a '<<<RUN cwd=…>>> … <<<END>>>' block. Otherwise keep proving."
-CONTINUE_ASSUMP="Continue REPAIRING the assumption phase with /faithful-assumptions. You may NOT stop/pause/ask. The ONLY ways to end your turn: (1) print 'ASSUMP_FIXED' once the assumption build is clean; (2) GIVE UP line; (3) a '<<<RUN cwd=…>>> … <<<END>>>' block. Otherwise keep repairing."
 
 # ============================================================================
-# GATE 1 — worktree must be on $BRANCH, OR a per-task worktree DETACHED at the
-# branch's commit (run_node.sbatch creates detached worktrees since a branch can
-# be checked out in only one worktree at a time).
+# GATE 1 — the worktree must be on $BRANCH.
 # ============================================================================
 branch="$(git -C "$REPO" rev-parse --abbrev-ref HEAD)"
-head_c="$(git -C "$REPO" rev-parse HEAD)"
-want_c="$(git -C "$REPO" rev-parse "$BRANCH")"
-if [ "$branch" != "$BRANCH" ] && [ "$head_c" != "$want_c" ]; then
-  echo "ABORT: worktree $REPO is on '$branch' (HEAD $head_c), expected '$BRANCH' ($want_c)."; exit 1; fi
+[ "$branch" = "$BRANCH" ] || { echo "ABORT: worktree $REPO is on '$branch', expected '$BRANCH'."; exit 1; }
 [ -f "$SRC_TXT" ] || { echo "ABORT: no canonical text $SRC_TXT (invalid prop?)"; exit 1; }
-[ -f "$PRIMER" ]  || { echo "ABORT: vocab primer missing: $PRIMER"; exit 1; }
 [ -d "$LEP/SystemE/Theory" ] || { echo "ABORT: SystemE/Theory missing — oracle needs the axioms"; exit 1; }
 
 # ============================================================================
@@ -173,24 +164,25 @@ You check EXACTLY these two conditions (verbatim from the paper's Table of Condi
   ATOMIC FAITHFULNESS: for all a in assumptions(s_i), F(a) is faithful, and F(assert(s_i)) is faithful.
 ACCEPT only if BOTH conditions hold for every sentence s_i; otherwise REJECT.
 
-Do NOT look outside this directory — no other checkout of the project — and do NOT use git. Output ONLY a JSON object and nothing else: {\"accept\": true or false, \"reasons\": \"per sentence: any ATOMICITY or ATOMIC FAITHFULNESS violation and why (or why both hold)\"}."
+Do NOT look outside this directory — no other checkout of the project — and do NOT use git. Output ONLY a JSON object — NO markdown code fences, NO prose before or after — exactly this shape: {\"accept\": true, \"reasons\": \"per sentence: any ATOMICITY or ATOMIC FAITHFULNESS violation and why (or why both hold)\"}."
   osid="$(cat /proc/sys/kernel/random/uuid 2>/dev/null || python3 -c 'import uuid;print(uuid.uuid4())')"
   echo "    [oracle map-review round $round — agent in worktree]"
   cd "$REPO"
+  local acc="" try=0
   agent_call claude -p "$prompt" --model "$ORACLE_MODEL_ID" --session-id "$osid" "${ORACLE_FLAGS[@]}" --output-format json
-  echo "$out" > "$OUT/oracle_map_resp_${round}.json"
+  while :; do
+    echo "$out" > "$OUT/oracle_map_resp_${round}.json"
+    ORACLE_LAST_COST="$(echo "$out" | jq -r '.total_cost_usd // 0')"
+    ORACLE_SPENT="$(awk "BEGIN{print ${ORACLE_SPENT:-0}+${ORACLE_LAST_COST:-0}}")"
+    acc="$(echo "$out" | jq -r '.result' | jq -r '.accept' 2>/dev/null)"
+    ORACLE_FEEDBACK="$(echo "$out" | jq -r '.result' | jq -r '.reasons // ""' 2>/dev/null)"
+    case "$acc" in true) ORACLE_DECISION=ACCEPT; break ;; false) ORACLE_DECISION=REJECT; break ;; esac
+    try=$((try+1))
+    [ "$try" -ge 3 ] && { ORACLE_DECISION=ERROR; ORACLE_FEEDBACK="oracle gave unparseable JSON 3x"; break; }
+    echo "    (oracle reply unparseable — re-asking, try $try)"
+    agent_call claude -p 'Your previous reply could not be parsed as JSON. Reply with ONLY a JSON object — NO markdown code fences, NO prose before or after — exactly: {"accept": true, "reasons": "..."}' --resume "$osid" --model "$ORACLE_MODEL_ID" "${ORACLE_FLAGS[@]}" --output-format json
+  done
   cp "$PROJ/$osid.jsonl" "$OUT/oracle_map_${round}.transcript.jsonl" 2>/dev/null || true
-  local inner acc
-  ORACLE_LAST_COST="$(echo "$out" | jq -r '.total_cost_usd // 0')"
-  inner="$(echo "$out" | jq -r '.result // ""')"
-  acc="$(printf '%s' "$inner" | jq -r '.accept' 2>/dev/null)"
-  ORACLE_FEEDBACK="$(printf '%s' "$inner" | jq -r '.reasons // ""' 2>/dev/null)"
-  case "$acc" in
-    true)  ORACLE_DECISION=ACCEPT ;;
-    false) ORACLE_DECISION=REJECT ;;
-    *)     ORACLE_DECISION=ERROR;  ORACLE_FEEDBACK="oracle did not return parseable JSON" ;;
-  esac
-  ORACLE_SPENT="$(awk "BEGIN{print ${ORACLE_SPENT:-0}+${ORACLE_LAST_COST:-0}}")"
   echo "    [oracle map-review round $round: $ORACLE_DECISION (oracle \$$ORACLE_LAST_COST)]"
 }
 
@@ -203,18 +195,23 @@ oracle_gap() {
 - Euclid's proof text: LeanEuclidPlus/Book${BOOK}/data/texts_proofs/${PROPNUM}.txt (read it; you may also read LeanEuclidPlus/SystemE/ and use scripts/find.py).
 The prover flags the step at locator '$loc' as a gap, because: $why
 Decide conservatively: is this a GENUINE Euclid gap (not entailed by his hypotheses + prior sentences, false in some admissible model), vs a fact that IS entailed and the prover merely failed to prove? Agree ONLY if genuinely false in some admissible configuration.
-Do NOT look outside this directory and do NOT use git. Output ONLY JSON: {\"agree\": true or false, \"note\": \"short\"}."
+Do NOT look outside this directory and do NOT use git. Output ONLY a JSON object — NO markdown code fences, NO prose — exactly: {\"agree\": true, \"note\": \"short\"}."
   osid="$(cat /proc/sys/kernel/random/uuid 2>/dev/null || python3 -c 'import uuid;print(uuid.uuid4())')"
   cd "$REPO"
+  local try=0
   agent_call claude -p "$prompt" --model "$ORACLE_MODEL_ID" --session-id "$osid" "${ORACLE_FLAGS[@]}" --output-format json
-  echo "$out" > "$OUT/oracle_gap_resp_${gaps}.json"
+  while :; do
+    echo "$out" > "$OUT/oracle_gap_resp_${gaps}.json"
+    gc="$(echo "$out" | jq -r '.total_cost_usd // 0')"; ORACLE_SPENT="$(awk "BEGIN{print ${ORACLE_SPENT:-0}+${gc:-0}}")"
+    agree="$(echo "$out" | jq -r '.result' | jq -r '.agree' 2>/dev/null)"
+    GAP_NOTE="$(echo "$out" | jq -r '.result' | jq -r '.note // ""' 2>/dev/null)"
+    case "$agree" in true) GAP_AGREE=yes; break ;; false) GAP_AGREE=no; break ;; esac
+    try=$((try+1))
+    [ "$try" -ge 3 ] && { GAP_AGREE=error; break; }
+    echo "    (oracle gap reply unparseable — re-asking, try $try)"
+    agent_call claude -p 'Your previous reply could not be parsed as JSON. Reply with ONLY a JSON object — NO markdown fences, NO prose — exactly: {"agree": true, "note": "..."}' --resume "$osid" --model "$ORACLE_MODEL_ID" "${ORACLE_FLAGS[@]}" --output-format json
+  done
   cp "$PROJ/$osid.jsonl" "$OUT/oracle_gap_${gaps}.transcript.jsonl" 2>/dev/null || true
-  gc="$(echo "$out" | jq -r '.total_cost_usd // 0')"
-  inner="$(echo "$out" | jq -r '.result // ""')"
-  agree="$(printf '%s' "$inner" | jq -r '.agree' 2>/dev/null)"
-  GAP_NOTE="$(printf '%s' "$inner" | jq -r '.note // ""' 2>/dev/null)"
-  case "$agree" in true) GAP_AGREE=yes ;; false) GAP_AGREE=no ;; *) GAP_AGREE=error ;; esac
-  ORACLE_SPENT="$(awk "BEGIN{print ${ORACLE_SPENT:-0}+${gc:-0}}")"
   echo "    [oracle gap-review $loc: $GAP_AGREE (oracle \$$gc)]"
 }
 
@@ -236,18 +233,24 @@ Then choose ONE action:
  - resume:       the worker should CONTINUE its current session (you fixed the map and/or your note tells it what to do).
  - restart_fill: you fixed the map; the fill stage should start FRESH.
  - giveup:       truly impossible or not worth continuing — this ENDS the run (ONLY you may end it this way).
-Do NOT look outside this directory and do NOT use git. Output ONLY JSON: {\"action\": \"resume\" or \"restart_fill\" or \"giveup\", \"edited_map\": true or false, \"note\": \"what you changed and why, or why you give up\"}."
+Do NOT look outside this directory and do NOT use git. Output ONLY a JSON object — NO markdown code fences, NO prose — exactly: {\"action\": \"resume\", \"edited_map\": false, \"note\": \"what you changed and why, or why you give up\"}."
   osid="$(cat /proc/sys/kernel/random/uuid 2>/dev/null || python3 -c 'import uuid;print(uuid.uuid4())')"
   cd "$REPO"
+  local try=0
   agent_call claude -p "$prompt" --model "$ORACLE_MODEL_ID" --session-id "$osid" "${ORACLE_FIX_FLAGS[@]}" --output-format json
-  echo "$out" > "$OUT/oracle_intervene_${intervene}.json"
+  while :; do
+    echo "$out" > "$OUT/oracle_intervene_${intervene}.json"
+    c="$(echo "$out" | jq -r '.total_cost_usd // 0')"; ORACLE_SPENT="$(awk "BEGIN{print ${ORACLE_SPENT:-0}+${c:-0}}")"
+    INTERVENE_ACTION="$(echo "$out" | jq -r '.result' | jq -r '.action' 2>/dev/null)"
+    INTERVENE_EDITED="$(echo "$out" | jq -r '.result' | jq -r '.edited_map' 2>/dev/null)"
+    INTERVENE_NOTE="$(echo "$out" | jq -r '.result' | jq -r '.note // ""' 2>/dev/null)"
+    case "$INTERVENE_ACTION" in resume|restart_fill|giveup) break ;; esac
+    try=$((try+1))
+    [ "$try" -ge 3 ] && { INTERVENE_ACTION=giveup; INTERVENE_NOTE="intervene verdict unparseable 3x -> ending"; break; }
+    echo "    (oracle intervene reply unparseable — re-asking, try $try)"
+    agent_call claude -p 'Your previous reply could not be parsed as JSON. Reply with ONLY a JSON object — NO markdown fences, NO prose — exactly: {"action": "resume", "edited_map": false, "note": "..."}' --resume "$osid" --model "$ORACLE_MODEL_ID" "${ORACLE_FIX_FLAGS[@]}" --output-format json
+  done
   cp "$PROJ/$osid.jsonl" "$OUT/oracle_intervene_${intervene}.transcript.jsonl" 2>/dev/null || true
-  c="$(echo "$out" | jq -r '.total_cost_usd // 0')"; ORACLE_SPENT="$(awk "BEGIN{print ${ORACLE_SPENT:-0}+${c:-0}}")"
-  inner="$(echo "$out" | jq -r '.result // ""')"
-  INTERVENE_ACTION="$(printf '%s' "$inner" | jq -r '.action' 2>/dev/null)"
-  INTERVENE_EDITED="$(printf '%s' "$inner" | jq -r '.edited_map' 2>/dev/null)"
-  INTERVENE_NOTE="$(printf '%s' "$inner" | jq -r '.note // ""' 2>/dev/null)"
-  case "$INTERVENE_ACTION" in resume|restart_fill|giveup) : ;; *) INTERVENE_ACTION=giveup; INTERVENE_NOTE="intervene verdict unparseable -> ending" ;; esac
   echo "    [oracle intervene #$intervene: action=$INTERVENE_ACTION edited_map=$INTERVENE_EDITED (oracle \$$c)]"
 }
 
@@ -359,22 +362,20 @@ while true; do
     oracle_intervene
     if [ "$INTERVENE_ACTION" = giveup ]; then
       echo "    (ORACLE ended the run: $INTERVENE_NOTE)"; stop_reason=oracle_giveup; break; fi
-    # a map fix past the map stage needs a fresh baseline + re-materialized assumptions
-    if [ "$INTERVENE_EDITED" = true ] && { [ "$state" = filling ] || [ "$state" = assumptions_repair ]; }; then
-      ( cd "$LEP" && python3 scripts/check_steps.py --save "$rel/Main.lean" ) > "$OUT/intervene_${intervene}_save.log" 2>&1 || true
-      ( cd "$LEP" && timeout 1800 python3 scripts/assumptions.py "$rel" ) > "$OUT/intervene_${intervene}_assume.log" 2>&1 || true
+    # a map fix during the fill stage needs a fresh baseline + re-materialized assumptions
+    if [ "$INTERVENE_EDITED" = true ] && [ "$state" = filling ]; then
+      ( flock 9; cd "$LEP" && python3 scripts/check_steps.py --save "$rel/Main.lean" ) 9>"$LOCKFILE" > "$OUT/intervene_${intervene}_save.log" 2>&1 || true
+      ( flock 9; cd "$LEP" && timeout 1800 python3 scripts/assumptions.py "$rel" ) 9>"$LOCKFILE" > "$OUT/intervene_${intervene}_assume.log" 2>&1 || true
     fi
-    if [ "$INTERVENE_ACTION" = restart_fill ] && [ "$state" != mapping ]; then
+    if [ "$INTERVENE_ACTION" = restart_fill ] && [ "$state" = filling ]; then
       cp "$jsonl" "$OUT/worker_pre_restart_${intervene}.transcript.jsonl" 2>/dev/null || true
       sid="$(cat /proc/sys/kernel/random/uuid 2>/dev/null || python3 -c 'import uuid;print(uuid.uuid4())')"
-      jsonl="$PROJ/$sid.jsonl"; worker_call_mode=new; state=filling
+      jsonl="$PROJ/$sid.jsonl"; worker_call_mode=new
       next_prompt="$BRIEF_B"
+    elif [ "$state" = mapping ]; then
+      next_prompt="The ORACLE intervened (note: $INTERVENE_NOTE). Continue the MAP. $CONTINUE_A"
     else
-      case "$state" in
-        mapping)            next_prompt="The ORACLE intervened (note: $INTERVENE_NOTE). Continue the MAP. $CONTINUE_A" ;;
-        assumptions_repair) next_prompt="The ORACLE intervened (note: $INTERVENE_NOTE). Continue repairing the assumption phase. $CONTINUE_ASSUMP" ;;
-        *)                  next_prompt="The ORACLE intervened and may have revised the MAP (note: $INTERVENE_NOTE). Re-read LeanEuclidPlus/$rel/Main.lean (claims/assumptions may have changed) and CONTINUE proving. $CONTINUE_B" ;;
-      esac
+      next_prompt="The ORACLE intervened and may have revised the MAP (note: $INTERVENE_NOTE). Re-read LeanEuclidPlus/$rel/Main.lean (claims/assumptions may have changed) and CONTINUE proving. $CONTINUE_B"
     fi
   fi
 
@@ -396,13 +397,13 @@ while true; do
 ... [middle cut: output was $sz bytes; first+last $((RUN_MAX_BYTES/2))B shown — full in $runlog] ...
 $(tail -c $((RUN_MAX_BYTES/2)) "$runlog")"; fi
       echo "    [RUN done -> exit $rc, ${sz}B]"
-      case "$state" in filling) local_cont="$CONTINUE_B";; assumptions_repair) local_cont="$CONTINUE_ASSUMP";; *) local_cont="$CONTINUE_A";; esac
+      case "$state" in filling) local_cont="$CONTINUE_B";; *) local_cont="$CONTINUE_A";; esac
       next_prompt="Output of your requested command (ran in '$runcwd', exit $rc):
 $body
 
 $local_cont"
     else
-      case "$state" in filling) local_cont="$CONTINUE_B";; assumptions_repair) local_cont="$CONTINUE_ASSUMP";; *) local_cont="$CONTINUE_A";; esac
+      case "$state" in filling) local_cont="$CONTINUE_B";; *) local_cont="$CONTINUE_A";; esac
       next_prompt="RUN request REFUSED: cwd '$runcwd' is empty or outside the repository. $local_cont"
     fi
   fi
@@ -414,21 +415,18 @@ $local_cont"
     mapping)
       if echo "$res" | grep -qF "MAP_READY"; then
         # freeze the approved-map baseline for the grade's claim-type diff
-        ( cd "$LEP" && python3 scripts/check_steps.py --save "$rel/Main.lean" ) > "$OUT/map_save_${map_rounds}.log" 2>&1 || true
+        ( flock 9; cd "$LEP" && python3 scripts/check_steps.py --save "$rel/Main.lean" ) 9>"$LOCKFILE" > "$OUT/map_save_${map_rounds}.log" 2>&1 || true
         oracle_map_review "$map_rounds"
         if [ "$ORACLE_DECISION" = ACCEPT ]; then
           map_accepted=yes
           echo "    (oracle ACCEPTED the map after $map_rounds reject round(s))"
-          # ---- Assumption phase (mechanical, no LLM) ----
+          # ---- Assumption phase (mechanical, no LLM). On failure, proceed anyway — BRIEF_B
+          #      tells the worker to run /faithful-assumptions if the build is broken. ----
           echo "    [assumption phase: scripts/assumptions.py $rel]"
-          ( cd "$LEP" && timeout 1800 python3 scripts/assumptions.py "$rel" ) > "$OUT/assumptions.log" 2>&1
+          ( flock 9; cd "$LEP" && timeout 1800 python3 scripts/assumptions.py "$rel" ) 9>"$LOCKFILE" > "$OUT/assumptions.log" 2>&1
           ar=$?; echo "assumptions.py exit=$ar" >> "$OUT/assumptions.log"
-          if [ "$ar" -eq 0 ]; then
-            state=filling; next_prompt="$BRIEF_B"
-          else
-            echo "    (!! assumptions.py exit=$ar — handing to worker for /faithful-assumptions repair)"
-            state=assumptions_repair; next_prompt="$BRIEF_ASSUMP_REPAIR"
-          fi
+          [ "$ar" -eq 0 ] || echo "    (!! assumptions.py exit=$ar — worker will repair via /faithful-assumptions in fill)"
+          state=filling; next_prompt="$BRIEF_B"
         elif [ "$ORACLE_DECISION" = ERROR ]; then
           echo "    (oracle ERROR — unparseable verdict; aborting prop)"; stop_reason=oracle_error; break
         else
@@ -442,16 +440,6 @@ When the map is corrected and 'check_faithful.py --split $rel' + 'check_step.py 
         fi
       else
         next_prompt="$CONTINUE_A"
-      fi
-      ;;
-    assumptions_repair)
-      if echo "$res" | grep -qF "ASSUMP_FIXED"; then
-        echo "    (worker signalled ASSUMP_FIXED — finalizing tags with --tag-only)"
-        ( cd "$LEP" && timeout 600 python3 scripts/assumptions.py "$rel" --tag-only ) > "$OUT/assumptions_tagonly.log" 2>&1 \
-          || echo "    (!! assumptions.py --tag-only nonzero — see assumptions_tagonly.log; grade will arbitrate)"
-        state=filling; next_prompt="$BRIEF_B"
-      else
-        next_prompt="$CONTINUE_ASSUMP"
       fi
       ;;
     filling)
@@ -510,20 +498,5 @@ else
   gt=$(date +%s); grade && status=SUCCESS; grade_sec=$(( $(date +%s) - gt ))
 fi
 write_result "$status"
-# metrics.json (machine-readable summary)
-python3 - "$OUT/metrics.json" "$rel" "$MODEL" "$status" "$stop_reason" "${GRADE_FAIL:-}" "$sid" \
-  "${spent:-0}" "${ORACLE_SPENT:-0}" "$map_rounds" "$map_accepted" "$gaps" "$grade_sec" "$(( $(date +%s)-t0 ))" <<'PY'
-import sys, json
-keys = ["out","rel","model","result","stop_reason","fail_reason","session_id",
-        "worker_cost_usd","oracle_cost_usd","map_oracle_rounds","map_accepted","gap_flags","compile_sec","wall_sec"]
-v = sys.argv[1:]
-d = dict(zip(keys, v))
-for k in ("worker_cost_usd","oracle_cost_usd"): d[k] = float(d[k])
-d["total_cost_usd"] = d["worker_cost_usd"] + d["oracle_cost_usd"]
-for k in ("map_oracle_rounds","gap_flags","compile_sec","wall_sec"):
-    try: d[k] = int(float(d[k]))
-    except Exception: pass
-out = d.pop("out"); json.dump(d, open(out, "w"), indent=2)
-PY
 echo "=== $rel -> $status  (stop=$stop_reason · worker=\$$spent oracle=\$$ORACLE_SPENT · map_rounds=$map_rounds · gaps=$gaps · $(( ($(date +%s)-t0)/60 ))m · compile ${grade_sec}s${GRADE_FAIL:+ · fail=$GRADE_FAIL}) · $OUT ==="
 [ "$status" = SUCCESS ]

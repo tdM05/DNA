@@ -1,0 +1,5 @@
+[assumptions] Book1/Prop03 — PERSISTED
+  1 assumption(s): 1 valid (closed), 0 gap(s).
+  VALID (cheapest ladder rung that closed it — higher level = less trivial):
+    - step3_assumption1  [L2 assumption]: point $A$ is the center of  circle $DEF$
+assumptions.py exit=0

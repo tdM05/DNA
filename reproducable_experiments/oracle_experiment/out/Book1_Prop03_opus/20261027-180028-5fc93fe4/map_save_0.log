@@ -1,0 +1,8 @@
+approved 6 step claim(s) + 1 @assumption(s) from Book1/Prop03/Main.lean -> scripts/step_signatures.json
+    1.3.1  step1 : |(a─d)| = |(c₀─c₁)|
+    1.3.2  step2 : a.isCentre DEF ∧ d.onCircle DEF
+    1.3.3  step3 : |(a─e)| = |(a─d)|
+        @assumption  "point $A$ is the center of  circle $DEF$" → a.isCentre DEF
+    1.3.4  step4 : |(c₀─c₁)| = |(a─d)|
+    1.3.5  step5 : |(a─e)| = |(a─d)| ∧ |(c₀─c₁)| = |(a─d)|
+    1.3.6  step6 : |(a─e)| = |(c₀─c₁)|
