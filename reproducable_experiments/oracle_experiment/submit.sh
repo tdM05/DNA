@@ -8,7 +8,7 @@
 set -euo pipefail
 
 # ---- KNOBS (the only thing you edit) ---------------------------------------
-export PROPS="Book3/Prop25 Book2/Prop03 Book1/Prop06"       # props to run, space-separated: e.g. "Book3/Prop11 Book2/Prop03 Book1/Prop06"
+export PROPS="Book3/Prop25 Book1/Prop06"       # props to run, space-separated: e.g. "Book3/Prop11 Book2/Prop03 Book1/Prop06"
 export BUDGET=-1                  # -1 = unlimited; or e.g. 100.00
 export MODEL=opus
 export MAX_MAP_ROUNDS=10          # max oracle map reject/revise rounds before MAP_NOCONVERGE

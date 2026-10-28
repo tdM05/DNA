@@ -1,0 +1,15 @@
+prop: Book1/Prop06
+model: opus
+session_id: b30e0358-3838-4aaa-8fb0-6bf07adaa966
+transcript: /u/taddmao/.claude/projects/-h-56-taddmao-code-autoform-methodology-compare-worktrees-llm-oracle/b30e0358-3838-4aaa-8fb0-6bf07adaa966.jsonl
+worker_cost_usd: 21.8089
+oracle_cost_usd: 1.16811
+total_cost_usd: 22.977
+wall_sec: 2747.74
+map_oracle_rounds: 1
+map_accepted: yes
+gap_flags: 0
+compile_sec: 23
+stop_reason: done
+result: SUCCESS
+fail_reason: -

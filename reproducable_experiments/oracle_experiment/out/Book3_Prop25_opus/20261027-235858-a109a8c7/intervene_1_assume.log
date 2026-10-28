@@ -1,0 +1,2 @@
+[assumptions] Book3/Prop25 — 9 assumption have(s) already materialized. A bare run RE-MATERIALIZES FROM SCRATCH: DELETE all 9 and re-add from the current `-- @assumption` comments (reflecting any added / removed / retyped assumption).
+  Proceed? [y/N] [assumptions] Book3/Prop25 — aborted; no changes. (Use `--tag-only` to only RE-CLASSIFY the existing haves without re-materializing.)

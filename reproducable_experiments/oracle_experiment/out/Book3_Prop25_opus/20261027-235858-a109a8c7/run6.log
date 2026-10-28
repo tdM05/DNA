@@ -1,0 +1,150 @@
+[check_step --drive] step3 (stale) — running --subtree step3
+
+[check_step --subtree step3] auditing the step3 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step3):
+  ✓ step3: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step3's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step4 (stale) — running --subtree step4
+
+[check_step --subtree step4] auditing the step4 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step4):
+  ✓ step4: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step4's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step5 (stale) — running --subtree step5
+
+[check_step --subtree step5] auditing the step5 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step5):
+  ✓ step5: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step5's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] hgap1 (stale) — running --subtree hgap1
+
+[check_step --subtree hgap1] auditing the hgap1 cone — 1 node(s) in Book3/Prop25 (sub-nodes before hgap1):
+  ✓ hgap1: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: hgap1's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] hint1 (stale) — running --subtree hint1
+
+[check_step --subtree hint1] auditing the hint1 cone — 1 node(s) in Book3/Prop25 (sub-nodes before hint1):
+  ✓ hint1: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: hint1's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step6 (stale) — running --subtree step6
+
+[check_step --subtree step6] auditing the step6 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step6):
+  ✓ step6: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step6's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step7 (stale) — running --subtree step7
+
+[check_step --subtree step7] auditing the step7 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step7):
+  ✓ step7: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step7's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step8 (stale) — running --subtree step8
+
+[check_step --subtree step8] auditing the step8 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step8):
+  ✓ step8: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step8's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step9_assumption1 (stale) — running --subtree step9_assumption1
+
+[check_step --subtree step9_assumption1] auditing the step9_assumption1 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step9_assumption1):
+  ✓ step9_assumption1: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step9_assumption1's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step9 (stale) — running --subtree step9
+
+[check_step --subtree step9] auditing the step9 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step9):
+  ✓ step9: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step9's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step10 (stale) — running --subtree step10
+
+[check_step --subtree step10] auditing the step10 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step10):
+  ✓ step10: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step10's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step11 (stale) — running --subtree step11
+
+[check_step --subtree step11] auditing the step11 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step11):
+  ✓ step11: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step11's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step12 (stale) — running --subtree step12
+
+[check_step --subtree step12] auditing the step12 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step12):
+  ✓ step12: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step12's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step13 (stale) — running --subtree step13
+
+[check_step --subtree step13] auditing the step13 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step13):
+  ✓ step13: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step13's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step14 (stale) — running --subtree step14
+
+[check_step --subtree step14] auditing the step14 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step14):
+  ✓ step14: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step14's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step15 (stale) — running --subtree step15
+
+[check_step --subtree step15] auditing the step15 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step15):
+  ✓ step15: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step15's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step16 (stale) — running --subtree step16
+
+[check_step --subtree step16] auditing the step16 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step16):
+  ✓ step16: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step16's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step17 (stale) — running --subtree step17
+
+[check_step --subtree step17] auditing the step17 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step17):
+  ✓ step17: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step17's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step18 (stale) — running --subtree step18
+
+[check_step --subtree step18] auditing the step18 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step18):
+  ✓ step18: SP[isolated] + P (leaf sorry-free; residual `sorry` is only in an unproven cited DEPENDENCY — EXPECTED/OK, proven modulo deps)
+
+PASS: step18's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step19 (stale) — running --subtree step19
+
+[check_step --subtree step19] auditing the step19 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step19):
+  ✓ step19: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step19's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] step20 (stale) — running --subtree step20
+
+[check_step --subtree step20] auditing the step20 cone — 1 node(s) in Book3/Prop25 (sub-nodes before step20):
+  ✓ step20: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: step20's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] hca2 (stale) — running --subtree hca2
+
+[check_step --subtree hca2] auditing the hca2 cone — 1 node(s) in Book3/Prop25 (sub-nodes before hca2):
+  ✓ hca2: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: hca2's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] hcb2 (stale) — running --subtree hcb2
+
+[check_step --subtree hcb2] auditing the hcb2 cone — 1 node(s) in Book3/Prop25 (sub-nodes before hcb2):
+  ✓ hcb2: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: hcb2's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] hcc2 (stale) — running --subtree hcc2
+
+[check_step --subtree hcc2] auditing the hcc2 cone — 1 node(s) in Book3/Prop25 (sub-nodes before hcc2):
+  ✓ hcc2: SP[isolated] + P (leaf, zero-sorry)
+
+PASS: hcc2's subtree certified (SF/SP over every in-cone call site + P every leaf in the cone). This is NOT the whole prop — keep driving the remaining steps, then run `check_step Book3/Prop25 --all` ONCE at the very end.
+[check_step --drive] hgap3 (todo) — running --subtree hgap3
+
+FAIL (--subtree aborted by integrity scan — fix structure first):
+  - node 'hgap3' (Book3/Prop25/Main.lean) has NO backing file 'hgap3.lean' — every sorry node must have one (the naming law).
+
+[check_step --drive] STOPPED at hgap3 — fix it, then re-run --drive to resume.

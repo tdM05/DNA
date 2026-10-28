@@ -1,0 +1,14 @@
+[assumptions] Book3/Prop25 — PERSISTED
+  9 assumption(s): 7 valid (closed), 2 gap(s).
+  VALID (cheapest ladder rung that closed it — higher level = less trivial):
+    - step10_assumption1  [L2 assumption]: $AD$ is equal to $DC$
+    - step10_assumption2  [L1 rfl]: $DE$ (is) common
+    - step11_assumption1  [L6 euclid_finish]: each (is) a right-angle
+    - step13_assumption1  [L6 euclid_finish]: $AE$ was shown (to be) equal to $BE$
+    - step18_assumption1  [L2 assumption]: angle $ABD$ is equal to $BAD$
+    - step18_assumption2  [L6 euclid_finish]: $AD$ becomes equal to each of $BD$ [Prop.~1.6] and $DC$
+    - step21_assumption1  [L2 assumption]: $ABD$ is less than $BAD$
+  GAPS (no ladder rung closed it — Phase B must prove):
+    - step9_assumption1 (hard) [euclid_finish could not close at 30s]: angle $ABE$ is equal to $BAE$
+    - step21_assumption2 (hard) [euclid_finish could not close at 30s]: we construct (angle $BAE$), equal to angle $ABD$, on the straight-line $BA$, at the point $A$ on it [Prop.~1.23]
+assumptions.py exit=0

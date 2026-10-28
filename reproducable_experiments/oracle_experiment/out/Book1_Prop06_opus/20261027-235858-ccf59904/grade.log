@@ -1,0 +1,42 @@
+===== GRADE 2026-10-28 00:52:55 · Book1/Prop06 · node=cpunode6 =====
+worktree: /h/56/taddmao/code/autoform/methodology_compare_worktrees/llm_oracle/LeanEuclidPlus
+
+----- [wire_main] -----
+[wire_main] wiring: rewrote 15 node body(ies) across Book1/Prop06; 30s caps deleted (→ 300s default).
+[wire_main] building Book1.Prop06.Main once (uncapped, no wall timeout)…
+PASS (with unproven deps): Book1.Prop06.Main built green. Main is fully wired (no literal `sorry` in Main), but a `declaration uses 'sorry'` warning means it transitively depends on a backing file still left `:= by sorry`. Phase C wiring committed. Now run the authoritative checks: scripts/check_faithful.sh, check_steps.py, check_signatures.py.
+----- [sorry_count] -----
+sorry count = 0 (must be 0)
+
+----- [lake build Book1.Prop06.Main] -----
+⚠ [786/811] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:5:8: declaration uses 'sorry'
+⚠ [801/811] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+Build completed successfully.
+----- [check_faithful.sh Book1.Prop06.Main — olean, AUTHORITATIVE, focused] -----
+=== faithful-QWpWzd.json — MODE: --olean (compiled, AUTHORITATIVE) ===
+    text reproduction is EXACT; dependency match is BOOK-AWARE + transitive (resolved names)
+--- Book1 Prop 6 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         13 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 2 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (13 sentences (1.6.0..1.6.12) vs Book1/data/texts_proofs/6.txt)
+  [also checked 1 background prop(s): all pass]
+  [note] not machine-checked: that each step's type honestly captures its sentence (review by hand)
+  => ALL PASS (--olean mode, authoritative)
+----- [check_backing] -----
+=== Prop06/Main.lean — MODE: backing (source, no build) ===
+  [PASS] every sentence delegates to helper_<book>_<prop>_stepN in its own file
+         11 checked
+  [PASS] each sentence's helper call supplies every hypothesis via euclid_assumption (show type)
+         11 checked
+  => ALL PASS (backing mode)
+----- [check_signatures] -----
+OK: all 1 proposition signatures matching 'Book1/Prop06/Main.lean' unchanged
+----- [check_steps vs oracle-approved baseline] -----
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 11 approved step claim(s) + assumptions unchanged in Book1/Prop06/Main.lean
+===== ALL CHECKS PASSED =====

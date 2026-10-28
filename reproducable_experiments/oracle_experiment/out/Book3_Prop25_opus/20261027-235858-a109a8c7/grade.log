@@ -1,0 +1,54 @@
+===== GRADE 2026-10-28 03:37:07 · Book3/Prop25 · node=cpunode5 =====
+worktree: /h/56/taddmao/code/autoform/methodology_compare_worktrees/llm_oracle/LeanEuclidPlus
+
+----- [wire_main] -----
+[wire_main] wiring: rewrote 34 node body(ies) across Book3/Prop25; 30s caps deleted (→ 300s default).
+[wire_main] building Book3.Prop25.Main once (uncapped, no wall timeout)…
+PASS (with unproven deps): Book3.Prop25.Main built green. Main is fully wired (no literal `sorry` in Main), but a `declaration uses 'sorry'` warning means it transitively depends on a backing file still left `:= by sorry`. Phase C wiring committed. Now run the authoritative checks: scripts/check_faithful.sh, check_steps.py, check_signatures.py.
+----- [sorry_count] -----
+sorry count = 0 (must be 0)
+
+----- [lake build Book3.Prop25.Main] -----
+⚠ [786/852] Replayed Book1.Prop10.Main
+warning: ././././Book1/Prop10/Main.lean:5:8: declaration uses 'sorry'
+⚠ [787/852] Replayed Book1.Prop23.Main
+warning: ././././Book1/Prop23/Main.lean:5:8: declaration uses 'sorry'
+⚠ [789/852] Replayed Book1.Prop11.Main
+warning: ././././Book1/Prop11/Main.lean:5:8: declaration uses 'sorry'
+⚠ [790/852] Replayed Book1.Prop08.Main
+warning: ././././Book1/Prop08/Main.lean:5:8: declaration uses 'sorry'
+⚠ [795/852] Replayed Book1.Prop17.Main
+warning: ././././Book1/Prop17/Main.lean:5:8: declaration uses 'sorry'
+⚠ [799/852] Replayed Book1.Prop02.Main
+warning: ././././Book1/Prop02/Main.lean:5:8: declaration uses 'sorry'
+⚠ [814/852] Replayed Book1.Prop04.Main
+warning: ././././Book1/Prop04/Main.lean:5:8: declaration uses 'sorry'
+⚠ [831/852] Replayed Book3.Prop09.Main
+warning: ././././Book3/Prop09/Main.lean:6:8: declaration uses 'sorry'
+Build completed successfully.
+----- [check_faithful.sh Book3.Prop25.Main — olean, AUTHORITATIVE, focused] -----
+=== faithful-aKJ5of.json — MODE: --olean (compiled, AUTHORITATIVE) ===
+    text reproduction is EXACT; dependency match is BOOK-AWARE + transitive (resolved names)
+--- Book3 Prop 25 ---
+  [PASS] sentence locators are contiguous with no duplicates
+         24 sentences
+  [PASS] every cited [Prop.~B.M] is referenced in the prop (book-aware: Main construction or sentence's cone)
+         all 8 citation(s) resolve to the cited book+number
+  [PASS] all sentences present + concatenation reproduces the original text exactly
+         concatenation reproduces canonical text exactly, in order (24 sentences (3.25.0..3.25.23) vs Book3/data/texts_proofs/25.txt)
+  [also checked 2 background prop(s): all pass]
+  [note] not machine-checked: that each step's type honestly captures its sentence (review by hand)
+  => ALL PASS (--olean mode, authoritative)
+----- [check_backing] -----
+=== Prop25/Main.lean — MODE: backing (source, no build) ===
+  [PASS] every sentence delegates to helper_<book>_<prop>_stepN in its own file
+         22 checked
+  [PASS] each sentence's helper call supplies every hypothesis via euclid_assumption (show type)
+         22 checked
+  => ALL PASS (backing mode)
+----- [check_signatures] -----
+OK: all 1 proposition signatures matching 'Book3/Prop25/Main.lean' unchanged
+----- [check_steps vs oracle-approved baseline] -----
+[check_steps] verifying approved Phase-A claim types are unchanged (approve/update with: check_steps.py --save Book<N>/Prop<NN>.lean)
+OK: all 22 approved step claim(s) + assumptions unchanged in Book3/Prop25/Main.lean
+===== ALL CHECKS PASSED =====

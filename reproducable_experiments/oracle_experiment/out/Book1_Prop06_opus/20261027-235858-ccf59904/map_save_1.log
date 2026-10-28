@@ -1,0 +1,12 @@
+approved 11 step claim(s) from Book1/Prop06/Main.lean -> scripts/step_signatures.json
+    1.6.1  step1 : |(a─b)| > |(a─c)| ∨ |(a─c)| > |(a─b)|
+    1.6.10  step10 : ¬(|(a─b)| ≠ |(a─c)|)
+    1.6.11  step11 : |(a─b)| = |(a─c)|
+    1.6.2  step2 : |(a─b)| > |(a─c)|
+    1.6.3  step3 : |(d─b)| = |(a─c)|
+    1.6.4  step4 : distinctPointsOnLine d c DC
+    1.6.5  step5 : |(d─b)| = |(a─c)| ∧ |(b─c)| = |(c─b)|
+    1.6.6  step6 : ∠ d:b:c = ∠ a:c:b
+    1.6.7  step7 : |(d─c)| = |(a─b)|
+    1.6.8  step8 : Triangle.area △ d:b:c = Triangle.area △ a:c:b
+    1.6.9  step9 : False
