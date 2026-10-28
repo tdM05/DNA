@@ -1748,13 +1748,13 @@
   "1.3.1": {
     "claim": "|(a─d)| = |(c₀─c₁)|",
     "file": "Book1/Prop03/Main.lean",
-    "line": 18,
+    "line": 25,
     "name": "step1"
   },
   "1.3.2": {
     "claim": "a.isCentre DEF ∧ d.onCircle DEF",
     "file": "Book1/Prop03/Main.lean",
-    "line": 25,
+    "line": 30,
     "name": "step2"
   },
   "1.3.3": {
@@ -1766,25 +1766,25 @@
     ],
     "claim": "|(a─e)| = |(a─d)|",
     "file": "Book1/Prop03/Main.lean",
-    "line": 30,
+    "line": 36,
     "name": "step3"
   },
   "1.3.4": {
     "claim": "|(c₀─c₁)| = |(a─d)|",
     "file": "Book1/Prop03/Main.lean",
-    "line": 34,
+    "line": 40,
     "name": "step4"
   },
   "1.3.5": {
     "claim": "|(a─e)| = |(a─d)| ∧ |(c₀─c₁)| = |(a─d)|",
     "file": "Book1/Prop03/Main.lean",
-    "line": 39,
+    "line": 44,
     "name": "step5"
   },
   "1.3.6": {
     "claim": "|(a─e)| = |(c₀─c₁)|",
     "file": "Book1/Prop03/Main.lean",
-    "line": 43,
+    "line": 48,
     "name": "step6"
   },
   "1.30.1": {
@@ -3720,67 +3720,67 @@
   "1.6.1": {
     "claim": "|(a─b)| > |(a─c)| ∨ |(a─c)| > |(a─b)|",
     "file": "Book1/Prop06/Main.lean",
-    "line": 17,
+    "line": 18,
     "name": "step1"
   },
   "1.6.10": {
-    "claim": "¬ (|(a─b)| ≠ |(a─c)|)",
+    "claim": "¬(|(a─b)| ≠ |(a─c)|)",
     "file": "Book1/Prop06/Main.lean",
-    "line": 51,
+    "line": 64,
     "name": "step10"
   },
   "1.6.11": {
     "claim": "|(a─b)| = |(a─c)|",
     "file": "Book1/Prop06/Main.lean",
-    "line": 54,
+    "line": 68,
     "name": "step11"
   },
   "1.6.2": {
     "claim": "|(a─b)| > |(a─c)|",
     "file": "Book1/Prop06/Main.lean",
-    "line": 22,
+    "line": 24,
     "name": "step2"
   },
   "1.6.3": {
-    "claim": "between b d a ∧ |(b─d)| = |(a─c)|",
+    "claim": "|(d─b)| = |(a─c)|",
     "file": "Book1/Prop06/Main.lean",
-    "line": 26,
+    "line": 29,
     "name": "step3"
   },
   "1.6.4": {
-    "claim": "d.onLine DC ∧ c.onLine DC",
+    "claim": "distinctPointsOnLine d c DC",
     "file": "Book1/Prop06/Main.lean",
-    "line": 30,
+    "line": 34,
     "name": "step4"
   },
   "1.6.5": {
     "claim": "|(d─b)| = |(a─c)| ∧ |(b─c)| = |(c─b)|",
     "file": "Book1/Prop06/Main.lean",
-    "line": 33,
+    "line": 40,
     "name": "step5"
   },
   "1.6.6": {
     "claim": "∠ d:b:c = ∠ a:c:b",
     "file": "Book1/Prop06/Main.lean",
-    "line": 36,
+    "line": 44,
     "name": "step6"
   },
   "1.6.7": {
     "claim": "|(d─c)| = |(a─b)|",
     "file": "Book1/Prop06/Main.lean",
-    "line": 39,
+    "line": 48,
     "name": "step7"
   },
   "1.6.8": {
-    "claim": "|(d─c)| = |(a─b)| ∧ (∠ b:d:c = ∠ c:a:b) ∧ (∠ b:c:d = ∠ c:b:a)",
+    "claim": "Triangle.area △ d:b:c = Triangle.area △ a:c:b",
     "file": "Book1/Prop06/Main.lean",
-    "line": 42,
+    "line": 52,
     "name": "step8"
   },
   "1.6.9": {
     "claim": "False",
     "file": "Book1/Prop06/Main.lean",
-    "line": 45,
+    "line": 56,
     "name": "step9"
   },
   "1.7.1": {
@@ -4813,7 +4813,7 @@
     "name": "step7"
   },
   "2.3.1": {
-    "claim": "|(c─d)| = |(c─b)| ∧ |(b─e)| = |(c─b)| ∧ |(d─e)| = |(c─b)| ∧ (∠ b:c:d = ∟) ∧ (∠ c:d:e = ∟) ∧ (∠ c:b:e = ∟) ∧ (∠ b:e:d = ∟)",
+    "claim": "formParallelogram d e c b DE AB CD BE ∧ |(c─d)| = |(c─b)| ∧ |(b─e)| = |(c─b)| ∧ |(d─e)| = |(c─b)| ∧ ∠ b:c:d = ∟",
     "file": "Book2/Prop03/Main.lean",
     "line": 18,
     "name": "step1"
@@ -4821,55 +4821,55 @@
   "2.3.2": {
     "claim": "f.onLine DE ∧ between e d f",
     "file": "Book2/Prop03/Main.lean",
-    "line": 23,
+    "line": 26,
     "name": "step2"
   },
   "2.3.3": {
-    "claim": "a.onLine AF ∧ ¬(AF.intersectsLine CD)",
+    "claim": "a.onLine AF ∧ (¬(AF.intersectsLine CD) ∨ ¬(AF.intersectsLine BE))",
     "file": "Book2/Prop03/Main.lean",
-    "line": 27,
+    "line": 30,
     "name": "step3"
   },
   "2.3.4": {
-    "claim": "Triangle.area △ a:f:e + Triangle.area △ a:e:b = (Triangle.area △ a:f:d + Triangle.area △ a:d:c) + (Triangle.area △ c:d:e + Triangle.area △ c:e:b)",
+    "claim": "Triangle.area △ a:b:e + Triangle.area △ a:e:f = (Triangle.area △ a:c:d + Triangle.area △ a:d:f) + (Triangle.area △ c:b:e + Triangle.area △ c:e:d)",
     "file": "Book2/Prop03/Main.lean",
-    "line": 31,
+    "line": 34,
     "name": "step4"
   },
   "2.3.5": {
     "assumptions": [
       {
         "text": "$BE$ (is) equal to $BC$",
-        "type": "|(b─e)| = |(c─b)|"
+        "type": "|(b─e)| = |(b─c)|"
       }
     ],
-    "claim": "Triangle.area △ a:f:e + Triangle.area △ a:e:b = |(a─b)| * |(b─c)|",
+    "claim": "Triangle.area △ a:b:e + Triangle.area △ a:e:f = |(a─b)| * |(b─c)|",
     "file": "Book2/Prop03/Main.lean",
-    "line": 38,
+    "line": 41,
     "name": "step5"
   },
   "2.3.6": {
     "assumptions": [
       {
         "text": "$DC$ (is) equal to $CB$",
-        "type": "|(c─d)| = |(c─b)|"
+        "type": "|(d─c)| = |(c─b)|"
       }
     ],
-    "claim": "Triangle.area △ a:f:d + Triangle.area △ a:d:c = |(a─c)| * |(c─b)|",
+    "claim": "Triangle.area △ a:c:d + Triangle.area △ a:d:f = |(a─c)| * |(c─b)|",
     "file": "Book2/Prop03/Main.lean",
-    "line": 43,
+    "line": 46,
     "name": "step6"
   },
   "2.3.7": {
-    "claim": "Triangle.area △ c:d:e + Triangle.area △ c:e:b = |(b─c)| * |(b─c)|",
+    "claim": "Triangle.area △ c:b:e + Triangle.area △ c:e:d = |(c─b)| * |(c─b)|",
     "file": "Book2/Prop03/Main.lean",
-    "line": 47,
+    "line": 50,
     "name": "step7"
   },
   "2.3.8": {
     "claim": "|(a─b)| * |(b─c)| = |(a─c)| * |(c─b)| + |(b─c)| * |(b─c)|",
     "file": "Book2/Prop03/Main.lean",
-    "line": 51,
+    "line": 54,
     "name": "step8"
   },
   "2.4.1": {
@@ -7442,9 +7442,9 @@
     "name": "step5"
   },
   "3.25.1": {
-    "claim": "between a d c ∧ |(a─d)| = |(d─c)|",
+    "claim": "|(a─d)| = |(d─c)|",
     "file": "Book3/Prop25/Main.lean",
-    "line": 25,
+    "line": 20,
     "name": "step1"
   },
   "3.25.10": {
@@ -7460,70 +7460,64 @@
     ],
     "claim": "|(a─d)| = |(c─d)| ∧ |(d─e)| = |(d─e)|",
     "file": "Book3/Prop25/Main.lean",
-    "line": 72,
+    "line": 78,
     "name": "step10"
   },
   "3.25.11": {
     "assumptions": [
       {
-        "text": "For each (is) a right-angle",
+        "text": "each (is) a right-angle",
         "type": "∠ a:d:e = ∟ ∧ ∠ c:d:e = ∟"
       }
     ],
     "claim": "∠ a:d:e = ∠ c:d:e",
     "file": "Book3/Prop25/Main.lean",
-    "line": 77,
+    "line": 85,
     "name": "step11"
   },
   "3.25.12": {
     "claim": "|(a─e)| = |(c─e)|",
     "file": "Book3/Prop25/Main.lean",
-    "line": 81,
+    "line": 89,
     "name": "step12"
   },
   "3.25.13": {
-    "claim": "|(a─e)| = |(b─e)|",
+    "assumptions": [
+      {
+        "text": "$AE$ was shown (to be) equal to $BE$",
+        "type": "|(a─e)| = |(b─e)|"
+      }
+    ],
+    "claim": "|(b─e)| = |(c─e)|",
     "file": "Book3/Prop25/Main.lean",
-    "line": 85,
+    "line": 96,
     "name": "step13"
   },
   "3.25.14": {
-    "claim": "|(b─e)| = |(c─e)|",
+    "claim": "|(a─e)| = |(e─b)| ∧ |(e─b)| = |(e─c)|",
     "file": "Book3/Prop25/Main.lean",
-    "line": 89,
+    "line": 100,
     "name": "step14"
   },
   "3.25.15": {
-    "claim": "|(a─e)| = |(e─b)| ∧ |(e─b)| = |(e─c)|",
+    "claim": "b.onCircle α ∧ c.onCircle α",
     "file": "Book3/Prop25/Main.lean",
-    "line": 93,
+    "line": 106,
     "name": "step15"
   },
   "3.25.16": {
-    "claim": "e.isCentre α₁ ∧ a.onCircle α₁ ∧ b.onCircle α₁ ∧ c.onCircle α₁",
+    "claim": "a.onCircle α ∧ b.onCircle α ∧ c.onCircle α",
     "file": "Book3/Prop25/Main.lean",
-    "line": 97,
+    "line": 110,
     "name": "step16"
   },
   "3.25.17": {
-    "claim": "a.onCircle α₁ ∧ b.onCircle α₁ ∧ c.onCircle α₁",
+    "claim": "e.opposingSides b AC",
     "file": "Book3/Prop25/Main.lean",
-    "line": 101,
+    "line": 116,
     "name": "step17"
   },
   "3.25.18": {
-    "assumptions": [
-      {
-        "text": "because the center $E$ happens to lie outside it",
-        "type": "e.opposingSides b AC"
-      }
-    ],
-    "claim": "e.opposingSides b AC",
-    "file": "Book3/Prop25/Main.lean",
-    "line": 106,
-    "name": "step18"
-  },
-  "3.25.19": {
     "assumptions": [
       {
         "text": "angle $ABD$ is equal to $BAD$",
@@ -7536,73 +7530,77 @@
     ],
     "claim": "|(d─a)| = |(d─b)| ∧ |(d─b)| = |(d─c)|",
     "file": "Book3/Prop25/Main.lean",
-    "line": 116,
+    "line": 129,
+    "name": "step18"
+  },
+  "3.25.19": {
+    "claim": "d.isCentre α",
+    "file": "Book3/Prop25/Main.lean",
+    "line": 135,
     "name": "step19"
   },
   "3.25.2": {
     "claim": "∠ a:d:b = ∟",
     "file": "Book3/Prop25/Main.lean",
-    "line": 29,
+    "line": 26,
     "name": "step2"
   },
   "3.25.20": {
-    "claim": "d.isCentre α₂",
+    "claim": "d.onLine AC",
     "file": "Book3/Prop25/Main.lean",
-    "line": 124,
+    "line": 140,
     "name": "step20"
   },
   "3.25.21": {
-    "claim": "between a d c ∧ d.isCentre α₂",
-    "file": "Book3/Prop25/Main.lean",
-    "line": 129,
-    "name": "step21"
-  },
-  "3.25.22": {
     "assumptions": [
       {
         "text": "$ABD$ is less than $BAD$",
         "type": "∠ a:b:d < ∠ b:a:d"
+      },
+      {
+        "text": "we construct (angle $BAE$), equal to angle $ABD$, on the straight-line $BA$, at the point $A$ on it [Prop.~1.23]",
+        "type": "∠ b:a:e = ∠ a:b:d"
       }
     ],
-    "claim": "e.onLine DB ∧ e.sameSide b AC",
+    "claim": "e.onLine DB",
     "file": "Book3/Prop25/Main.lean",
-    "line": 145,
-    "name": "step22"
+    "line": 161,
+    "name": "step21"
   },
-  "3.25.23": {
-    "claim": "b.sameSide e AC",
+  "3.25.22": {
+    "claim": "e.sameSide b AC",
     "file": "Book3/Prop25/Main.lean",
-    "line": 150,
-    "name": "step23"
+    "line": 167,
+    "name": "step22"
   },
   "3.25.3": {
     "claim": "distinctPointsOnLine a b AB",
     "file": "Book3/Prop25/Main.lean",
-    "line": 33,
+    "line": 32,
     "name": "step3"
   },
   "3.25.4": {
     "claim": "∠ a:b:d > ∠ b:a:d ∨ ∠ a:b:d = ∠ b:a:d ∨ ∠ a:b:d < ∠ b:a:d",
     "file": "Book3/Prop25/Main.lean",
-    "line": 37,
+    "line": 36,
     "name": "step4"
   },
   "3.25.5": {
     "claim": "∠ a:b:d > ∠ b:a:d",
     "file": "Book3/Prop25/Main.lean",
-    "line": 43,
+    "line": 42,
     "name": "step5"
   },
   "3.25.6": {
-    "claim": "∠ b:a:e = ∠ a:b:d ∧ e ≠ a",
+    "claim": "∠ b:a:e = ∠ a:b:d",
     "file": "Book3/Prop25/Main.lean",
-    "line": 53,
+    "line": 52,
     "name": "step6"
   },
   "3.25.7": {
-    "claim": "e.onLine DB",
+    "claim": "between b d e",
     "file": "Book3/Prop25/Main.lean",
-    "line": 57,
+    "line": 56,
     "name": "step7"
   },
   "3.25.8": {
@@ -7620,7 +7618,7 @@
     ],
     "claim": "|(e─b)| = |(e─a)|",
     "file": "Book3/Prop25/Main.lean",
-    "line": 66,
+    "line": 68,
     "name": "step9"
   },
   "3.3.1": {

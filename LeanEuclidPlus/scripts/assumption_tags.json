@@ -1209,19 +1209,19 @@
   },
   "Book2/Prop03": {
     "step5_assumption1": {
-      "closed_by": "assumption",
-      "level": 2,
+      "closed_by": "euclid_finish",
+      "level": 6,
       "tag": "valid",
       "text": "$BE$ (is) equal to $BC$",
-      "type": "|(b\u2500e)| = |(c\u2500b)|",
+      "type": "|(b\u2500e)| = |(b\u2500c)|",
       "verdict": "closes"
     },
     "step6_assumption1": {
-      "closed_by": "assumption",
-      "level": 2,
+      "closed_by": "euclid_finish",
+      "level": 6,
       "tag": "valid",
       "text": "$DC$ (is) equal to $CB$",
-      "type": "|(c\u2500d)| = |(c\u2500b)|",
+      "type": "|(d\u2500c)| = |(c\u2500b)|",
       "verdict": "closes"
     }
   },
@@ -2360,19 +2360,19 @@
       "closed_by": "euclid_finish",
       "level": 6,
       "tag": "valid",
-      "text": "For each (is) a right-angle",
+      "text": "each (is) a right-angle",
       "type": "\u2220 a:d:e = \u221f \u2227 \u2220 c:d:e = \u221f",
       "verdict": "closes"
     },
-    "step18_assumption1": {
+    "step13_assumption1": {
       "closed_by": "euclid_finish",
       "level": 6,
       "tag": "valid",
-      "text": "because the center $E$ happens to lie outside it",
-      "type": "e.opposingSides b AC",
+      "text": "$AE$ was shown (to be) equal to $BE$",
+      "type": "|(a\u2500e)| = |(b\u2500e)|",
       "verdict": "closes"
     },
-    "step19_assumption1": {
+    "step18_assumption1": {
       "closed_by": "assumption",
       "level": 2,
       "tag": "valid",
@@ -2380,7 +2380,7 @@
       "type": "\u2220 a:b:d = \u2220 b:a:d",
       "verdict": "closes"
     },
-    "step19_assumption2": {
+    "step18_assumption2": {
       "closed_by": "euclid_finish",
       "level": 6,
       "tag": "valid",
@@ -2388,13 +2388,21 @@
       "type": "|(a\u2500d)| = |(b\u2500d)| \u2227 |(a\u2500d)| = |(d\u2500c)|",
       "verdict": "closes"
     },
-    "step22_assumption1": {
-      "closed_by": "euclid_finish",
-      "level": 6,
+    "step21_assumption1": {
+      "closed_by": "assumption",
+      "level": 2,
       "tag": "valid",
       "text": "$ABD$ is less than $BAD$",
       "type": "\u2220 a:b:d < \u2220 b:a:d",
       "verdict": "closes"
+    },
+    "step21_assumption2": {
+      "closed_by": null,
+      "level": null,
+      "tag": "gap",
+      "text": "we construct (angle $BAE$), equal to angle $ABD$, on the straight-line $BA$, at the point $A$ on it [Prop.~1.23]",
+      "type": "\u2220 b:a:e = \u2220 a:b:d",
+      "verdict": "hard"
     },
     "step9_assumption1": {
       "closed_by": null,

@@ -14,7 +14,8 @@
 | 4  | step4 | ✓ | Main subtree certified, inputs fresh |
 | 5  | step5 | ✓ | Main subtree certified, inputs fresh |
 | 6  | step6 | ✓ | Main subtree certified, inputs fresh |
+| 7  | hbae | ✓ | Main subtree certified, inputs fresh |
 
 whole-prop checks: criterion-3 deps ✓ · integrity ✓ · no orphans ✓
 
-**6/6 Main nodes ✓ · 3/3 whole-prop checks.** ⟹ check_step --all is GUARANTEED to pass.
+**7/7 Main nodes ✓ · 3/3 whole-prop checks.** ⟹ check_step --all is GUARANTEED to pass.

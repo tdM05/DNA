@@ -1,0 +1,87 @@
+[
+  {
+    "role": "intro",
+    "text": "If a straight-line is cut at random, (then) the rectangle contained by the whole (straight-line), and one of the pieces (of the straight-line), is equal to the rectangle contained by (both of) the pieces, and the square on the aforementioned piece. For let the straight-line $AB$ be cut, at random, at (point) $C$. I say that the rectangle contained by $AB$ and $BC$ is equal to the rectangle contained by $AC$ and $CB$, plus the square on $BC$."
+  },
+  {
+    "role": "construction",
+    "text": "For let the square $CDEB$ be described on $CB$ [Prop.~1.46],",
+    "construction_cite": "1.46",
+    "objects_introduced": ["$CDEB$"]
+  },
+  {
+    "role": "construction",
+    "text": "and let $ED$ be drawn through to $F$,",
+    "construction_cite": null,
+    "objects_introduced": ["$F$"]
+  },
+  {
+    "role": "construction",
+    "text": "and let $AF$ be drawn through $A$, parallel to either of $CD$ or $BE$ [Prop.~1.31].",
+    "construction_cite": "1.31",
+    "objects_introduced": ["$AF$"]
+  },
+  {
+    "role": "deduction",
+    "text": "So the (rectangle) $AE$ is equal to the (rectangle) $AD$ and the (square) $CE$.",
+    "assertion": "rectangle AE equals rectangle AD plus square CE",
+    "spans": [
+      { "label": "glue", "text": "So " },
+      { "label": "assertion", "text": "the (rectangle) $AE$ is equal to the (rectangle) $AD$ and the (square) $CE$" },
+      { "label": "glue", "text": "." }
+    ],
+    "proof_cite": null
+  },
+  {
+    "role": "deduction",
+    "text": "And $AE$ is the rectangle contained by $AB$ and $BC$. For it is contained by $AB$ and $BE$, and $BE$ (is) equal to $BC$.",
+    "assertion": "AE is the rectangle contained by AB and BC",
+    "spans": [
+      { "label": "glue", "text": "And " },
+      { "label": "assertion", "text": "$AE$ is the rectangle contained by $AB$ and $BC$" },
+      { "label": "glue", "text": ". For it is contained by $AB$ and $BE$, and " },
+      { "label": "assumption", "text": "$BE$ (is) equal to $BC$" },
+      { "label": "glue", "text": "." }
+    ],
+    "proof_cite": null
+  },
+  {
+    "role": "deduction",
+    "text": "And $AD$ (is) the (rectangle contained) by $AC$ and $CB$. For $DC$ (is) equal to $CB$.",
+    "assertion": "AD is the rectangle contained by AC and CB",
+    "spans": [
+      { "label": "glue", "text": "And " },
+      { "label": "assertion", "text": "$AD$ (is) the (rectangle contained) by $AC$ and $CB$" },
+      { "label": "glue", "text": ". For " },
+      { "label": "assumption", "text": "$DC$ (is) equal to $CB$" },
+      { "label": "glue", "text": "." }
+    ],
+    "proof_cite": null
+  },
+  {
+    "role": "deduction",
+    "text": "And $DB$ (is) the square on $CB$.",
+    "assertion": "DB is the square on CB",
+    "spans": [
+      { "label": "glue", "text": "And " },
+      { "label": "assertion", "text": "$DB$ (is) the square on $CB$" },
+      { "label": "glue", "text": "." }
+    ],
+    "proof_cite": null
+  },
+  {
+    "role": "deduction",
+    "text": "Thus, the rectangle contained by $AB$ and $BC$ is equal to the rectangle contained by $AC$ and $CB$, plus the square on $BC$.",
+    "assertion": "rectangle AB*BC = rectangle AC*CB + square BC",
+    "spans": [
+      { "label": "glue", "text": "Thus, " },
+      { "label": "assertion", "text": "the rectangle contained by $AB$ and $BC$ is equal to the rectangle contained by $AC$ and $CB$, plus the square on $BC$" },
+      { "label": "glue", "text": "." }
+    ],
+    "proof_cite": null
+  },
+  {
+    "role": "conclusion",
+    "text": "Thus, if a straight-line is cut at random, (then) the rectangle contained by the whole (straight-line), and one of the pieces (of the straight-line), is equal to the rectangle contained by (both of) the pieces, and the square on the aforementioned piece. (Which is) the very thing it was required to show."
+  }
+]
